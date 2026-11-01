@@ -1,0 +1,15 @@
+<Application x:Class="JPEmuRenamer.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:ui="clr-namespace:JPEmuRenamer.Ui">
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Ui/Theme.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
+            <ui:InverseBoolToVisibilityConverter x:Key="InvBoolToVis" />
+            <ui:EqualsConverter x:Key="Equals" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

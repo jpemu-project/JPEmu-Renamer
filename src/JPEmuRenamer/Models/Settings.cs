@@ -1,0 +1,106 @@
+// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
+namespace JPEmuRenamer.Models;
+
+/// <summary>アプリ全体の設定（settings.json に保存）</summary>
+public class AppSettings
+{
+    /// <summary>"" = OSの言語に合わせる / "ja" / "en"</summary>
+    public string Language { get; set; } = "";
+    /// <summary>UI全体の表示倍率（0.75〜2.0）</summary>
+    public double UiScale { get; set; } = 1.0;
+    /// <summary>文字サイズ（px）</summary>
+    public double FontSize { get; set; } = 14;
+    /// <summary>All / Owned / Missing</summary>
+    public string ListFilter { get; set; } = "All";
+    /// <summary>ZIP内のROM名もリネームする</summary>
+    public bool RenameInsideZip { get; set; } = true;
+    /// <summary>サブフォルダも走査する</summary>
+    public bool ScanSubfolders { get; set; } = true;
+
+    public double? WindowWidth { get; set; }
+    public double? WindowHeight { get; set; }
+    public double? WindowLeft { get; set; }
+    public double? WindowTop { get; set; }
+    public bool WindowMaximized { get; set; }
+
+    public string? LastSystemId { get; set; }
+    public bool FirstRunDone { get; set; }
+
+    public List<SystemConfig> Systems { get; set; } = new();
+}
+
+/// <summary>機種ごとの設定</summary>
+public class SystemConfig
+{
+    public string Id { get; set; } = Guid.NewGuid().ToString("N");
+    public string Name { get; set; } = "";
+    /// <summary>cart / diskcard / disc / handV / handH / dual / arcade / pc / pad</summary>
+    public string IconKind { get; set; } = "cart";
+    /// <summary>アイコンの色（#RRGGBB）</summary>
+    public string Color { get; set; } = "#F06B70";
+    /// <summary>自作アイコン画像のパス（空なら内蔵アイコン）</summary>
+    public string CustomIconPath { get; set; } = "";
+    public List<string> RomFolders { get; set; } = new();
+    /// <summary>対象拡張子（".nes" など、小文字）</summary>
+    public List<string> Extensions { get; set; } = new();
+    public string DatPath { get; set; } = "";
+    /// <summary>Auto / Include / Exclude（iNESヘッダーなどの扱い）</summary>
+    public string HeaderMode { get; set; } = "Auto";
+    /// <summary>ファイル名を変えない「表示リネーム」（アーケード系向け）</summary>
+    public bool DisplayRenameOnly { get; set; }
+    /// <summary>Core / External</summary>
+    public string LaunchMode { get; set; } = "Core";
+    public string EmulatorPath { get; set; } = "";
+    public string EmulatorArgs { get; set; } = "\"{rom}\"";
+    public string EmulatorWorkDir { get; set; } = "";
+
+    public SystemConfig Clone()
+    {
+        var c = (SystemConfig)MemberwiseClone();
+        c.RomFolders = new List<string>(RomFolders);
+        c.Extensions = new List<string>(Extensions);
+        return c;
+    }
+}
+
+/// <summary>DATの1エントリ（1タイトル×1CRC）</summary>
+public class DatEntry
+{
+    public string Title { get; set; } = "";
+    public uint? Crc { get; set; }
+    public string Extension { get; set; } = "";
+    public string Publisher { get; set; } = "";
+    public string ReleaseNumber { get; set; } = "";
+}
+
+/// <summary>走査したROMファイル（キャッシュにも使う）</summary>
+public class RomFile
+{
+    public string Path { get; set; } = "";
+    public long Size { get; set; }
+    public long LastWriteTicks { get; set; }
+    /// <summary>ファイル全体（ZIPなら中のROM）のCRC32</summary>
+    public uint Crc { get; set; }
+    /// <summary>ヘッダー（iNESなど）を除いたCRC32。ヘッダーが無ければ null</summary>
+    public uint? CrcNoHeader { get; set; }
+    /// <summary>ZIP内のROMのエントリ名（ZIPでなければ null）</summary>
+    public string? InnerName { get; set; }
+    public long RomSize { get; set; }
+}
+
+/// <summary>リネーム1回分の履歴</summary>
+public class RenameRun
+{
+    public DateTime At { get; set; } = DateTime.Now;
+    public string SystemId { get; set; } = "";
+    public List<RenameRecord> Records { get; set; } = new();
+}
+
+public class RenameRecord
+{
+    public string From { get; set; } = "";
+    public string To { get; set; } = "";
+    /// <summary>ZIP内エントリ名の変更（変更しなかった場合は null）</summary>
+    public string? InnerFrom { get; set; }
+    public string? InnerTo { get; set; }
+}

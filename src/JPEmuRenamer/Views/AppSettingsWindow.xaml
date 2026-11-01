@@ -1,0 +1,48 @@
+<Window x:Class="JPEmuRenamer.Views.AppSettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:JPEmuRenamer.Services"
+        Title="{Binding [AppSettings], Source={x:Static s:Loc.Instance}}"
+        Width="520" SizeToContent="Height" ResizeMode="NoResize"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
+
+    <Window.Resources>
+        <Style x:Key="Label" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="FontSize" Value="12.5" />
+            <Setter Property="Margin" Value="0,16,0,6" />
+        </Style>
+    </Window.Resources>
+
+    <StackPanel Margin="24,8,24,20">
+        <TextBlock Style="{StaticResource Label}" Text="{Binding [LanguageLabel], Source={x:Static s:Loc.Instance}}" />
+        <ComboBox x:Name="LanguageBox" SelectionChanged="OnLanguageChanged" />
+
+        <TextBlock Style="{StaticResource Label}">
+            <Run Text="{Binding [UiScale], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
+            <Run Text="：" />
+            <Run Text="{Binding UiScale, StringFormat={}{0:P0}, Mode=OneWay}" Foreground="{StaticResource TextBrush}" />
+        </TextBlock>
+        <Slider Minimum="0.75" Maximum="2" TickFrequency="0.05" IsSnapToTickEnabled="True"
+                Value="{Binding UiScale, Mode=TwoWay}" />
+        <TextBlock Text="{Binding [ScaleHint], Source={x:Static s:Loc.Instance}}" Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,4,0,0" />
+
+        <TextBlock Style="{StaticResource Label}">
+            <Run Text="{Binding [FontSizeLabel], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
+            <Run Text="：" />
+            <Run Text="{Binding FontSize, StringFormat={}{0:0}px, Mode=OneWay}" Foreground="{StaticResource TextBrush}" />
+        </TextBlock>
+        <Slider Minimum="11" Maximum="28" TickFrequency="1" IsSnapToTickEnabled="True"
+                Value="{Binding FontSize, Mode=TwoWay}" />
+
+        <CheckBox x:Name="InsideZipCheck" Margin="0,20,0,0" Click="OnOptionChanged"
+                  Content="{Binding [RenameInsideZip], Source={x:Static s:Loc.Instance}}" />
+        <CheckBox x:Name="SubfolderCheck" Margin="0,10,0,0" Click="OnOptionChanged"
+                  Content="{Binding [ScanSubfolders], Source={x:Static s:Loc.Instance}}" />
+
+        <Button IsCancel="True" IsDefault="True" HorizontalAlignment="Right" MinWidth="110" Margin="0,24,0,0"
+                Content="{Binding [Close], Source={x:Static s:Loc.Instance}}" Click="OnClose" />
+    </StackPanel>
+</Window>
