@@ -30,6 +30,36 @@ public partial class MainWindow : Window
     }
 
     private PlayWindow? playWindow;
+    private HelpWindow? helpWindow;
+
+    /// <summary>マニュアルを開く。いま開いているタブ（プレイ／リネーム）に合わせた内容を表示する</summary>
+    private void OnHelp(object sender, RoutedEventArgs e) => ShowHelp();
+
+    private void ShowHelp()
+    {
+        var tab = vm.IsManageMode ? "Rename" : "Play";
+        if (helpWindow != null)
+        {
+            helpWindow.ShowTab(tab);
+            helpWindow.Activate();
+            return;
+        }
+        helpWindow = new HelpWindow(tab) { Owner = this };
+        helpWindow.Closed += (_, _) => helpWindow = null;
+        helpWindow.Show();
+    }
+
+    protected override void OnPreviewKeyDown(KeyEventArgs e)
+    {
+        // F1でマニュアル（プレイ中のF1はプレイ画面のメニュー）
+        if (e.Key == Key.F1)
+        {
+            ShowHelp();
+            e.Handled = true;
+            return;
+        }
+        base.OnPreviewKeyDown(e);
+    }
 
     /// <summary>内蔵コアのプレイ画面を開く。同時に動かせるコアは1つなので、開いていれば前に出すだけ</summary>
     private bool OpenPlayWindow(PlayContext context, SessionRequest request)

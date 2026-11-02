@@ -1,0 +1,38 @@
+<Window x:Class="JPEmuRenamer.Views.HelpWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:JPEmuRenamer.Services"
+        Title="{Binding [HelpTitle], Source={x:Static s:Loc.Instance}}"
+        Width="1040" Height="800" MinWidth="680" MinHeight="420"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BgBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
+    <DockPanel>
+        <!-- 遊び方／リネームの切り替え -->
+        <Border DockPanel.Dock="Top" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1" Padding="20,12">
+            <DockPanel>
+                <Button DockPanel.Dock="Right" IsCancel="True" Click="OnClose" MinWidth="100"
+                        Content="{Binding [Close], Source={x:Static s:Loc.Instance}}" />
+                <Border Style="{StaticResource SegGroup}" HorizontalAlignment="Left">
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton x:Name="PlayTab" GroupName="HelpTab" Style="{StaticResource SegButton}" Tag="{StaticResource AccentBrush}"
+                                     Content="{Binding [HelpPlay], Source={x:Static s:Loc.Instance}}" Checked="OnTabChecked" />
+                        <RadioButton x:Name="RenameTab" GroupName="HelpTab" Style="{StaticResource SegButton}" Tag="{StaticResource AccentBrush}"
+                                     Content="{Binding [HelpRename], Source={x:Static s:Loc.Instance}}" Checked="OnTabChecked" />
+                    </StackPanel>
+                </Border>
+            </DockPanel>
+        </Border>
+
+        <!-- 目次 -->
+        <Border DockPanel.Dock="Left" Width="240" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="TocPanel" Margin="10,14,10,14" />
+            </ScrollViewer>
+        </Border>
+
+        <!-- 本文 -->
+        <FlowDocumentScrollViewer x:Name="Viewer" VerticalScrollBarVisibility="Auto" IsToolBarVisible="False"
+                                  Background="{StaticResource BgBrush}" Foreground="{StaticResource TextBrush}" />
+    </DockPanel>
+</Window>

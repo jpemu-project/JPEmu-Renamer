@@ -132,7 +132,12 @@ public sealed class Loc : INotifyPropertyChanged
         ["Close"] = "閉じる",
         ["ScaleHint"] = "Ctrl＋マウスホイールでも変更できます",
         ["Welcome"] = "JPEmu Renamer へようこそ。\n最初に、ファミコンのDATファイルとROMフォルダを設定しましょう。今すぐ設定を開きますか？",
-        ["Footer"] = "Enter：起動　↑↓：選択　Ctrl＋ホイール：表示倍率",
+        ["Footer"] = "Enter：起動　↑↓：選択　Ctrl＋ホイール：表示倍率　F1：ヘルプ",
+        ["Help"] = "ヘルプ",
+        ["HelpTip"] = "マニュアルを開く（F1）",
+        ["HelpTitle"] = "JPEmu Renamer マニュアル",
+        ["HelpPlay"] = "ゲームの遊び方",
+        ["HelpRename"] = "リネーム",
 
         // 内蔵コア：起動
         ["NoCoreForSystem"] = "この機種で使える内蔵コアが決まっていません。「機種の設定」で内蔵コアを選んでください。",
@@ -427,7 +432,12 @@ public sealed class Loc : INotifyPropertyChanged
         ["Close"] = "Close",
         ["ScaleHint"] = "You can also use Ctrl + mouse wheel",
         ["Welcome"] = "Welcome to JPEmu Renamer.\nFirst, set the Famicom DAT file and ROM folder. Open the settings now?",
-        ["Footer"] = "Enter: launch   ↑↓: select   Ctrl+wheel: UI scale",
+        ["Footer"] = "Enter: launch   ↑↓: select   Ctrl+wheel: UI scale   F1: help",
+        ["Help"] = "Help",
+        ["HelpTip"] = "Open the manual (F1)",
+        ["HelpTitle"] = "JPEmu Renamer manual",
+        ["HelpPlay"] = "Playing games",
+        ["HelpRename"] = "Renaming",
 
         // Built-in core: launching
         ["NoCoreForSystem"] = "No built-in core is set for this system. Choose one in \"System settings\".",

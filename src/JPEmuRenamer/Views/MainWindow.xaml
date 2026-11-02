@@ -136,6 +136,7 @@
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
@@ -175,6 +176,8 @@
 
                 <Button Grid.Column="3" Command="{Binding AddSystemCommand}" Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" Margin="0,0,10,0" />
                 <Button Grid.Column="4" Command="{Binding OpenAppSettingsCommand}" Content="{Binding [Settings], Source={x:Static s:Loc.Instance}}" />
+                <Button Grid.Column="5" Click="OnHelp" Content="{Binding [Help], Source={x:Static s:Loc.Instance}}" Margin="10,0,0,0"
+                        ToolTip="{Binding [HelpTip], Source={x:Static s:Loc.Instance}}" />
             </Grid>
         </Border>
 
