@@ -128,8 +128,9 @@ public partial class MainWindow : Window
         if (vm.Settings.FirstRunDone) return;
         vm.Settings.FirstRunDone = true;
         vm.Save();
-        if (vm.NeedsSetup && vm.Confirm?.Invoke(Loc.T("Welcome")) == true)
-            vm.EditSystemCommand.Execute(null);
+        // 機種は最初は空なので、最初の1つを好きな名前で作ってもらう
+        if (vm.HasNoSystems && vm.Confirm?.Invoke(Loc.T("Welcome")) == true)
+            vm.AddSystemCommand.Execute(null);
     }
 
     private (SystemConfig? config, bool deleted) EditSystem(SystemConfig? config)

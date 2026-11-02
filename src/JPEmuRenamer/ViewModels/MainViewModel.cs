@@ -36,6 +36,7 @@ public partial class MainViewModel : ObservableObject
         statusText = Loc.T("Ready");
 
         foreach (var s in settings.Systems) Systems.Add(new SystemItem(s));
+        Systems.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasNoSystems));
         itemsView = CollectionViewSource.GetDefaultView(items);
 
         Loc.Instance.PropertyChanged += (_, e) =>
@@ -51,6 +52,9 @@ public partial class MainViewModel : ObservableObject
 
     public AppSettings Settings => settings;
     public ObservableCollection<SystemItem> Systems { get; } = new();
+
+    /// <summary>機種が1つも無い（最初の起動時など）</summary>
+    public bool HasNoSystems => Systems.Count == 0;
 
     [ObservableProperty]
     private ObservableCollection<GameItem> items = new();

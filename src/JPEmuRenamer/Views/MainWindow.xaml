@@ -5,7 +5,7 @@
         Title="JPEmu Renamer" Icon="/Assets/app.ico" Width="1280" Height="800" MinWidth="760" MinHeight="480"
         Background="{StaticResource BgBrush}" Foreground="{StaticResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="{Binding FontSize}"
-        UseLayoutRounding="True" TextOptions.TextFormattingMode="Display"
+        UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="ClearType"
         PreviewMouseWheel="OnPreviewMouseWheel" Closing="OnClosing">
 
     <Window.Resources>
@@ -268,6 +268,20 @@
                         <Button Style="{StaticResource AccentButton}" Command="{Binding EditSystemCommand}" HorizontalAlignment="Center" Margin="0,20,0,0"
                                 Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" />
                     </StackPanel>
+                </Border>
+
+                <!-- 機種が1つも無いとき（最初の起動時）：見出しと一覧の上にかぶせる -->
+                <Border Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="10" Background="{StaticResource BgBrush}"
+                        Visibility="{Binding HasNoSystems, Converter={StaticResource BoolToVis}}">
+                    <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
+                        <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520">
+                            <TextBlock Text="{Binding [NoSystems], Source={x:Static s:Loc.Instance}}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" />
+                            <TextBlock Text="{Binding [NoSystemsHint], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
+                                       Foreground="{StaticResource SubBrush}" LineHeight="26" Margin="0,12,0,0" />
+                            <Button Style="{StaticResource AccentButton}" Command="{Binding AddSystemCommand}" HorizontalAlignment="Center" Margin="0,22,0,0"
+                                    Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" />
+                        </StackPanel>
+                    </Border>
                 </Border>
 
                 <Grid Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource InvBoolToVis}}">

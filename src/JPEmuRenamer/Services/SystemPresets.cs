@@ -44,16 +44,6 @@ public static class SystemPresets
         "cart", "diskcard", "disc", "handV", "handH", "dual", "arcade", "pc", "pad"
     };
 
-    public static SystemConfig DefaultFamicom() => new()
-    {
-        Name = "ファミコン",
-        IconKind = "cart",
-        Color = "#F06B70",
-        Extensions = new List<string> { ".nes", ".zip" },
-        HeaderMode = "Auto",
-        LaunchMode = "Core"
-    };
-
     public static List<string> ParseExtensions(string text) =>
         text.Split(new[] { ';', ',', ' ' }, StringSplitOptions.RemoveEmptyEntries)
             .Select(e => e.Trim().ToLowerInvariant())

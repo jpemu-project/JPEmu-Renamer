@@ -96,11 +96,7 @@ public static class Storage
             if (File.Exists(SettingsPath))
             {
                 var s = JsonSerializer.Deserialize<AppSettings>(File.ReadAllText(SettingsPath), Json);
-                if (s != null)
-                {
-                    if (s.Systems.Count == 0) s.Systems.Add(SystemPresets.DefaultFamicom());
-                    return s;
-                }
+                if (s != null) return s;
             }
         }
         catch
@@ -108,9 +104,8 @@ public static class Storage
             // 壊れた設定はバックアップして初期化
             try { File.Copy(SettingsPath, SettingsPath + ".broken", true); } catch { }
         }
-        var fresh = new AppSettings();
-        fresh.Systems.Add(SystemPresets.DefaultFamicom());
-        return fresh;
+        // 機種は最初は空。利用者が好きな名前で作る
+        return new AppSettings();
     }
 
     public static void SaveSettings(AppSettings settings) => WriteAtomic(SettingsPath, JsonSerializer.Serialize(settings, Json));

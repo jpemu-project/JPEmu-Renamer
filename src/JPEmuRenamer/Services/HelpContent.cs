@@ -15,7 +15,8 @@ public static class HelpContent
 JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べるランチャーです。遊ぶときは、アプリに内蔵したエミュレーター（内蔵コア）か、自分で用意したエミュレーター（外部exe）を使います。
 
 ## 遊ぶまでの流れ
-- 左の機種一覧から機種を選び、「機種の設定」でROMフォルダを指定します
+- 最初は機種がありません。左下の「＋ 機種を追加」で、機種を好きな名前で作ります（例：ファミコン、Famicom）
+- 作った機種を選び、「機種の設定」でROMフォルダを指定します
 - 上の「プレイ」タブで、遊びたいタイトルを選びます
 - 「▶ 起動」を押します。初めて使うコアは、その場でダウンロードするか確認が出ます
 - 遊び終わったら `Esc` でランチャーに戻ります
@@ -257,7 +258,8 @@ OfflineList形式のDATファイル（XML）を使います。機種ごとに用
 JPEmu Renamer manages ROMs you dumped yourself and lets you play them right away, using either the built-in emulator (built-in core) or an emulator you provide (emulator exe).
 
 ## From setup to playing
-- Choose a system on the left and set its ROM folder in "System settings"
+- There are no systems at first. Use "+ Add system" at the bottom left to create one with any name (e.g. Famicom, NES)
+- Select it and set its ROM folder in "System settings"
 - On the "Play" tab, choose a title
 - Press "▶ Launch". If the core is not installed yet, you are asked whether to download it
 - Press `Esc` to return to the launcher
