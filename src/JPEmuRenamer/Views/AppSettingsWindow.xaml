@@ -44,8 +44,12 @@
         <CheckBox x:Name="HideExtCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
                   Content="{Binding [HideExtensions], Source={x:Static s:Loc.Instance}}" />
 
-        <Button HorizontalAlignment="Left" Margin="0,22,0,0" Click="OnPlaySettings"
-                Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />
+        <WrapPanel Margin="0,22,0,0">
+            <Button Margin="0,0,10,6" Click="OnPlaySettings"
+                    Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />
+            <Button Margin="0,0,10,6" Click="OnBulkCores"
+                    Content="{Binding [OpenBulkCores], Source={x:Static s:Loc.Instance}}" />
+        </WrapPanel>
 
         <Button IsCancel="True" IsDefault="True" HorizontalAlignment="Right" MinWidth="110" Margin="0,24,0,0"
                 Content="{Binding [Close], Source={x:Static s:Loc.Instance}}" Click="OnClose" />

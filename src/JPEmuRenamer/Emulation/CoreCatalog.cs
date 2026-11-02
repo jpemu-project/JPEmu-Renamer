@@ -122,6 +122,36 @@ public static class CoreCatalog
         return key != null ? BySystem[key].cores[0] : "";
     }
 
+    /// <summary>このコアを候補に持つ機種の名前（表示用）</summary>
+    public static List<string> SystemsUsing(string coreName) =>
+        BySystem.Where(kv => kv.Value.cores.Contains(coreName)).Select(kv => kv.Key).ToList();
+
+    /// <summary>配布サイト上のファイルの大きさと更新日時（分からなければ null）。ダウンロードはしない</summary>
+    public static async Task<(long? size, DateTimeOffset? modified)> GetRemoteInfoAsync(string coreName, CancellationToken ct)
+    {
+        try
+        {
+            using var req = new HttpRequestMessage(HttpMethod.Head, BuildbotBase + coreName + "_libretro.dll.zip");
+            using var resp = await Http.SendAsync(req, ct);
+            if (!resp.IsSuccessStatusCode) return (null, null);
+            return (resp.Content.Headers.ContentLength, resp.Content.Headers.LastModified);
+        }
+        catch
+        {
+            return (null, null);
+        }
+    }
+
+    /// <summary>
+    /// 配布サイトに新しい版があるか。ダウンロードしたコアのファイル日時は配布サイトの日時に合わせてあるので、それと比べる
+    /// </summary>
+    public static bool HasUpdate(string coreName, DateTimeOffset? remoteModified)
+    {
+        if (remoteModified == null || !IsInstalled(coreName)) return false;
+        var local = File.GetLastWriteTimeUtc(DllPath(coreName));
+        return remoteModified.Value.UtcDateTime > local.AddMinutes(1);
+    }
+
     public static string DllPath(string coreName) => System.IO.Path.Combine(Storage.CoresDir, coreName + "_libretro.dll");
 
     public static bool IsInstalled(string coreName) => !string.IsNullOrEmpty(coreName) && File.Exists(DllPath(coreName));
@@ -142,10 +172,13 @@ public static class CoreCatalog
         Directory.CreateDirectory(Storage.CoresDir);
         var url = BuildbotBase + coreName + "_libretro.dll.zip";
         var tmpZip = System.IO.Path.Combine(Storage.CoresDir, coreName + ".download");
+        DateTimeOffset? remoteModified;
 
-        using (var resp = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct))
+        try
         {
+            using var resp = await Http.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct);
             resp.EnsureSuccessStatusCode();
+            remoteModified = resp.Content.Headers.LastModified;
             var total = resp.Content.Headers.ContentLength ?? -1;
             await using var src = await resp.Content.ReadAsStreamAsync(ct);
             await using var dst = File.Create(tmpZip);
@@ -159,6 +192,12 @@ public static class CoreCatalog
                 if (total > 0) progress?.Report((double)done / total);
             }
         }
+        catch
+        {
+            // 途中で止まったときは書きかけのファイルを残さない
+            try { File.Delete(tmpZip); } catch { }
+            throw;
+        }
 
         try
         {
@@ -169,6 +208,8 @@ public static class CoreCatalog
             var tmpDll = DllPath(coreName) + ".new";
             entry.ExtractToFile(tmpDll, true);
             File.Move(tmpDll, DllPath(coreName), true);
+            // 更新の確認に使うので、ファイル日時を配布サイトの日時にそろえる
+            if (remoteModified != null) File.SetLastWriteTimeUtc(DllPath(coreName), remoteModified.Value.UtcDateTime);
         }
         finally
         {

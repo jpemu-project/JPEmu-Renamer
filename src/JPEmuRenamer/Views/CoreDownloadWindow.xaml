@@ -1,0 +1,44 @@
+<Window x:Class="JPEmuRenamer.Views.CoreDownloadWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:JPEmuRenamer.Services"
+        Title="{Binding [BulkCoreTitle], Source={x:Static s:Loc.Instance}}"
+        Width="820" Height="760" MinWidth="600" MinHeight="420"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True"
+        Closing="OnClosing">
+    <DockPanel>
+        <Border DockPanel.Dock="Top" Padding="24,16,24,12" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1">
+            <StackPanel>
+                <TextBlock x:Name="IntroText" Foreground="{StaticResource SubBrush}" TextWrapping="Wrap" />
+                <WrapPanel Margin="0,12,0,0">
+                    <Button x:Name="SelectRegistered" Click="OnSelectRegistered" Margin="0,0,8,6" Padding="12,5" />
+                    <Button x:Name="SelectMissing" Click="OnSelectMissing" Margin="0,0,8,6" Padding="12,5" />
+                    <Button x:Name="SelectUpdates" Click="OnSelectUpdates" Margin="0,0,8,6" Padding="12,5" />
+                    <Button x:Name="SelectAll" Click="OnSelectAll" Margin="0,0,8,6" Padding="12,5" />
+                    <Button x:Name="SelectNone" Click="OnSelectNone" Margin="0,0,8,6" Padding="12,5" />
+                </WrapPanel>
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#181C23" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="20,12">
+            <DockPanel>
+                <StackPanel DockPanel.Dock="Right" Orientation="Horizontal">
+                    <Button x:Name="CancelButton" Click="OnCancel" Margin="0,0,10,0" MinWidth="100" Visibility="Collapsed" />
+                    <Button x:Name="UpdateAllButton" Click="OnUpdateAll" Margin="0,0,10,0" MinWidth="140" />
+                    <Button x:Name="DownloadButton" Style="{StaticResource AccentButton}" Click="OnDownload" Margin="0,0,10,0" MinWidth="140" />
+                    <Button x:Name="CloseButton" IsCancel="True" Click="OnClose" MinWidth="100" />
+                </StackPanel>
+                <StackPanel VerticalAlignment="Center" Margin="0,0,16,0">
+                    <TextBlock x:Name="SummaryText" />
+                    <ProgressBar x:Name="Progress" Height="6" Margin="0,6,0,0" Maximum="1" Visibility="Collapsed" />
+                </StackPanel>
+            </DockPanel>
+        </Border>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="20,8,20,12">
+            <Grid x:Name="CoreGrid" />
+        </ScrollViewer>
+    </DockPanel>
+</Window>
