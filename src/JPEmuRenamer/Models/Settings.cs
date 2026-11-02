@@ -16,6 +16,8 @@ public class AppSettings
     public bool RenameInsideZip { get; set; } = true;
     /// <summary>サブフォルダも走査する</summary>
     public bool ScanSubfolders { get; set; } = true;
+    /// <summary>タイトル一覧でファイル名の拡張子を表示しない</summary>
+    public bool HideExtensions { get; set; }
 
     public double? WindowWidth { get; set; }
     public double? WindowHeight { get; set; }

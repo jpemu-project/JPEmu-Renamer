@@ -31,6 +31,7 @@ public partial class MainViewModel : ObservableObject
         uiScale = Math.Clamp(settings.UiScale, 0.75, 2.0);
         fontSize = Math.Clamp(settings.FontSize, 11, 28);
         filter = settings.ListFilter is "Owned" or "Missing" ? settings.ListFilter : "All";
+        GameItem.HideExtensions = settings.HideExtensions;
         statusText = Loc.T("Ready");
 
         foreach (var s in settings.Systems) Systems.Add(new SystemItem(s));

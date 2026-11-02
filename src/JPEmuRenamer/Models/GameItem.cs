@@ -21,10 +21,15 @@ public enum MatchStatus
 /// <summary>一覧の1行</summary>
 public partial class GameItem : ObservableObject
 {
+    /// <summary>DATに無いファイル（ファイル名をそのまま表示する行）で、拡張子を表示しない</summary>
+    public static bool HideExtensions { get; set; }
+
+    private readonly string title;
+
     public GameItem(MatchStatus status, string title, DatEntry? dat, RomFile? rom, string targetFileName)
     {
         Status = status;
-        Title = title;
+        this.title = title;
         Dat = dat;
         Rom = rom;
         TargetFileName = targetFileName;
@@ -33,7 +38,7 @@ public partial class GameItem : ObservableObject
 
     public MatchStatus Status { get; }
     /// <summary>表示名（照合済みはDATの名前、未照合はファイル名）</summary>
-    public string Title { get; }
+    public string Title => HideExtensions && Status == MatchStatus.NotInDat ? System.IO.Path.GetFileNameWithoutExtension(title) : title;
     public DatEntry? Dat { get; }
     public RomFile? Rom { get; }
     /// <summary>リネーム後のファイル名</summary>
