@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Input;
+using JPEmuRenamer.Emulation;
 using JPEmuRenamer.Models;
 using JPEmuRenamer.Services;
 using JPEmuRenamer.ViewModels;
@@ -22,8 +23,30 @@ public partial class MainWindow : Window
         vm.Info = msg => MessageBox.Show(this, msg, "JPEmu Renamer", MessageBoxButton.OK, MessageBoxImage.Information);
         vm.EditSystemDialog = EditSystem;
         vm.OpenAppSettingsDialog = () => new AppSettingsWindow(vm) { Owner = this }.ShowDialog();
+        vm.OpenPlayWindow = OpenPlayWindow;
+        vm.OpenPlaySettingsDialog = (ctx, scope) => new PlaySettingsWindow(ctx, scope) { Owner = this }.ShowDialog();
 
         RestoreWindowPlacement(vm.Settings);
+    }
+
+    private PlayWindow? playWindow;
+
+    /// <summary>内蔵コアのプレイ画面を開く。同時に動かせるコアは1つなので、開いていれば前に出すだけ</summary>
+    private bool OpenPlayWindow(PlayContext context, SessionRequest request)
+    {
+        if (playWindow != null)
+        {
+            playWindow.Activate();
+            return false;
+        }
+        playWindow = new PlayWindow(context, request);
+        playWindow.Closed += (_, _) =>
+        {
+            playWindow = null;
+            Activate();
+        };
+        playWindow.Show();
+        return true;
     }
 
     public void ShowWelcomeIfNeeded()
@@ -91,6 +114,7 @@ public partial class MainWindow : Window
 
     private void OnClosing(object? sender, CancelEventArgs e)
     {
+        playWindow?.Close();
         var s = vm.Settings;
         var bounds = WindowState == WindowState.Normal ? new Rect(Left, Top, Width, Height) : RestoreBounds;
         if (!bounds.IsEmpty && double.IsFinite(bounds.Left) && double.IsFinite(bounds.Width))

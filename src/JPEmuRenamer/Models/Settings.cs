@@ -26,6 +26,11 @@ public class AppSettings
     public string? LastSystemId { get; set; }
     public bool FirstRunDone { get; set; }
 
+    /// <summary>BIOSなどを置くフォルダ（空ならデータフォルダの system）</summary>
+    public string BiosDir { get; set; } = "";
+    /// <summary>内蔵コアのプレイ設定（全体）</summary>
+    public PlaySettings Play { get; set; } = new();
+
     public List<SystemConfig> Systems { get; set; } = new();
 }
 
@@ -53,12 +58,17 @@ public class SystemConfig
     public string EmulatorPath { get; set; } = "";
     public string EmulatorArgs { get; set; } = "\"{rom}\"";
     public string EmulatorWorkDir { get; set; } = "";
+    /// <summary>内蔵コアの名前（"mesen" など。空なら候補の既定コア）</summary>
+    public string CoreName { get; set; } = "";
+    /// <summary>内蔵コアのプレイ設定（この機種で上書きする分）</summary>
+    public PlaySettings Play { get; set; } = new();
 
     public SystemConfig Clone()
     {
         var c = (SystemConfig)MemberwiseClone();
         c.RomFolders = new List<string>(RomFolders);
         c.Extensions = new List<string>(Extensions);
+        c.Play = Play.Clone();
         return c;
     }
 }

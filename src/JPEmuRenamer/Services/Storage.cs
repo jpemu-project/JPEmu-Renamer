@@ -14,7 +14,8 @@ public static class Storage
     private static readonly JsonSerializerOptions Json = new()
     {
         WriteIndented = true,
-        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+        Encoder = JavaScriptEncoder.UnsafeRelaxedJsonEscaping,
+        DefaultIgnoreCondition = System.Text.Json.Serialization.JsonIgnoreCondition.WhenWritingNull
     };
 
     public static string DataDir { get; } = ResolveDataDir();
@@ -33,6 +34,60 @@ public static class Storage
     private static string HistoryPath => System.IO.Path.Combine(DataDir, "history.json");
     private static string CacheDir => System.IO.Path.Combine(DataDir, "cache");
     public static string IconDir => System.IO.Path.Combine(DataDir, "icons");
+    public static string CoresDir => System.IO.Path.Combine(DataDir, "cores");
+    public static string DefaultBiosDir => System.IO.Path.Combine(DataDir, "system");
+    public static string DefaultSaveDir => System.IO.Path.Combine(DataDir, "saves");
+    public static string DefaultStateDir => System.IO.Path.Combine(DataDir, "states");
+    public static string DefaultScreenshotDir => System.IO.Path.Combine(DataDir, "screenshots");
+    private static string GamesDir => System.IO.Path.Combine(DataDir, "games");
+
+    /// <summary>ゲーム単位の上書き設定（キーはROMのCRC32。リネームしても変わらない）</summary>
+    public static GameOverrides LoadGame(string gameKey)
+    {
+        try
+        {
+            var p = System.IO.Path.Combine(GamesDir, gameKey + ".json");
+            if (File.Exists(p))
+                return JsonSerializer.Deserialize<GameOverrides>(File.ReadAllText(p), Json) ?? new();
+        }
+        catch { }
+        return new();
+    }
+
+    public static void SaveGame(string gameKey, GameOverrides game)
+    {
+        var p = System.IO.Path.Combine(GamesDir, gameKey + ".json");
+        if (game.Play.IsEmpty)
+        {
+            try { File.Delete(p); } catch { }
+            return;
+        }
+        Directory.CreateDirectory(GamesDir);
+        WriteAtomic(p, JsonSerializer.Serialize(game, Json));
+    }
+
+    /// <summary>コアが宣言した設定項目の控え（一度起動したコアの設定を、起動していなくても編集できるように）</summary>
+    public static List<Emulation.CoreOption> LoadCoreOptions(string coreName)
+    {
+        try
+        {
+            var p = System.IO.Path.Combine(CoresDir, coreName + ".options.json");
+            if (File.Exists(p))
+                return JsonSerializer.Deserialize<List<Emulation.CoreOption>>(File.ReadAllText(p), Json) ?? new();
+        }
+        catch { }
+        return new();
+    }
+
+    public static void SaveCoreOptions(string coreName, IEnumerable<Emulation.CoreOption> options)
+    {
+        try
+        {
+            Directory.CreateDirectory(CoresDir);
+            WriteAtomic(System.IO.Path.Combine(CoresDir, coreName + ".options.json"), JsonSerializer.Serialize(options.ToList(), Json));
+        }
+        catch { }
+    }
 
     public static AppSettings LoadSettings()
     {

@@ -48,5 +48,7 @@ public partial class AppSettingsWindow : Window
         if (subChanged) _ = vm.ReloadAsync();
     }
 
+    private void OnPlaySettings(object sender, RoutedEventArgs e) => vm.OpenPlaySettingsCommand.Execute("Global");
+
     private void OnClose(object sender, RoutedEventArgs e) => Close();
 }

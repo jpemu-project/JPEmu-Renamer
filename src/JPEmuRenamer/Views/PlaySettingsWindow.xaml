@@ -1,0 +1,66 @@
+<Window x:Class="JPEmuRenamer.Views.PlaySettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="clr-namespace:JPEmuRenamer.Services"
+        Title="{Binding [PlaySettings], Source={x:Static s:Loc.Instance}}"
+        Width="760" Height="820" MinWidth="560" MinHeight="480"
+        WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
+        Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}"
+        FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
+    <Window.Resources>
+        <Style TargetType="TabItem">
+            <Setter Property="Foreground" Value="{StaticResource SubBrush}" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TabItem">
+                        <Border x:Name="Bd" Padding="18,8" Margin="0,0,6,0" CornerRadius="8,8,0,0" Background="Transparent"
+                                BorderBrush="Transparent" BorderThickness="0,0,0,2">
+                            <ContentPresenter ContentSource="Header" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource Panel3Brush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{StaticResource AccentBrush}" />
+                                <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+                                <Setter Property="FontWeight" Value="Bold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    <DockPanel>
+        <!-- 層の選択 -->
+        <Border DockPanel.Dock="Top" Padding="20,14,20,10" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1">
+            <StackPanel>
+                <Border Style="{StaticResource SegGroup}" HorizontalAlignment="Left">
+                    <StackPanel x:Name="ScopePanel" Orientation="Horizontal" />
+                </Border>
+                <TextBlock x:Name="ScopeHint" Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="2,8,0,0" TextWrapping="Wrap" />
+            </StackPanel>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom" Background="#181C23" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="20,12">
+            <DockPanel>
+                <Button x:Name="ResetTabButton" DockPanel.Dock="Left" Click="OnResetTab" />
+                <Button x:Name="CloseButton" HorizontalAlignment="Right" MinWidth="120" IsCancel="True" Style="{StaticResource AccentButton}" Click="OnClose" />
+            </DockPanel>
+        </Border>
+
+        <TabControl x:Name="Tabs" Background="Transparent" BorderThickness="0" Padding="0" Margin="12,8,12,0">
+            <TabItem x:Name="BasicTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="BasicPanel" Margin="10,4,14,20" />
+                </ScrollViewer>
+            </TabItem>
+            <TabItem x:Name="DetailTab">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <StackPanel x:Name="DetailPanel" Margin="10,4,14,20" />
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>

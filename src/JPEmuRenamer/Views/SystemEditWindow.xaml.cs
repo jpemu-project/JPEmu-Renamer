@@ -1,6 +1,7 @@
 // JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 using System.Windows;
 using System.Windows.Controls;
+using JPEmuRenamer.Emulation;
 using JPEmuRenamer.Models;
 using JPEmuRenamer.Services;
 using JPEmuRenamer.Ui;
@@ -51,6 +52,72 @@ public partial class SystemEditWindow : Window
         Fill(config);
         loading = false;
         UpdateIconPreview();
+        RefreshCores(config.CoreName);
+    }
+
+    // ---------- 内蔵コア ----------
+
+    /// <summary>入力中のハード名・拡張子から、選べるコアの一覧を作り直す</summary>
+    private void RefreshCores(string? select)
+    {
+        var probe = new SystemConfig { Name = NameBox.Text.Trim(), Extensions = SystemPresets.ParseExtensions(ExtBox.Text) };
+        var candidates = CoreCatalog.CandidatesFor(probe);
+        var current = select ?? (CoreBox.SelectedItem as CoreInfo)?.Name;
+        loading = true;
+        CoreBox.ItemsSource = candidates;
+        CoreBox.SelectedItem = candidates.FirstOrDefault(c => c.Name == current) ?? candidates.FirstOrDefault();
+        loading = false;
+        var bios = CoreCatalog.BiosHintFor(probe);
+        BiosHint.Text = string.IsNullOrEmpty(bios) ? "" : Loc.F("BiosNeeded", bios);
+        UpdateCoreStatus();
+    }
+
+    private void UpdateCoreStatus()
+    {
+        if (CoreBox.SelectedItem is not CoreInfo core)
+        {
+            CoreStatus.Text = "";
+            CoreDownloadButton.IsEnabled = false;
+            CoreDownloadButton.Content = Loc.T("CoreDownload");
+            return;
+        }
+        bool installed = CoreCatalog.IsInstalled(core.Name);
+        CoreDownloadButton.IsEnabled = true;
+        CoreDownloadButton.Content = installed ? Loc.T("CoreUpdate") : Loc.T("CoreDownload");
+        CoreStatus.Text = (installed ? Loc.T("CoreInstalled") : Loc.T("CoreNotInstalled"))
+                          + (core.HardwareRendered ? "\n" + Loc.T("CoreHwNote") : "");
+    }
+
+    private void OnCoreChanged(object sender, SelectionChangedEventArgs e)
+    {
+        if (!loading) UpdateCoreStatus();
+    }
+
+    private void OnNameOrExtChanged(object sender, RoutedEventArgs e) => RefreshCores(null);
+
+    private async void OnDownloadCore(object sender, RoutedEventArgs e)
+    {
+        if (CoreBox.SelectedItem is not CoreInfo core) return;
+        if (MessageBox.Show(this, Loc.F("ConfirmDownloadCoreManual", core.DisplayName, CoreCatalog.BuildbotBase), "JPEmu Renamer",
+                MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes)
+            return;
+        CoreDownloadButton.IsEnabled = false;
+        CoreBox.IsEnabled = false;
+        try
+        {
+            var progress = new Progress<double>(p => CoreStatus.Text = Loc.F("CoreDownloading", core.DisplayName, (int)(p * 100)));
+            await CoreCatalog.DownloadAsync(core.Name, progress, CancellationToken.None);
+            UpdateCoreStatus();
+        }
+        catch (Exception ex)
+        {
+            CoreStatus.Text = Loc.F("CoreDownloadFailed", core.DisplayName, ex.Message);
+        }
+        finally
+        {
+            CoreBox.IsEnabled = true;
+            CoreDownloadButton.IsEnabled = true;
+        }
     }
 
     private static void AddItem(ComboBox box, string value, string label) =>
@@ -92,6 +159,7 @@ public partial class SystemEditWindow : Window
         Select(IconBox, p.Icon);
         ColorBox.Text = p.Color;
         DisplayOnlyCheck.IsChecked = p.DisplayRenameOnly;
+        RefreshCores("");
     }
 
     private void OnIconChanged(object sender, SelectionChangedEventArgs e) => UpdateIconPreview();
@@ -169,6 +237,10 @@ public partial class SystemEditWindow : Window
         config.LaunchMode = Selected(LaunchModeBox, "Core");
         config.EmulatorPath = ExeBox.Text.Trim().Trim('"');
         config.EmulatorArgs = string.IsNullOrWhiteSpace(ArgsBox.Text) ? "\"{rom}\"" : ArgsBox.Text.Trim();
+        // 候補の先頭（既定）を選んでいるときは空にして、候補の変更に追従させる
+        var probe = new SystemConfig { Name = config.Name, Extensions = config.Extensions };
+        var chosen = (CoreBox.SelectedItem as CoreInfo)?.Name ?? "";
+        config.CoreName = chosen == CoreCatalog.CoreNameFor(probe) ? "" : chosen;
 
         Result = config;
         DialogResult = true;

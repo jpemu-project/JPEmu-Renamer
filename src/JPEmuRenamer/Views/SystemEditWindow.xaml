@@ -34,7 +34,7 @@
                 <ComboBox x:Name="PresetBox" SelectionChanged="OnPresetChanged" />
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [Name], Source={x:Static s:Loc.Instance}}" />
-                <TextBox x:Name="NameBox" />
+                <TextBox x:Name="NameBox" LostFocus="OnNameOrExtChanged" />
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -87,7 +87,7 @@
                     </Grid.ColumnDefinitions>
                     <StackPanel>
                         <TextBlock Style="{StaticResource Label}" Text="{Binding [Extensions], Source={x:Static s:Loc.Instance}}" />
-                        <TextBox x:Name="ExtBox" />
+                        <TextBox x:Name="ExtBox" LostFocus="OnNameOrExtChanged" />
                     </StackPanel>
                     <StackPanel Grid.Column="2">
                         <TextBlock Style="{StaticResource Label}" Text="{Binding [HeaderMode], Source={x:Static s:Loc.Instance}}" />
@@ -103,6 +103,14 @@
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [LaunchMode], Source={x:Static s:Loc.Instance}}" />
                 <ComboBox x:Name="LaunchModeBox" />
+
+                <TextBlock Style="{StaticResource Label}" Text="{Binding [BuiltinCore], Source={x:Static s:Loc.Instance}}" />
+                <DockPanel>
+                    <Button x:Name="CoreDownloadButton" DockPanel.Dock="Right" Click="OnDownloadCore" Margin="8,0,0,0" MinWidth="130" />
+                    <ComboBox x:Name="CoreBox" SelectionChanged="OnCoreChanged" />
+                </DockPanel>
+                <TextBlock x:Name="CoreStatus" Foreground="{StaticResource MutedBrush}" FontSize="12.5" Margin="0,6,0,0" TextWrapping="Wrap" />
+                <TextBlock x:Name="BiosHint" Foreground="{StaticResource MutedBrush}" FontSize="12.5" Margin="0,4,0,0" TextWrapping="Wrap" />
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [EmulatorPath], Source={x:Static s:Loc.Instance}}" />
                 <DockPanel>

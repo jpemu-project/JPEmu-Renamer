@@ -42,6 +42,9 @@
         <CheckBox x:Name="SubfolderCheck" Margin="0,10,0,0" Click="OnOptionChanged"
                   Content="{Binding [ScanSubfolders], Source={x:Static s:Loc.Instance}}" />
 
+        <Button HorizontalAlignment="Left" Margin="0,22,0,0" Click="OnPlaySettings"
+                Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />
+
         <Button IsCancel="True" IsDefault="True" HorizontalAlignment="Right" MinWidth="110" Margin="0,24,0,0"
                 Content="{Binding [Close], Source={x:Static s:Loc.Instance}}" Click="OnClose" />
     </StackPanel>

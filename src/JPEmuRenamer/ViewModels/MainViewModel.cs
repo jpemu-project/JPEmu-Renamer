@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using JPEmuRenamer.Emulation;
 using JPEmuRenamer.Models;
 using JPEmuRenamer.Services;
 
@@ -19,6 +20,9 @@ public partial class MainViewModel : ObservableObject
     public Action<string>? Info { get; set; }
     public Func<SystemConfig?, (SystemConfig? config, bool deleted)>? EditSystemDialog { get; set; }
     public Action? OpenAppSettingsDialog { get; set; }
+    /// <summary>内蔵コアのプレイ画面を開く（既に開いていれば false）</summary>
+    public Func<PlayContext, SessionRequest, bool>? OpenPlayWindow { get; set; }
+    public Action<PlayContext, string>? OpenPlaySettingsDialog { get; set; }
 
     public MainViewModel(AppSettings settings)
     {
@@ -108,8 +112,11 @@ public partial class MainViewModel : ObservableObject
     public string CountText => Loc.F("OwnedMissing", OwnedCount, MissingCount);
     public string SelectedCountText => Loc.F("SelectedCount", SelectedCount);
     public string LaunchButtonText =>
-        SelectedSystem != null && !string.IsNullOrWhiteSpace(SelectedSystem.Config.EmulatorPath) && SelectedSystem.Config.LaunchMode == "External"
-            ? Loc.T("LaunchExternal") : Loc.T("LaunchCore");
+        SelectedSystem != null && UsesExternal(SelectedSystem.Config) ? Loc.T("LaunchExternal") : Loc.T("LaunchCore");
+
+    /// <summary>既定の起動方法が外部exeか（exeが未設定なら内蔵コア）</summary>
+    private static bool UsesExternal(SystemConfig sys) =>
+        sys.LaunchMode == "External" && !string.IsNullOrWhiteSpace(sys.EmulatorPath);
 
     // ---------- 初期化・読み込み ----------
 
@@ -257,7 +264,16 @@ public partial class MainViewModel : ObservableObject
     // ---------- コマンド ----------
 
     [RelayCommand]
-    private void Launch()
+    private Task Launch()
+    {
+        var sys = SelectedSystem?.Config;
+        if (sys == null) return Task.CompletedTask;
+        return LaunchWith(UsesExternal(sys) ? "External" : "Core");
+    }
+
+    /// <summary>起動方法を指定して起動する（右クリックの「別の方法で起動」）</summary>
+    [RelayCommand]
+    private async Task LaunchWith(string mode)
     {
         var item = SelectedItem;
         var sys = SelectedSystem?.Config;
@@ -267,20 +283,80 @@ public partial class MainViewModel : ObservableObject
             Info?.Invoke(Loc.T("MissingCannotLaunch"));
             return;
         }
-        if (string.IsNullOrWhiteSpace(sys.EmulatorPath))
+
+        if (mode == "External")
         {
-            // 内蔵コアは次のバージョンで対応
-            Info?.Invoke(sys.LaunchMode == "Core" ? Loc.T("CoreNotYet") : Loc.T("NoEmulator"));
+            if (string.IsNullOrWhiteSpace(sys.EmulatorPath))
+            {
+                Info?.Invoke(Loc.T("NoEmulator"));
+                return;
+            }
+            try
+            {
+                Launcher.LaunchExternal(sys, item.Rom.Path);
+            }
+            catch (Exception ex)
+            {
+                Info?.Invoke(Loc.F("LaunchFailed", ex.Message));
+            }
             return;
         }
+
+        var coreName = CoreCatalog.CoreNameFor(sys);
+        if (string.IsNullOrEmpty(coreName))
+        {
+            Info?.Invoke(Loc.T("NoCoreForSystem"));
+            return;
+        }
+        if (!CoreCatalog.IsInstalled(coreName))
+        {
+            var display = CoreCatalog.Get(coreName)?.DisplayName ?? coreName;
+            if (Confirm?.Invoke(Loc.F("ConfirmDownloadCore", display)) != true) return;
+            if (!await DownloadCoreAsync(coreName)) return;
+        }
+
+        var context = new PlayContext(settings, sys, item.Rom.Crc.ToString("X8"), item.Title, Save);
+        var request = new SessionRequest(coreName, item.Rom.Path, item.Rom.InnerName, sys, context.GameKey!, item.Title,
+            context.Resolve(), context.BiosDir);
+        if (OpenPlayWindow?.Invoke(context, request) == false)
+            Info?.Invoke(Loc.T("AlreadyPlaying"));
+    }
+
+    /// <summary>コアをダウンロードする（進み具合は下の状態表示に出す）</summary>
+    public async Task<bool> DownloadCoreAsync(string coreName)
+    {
+        var display = CoreCatalog.Get(coreName)?.DisplayName ?? coreName;
+        var before = StatusText;
+        IsBusy = true;
         try
         {
-            Launcher.LaunchExternal(sys, item.Rom.Path);
+            var progress = new Progress<double>(p => StatusText = Loc.F("CoreDownloading", display, (int)(p * 100)));
+            StatusText = Loc.F("CoreDownloading", display, 0);
+            await CoreCatalog.DownloadAsync(coreName, progress, CancellationToken.None);
+            StatusText = Loc.F("CoreDownloaded", display);
+            return true;
         }
         catch (Exception ex)
         {
-            Info?.Invoke(Loc.F("LaunchFailed", ex.Message));
+            StatusText = before;
+            Info?.Invoke(Loc.F("CoreDownloadFailed", display, ex.Message));
+            return false;
         }
+        finally
+        {
+            IsBusy = false;
+        }
+    }
+
+    /// <summary>プレイ設定を開く（"Global" / "System" / "Game"）</summary>
+    [RelayCommand]
+    private void OpenPlaySettings(string scope)
+    {
+        var sys = SelectedSystem?.Config;
+        var item = scope == "Game" ? SelectedItem : null;
+        var key = item?.Rom != null ? item.Rom.Crc.ToString("X8") : null;
+        var context = new PlayContext(settings, scope == "Global" && sys == null ? null : sys, key, key != null ? item!.Title : null, Save);
+        OpenPlaySettingsDialog?.Invoke(context, key != null ? "Game" : scope == "Global" ? "Global" : "System");
     }
 
     [RelayCommand]
