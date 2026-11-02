@@ -21,8 +21,8 @@ public partial class AppSettingsWindow : Window
 
         loading = true;
         LanguageBox.Items.Add(new ComboBoxItem { Content = Loc.T("LangAuto"), Tag = "" });
-        LanguageBox.Items.Add(new ComboBoxItem { Content = "日本語", Tag = "ja" });
-        LanguageBox.Items.Add(new ComboBoxItem { Content = "English", Tag = "en" });
+        foreach (var (code, name) in Loc.Languages)
+            LanguageBox.Items.Add(new ComboBoxItem { Content = name, Tag = code });
         foreach (ComboBoxItem item in LanguageBox.Items)
             if ((string)item.Tag == vm.Settings.Language) LanguageBox.SelectedItem = item;
         if (LanguageBox.SelectedItem == null) LanguageBox.SelectedIndex = 0;

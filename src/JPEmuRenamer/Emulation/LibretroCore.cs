@@ -457,7 +457,19 @@ public sealed unsafe class LibretroCore : IDisposable
                 *(IntPtr*)data = (IntPtr)(delegate* unmanaged[Cdecl]<uint, int, ushort, byte>)&RumbleCallback;
                 return true;
             case Retro.GetLanguage:
-                *(uint*)data = Services.Loc.Instance.Language == "ja" ? Retro.LanguageJapanese : Retro.LanguageEnglish;
+                // libretro の言語番号（コアのメニューやゲームの言語選択に使われる）
+                *(uint*)data = Services.Loc.Instance.Language switch
+                {
+                    "ja" => Retro.LanguageJapanese,
+                    "fr" => 2u,
+                    "es" => 3u,
+                    "it" => 5u,
+                    "pt" => 7u,   // ブラジルのポルトガル語
+                    "ru" => 9u,
+                    "ko" => 10u,
+                    "zh" => 12u,  // 簡体字
+                    _ => Retro.LanguageEnglish
+                };
                 return true;
             case Retro.GetInputBitmasks:
                 return true;

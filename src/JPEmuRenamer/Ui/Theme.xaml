@@ -154,6 +154,14 @@
     <Style TargetType="CheckBox">
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!-- 長い訳文でもはみ出さないよう折り返す -->
+        <Setter Property="ContentTemplate">
+            <Setter.Value>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap" />
+                </DataTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <!-- コンボボックス（ダーク） -->

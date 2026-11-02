@@ -5,12 +5,27 @@ using System.Globalization;
 namespace JPEmuRenamer.Services;
 
 /// <summary>
-/// 日本語・英語の表示文言。XAMLからは {Binding [Key], Source={x:Static s:Loc.Instance}} で参照する。
-/// 言語を切り替えると、バインドしている文言がその場で変わる。
+/// 表示文言（日本語・英語・中国語・韓国語・フランス語・イタリア語・スペイン語・ポルトガル語・ロシア語）。
+/// XAMLからは {Binding [Key], Source={x:Static s:Loc.Instance}} で参照する。
+/// 言語を切り替えると、バインドしている文言がその場で変わる。日本語・英語以外の文言は Services\Lang にある。
 /// </summary>
-public sealed class Loc : INotifyPropertyChanged
+public sealed partial class Loc : INotifyPropertyChanged
 {
     public static Loc Instance { get; } = new();
+
+    /// <summary>選べる言語（コード, その言語での名前）。設定画面の一覧に使う</summary>
+    public static readonly (string code, string name)[] Languages =
+    {
+        ("ja", "日本語"),
+        ("en", "English"),
+        ("zh", "简体中文"),
+        ("ko", "한국어"),
+        ("fr", "Français"),
+        ("it", "Italiano"),
+        ("es", "Español"),
+        ("pt", "Português"),
+        ("ru", "Русский"),
+    };
 
     private string language = "ja";
 
@@ -21,7 +36,7 @@ public sealed class Loc : INotifyPropertyChanged
         get => language;
         set
         {
-            var v = value is "ja" or "en" ? value : DetectOsLanguage();
+            var v = !string.IsNullOrEmpty(value) && Tables.ContainsKey(value) ? value : DetectOsLanguage();
             if (v == language) return;
             language = v;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs("Item[]"));
@@ -29,20 +44,32 @@ public sealed class Loc : INotifyPropertyChanged
         }
     }
 
+    // 各言語の表は別のファイル（partial）で定義しているので、使うときにまとめる
+    private static Dictionary<string, Dictionary<string, string>>? tables;
+    private static Dictionary<string, Dictionary<string, string>> Tables => tables ??= new()
+    {
+        ["ja"] = Ja, ["en"] = En, ["zh"] = Zh, ["ko"] = Ko, ["fr"] = Fr, ["it"] = It, ["es"] = Es, ["pt"] = Pt, ["ru"] = Ru,
+    };
+
+    /// <summary>その言語に無い文言は英語、それも無ければ日本語で表示する</summary>
     public string this[string key]
     {
         get
         {
-            var dict = language == "en" ? En : Ja;
-            return dict.TryGetValue(key, out var v) ? v : (Ja.TryGetValue(key, out var j) ? j : key);
+            if (Tables.TryGetValue(language, out var dict) && dict.TryGetValue(key, out var v)) return v;
+            if (language != "ja" && En.TryGetValue(key, out var e)) return e;
+            return Ja.TryGetValue(key, out var j) ? j : key;
         }
     }
 
     public static string T(string key) => Instance[key];
     public static string F(string key, params object[] args) => string.Format(Instance[key], args);
 
-    public static string DetectOsLanguage() =>
-        CultureInfo.CurrentUICulture.TwoLetterISOLanguageName == "ja" ? "ja" : "en";
+    public static string DetectOsLanguage()
+    {
+        var os = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        return Tables.ContainsKey(os) ? os : "en";
+    }
 
     private static readonly Dictionary<string, string> Ja = new()
     {
@@ -166,6 +193,24 @@ public sealed class Loc : INotifyPropertyChanged
         ["HelpTitle"] = "JPEmu Renamer マニュアル",
         ["HelpPlay"] = "ゲームの遊び方",
         ["HelpRename"] = "リネーム",
+        ["ListSeparator"] = "、",
+        ["Icon_cart"] = "据置カートリッジ機",
+        ["Icon_diskcard"] = "ディスクカード機",
+        ["Icon_disc"] = "ディスク機",
+        ["Icon_handV"] = "縦型携帯機",
+        ["Icon_handH"] = "横型携帯機",
+        ["Icon_dual"] = "2画面携帯機",
+        ["Icon_arcade"] = "アーケード",
+        ["Icon_pc"] = "パソコン",
+        ["Icon_pad"] = "その他",
+        ["Axis_0"] = "左スティック横",
+        ["Axis_1"] = "左スティック縦",
+        ["Axis_2"] = "右スティック横",
+        ["Axis_3"] = "右スティック縦",
+        ["JoyAxis"] = "軸{0}",
+        ["KeyLeft"] = "左{0}",
+        ["KeyRight"] = "右{0}",
+        ["BiosOptional"] = "{0}（任意）",
 
         // 内蔵コア：起動
         ["NoCoreForSystem"] = "この機種で使える内蔵コアが決まっていません。「機種の設定」で内蔵コアを選んでください。",
@@ -494,6 +539,24 @@ public sealed class Loc : INotifyPropertyChanged
         ["HelpTitle"] = "JPEmu Renamer manual",
         ["HelpPlay"] = "Playing games",
         ["HelpRename"] = "Renaming",
+        ["ListSeparator"] = ", ",
+        ["Icon_cart"] = "Home console (cartridge)",
+        ["Icon_diskcard"] = "Disk card",
+        ["Icon_disc"] = "Disc console",
+        ["Icon_handV"] = "Handheld (vertical)",
+        ["Icon_handH"] = "Handheld (horizontal)",
+        ["Icon_dual"] = "Dual-screen handheld",
+        ["Icon_arcade"] = "Arcade",
+        ["Icon_pc"] = "Computer",
+        ["Icon_pad"] = "Other",
+        ["Axis_0"] = "Left stick X",
+        ["Axis_1"] = "Left stick Y",
+        ["Axis_2"] = "Right stick X",
+        ["Axis_3"] = "Right stick Y",
+        ["JoyAxis"] = "Axis {0}",
+        ["KeyLeft"] = "Left {0}",
+        ["KeyRight"] = "Right {0}",
+        ["BiosOptional"] = "{0} (optional)",
 
         // Built-in core: launching
         ["NoCoreForSystem"] = "No built-in core is set for this system. Choose one in \"System settings\".",

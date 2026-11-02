@@ -59,9 +59,9 @@ public static class CoreCatalog
         ["NINTENDO64"] = (new[] { "mupen64plus_next", "parallel_n64" }, ""),
         ["ゲームボーイ"] = (new[] { "gambatte", "sameboy", "mgba" }, ""),
         ["ゲームボーイカラー"] = (new[] { "gambatte", "sameboy", "mgba" }, ""),
-        ["ゲームボーイアドバンス"] = (new[] { "mgba", "gpsp" }, "gba_bios.bin（任意）"),
+        ["ゲームボーイアドバンス"] = (new[] { "mgba", "gpsp" }, "gba_bios.bin?"),
         ["バーチャルボーイ"] = (new[] { "mednafen_vb" }, ""),
-        ["ニンテンドーDS"] = (new[] { "melonds", "desmume" }, "bios7.bin / bios9.bin / firmware.bin（melonDSは任意）"),
+        ["ニンテンドーDS"] = (new[] { "melonds", "desmume" }, "bios7.bin / bios9.bin / firmware.bin?"),
         ["SG-1000"] = (new[] { "genesis_plus_gx" }, ""),
         ["マスターシステム"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
         ["メガドライブ"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
@@ -75,7 +75,7 @@ public static class CoreCatalog
         ["ネオジオポケット"] = (new[] { "mednafen_ngp" }, ""),
         ["ネオジオポケットカラー"] = (new[] { "mednafen_ngp" }, ""),
         ["ネオジオ"] = (new[] { "fbneo" }, "neogeo.zip"),
-        ["プレイステーション"] = (new[] { "pcsx_rearmed", "swanstation" }, "scph5500.bin など（PCSX ReARMedは任意）"),
+        ["プレイステーション"] = (new[] { "pcsx_rearmed", "swanstation" }, "scph5500.bin / scph5501.bin / scph5502.bin?"),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -96,6 +96,8 @@ public static class CoreCatalog
     private static string? SystemKey(SystemConfig sys)
     {
         if (BySystem.ContainsKey(sys.Name)) return sys.Name;
+        // 候補の英語名（Famicom / NES など）で作った機種も同じ扱いにする
+        if (SystemPresets.JapaneseNameOf(sys.Name) is string ja && BySystem.ContainsKey(ja)) return ja;
         foreach (var (ext, system) in ByExtension)
             if (sys.Extensions.Contains(ext, StringComparer.OrdinalIgnoreCase)) return system;
         return null;
@@ -111,8 +113,14 @@ public static class CoreCatalog
     public static string BiosHintFor(SystemConfig sys)
     {
         var key = SystemKey(sys);
-        return key != null ? BySystem[key].bios : "";
+        var bios = key != null ? BySystem[key].bios : "";
+        // 末尾の ? は「無くても動く（任意）」の印
+        return bios.EndsWith('?') ? Loc.F("BiosOptional", bios.TrimEnd('?')) : bios;
     }
+
+    /// <summary>機種名の表示用（日本語以外では候補の英語名にする）</summary>
+    public static string SystemDisplayName(string japaneseKey) =>
+        SystemPresets.All.FirstOrDefault(p => p.Name == japaneseKey)?.DisplayName ?? japaneseKey;
 
     /// <summary>この機種で使うコア（設定が空なら候補の先頭）</summary>
     public static string CoreNameFor(SystemConfig sys)

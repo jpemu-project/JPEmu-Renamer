@@ -7,8 +7,18 @@ namespace JPEmuRenamer.Services;
 /// </summary>
 public static class HelpContent
 {
-    public static string Play(string lang) => lang == "en" ? PlayEn : PlayJa;
-    public static string Rename(string lang) => lang == "en" ? RenameEn : RenameJa;
+    // 日本語・英語以外のマニュアルは Services\Lang の Help.*.cs にある
+    public static string Play(string lang) => lang switch
+    {
+        "ja" => PlayJa, "zh" => HelpZh.Play, "ko" => HelpKo.Play, "fr" => HelpFr.Play, "it" => HelpIt.Play,
+        "es" => HelpEs.Play, "pt" => HelpPt.Play, "ru" => HelpRu.Play, _ => PlayEn
+    };
+
+    public static string Rename(string lang) => lang switch
+    {
+        "ja" => RenameJa, "zh" => HelpZh.Rename, "ko" => HelpKo.Rename, "fr" => HelpFr.Rename, "it" => HelpIt.Rename,
+        "es" => HelpEs.Rename, "pt" => HelpPt.Rename, "ru" => HelpRu.Rename, _ => RenameEn
+    };
 
     private const string PlayJa = """
 # はじめに

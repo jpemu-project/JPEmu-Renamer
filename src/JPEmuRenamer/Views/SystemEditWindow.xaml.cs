@@ -19,18 +19,6 @@ public partial class SystemEditWindow : Window
     public SystemConfig? Result { get; private set; }
     public bool Deleted { get; private set; }
 
-    private static readonly (string kind, string ja, string en)[] IconNames =
-    {
-        ("cart", "据置カートリッジ機", "Home console (cartridge)"),
-        ("diskcard", "ディスクカード機", "Disk card"),
-        ("disc", "ディスク機", "Disc console"),
-        ("handV", "縦型携帯機", "Handheld (vertical)"),
-        ("handH", "横型携帯機", "Handheld (horizontal)"),
-        ("dual", "2画面携帯機", "Dual-screen handheld"),
-        ("arcade", "アーケード", "Arcade"),
-        ("pc", "パソコン", "Computer"),
-        ("pad", "その他", "Other"),
-    };
 
     public SystemEditWindow(SystemConfig? existing)
     {
@@ -40,9 +28,9 @@ public partial class SystemEditWindow : Window
         DeleteButton.Visibility = isNew ? Visibility.Collapsed : Visibility.Visible;
 
         PresetBox.ItemsSource = SystemPresets.All;
-        bool en = Loc.Instance.Language == "en";
-        foreach (var (kind, ja, enName) in IconNames)
-            IconBox.Items.Add(new ComboBoxItem { Content = en ? enName : ja, Tag = kind });
+        // アイコンの名前は Loc の Icon_cart などから
+        foreach (var kind in SystemPresets.IconKinds)
+            IconBox.Items.Add(new ComboBoxItem { Content = Loc.T("Icon_" + kind), Tag = kind });
         AddItem(HeaderBox, "Auto", Loc.T("HeaderAuto"));
         AddItem(HeaderBox, "Include", Loc.T("HeaderInclude"));
         AddItem(HeaderBox, "Exclude", Loc.T("HeaderExclude"));
@@ -154,7 +142,7 @@ public partial class SystemEditWindow : Window
     private void OnPresetChanged(object sender, SelectionChangedEventArgs e)
     {
         if (loading || PresetBox.SelectedItem is not SystemPreset p) return;
-        NameBox.Text = p.Name;
+        NameBox.Text = p.DisplayName;
         ExtBox.Text = p.Extensions;
         Select(IconBox, p.Icon);
         ColorBox.Text = p.Color;

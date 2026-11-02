@@ -384,7 +384,14 @@ public sealed unsafe class InputManager : IDisposable
 
     private static readonly string[] PadButtonNames =
         { "A", "B", "X", "Y", "Back", "Guide", "Start", "LS", "RS", "LB", "RB", "↑", "↓", "←", "→", "Misc", "P1", "P2", "P3", "P4", "Touchpad" };
-    private static readonly string[] PadAxisNames = { "左スティック横", "左スティック縦", "右スティック横", "右スティック縦", "LT", "RT" };
+    // スティックの名前は言語で変わるので Loc から（Axis_0 〜 Axis_3）。トリガーは LT/RT のまま
+    private static string PadAxisName(int code) => code switch
+    {
+        4 => "LT",
+        5 => "RT",
+        >= 0 and < 4 => Services.Loc.T("Axis_" + code),
+        _ => "#" + code
+    };
 
     public static string Describe(InputBinding b)
     {
@@ -396,13 +403,12 @@ public sealed unsafe class InputManager : IDisposable
             case "Button":
                 return "🎮 " + (b.Code >= 0 && b.Code < PadButtonNames.Length ? PadButtonNames[b.Code] : "#" + b.Code);
             case "Axis":
-                if (b.Code is 4 or 5) return "🎮 " + PadAxisNames[b.Code];
-                var axis = b.Code >= 0 && b.Code < PadAxisNames.Length ? PadAxisNames[b.Code] : "#" + b.Code;
-                return "🎮 " + axis + (b.Dir >= 0 ? "+" : "−");
+                if (b.Code is 4 or 5) return "🎮 " + PadAxisName(b.Code);
+                return "🎮 " + PadAxisName(b.Code) + (b.Dir >= 0 ? "+" : "−");
             case "JoyButton":
                 return "🕹 " + (b.Code + 1);
             case "JoyAxis":
-                return "🕹 軸" + (b.Code + 1) + (b.Dir >= 0 ? "+" : "−");
+                return "🕹 " + Services.Loc.F("JoyAxis", b.Code + 1) + (b.Dir >= 0 ? "+" : "−");
             case "JoyHat":
                 return "🕹 " + b.Dir switch { 1 => "↑", 2 => "→", 4 => "↓", 8 => "←", _ => "?" };
         }
@@ -422,12 +428,12 @@ public sealed unsafe class InputManager : IDisposable
                 System.Windows.Input.Key.Down => "↓",
                 System.Windows.Input.Key.Left => "←",
                 System.Windows.Input.Key.Right => "→",
-                System.Windows.Input.Key.LeftShift => "左Shift",
-                System.Windows.Input.Key.RightShift => "右Shift",
-                System.Windows.Input.Key.LeftCtrl => "左Ctrl",
-                System.Windows.Input.Key.RightCtrl => "右Ctrl",
+                System.Windows.Input.Key.LeftShift => Services.Loc.F("KeyLeft", "Shift"),
+                System.Windows.Input.Key.RightShift => Services.Loc.F("KeyRight", "Shift"),
+                System.Windows.Input.Key.LeftCtrl => Services.Loc.F("KeyLeft", "Ctrl"),
+                System.Windows.Input.Key.RightCtrl => Services.Loc.F("KeyRight", "Ctrl"),
                 System.Windows.Input.Key.LeftAlt or System.Windows.Input.Key.System => "Alt",
-                System.Windows.Input.Key.RightAlt => "右Alt",
+                System.Windows.Input.Key.RightAlt => Services.Loc.F("KeyRight", "Alt"),
                 _ => key == System.Windows.Input.Key.None ? "VK" + vk : key.ToString()
             };
         }

@@ -95,7 +95,7 @@ public partial class CoreDownloadWindow : Window
             };
             var systems = new TextBlock
             {
-                Text = string.Join("、", CoreCatalog.SystemsUsing(core.Name)),
+                Text = string.Join(Loc.T("ListSeparator"), CoreCatalog.SystemsUsing(core.Name).Select(CoreCatalog.SystemDisplayName)),
                 Foreground = muted,
                 FontSize = 12.5,
                 TextWrapping = TextWrapping.Wrap,
