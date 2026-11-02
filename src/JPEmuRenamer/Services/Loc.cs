@@ -46,8 +46,8 @@ public sealed class Loc : INotifyPropertyChanged
 
     private static readonly Dictionary<string, string> Ja = new()
     {
-        ["Play"] = "遊ぶ（リスト）",
-        ["Manage"] = "整理（管理表）",
+        ["Play"] = "プレイ",
+        ["Manage"] = "リネーム",
         ["Search"] = "タイトル・ファイル名で検索",
         ["AddSystem"] = "＋ 機種を追加",
         ["Systems"] = "機種",
@@ -137,8 +137,8 @@ public sealed class Loc : INotifyPropertyChanged
 
     private static readonly Dictionary<string, string> En = new()
     {
-        ["Play"] = "Play (List)",
-        ["Manage"] = "Organize (Table)",
+        ["Play"] = "Play",
+        ["Manage"] = "Rename",
         ["Search"] = "Search titles or file names",
         ["AddSystem"] = "+ Add system",
         ["Systems"] = "Systems",

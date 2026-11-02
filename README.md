@@ -19,7 +19,7 @@ A Windows emulator launcher that manages, renames (by CRC32 against OfflineList 
 1. [Releases](../../releases) または Actions の成果物から `JPEmuRenamer-win-x64.zip` をダウンロードして展開
 2. `JPEmuRenamer.exe` を起動（インストール不要）
 3. 「機種の設定」でDATファイル（OfflineList形式）とROMフォルダを指定
-4. 「整理（管理表）」で照合結果を確認し、「リネームを実行」
+4. 「リネーム」タブで照合結果を確認し、「リネームを実行」
 
 設定は `%APPDATA%\JPEmuRenamer` に保存されます。exeと同じフォルダに空の `portable.txt` を置くと、そのフォルダの `data\` に保存します（ポータブル運用）。
 
