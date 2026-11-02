@@ -32,8 +32,26 @@ public class AppSettings
     public string BiosDir { get; set; } = "";
     /// <summary>内蔵コアのプレイ設定（全体）</summary>
     public PlaySettings Play { get; set; } = new();
+    /// <summary>自動プレビュー</summary>
+    public PreviewSettings Preview { get; set; } = new();
 
     public List<SystemConfig> Systems { get; set; } = new();
+}
+
+/// <summary>自動プレビューの設定</summary>
+public class PreviewSettings
+{
+    public bool Enabled { get; set; } = true;
+    /// <summary>選んでから再生を始めるまでの待ち（ミリ秒）</summary>
+    public int DelayMs { get; set; } = 300;
+    /// <summary>再生速度（倍）</summary>
+    public int Speed { get; set; } = 4;
+    /// <summary>起動から表示せずに進める秒数（メーカーロゴなどを飛ばす）</summary>
+    public int SkipSeconds { get; set; } = 10;
+    /// <summary>冒頭から繰り返すまでの秒数</summary>
+    public int LoopSeconds { get; set; } = 60;
+    /// <summary>スクショの一括作成で、何秒の時点の画面を保存するか</summary>
+    public int SnapshotSeconds { get; set; } = 30;
 }
 
 /// <summary>機種ごとの設定</summary>

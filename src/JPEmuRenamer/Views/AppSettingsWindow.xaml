@@ -44,6 +44,11 @@
         <CheckBox x:Name="HideExtCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
                   Content="{Binding [HideExtensions], Source={x:Static s:Loc.Instance}}" />
 
+        <TextBlock Style="{StaticResource Label}" Margin="0,22,0,6" Text="{Binding [PreviewSection], Source={x:Static s:Loc.Instance}}" />
+        <CheckBox x:Name="PreviewCheck" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
+                  Content="{Binding [PreviewEnabled], Source={x:Static s:Loc.Instance}}" />
+        <StackPanel x:Name="PreviewOptionsPanel" Margin="0,6,0,0" />
+
         <WrapPanel Margin="0,22,0,0">
             <Button Margin="0,0,10,6" Click="OnPlaySettings"
                     Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />

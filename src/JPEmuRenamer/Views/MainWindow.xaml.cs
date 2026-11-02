@@ -5,6 +5,7 @@ using System.Windows.Input;
 using JPEmuRenamer.Emulation;
 using JPEmuRenamer.Models;
 using JPEmuRenamer.Services;
+using JPEmuRenamer.Ui;
 using JPEmuRenamer.ViewModels;
 
 namespace JPEmuRenamer.Views;
@@ -21,16 +22,56 @@ public partial class MainWindow : Window
 
         vm.Confirm = msg => MessageBox.Show(this, msg, "JPEmu Renamer", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes;
         vm.Info = msg => MessageBox.Show(this, msg, "JPEmu Renamer", MessageBoxButton.OK, MessageBoxImage.Information);
-        vm.EditSystemDialog = EditSystem;
-        vm.OpenAppSettingsDialog = () => new AppSettingsWindow(vm) { Owner = this }.ShowDialog();
+        vm.EditSystemDialog = config => WithoutPreview(() => EditSystem(config));
+        vm.OpenAppSettingsDialog = () => WithoutPreview(() =>
+        {
+            new AppSettingsWindow(vm) { Owner = this }.ShowDialog();
+            return true;
+        });
         vm.OpenPlayWindow = OpenPlayWindow;
-        vm.OpenPlaySettingsDialog = (ctx, scope) => new PlaySettingsWindow(ctx, scope) { Owner = this }.ShowDialog();
+        vm.OpenPlaySettingsDialog = (ctx, scope) => WithoutPreview(() => new PlaySettingsWindow(ctx, scope) { Owner = this }.ShowDialog());
+        vm.OpenSnapshotBatch = (sys, items) => WithoutPreview(() =>
+            new SnapshotBatchWindow(vm.Settings, sys, items, vm.Save) { Owner = this }.ShowDialog());
+
+        preview = new PreviewController(PreviewImage, PreviewText, PreviewSaveButton, () => vm.Settings, vm.Save);
+        vm.PropertyChanged += (_, e) =>
+        {
+            if (e.PropertyName is nameof(MainViewModel.SelectedItem) or nameof(MainViewModel.SelectedSystem) or nameof(MainViewModel.IsManageMode))
+                preview.Select(vm.SelectedSystem?.Config, vm.SelectedItem, !vm.IsManageMode);
+        };
+        Activated += (_, _) => preview.SetActive(true);
+        Deactivated += (_, _) => preview.SetActive(false);
 
         RestoreWindowPlacement(vm.Settings);
     }
 
     private PlayWindow? playWindow;
     private HelpWindow? helpWindow;
+    private readonly PreviewController preview;
+
+    /// <summary>
+    /// 自動プレビューを止めてから処理する（同時に動かせるコアは1つで、コアの更新中はファイルも使えないため）
+    /// </summary>
+    private T WithoutPreview<T>(Func<T> action)
+    {
+        preview.Suspend();
+        try { return action(); }
+        finally { preview.Resume(); }
+    }
+
+    private void WithoutPreview(Action action) => WithoutPreview(() => { action(); return true; });
+
+    private void OnPreviewSave(object sender, RoutedEventArgs e)
+    {
+        try
+        {
+            if (preview.SaveCurrentFrame()) vm.StatusText = Loc.T("PreviewSaved");
+        }
+        catch (Exception ex)
+        {
+            vm.Info?.Invoke(ex.Message);
+        }
+    }
 
     /// <summary>マニュアルを開く。いま開いているタブ（プレイ／リネーム）に合わせた内容を表示する</summary>
     private void OnHelp(object sender, RoutedEventArgs e) => ShowHelp();
@@ -69,10 +110,13 @@ public partial class MainWindow : Window
             playWindow.Activate();
             return false;
         }
+        // プレビューのコアを止めてから遊ぶ（同時に動かせるコアは1つ）
+        preview.Suspend();
         playWindow = new PlayWindow(context, request);
         playWindow.Closed += (_, _) =>
         {
             playWindow = null;
+            preview.Resume();
             Activate();
         };
         playWindow.Show();
@@ -144,6 +188,7 @@ public partial class MainWindow : Window
 
     private void OnClosing(object? sender, CancelEventArgs e)
     {
+        preview.Shutdown();
         playWindow?.Close();
         var s = vm.Settings;
         var bounds = WindowState == WindowState.Normal ? new Rect(Left, Top, Width, Height) : RestoreBounds;

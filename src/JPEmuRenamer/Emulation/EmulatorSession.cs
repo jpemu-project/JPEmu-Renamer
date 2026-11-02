@@ -17,7 +17,16 @@ public record SessionRequest(
     string GameKey,
     string Title,
     PlaySettings Settings,
-    string BiosDir);
+    string BiosDir,
+    PreviewOptions? Preview = null);
+
+/// <summary>
+/// 自動プレビュー（とスクショの一括作成）で動かすときの指定。音・入力・セーブは使わない。
+/// </summary>
+/// <param name="Speed">再生速度（倍）。0 は待たずに最速で動かす（一括作成用）</param>
+/// <param name="SkipSeconds">起動から表示せずに進める秒数（メーカーロゴなどを飛ばす）</param>
+/// <param name="LoopSeconds">表示を始めてから冒頭に戻すまでの秒数（0 なら戻さない）</param>
+public record PreviewOptions(double Speed, double SkipSeconds, double LoopSeconds);
 
 /// <summary>
 /// 内蔵コアでゲームを動かす。専用スレッドでコアを毎フレーム実行し、映像・音声・入力・セーブを受け持つ。
@@ -53,6 +62,20 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     private readonly short[,] analog = new short[4, 4];
     private readonly Dictionary<string, bool> hotkeyPrev = new();
     private long frameCount;
+
+    // プレビュー：冒頭を飛ばしている間は映像を渡さない。画面が変化しているかも見る
+    private volatile bool publishFrames = true;
+    private int lastSignature;
+    private readonly Stopwatch sinceChange = Stopwatch.StartNew();
+
+    /// <summary>実行したフレーム数</summary>
+    public long FrameCount => Interlocked.Read(ref frameCount);
+
+    /// <summary>映像を表示し始めたか（プレビューで冒頭を飛ばし終えたか）</summary>
+    public bool Publishing => publishFrames;
+
+    /// <summary>画面が最後に変化してからの秒数（タイトル画面で止まっているかの判定に使う）</summary>
+    public double SecondsSinceChange => sinceChange.Elapsed.TotalSeconds;
 
     // セーブ
     private byte[]? lastSram;
@@ -117,6 +140,9 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         SaveDir = settings.SaveNextToRom == true
             ? System.IO.Path.GetDirectoryName(req.RomPath) ?? Storage.DefaultSaveDir
             : Apply(settings.SaveDir, Storage.DefaultSaveDir);
+        // プレビューでは本物のセーブに触れないよう、コアが書き込むセーブも一時フォルダに向ける
+        if (req.Preview != null)
+            SaveDir = System.IO.Path.Combine(System.IO.Path.GetTempPath(), "JPEmuRenamer", "preview-saves");
         StateDir = Apply(settings.StateDir, Storage.DefaultStateDir);
         ScreenshotDir = Apply(settings.ScreenshotDir, Storage.DefaultScreenshotDir);
     }
@@ -135,7 +161,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     {
         CleanupStaleTemp();
         running = true;
-        input.Acquire();
+        if (req.Preview == null) input.Acquire();
         thread = new Thread(ThreadMain) { IsBackground = true, Name = "Emulation", Priority = ThreadPriority.AboveNormal };
         thread.SetApartmentState(ApartmentState.STA);
         thread.Start();
@@ -175,7 +201,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         {
             Unload();
             timeEndPeriod(1);
-            input.Release();
+            if (req.Preview == null) input.Release();
             Stopped?.Invoke();
         }
     }
@@ -245,8 +271,11 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
                 ((delegate* unmanaged[Cdecl]<void>)hwCallback.ContextReset)();
         }
 
-        LoadSram();
-        CreateAudio();
+        if (req.Preview == null)
+        {
+            LoadSram();
+            CreateAudio();
+        }
         ApplyRuntimeSettings();
         return true;
     }
@@ -293,7 +322,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         {
             if (core != null)
             {
-                SaveSram(force: true);
+                if (req.Preview == null) SaveSram(force: true);
                 if (useHw && hwCallback.ContextDestroy != IntPtr.Zero)
                     ((delegate* unmanaged[Cdecl]<void>)hwCallback.ContextDestroy)();
             }
@@ -305,7 +334,8 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         gl = null;
         audio?.Dispose();
         audio = null;
-        for (int i = 0; i < 4; i++) input.Rumble(i, 0, 0, 0);
+        if (req.Preview == null)
+            for (int i = 0; i < 4; i++) input.Rumble(i, 0, 0, 0);
         if (tempDir != null)
         {
             try { Directory.Delete(tempDir, true); } catch { }
@@ -342,6 +372,11 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
 
     private void RunLoop()
     {
+        if (req.Preview != null)
+        {
+            RunPreviewLoop(req.Preview);
+            return;
+        }
         var sw = Stopwatch.StartNew();
         double next = sw.Elapsed.TotalSeconds;
         sramTimer.Restart();
@@ -402,9 +437,53 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         }
     }
 
-    private void WaitFrame(Stopwatch sw, ref double next)
+    /// <summary>
+    /// 自動プレビュー：冒頭を表示せずに最速で進め、その時点を覚えておき、指定の速さで流して一定時間ごとにそこへ戻す
+    /// </summary>
+    private void RunPreviewLoop(PreviewOptions p)
     {
-        next += 1.0 / Fps;
+        var sw = Stopwatch.StartNew();
+        long skipFrames = (long)(Math.Max(0, p.SkipSeconds) * Fps);
+        byte[]? loopState = null;
+        double loopStart = 0, next = 0;
+        publishFrames = skipFrames == 0;
+
+        while (running)
+        {
+            while (commands.TryDequeue(out var cmd))
+            {
+                try { cmd(); }
+                catch (Exception ex) { Debug.WriteLine(ex); }
+            }
+
+            core!.Run();
+            frameCount++;
+
+            if (frameCount < skipFrames) continue;
+            if (!publishFrames)
+            {
+                // ここから表示する。戻り先として今の状態を覚える
+                publishFrames = true;
+                if (p.LoopSeconds > 0) loopState = core.SaveState();
+                loopStart = next = sw.Elapsed.TotalSeconds;
+                continue;
+            }
+
+            if (loopState != null && sw.Elapsed.TotalSeconds - loopStart > p.LoopSeconds)
+            {
+                core.LoadState(loopState);
+                loopStart = sw.Elapsed.TotalSeconds;
+            }
+
+            if (p.Speed > 0) WaitFrame(sw, ref next, Fps * p.Speed);
+        }
+    }
+
+    private void WaitFrame(Stopwatch sw, ref double next) => WaitFrame(sw, ref next, Fps);
+
+    private void WaitFrame(Stopwatch sw, ref double next, double fps)
+    {
+        next += 1.0 / fps;
         double now = sw.Elapsed.TotalSeconds;
         if (next < now - 0.1) next = now; // 大きく遅れたら追いつこうとしない
         while (true)
@@ -608,6 +687,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     public void OnVideo(IntPtr data, uint width, uint height, nuint pitch)
     {
         if (data == IntPtr.Zero || width == 0 || height == 0) return; // 前のフレームをそのまま使う
+        if (!publishFrames) return; // プレビューで冒頭を飛ばしている間は変換もしない
         int w = (int)width, h = (int)height;
         if (backBuffer.Length < w * h) backBuffer = new int[w * h];
 
@@ -666,6 +746,19 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
             frontH = h;
             frameSerial++;
         }
+
+        // ときどき画面の一部を見て、変化したかを記録する
+        if (frameSerial % 10 == 0)
+        {
+            int sig = 17;
+            var buf = frontBuffer;
+            for (int i = 0; i < w * h; i += 61) sig = sig * 31 + buf[i];
+            if (sig != lastSignature)
+            {
+                lastSignature = sig;
+                sinceChange.Restart();
+            }
+        }
     }
 
     public void OnGeometry(RetroGameGeometry geometry) => ApplyGeometry(geometry);
@@ -698,7 +791,8 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     public void OnInputPoll()
     {
         var profile = settings.Input;
-        if (profile == null) return;
+        // プレビューでは何も押さない（タイトル画面のデモを見せる）
+        if (profile == null || req.Preview != null) return;
         int turboRate = Math.Max(1, settings.TurboRate ?? 3);
         bool turboOn = frameCount / turboRate % 2 == 0;
         for (int p = 0; p < 4; p++)

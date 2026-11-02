@@ -134,6 +134,26 @@ A/B などの名前は、スーパーファミコンのボタン配置（右がA
 
 各タブの「このタブを初期設定に戻す」で、いま選んでいる層のそのタブの設定を元に戻せます。
 
+# 自動プレビュー
+「プレイ」タブでタイトルを選んで少し止まると、右上でそのゲームの映像が自動で流れます。内蔵コアを音・入力なしで動かし、タイトル画面のあとに始まるデモを見せます。プレビューには、その機種の内蔵コアがダウンロードされている必要があります。
+
+| 項目 | 既定値 |
+| 再生を始めるまで | 選んで0.3秒止まったら（カーソルを連打している間は始めません） |
+| 再生速度 | 4倍速 |
+| 冒頭を飛ばす長さ | 起動から10秒（メーカーロゴなどを飛ばします） |
+| 冒頭から繰り返すまで | 60秒 |
+| 音・入力 | なし（セーブデータにも触れません） |
+
+これらはアプリの「設定」→「自動プレビュー」で変えられます。オフにすることもできます。
+
+## スナップショット
+- プレビュー中に右下の「この画面を保存」を押すと、その瞬間をスナップショットとして保存します
+- タイトルの右クリック →「この機種のスクショを一括作成…」で、機種内の全ROMを裏で順に起動し、指定の時点（既定は30秒）の画面をまとめて保存します。スクショがあるタイトルは飛ばせます
+- スナップショットは、プレビューが始まるまでの間と、画面がしばらく動かないゲーム（デモが流れないゲーム）で表示されます
+- 保存先は設定フォルダの `snapshots\機種名\タイトル名.png` です
+
+> プレビューやスクショの一括作成の最中にゲームを起動すると、先にプレビューを止めてから起動します。
+
 # 内蔵コアの一括ダウンロード・更新
 アプリの「設定」→「内蔵コアの一括ダウンロード・更新…」で開きます。
 
@@ -152,6 +172,7 @@ A/B などの名前は、スーパーファミコンのボタン配置（右がA
 | パッドが反応しない | 「プレイ設定」の上に、認識したパッドが表示されます。表示されないときは接続し直してください。1台目のパッドがプレイヤー1です |
 | 全画面の解像度が戻らない | ゲームを終了するか、`Esc` でウィンドウに戻すと元の解像度に戻ります |
 | ゲームの最初のボタン入力が効かない | 起動直後の数秒間は入力を受け付けないゲームがあります。少し待ってから押してください |
+| 自動プレビューが流れない | その機種の内蔵コアがダウンロードされているか、「設定」で自動プレビューがオンになっているか確認してください。アプリが裏に回っている間は止まります |
 """;
 
     private const string RenameJa = """
@@ -355,6 +376,26 @@ Settings stack in the order "All → System → Game". Choose the level to edit 
 
 "Reset this tab" restores that tab for the selected level.
 
+# Auto preview
+On the "Play" tab, select a title and pause for a moment: footage of the game plays at the top right. The built-in core runs without sound or input and shows the demo that starts after the title screen. The system's built-in core must be installed.
+
+| Item | Default |
+| Start | After the selection rests for 0.3 seconds (not while scrolling quickly) |
+| Speed | 4x |
+| Skip at the start | The first 10 seconds (logos and so on) |
+| Restart after | 60 seconds |
+| Sound / input | None (save data is not touched) |
+
+Change these, or turn the preview off, in "Settings" → "Auto preview".
+
+## Snapshots
+- During a preview, "Save this screen" at the bottom right saves that moment as a snapshot
+- Right-click a title → "Create snapshots for this system…" starts every ROM of the system in the background and saves the screen at a set time (30 seconds by default). Titles that already have a snapshot can be skipped
+- Snapshots are shown until the preview starts and for games whose screen does not move
+- They are saved as `snapshots\<system>\<title>.png` in the settings folder
+
+> Launching a game during a preview or bulk snapshot stops the preview first.
+
 # Downloading and updating cores
 Open "Settings" → "Download / update built-in cores…".
 
@@ -373,6 +414,7 @@ Open "Settings" → "Download / update built-in cores…".
 | Pad does not respond | Detected pads are listed at the top of "Play settings". Reconnect if missing. The first pad is player 1 |
 | Resolution stays changed | Quit the game or press `Esc` to return to a window |
 | The first button press is ignored | Some games ignore input for a few seconds after starting. Wait a moment |
+| No auto preview | Check that the system's built-in core is installed and auto preview is on in "Settings". It pauses while the app is in the background |
 """;
 
     private const string RenameEn = """

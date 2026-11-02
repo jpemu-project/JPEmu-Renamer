@@ -113,6 +113,8 @@
             <MenuItem Header="{Binding [MenuGameSettings], Source={x:Static s:Loc.Instance}}" Command="{Binding OpenPlaySettingsCommand}" CommandParameter="Game" />
             <MenuItem Header="{Binding [MenuSystemSettings], Source={x:Static s:Loc.Instance}}" Command="{Binding OpenPlaySettingsCommand}" CommandParameter="System" />
             <Separator />
+            <MenuItem Header="{Binding [MenuSnapshotBatch], Source={x:Static s:Loc.Instance}}" Command="{Binding CreateSnapshotsCommand}" />
+            <Separator />
             <MenuItem Header="{Binding [OpenFolder], Source={x:Static s:Loc.Instance}}" Command="{Binding OpenFolderCommand}" />
         </ContextMenu>
     </Window.Resources>
@@ -356,9 +358,15 @@
                 <Grid>
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
-                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="12" Background="#1B2A4A" BorderBrush="{StaticResource LineBrush}" BorderThickness="1">
-                            <TextBlock Text="{Binding [PreviewSoon], Source={x:Static s:Loc.Instance}}" Foreground="{StaticResource SubBrush}"
-                                       TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="12" Background="#0B0D11" BorderBrush="{StaticResource LineBrush}" BorderThickness="1">
+                            <Grid ClipToBounds="True">
+                                <TextBlock x:Name="PreviewText" Foreground="{StaticResource MutedBrush}" FontSize="13" Margin="16"
+                                           TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
+                                <Image x:Name="PreviewImage" Stretch="Uniform" Margin="2" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                                <Button x:Name="PreviewSaveButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8"
+                                        Padding="10,3" MinHeight="28" FontSize="12" Background="#C0101318" Visibility="Collapsed"
+                                        Content="{Binding [PreviewSave], Source={x:Static s:Loc.Instance}}" Click="OnPreviewSave" />
+                            </Grid>
                         </Border>
                         <StackPanel DockPanel.Dock="Bottom">
                             <Button Style="{StaticResource AccentButton}" Command="{Binding LaunchCommand}" Content="{Binding LaunchButtonText}"

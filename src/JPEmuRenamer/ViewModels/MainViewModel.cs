@@ -23,6 +23,7 @@ public partial class MainViewModel : ObservableObject
     /// <summary>内蔵コアのプレイ画面を開く（既に開いていれば false）</summary>
     public Func<PlayContext, SessionRequest, bool>? OpenPlayWindow { get; set; }
     public Action<PlayContext, string>? OpenPlaySettingsDialog { get; set; }
+    public Action<SystemConfig, List<GameItem>>? OpenSnapshotBatch { get; set; }
 
     public MainViewModel(AppSettings settings)
     {
@@ -358,6 +359,15 @@ public partial class MainViewModel : ObservableObject
         var key = item?.Rom != null ? item.Rom.Crc.ToString("X8") : null;
         var context = new PlayContext(settings, scope == "Global" && sys == null ? null : sys, key, key != null ? item!.Title : null, Save);
         OpenPlaySettingsDialog?.Invoke(context, key != null ? "Game" : scope == "Global" ? "Global" : "System");
+    }
+
+    /// <summary>この機種の所有ROMのスナップショットを一括作成する</summary>
+    [RelayCommand]
+    private void CreateSnapshots()
+    {
+        var sys = SelectedSystem?.Config;
+        if (sys == null) return;
+        OpenSnapshotBatch?.Invoke(sys, Items.Where(i => i.Rom != null).ToList());
     }
 
     [RelayCommand]
