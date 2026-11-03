@@ -77,6 +77,10 @@ public partial class AppSettingsWindow : Window
             vm.ApplyLanguage((string)item.Tag);
     }
 
+    private void OnResetScale(object sender, RoutedEventArgs e) => vm.UiScale = new AppSettings().UiScale;
+
+    private void OnResetFontSize(object sender, RoutedEventArgs e) => vm.FontSize = new AppSettings().FontSize;
+
     private void OnThemeChanged(object sender, RoutedEventArgs e)
     {
         if (loading) return;

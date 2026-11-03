@@ -30,20 +30,28 @@
             </StackPanel>
         </Border>
 
-        <TextBlock Style="{StaticResource Label}">
-            <Run Text="{Binding [UiScale], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
-            <Run Text="：" />
-            <Run Text="{Binding UiScale, StringFormat={}{0:P0}, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
-        </TextBlock>
+        <DockPanel>
+            <Button DockPanel.Dock="Right" VerticalAlignment="Bottom" Margin="0,0,0,2" Padding="10,2" MinHeight="26" FontSize="12" Click="OnResetScale"
+                    Content="{Binding [ResetToDefault], Source={x:Static s:Loc.Instance}}" />
+            <TextBlock Style="{StaticResource Label}">
+                <Run Text="{Binding [UiScale], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
+                <Run Text="：" />
+                <Run Text="{Binding UiScale, StringFormat={}{0:P0}, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
+            </TextBlock>
+        </DockPanel>
         <Slider Minimum="0.75" Maximum="2" TickFrequency="0.05" IsSnapToTickEnabled="True"
                 Value="{Binding UiScale, Mode=TwoWay}" />
         <TextBlock Text="{Binding [ScaleHint], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}" FontSize="12" Margin="0,4,0,0" />
 
-        <TextBlock Style="{StaticResource Label}">
-            <Run Text="{Binding [FontSizeLabel], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
-            <Run Text="：" />
-            <Run Text="{Binding FontSize, StringFormat={}{0:0}px, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
-        </TextBlock>
+        <DockPanel>
+            <Button DockPanel.Dock="Right" VerticalAlignment="Bottom" Margin="0,0,0,2" Padding="10,2" MinHeight="26" FontSize="12" Click="OnResetFontSize"
+                    Content="{Binding [ResetToDefault], Source={x:Static s:Loc.Instance}}" />
+            <TextBlock Style="{StaticResource Label}">
+                <Run Text="{Binding [FontSizeLabel], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
+                <Run Text="：" />
+                <Run Text="{Binding FontSize, StringFormat={}{0:0}px, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
+            </TextBlock>
+        </DockPanel>
         <Slider Minimum="11" Maximum="28" TickFrequency="1" IsSnapToTickEnabled="True"
                 Value="{Binding FontSize, Mode=TwoWay}" />
 

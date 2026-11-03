@@ -18,7 +18,7 @@
                     <ControlTemplate TargetType="ListBoxItem">
                         <Grid>
                             <Border x:Name="Bd" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}"
-                                    BorderThickness="0,0,0,1" Padding="14,8">
+                                    BorderThickness="0,0,0,1" Padding="14,5">
                                 <ContentPresenter />
                             </Border>
                             <Rectangle x:Name="Mark" Width="4" HorizontalAlignment="Left" Fill="{DynamicResource AccentBrush}" Visibility="Collapsed" />
@@ -228,22 +228,20 @@
             </Border>
 
             <!-- タイトル一覧／管理表 -->
-            <Grid Grid.Column="1" Margin="20,16">
+            <Grid Grid.Column="1" Margin="14,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <Grid Margin="0,0,0,12">
+                <!-- 機種名と本数は左の機種一覧に出ているので、ここは絞り込みと機種の設定だけ -->
+                <Grid Margin="0,0,0,8">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="{Binding SelectedSystem.Name}" FontSize="24" FontWeight="SemiBold" VerticalAlignment="Center" />
-                    <TextBlock Grid.Column="1" Text="{Binding CountText}" Style="{StaticResource Muted}" Margin="14,4,0,0" FontSize="13" />
-                    <Border Grid.Column="2" Style="{StaticResource SegGroup}" Margin="8,0">
+                    <Border Grid.Column="1" Style="{StaticResource SegGroup}" Margin="8,0">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
                                          IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=Owned}"
@@ -256,7 +254,7 @@
                                          Content="{Binding [FilterMissing], Source={x:Static s:Loc.Instance}}" />
                         </StackPanel>
                     </Border>
-                    <Button Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,6" />
+                    <Button Grid.Column="2" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
                 </Grid>
 
                 <!-- 未設定のとき -->
@@ -289,7 +287,7 @@
                     <Border Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}"
                             BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
                         <DockPanel>
-                            <Border DockPanel.Dock="Top" Background="{DynamicResource HeaderRowBrush}" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,7">
+                            <Border DockPanel.Dock="Top" Background="{DynamicResource HeaderRowBrush}" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,5">
                                 <Grid TextElement.Foreground="{DynamicResource MutedBrush}" TextElement.FontSize="12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22" />
