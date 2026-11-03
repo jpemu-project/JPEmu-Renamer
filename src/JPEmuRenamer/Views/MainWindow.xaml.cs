@@ -148,6 +148,54 @@ public partial class MainWindow : Window
         e.Handled = true;
     }
 
+    // ---------- 機種一覧のドラッグ＆ドロップ ----------
+
+    private Point systemDragStart;
+    private SystemItem? systemDragItem;
+
+    private void OnSystemMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        systemDragStart = e.GetPosition(SystemList);
+        systemDragItem = SystemAt(e.OriginalSource);
+    }
+
+    private void OnSystemMouseMove(object sender, MouseEventArgs e)
+    {
+        if (e.LeftButton != MouseButtonState.Pressed || systemDragItem == null) return;
+        var d = e.GetPosition(SystemList) - systemDragStart;
+        if (Math.Abs(d.X) < SystemParameters.MinimumHorizontalDragDistance &&
+            Math.Abs(d.Y) < SystemParameters.MinimumVerticalDragDistance) return;
+        var item = systemDragItem;
+        systemDragItem = null;
+        DragDrop.DoDragDrop(SystemList, item, DragDropEffects.Move);
+        // 一覧の外で離しても、動かした並びのまま保存する
+        vm.SaveSystemOrder();
+    }
+
+    /// <summary>ドラッグ中は、重ねた機種の位置へその場で動かして見せる</summary>
+    private void OnSystemDragOver(object sender, DragEventArgs e)
+    {
+        e.Effects = DragDropEffects.None;
+        if (e.Data.GetData(typeof(SystemItem)) is not SystemItem dragged) return;
+        e.Effects = DragDropEffects.Move;
+        e.Handled = true;
+        var target = SystemAt(e.OriginalSource);
+        if (target == null || target == dragged) return;
+        var selected = vm.SelectedSystem;
+        vm.MoveSystem(dragged, vm.Systems.IndexOf(target));
+        if (vm.SelectedSystem != selected) vm.SelectedSystem = selected;
+    }
+
+    private void OnSystemDrop(object sender, DragEventArgs e) => e.Handled = true;
+
+    private static SystemItem? SystemAt(object source)
+    {
+        for (var o = source as DependencyObject; o != null;
+             o = o is System.Windows.Media.Visual ? System.Windows.Media.VisualTreeHelper.GetParent(o) : LogicalTreeHelper.GetParent(o))
+            if (o is System.Windows.Controls.ListBoxItem li) return li.DataContext as SystemItem;
+        return null;
+    }
+
     private void OnGameDoubleClick(object sender, MouseButtonEventArgs e)
     {
         if (vm.SelectedItem != null) vm.LaunchCommand.Execute(null);

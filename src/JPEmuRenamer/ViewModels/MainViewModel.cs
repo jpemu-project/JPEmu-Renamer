@@ -455,6 +455,22 @@ public partial class MainViewModel : ObservableObject
         SelectedSystem = item;
     }
 
+    /// <summary>機種の並び順を変える（ドラッグ＆ドロップ）。保存は SaveSystemOrder でまとめて行う</summary>
+    public void MoveSystem(SystemItem item, int newIndex)
+    {
+        int oldIndex = Systems.IndexOf(item);
+        if (oldIndex < 0 || newIndex < 0 || newIndex >= Systems.Count || oldIndex == newIndex) return;
+        Systems.Move(oldIndex, newIndex);
+    }
+
+    /// <summary>画面の並び順を設定に書き戻して保存する</summary>
+    public void SaveSystemOrder()
+    {
+        var order = Systems.Select(s => s.Config.Id).ToList();
+        settings.Systems.Sort((a, b) => order.IndexOf(a.Id).CompareTo(order.IndexOf(b.Id)));
+        Save();
+    }
+
     [RelayCommand]
     private void EditSystem()
     {

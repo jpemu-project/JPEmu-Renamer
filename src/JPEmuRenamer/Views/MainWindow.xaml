@@ -196,7 +196,10 @@
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" Text="{Binding [Systems], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" Margin="10,0,0,8" />
                     <Button DockPanel.Dock="Bottom" Command="{Binding AddSystemCommand}" Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" Margin="0,8,0,0" />
-                    <ListBox ItemsSource="{Binding Systems}" SelectedItem="{Binding SelectedSystem}" ItemContainerStyle="{StaticResource SystemRow}"
+                    <!-- ドラッグ＆ドロップで並べ替えられる -->
+                    <ListBox x:Name="SystemList" ItemsSource="{Binding Systems}" SelectedItem="{Binding SelectedSystem}" ItemContainerStyle="{StaticResource SystemRow}"
+                             AllowDrop="True" PreviewMouseLeftButtonDown="OnSystemMouseDown" PreviewMouseMove="OnSystemMouseMove"
+                             DragOver="OnSystemDragOver" Drop="OnSystemDrop"
                              Background="Transparent" BorderThickness="0" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
