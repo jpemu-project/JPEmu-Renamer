@@ -11,8 +11,8 @@ namespace JPEmuRenamer.Views;
 /// <summary>マニュアル。「ゲームの遊び方」と「リネーム」を切り替え、左の目次から各項目へ移動できる</summary>
 public partial class HelpWindow : Window
 {
-    /// <summary>「開発支援」で開く寄付ページ。空のあいだはボタンを押せない</summary>
-    private const string SupportUrl = "";
+    /// <summary>「開発支援」で開く寄付ページ（GitHub Sponsors）。空にするとボタンを押せなくなる</summary>
+    private const string SupportUrl = "https://github.com/sponsors/jpemu-project";
 
     public HelpWindow(string tab = "Play")
     {
