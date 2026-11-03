@@ -164,12 +164,18 @@
                     </StackPanel>
                 </Border>
 
+                <!-- 検索欄は長くなりすぎないよう幅に上限をつけ、左に寄せる -->
                 <Grid Grid.Column="2" Margin="16,0" VerticalAlignment="Center">
+                    <!-- 左の列だけに置き、最大 420 まで。ウィンドウが狭いときは縮む -->
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="100*" MaxWidth="420" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
                     <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="34,5,8,5" />
                     <Path Data="M6,1 A5,5 0 1 1 5.99,1 M10,10 L14,14" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.6"
                           Width="16" Height="16" HorizontalAlignment="Left" Margin="12,0,0,0" IsHitTestVisible="False" />
                     <TextBlock Text="{Binding [Search], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
-                               Margin="36,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False">
+                               Margin="36,0,10,0" VerticalAlignment="Center" IsHitTestVisible="False" TextTrimming="CharacterEllipsis">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Collapsed" />
