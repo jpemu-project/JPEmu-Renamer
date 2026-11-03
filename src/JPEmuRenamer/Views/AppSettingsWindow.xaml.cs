@@ -13,6 +13,7 @@ public partial class AppSettingsWindow : Window
 {
     private readonly MainViewModel vm;
     private readonly bool loading;
+    private readonly Dictionary<RadioButton, string> themeRadios;
 
     public AppSettingsWindow(MainViewModel vm)
     {
@@ -27,18 +28,20 @@ public partial class AppSettingsWindow : Window
         foreach (ComboBoxItem item in LanguageBox.Items)
             if ((string)item.Tag == vm.Settings.Language) LanguageBox.SelectedItem = item;
         if (LanguageBox.SelectedItem == null) LanguageBox.SelectedIndex = 0;
-        (vm.Settings.Theme switch
+        themeRadios = new()
         {
-            ThemeManager.Dark => ThemeDarkRadio,
-            ThemeManager.Aqua => ThemeAquaRadio,
-            _ => ThemeLightRadio
-        }).IsChecked = true;
+            [ThemeLightRadio] = ThemeManager.Light, [ThemeDarkRadio] = ThemeManager.Dark, [ThemeAquaRadio] = ThemeManager.Aqua,
+            [ThemeMetalRadio] = ThemeManager.Metal, [ThemePinkRadio] = ThemeManager.Pink, [ThemeChicRadio] = ThemeManager.Chic
+        };
+        (themeRadios.FirstOrDefault(r => r.Value == vm.Settings.Theme).Key ?? ThemeLightRadio).IsChecked = true;
 
         InsideZipCheck.IsChecked = vm.Settings.RenameInsideZip;
         SubfolderCheck.IsChecked = vm.Settings.ScanSubfolders;
         HideExtCheck.IsChecked = vm.Settings.HideExtensions;
         PreviewCheck.IsChecked = vm.Settings.Preview.Enabled;
         var p = vm.Settings.Preview;
+        OwnShotFolderBox.Text = p.OwnShotFolder;
+        PreferOwnShotCheck.IsChecked = p.PreferOwnShot;
         AddSlider(Loc.T("PreviewSpeed"), 1, 8, p.Speed, "{0}x", v => p.Speed = v);
         AddSlider(Loc.T("PreviewSkip"), 0, 30, p.SkipSeconds, Loc.T("SecondsFmt"), v => p.SkipSeconds = v);
         AddSlider(Loc.T("PreviewLoop"), 10, 180, p.LoopSeconds, Loc.T("SecondsFmt"), v => p.LoopSeconds = v, 10);
@@ -89,9 +92,7 @@ public partial class AppSettingsWindow : Window
     private void OnThemeChanged(object sender, RoutedEventArgs e)
     {
         if (loading) return;
-        vm.Settings.Theme = ThemeDarkRadio.IsChecked == true ? ThemeManager.Dark
-            : ThemeAquaRadio.IsChecked == true ? ThemeManager.Aqua
-            : ThemeManager.Light;
+        vm.Settings.Theme = themeRadios.FirstOrDefault(r => r.Key.IsChecked == true).Value ?? ThemeManager.Light;
         ThemeManager.Apply(vm.Settings.Theme);
         vm.Save();
     }
@@ -105,10 +106,28 @@ public partial class AppSettingsWindow : Window
         vm.Settings.ScanSubfolders = SubfolderCheck.IsChecked == true;
         vm.Settings.HideExtensions = HideExtCheck.IsChecked == true;
         vm.Settings.Preview.Enabled = PreviewCheck.IsChecked == true;
+        vm.Settings.Preview.PreferOwnShot = PreferOwnShotCheck.IsChecked == true;
         GameItem.HideExtensions = vm.Settings.HideExtensions;
         vm.Save();
         // 一覧の行を作り直して表示名を反映する（読み込み済みのCRCは再利用されるのですぐ終わる）
         if (subChanged || extChanged) _ = vm.ReloadAsync();
+    }
+
+    private void OnBrowseOwnShotFolder(object sender, RoutedEventArgs e)
+    {
+        var dlg = new Microsoft.Win32.OpenFolderDialog();
+        if (Directory.Exists(vm.Settings.Preview.OwnShotFolder)) dlg.InitialDirectory = vm.Settings.Preview.OwnShotFolder;
+        if (dlg.ShowDialog(this) != true) return;
+        vm.Settings.Preview.OwnShotFolder = dlg.FolderName;
+        OwnShotFolderBox.Text = dlg.FolderName;
+        vm.Save();
+    }
+
+    private void OnClearOwnShotFolder(object sender, RoutedEventArgs e)
+    {
+        vm.Settings.Preview.OwnShotFolder = "";
+        OwnShotFolderBox.Text = "";
+        vm.Save();
     }
 
     private void OnPlaySettings(object sender, RoutedEventArgs e) => vm.OpenPlaySettingsCommand.Execute("Global");

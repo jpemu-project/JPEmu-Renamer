@@ -98,7 +98,7 @@
     </Style>
 
     <Style x:Key="SegGroup" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource BgBrush}" />
+        <Setter Property="Background" Value="{DynamicResource SegGroupBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource LineBrush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CornerRadius" Value="10" />
@@ -113,14 +113,15 @@
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
-        <Setter Property="Padding" Value="8,6" />
+        <Setter Property="Padding" Value="10,7" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="TextBox">
                     <Border x:Name="Bd" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="8">
-                        <ScrollViewer x:Name="PART_ContentHost" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <!-- 余白は TextBox 自身の Padding が文字の周りに付くので、ここでは重ねない（二重になって文字が右に寄るため） -->
+                        <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsKeyboardFocused" Value="True">

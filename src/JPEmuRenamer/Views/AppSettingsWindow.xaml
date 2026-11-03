@@ -22,14 +22,21 @@
 
         <TextBlock Style="{StaticResource Label}" Text="{Binding [ThemeLabel], Source={x:Static s:Loc.Instance}}" />
         <Border Style="{StaticResource SegGroup}" HorizontalAlignment="Left">
-            <StackPanel Orientation="Horizontal">
+            <!-- テーマが増えても収まるよう、幅が足りなければ折り返す -->
+            <WrapPanel>
                 <RadioButton x:Name="ThemeLightRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                              Content="{Binding [ThemeLight], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
                 <RadioButton x:Name="ThemeDarkRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                              Content="{Binding [ThemeDark], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
                 <RadioButton x:Name="ThemeAquaRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                              Content="{Binding [ThemeAqua], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
-            </StackPanel>
+                <RadioButton x:Name="ThemeMetalRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemeMetal], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+                <RadioButton x:Name="ThemePinkRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemePink], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+                <RadioButton x:Name="ThemeChicRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemeChic], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+            </WrapPanel>
         </Border>
 
         <DockPanel>
@@ -68,6 +75,18 @@
         <CheckBox x:Name="PreviewCheck" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
                   Content="{Binding [PreviewEnabled], Source={x:Static s:Loc.Instance}}" />
         <StackPanel x:Name="PreviewOptionsPanel" Margin="0,6,0,0" />
+
+        <!-- 自分で撮ったスクリーンショット -->
+        <TextBlock Style="{StaticResource Label}" Margin="0,14,0,6" Text="{Binding [OwnShotFolder], Source={x:Static s:Loc.Instance}}" />
+        <DockPanel>
+            <Button DockPanel.Dock="Right" Margin="8,0,0,0" Padding="12,4" MinHeight="34" Click="OnClearOwnShotFolder"
+                    Content="{Binding [ClearFolder], Source={x:Static s:Loc.Instance}}" />
+            <Button DockPanel.Dock="Right" Margin="8,0,0,0" Padding="12,4" MinHeight="34" Click="OnBrowseOwnShotFolder"
+                    Content="{Binding [Browse], Source={x:Static s:Loc.Instance}}" />
+            <TextBox x:Name="OwnShotFolderBox" IsReadOnly="True" />
+        </DockPanel>
+        <CheckBox x:Name="PreferOwnShotCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
+                  Content="{Binding [PreferOwnShot], Source={x:Static s:Loc.Instance}}" />
 
         <!-- 長い訳文でも見切れないよう、横に並べず全幅で縦に積む -->
         <Button Margin="0,22,0,0" Click="OnPlaySettings" Padding="12,8"

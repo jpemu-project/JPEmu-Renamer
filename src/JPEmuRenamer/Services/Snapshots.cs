@@ -23,6 +23,29 @@ public static class Snapshots
 
     public static bool Exists(SystemConfig sys, GameItem item) => PathFor(sys, item) is string p && File.Exists(p);
 
+    private static readonly string[] OwnShotExtensions = { ".jpg", ".jpeg", ".png" };
+
+    /// <summary>
+    /// 自分で撮ったスクリーンショットを探す。ROMのファイル名（拡張子なし）か、DATのタイトルと同じ名前の画像を、
+    /// フォルダ直下と「機種名」フォルダの中から探す。見つからなければ null
+    /// </summary>
+    public static string? OwnShotFor(string folder, SystemConfig sys, GameItem item)
+    {
+        if (string.IsNullOrWhiteSpace(folder) || !Directory.Exists(folder)) return null;
+        var names = new List<string>();
+        if (item.Rom != null) names.Add(System.IO.Path.GetFileNameWithoutExtension(item.Rom.Path));
+        if (item.Dat?.Title is string title) names.Add(Matcher.SafeFileName(title));
+        var dirs = new[] { System.IO.Path.Combine(folder, Matcher.SafeFileName(sys.Name)), folder };
+        foreach (var dir in dirs)
+            foreach (var name in names.Distinct())
+                foreach (var ext in OwnShotExtensions)
+                {
+                    var p = System.IO.Path.Combine(dir, name + ext);
+                    if (File.Exists(p)) return p;
+                }
+        return null;
+    }
+
     /// <summary>
     /// 画像を読み込む。ファイルをつかんだままにせず、ストリームから読むので同じパスの古い画像も使い回されない
     /// （ストリームから読むときに IgnoreImageCache を付けると例外になるので付けない）

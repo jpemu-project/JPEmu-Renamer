@@ -6,7 +6,7 @@ public class AppSettings
 {
     /// <summary>"" = OSの言語に合わせる / "ja" / "en"</summary>
     public string Language { get; set; } = "";
-    /// <summary>"Light" / "Dark" / "Aqua"</summary>
+    /// <summary>テーマ："Light" / "Dark" / "Aqua" / "Metal" / "Pink" / "Chic"</summary>
     public string Theme { get; set; } = "Light";
     /// <summary>UI全体の表示倍率（0.75〜2.0）</summary>
     public double UiScale { get; set; } = 1.0;
@@ -54,6 +54,10 @@ public class PreviewSettings
     public int LoopSeconds { get; set; } = 60;
     /// <summary>スクショの一括作成で、何秒の時点の画面を保存するか</summary>
     public int SnapshotSeconds { get; set; } = 30;
+    /// <summary>自分で撮ったスクリーンショットのフォルダ（"" = 使わない）。直下か「機種名」フォルダの中を探す</summary>
+    public string OwnShotFolder { get; set; } = "";
+    /// <summary>ROMと同じ名前の画像があれば、自動プレビューより優先して表示する</summary>
+    public bool PreferOwnShot { get; set; } = true;
 }
 
 /// <summary>機種ごとの設定</summary>

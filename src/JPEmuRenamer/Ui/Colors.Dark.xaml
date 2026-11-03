@@ -24,6 +24,8 @@
     <SolidColorBrush x:Key="ErrFgBrush" Color="#F87171" />
     <!-- 切り替えボタンの選択中（白文字が乗る）-->
     <SolidColorBrush x:Key="SegOnBrush" Color="#262B36" />
+    <!-- 切り替えボタンを並べた枠の地 -->
+    <SolidColorBrush x:Key="SegGroupBrush" Color="#0F1115" />
     <!-- 入力欄・コンボボックスの地 -->
     <SolidColorBrush x:Key="InputBrush" Color="#0F1115" />
     <SolidColorBrush x:Key="FooterBrush" Color="#181C23" />

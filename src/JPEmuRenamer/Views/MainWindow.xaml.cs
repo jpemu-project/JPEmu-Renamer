@@ -33,6 +33,12 @@ public partial class MainWindow : Window
         vm.OpenSnapshotBatch = (sys, items) => WithoutPreview(() =>
             new SnapshotBatchWindow(vm.Settings, sys, items, vm.Save) { Owner = this }.ShowDialog());
 
+        vm.SaveListDialog = name =>
+        {
+            var dlg = new Microsoft.Win32.SaveFileDialog { FileName = name, Filter = "Text (*.txt)|*.txt|All files (*.*)|*.*" };
+            return dlg.ShowDialog(this) == true ? dlg.FileName : null;
+        };
+
         preview = new PreviewController(PreviewImage, PreviewText, PreviewSaveButton, () => vm.Settings, vm.Save);
         vm.PropertyChanged += (_, e) =>
         {
@@ -72,6 +78,19 @@ public partial class MainWindow : Window
             vm.Info?.Invoke(ex.Message);
         }
     }
+
+    /// <summary>「ツール」：ボタンの下にメニューを開く</summary>
+    private void OnTools(object sender, RoutedEventArgs e)
+    {
+        var menu = ToolsButton.ContextMenu;
+        menu.PlacementTarget = ToolsButton;
+        menu.DataContext = vm;
+        menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+        menu.IsOpen = true;
+    }
+
+    /// <summary>テレビの画面をクリック：自分のスクショと自動プレビューを切り替える</summary>
+    private void OnPreviewClick(object sender, MouseButtonEventArgs e) => preview.ToggleOwnShot();
 
     /// <summary>マニュアルを開く。いま開いているタブ（プレイ／リネーム）に合わせた内容を表示する</summary>
     private void OnHelp(object sender, RoutedEventArgs e) => ShowHelp();

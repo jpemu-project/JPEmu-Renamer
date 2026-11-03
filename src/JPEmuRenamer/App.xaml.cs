@@ -17,8 +17,9 @@ public partial class App : Application
         base.OnStartup(e);
         DispatcherUnhandledException += OnUnhandled;
 
-        // すでに起動しているときは、新しく開かずにそのウィンドウを前に出す
-        singleInstance = new Mutex(true, @"Local\JPEmuRenamer.SingleInstance", out bool isFirst);
+        // 同じexeがすでに起動しているときは、新しく開かずにそのウィンドウを前に出す
+        // （別の場所に置いたexe＝ポータブルのコピーなどは、それぞれ別に起動できる）
+        singleInstance = new Mutex(true, @"Local\JPEmuRenamer." + ExePathKey(), out bool isFirst);
         if (!isFirst)
         {
             BringExistingToFront();
@@ -36,12 +37,23 @@ public partial class App : Application
         window.ShowWelcomeIfNeeded();
     }
 
+    /// <summary>exeの場所ごとの印（パスの区切りはMutex名に使えないのでハッシュにする）</summary>
+    private static string ExePathKey()
+    {
+        var path = (Environment.ProcessPath ?? "").ToUpperInvariant();
+        var hash = System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(path));
+        return Convert.ToHexString(hash, 0, 8);
+    }
+
     private static void BringExistingToFront()
     {
         var me = System.Diagnostics.Process.GetCurrentProcess();
         foreach (var p in System.Diagnostics.Process.GetProcessesByName(me.ProcessName))
         {
             if (p.Id == me.Id || p.MainWindowHandle == IntPtr.Zero) continue;
+            string? path;
+            try { path = p.MainModule?.FileName; } catch { continue; }
+            if (!string.Equals(path, Environment.ProcessPath, StringComparison.OrdinalIgnoreCase)) continue;
             if (IsIconic(p.MainWindowHandle)) ShowWindow(p.MainWindowHandle, SwRestore);
             SetForegroundWindow(p.MainWindowHandle);
             return;

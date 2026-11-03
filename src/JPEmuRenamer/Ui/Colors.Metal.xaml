@@ -1,0 +1,119 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- メタルの色：光が斜めに走る金属の板に、半透明の明るいパネルを重ねる（キーは Colors.Dark.xaml と揃える） -->
+    <LinearGradientBrush x:Key="BgBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#D5D9DE" Offset="0" />
+        <GradientStop Color="#F3F5F7" Offset="0.2" />
+        <GradientStop Color="#BCC2CA" Offset="0.45" />
+        <GradientStop Color="#E7EAED" Offset="0.65" />
+        <GradientStop Color="#A9B0B9" Offset="1" />
+    </LinearGradientBrush>
+    <!-- 設定などの別ウィンドウの背景（下に何も無いので不透明） -->
+    <LinearGradientBrush x:Key="DialogBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#F4F5F7" Offset="0" />
+        <GradientStop Color="#D9DDE2" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="PanelBrush" Color="#A6F5F6F8" />
+    <SolidColorBrush x:Key="Panel2Brush" Color="#C7FAFBFC" />
+    <SolidColorBrush x:Key="Panel3Brush" Color="#D9DCE2E8" />
+    <SolidColorBrush x:Key="LineBrush" Color="#99A7AFB9" />
+    <SolidColorBrush x:Key="Line2Brush" Color="#9AA3AE" />
+    <SolidColorBrush x:Key="TextBrush" Color="#1B2027" />
+    <SolidColorBrush x:Key="SubBrush" Color="#38414C" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#5B6570" />
+    <SolidColorBrush x:Key="DimBrush" Color="#7A838D" />
+    <!-- アクセントは青みのあるスチールのボタン -->
+    <LinearGradientBrush x:Key="AccentBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#A3B6C9" Offset="0" />
+        <GradientStop Color="#6A8299" Offset="0.48" />
+        <GradientStop Color="#4A6178" Offset="0.52" />
+        <GradientStop Color="#5E768D" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="AccentHoverBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#B8C9DA" Offset="0" />
+        <GradientStop Color="#7D94AA" Offset="0.48" />
+        <GradientStop Color="#5A7189" Offset="0.52" />
+        <GradientStop Color="#6E869D" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SelectedRowBrush" Color="#CCC9D3DE" />
+    <SolidColorBrush x:Key="OkBgBrush" Color="#D7EFE0" />
+    <SolidColorBrush x:Key="OkFgBrush" Color="#16733F" />
+    <SolidColorBrush x:Key="WarnBgBrush" Color="#F6EDCB" />
+    <SolidColorBrush x:Key="WarnFgBrush" Color="#8A5A06" />
+    <SolidColorBrush x:Key="ErrBgBrush" Color="#F6DEDE" />
+    <SolidColorBrush x:Key="ErrFgBrush" Color="#A61B1B" />
+    <!-- 切り替えボタンの選択中（白文字が乗る）-->
+    <SolidColorBrush x:Key="SegOnBrush" Color="#4D5B6B" />
+    <!-- 切り替えボタンを並べた枠の地 -->
+    <SolidColorBrush x:Key="SegGroupBrush" Color="#D9DDE2" />
+    <!-- 入力欄・コンボボックスの地 -->
+    <SolidColorBrush x:Key="InputBrush" Color="#E6FFFFFF" />
+    <SolidColorBrush x:Key="FooterBrush" Color="#99E9ECEF" />
+    <SolidColorBrush x:Key="HeaderRowBrush" Color="#B3E2E6EA" />
+    <SolidColorBrush x:Key="HeaderLineBrush" Color="#A5ADB7" />
+    <!-- 普通のボタン：クロームのような光沢 -->
+    <LinearGradientBrush x:Key="ButtonBgBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FAFBFC" Offset="0" />
+        <GradientStop Color="#E3E6EA" Offset="0.5" />
+        <GradientStop Color="#CDD2D8" Offset="0.52" />
+        <GradientStop Color="#E6E9EC" Offset="1" />
+    </LinearGradientBrush>
+
+    <!-- 機種アイコン：クロームのボタン -->
+    <!-- 1 のとき、機種の色で塗った水玉に白いアイコンを重ねる -->
+    <sys:Double x:Key="SystemIconFilled">0</sys:Double>
+    <CornerRadius x:Key="SystemIconRadius">10</CornerRadius>
+    <LinearGradientBrush x:Key="SystemIconBgBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#FFFFFF" Offset="0" />
+        <GradientStop Color="#E6E9ED" Offset="0.5" />
+        <GradientStop Color="#C9CED5" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SystemIconGlossBrush" Color="Transparent" />
+
+    <!-- テレビ風プレビュー：ガンメタルの縁＋クロームの帯 -->
+    <LinearGradientBrush x:Key="TvBezelBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#58606A" Offset="0" /><GradientStop Color="#2D3238" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TvBezelBorderBrush" Color="#1E2226" />
+    <LinearGradientBrush x:Key="TvBandBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#F4F6F8" Offset="0" /><GradientStop Color="#D2D7DD" Offset="0.5" />
+        <GradientStop Color="#B5BCC4" Offset="0.52" /><GradientStop Color="#CDD2D8" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TvBandLineBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="TvLedOffBrush" Color="#8A929C" />
+    <SolidColorBrush x:Key="TvLogoBrush" Color="#2B3138" />
+    <SolidColorBrush x:Key="TvSaveBgBrush" Color="#E9ECEF" />
+    <SolidColorBrush x:Key="TvSaveBorderBrush" Color="#8F98A3" />
+    <!-- ROM情報カード：スチールのプレート -->
+    <sys:String x:Key="MemoHeaderText">memo</sys:String>
+    <LinearGradientBrush x:Key="MemoBgBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#F3F5F7" Offset="0" /><GradientStop Color="#DDE1E6" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="MemoBorderBrush" Color="#AEB6BF" />
+    <SolidColorBrush x:Key="MemoLineBrush" Color="#C7CDD4" />
+    <SolidColorBrush x:Key="MemoKeyBrush" Color="#5F6974" />
+    <SolidColorBrush x:Key="MemoTextBrush" Color="#222830" />
+    <SolidColorBrush x:Key="MemoTitleBrush" Color="#151A20" />
+    <SolidColorBrush x:Key="MemoHeaderBrush" Color="#7D8792" />
+    <SolidColorBrush x:Key="MemoMarginBrush" Color="#8E9BAA" />
+    <SolidColorBrush x:Key="MemoFoldBrush" Color="#C3C9D0" />
+    <!-- 折れた角の外側（パネルが半透明なので欠けさせない） -->
+    <SolidColorBrush x:Key="MemoFoldCutBrush" Color="Transparent" />
+    <DrawingBrush x:Key="MemoRingBrush" TileMode="Tile" Viewport="0,0,40,24" ViewportUnits="Absolute" Viewbox="0,0,40,24" ViewboxUnits="Absolute" Stretch="None">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="M0,0 H40 V24 H0 Z" />
+                <GeometryDrawing Brush="#2B3138" Geometry="M21,12.5 A4,3 0 1 0 29,12.5 A4,3 0 1 0 21,12.5 Z" />
+                <GeometryDrawing Geometry="M3.8,18.2 C1.8,9.2 13.8,4.2 23.8,11.2">
+                    <GeometryDrawing.Pen><Pen Brush="#55000000" Thickness="3.2" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M3,17 C1,8 13,3 23,10">
+                    <GeometryDrawing.Pen><Pen Brush="#E4E8EC" Thickness="2.6" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+</ResourceDictionary>

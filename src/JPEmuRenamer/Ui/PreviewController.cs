@@ -13,6 +13,7 @@ namespace JPEmuRenamer.Ui;
 /// <summary>
 /// メイン画面右上の自動プレビュー。タイトルを選んで少し止まると、内蔵コアを音・入力なしで動かして映像を流す。
 /// 始まるまでと、画面が変化しないゲームでは、保存済みのスナップショットを表示する。
+/// 自分で撮ったスクリーンショットがあり、優先する設定なら、それを表示して自動プレビューは始めない（画面のクリックで切り替え）。
 /// 同時に動かせるコアは1つなので、遊ぶとき・コアを更新するときなどは Suspend で止める。
 /// </summary>
 public sealed class PreviewController
@@ -37,6 +38,9 @@ public sealed class PreviewController
     private ImageSource? snapshot;
     private string? snapshotPath;
     private bool rendering;
+    private ImageSource? ownShot;
+    // 自分のスクショがあるタイトルで、クリックして自動プレビューに切り替えたとき
+    private bool showLive;
 
     public PreviewController(Image image, TextBlock text, Button saveButton, Func<AppSettings> settings, Action saveSettings)
     {
@@ -62,7 +66,9 @@ public sealed class PreviewController
         item = selected;
         playTab = onPlayTab;
         if (same && session != null) return;
+        if (!same) showLive = false;
 
+        LoadOwnShot();
         StopSession();
         ShowIdle();
         delay.Stop();
@@ -97,6 +103,7 @@ public sealed class PreviewController
     /// <summary>設定を変えたときなどに、いまの状態でやり直す</summary>
     public void Refresh()
     {
+        LoadOwnShot();
         if (!CanRun())
         {
             delay.Stop();
@@ -118,13 +125,42 @@ public sealed class PreviewController
     }
 
     private bool CanRun() =>
-        Options.Enabled && active && suspendCount == 0 && playTab && system != null && item?.Rom != null;
+        Options.Enabled && active && suspendCount == 0 && playTab && system != null && item?.Rom != null && !ShowingOwnShot;
+
+    private bool ShowingOwnShot => ownShot != null && !showLive;
+
+    /// <summary>画面をクリックしたとき：自分のスクショと自動プレビューを切り替える</summary>
+    public void ToggleOwnShot()
+    {
+        if (ownShot == null) return;
+        showLive = !showLive;
+        delay.Stop();
+        StopSession();
+        ShowIdle();
+        if (showLive && CanRun()) StartIfAllowed();
+    }
+
+    private void LoadOwnShot()
+    {
+        var path = Options.PreferOwnShot && system != null && item != null
+            ? Snapshots.OwnShotFor(Options.OwnShotFolder, system, item) : null;
+        ownShot = Snapshots.Load(path);
+        image.ToolTip = ownShot != null ? Loc.T("OwnShotTip") : null;
+        image.Cursor = ownShot != null ? System.Windows.Input.Cursors.Hand : null;
+    }
 
     // ---------- 表示 ----------
 
     /// <summary>再生していないときの表示（スナップショットか案内の文字）</summary>
     private void ShowIdle()
     {
+        saveButton.Visibility = Visibility.Collapsed;
+        if (ShowingOwnShot)
+        {
+            image.Source = ownShot;
+            text.Text = "";
+            return;
+        }
         snapshotPath = system != null && item != null ? Snapshots.PathFor(system, item) : null;
         snapshot = Snapshots.Load(snapshotPath);
         image.Source = snapshot;

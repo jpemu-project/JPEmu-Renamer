@@ -130,7 +130,14 @@
         </Grid.RowDefinitions>
 
         <!-- ヘッダー -->
-        <Border Grid.Row="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1" Padding="20,12">
+        <Border Grid.Row="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1" Padding="16,6">
+            <Border.Resources>
+                <!-- ヘッダーのボタンは低めにして、一覧に場所をゆずる -->
+                <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                    <Setter Property="MinHeight" Value="32" />
+                    <Setter Property="Padding" Value="14,4" />
+                </Style>
+            </Border.Resources>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -142,8 +149,8 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="/Assets/logo.png" Width="40" Height="40" RenderOptions.BitmapScalingMode="HighQuality" />
-                    <TextBlock Text="JPEmu Renamer" FontSize="20" Margin="10,0,20,0" VerticalAlignment="Center" />
+                    <Image Source="/Assets/logo.png" Width="32" Height="32" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <TextBlock Text="JPEmu Renamer" FontSize="18" Margin="10,0,20,0" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <Border Grid.Column="1" Style="{StaticResource SegGroup}" VerticalAlignment="Center">
@@ -158,7 +165,7 @@
                 </Border>
 
                 <Grid Grid.Column="2" Margin="16,0" VerticalAlignment="Center">
-                    <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="34,7,8,7" />
+                    <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="34,5,8,5" />
                     <Path Data="M6,1 A5,5 0 1 1 5.99,1 M10,10 L14,14" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.6"
                           Width="16" Height="16" HorizontalAlignment="Left" Margin="12,0,0,0" IsHitTestVisible="False" />
                     <TextBlock Text="{Binding [Search], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
@@ -176,7 +183,23 @@
                     </TextBlock>
                 </Grid>
 
-                <Button Grid.Column="3" Command="{Binding AddSystemCommand}" Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" Margin="0,0,10,0" />
+                <!-- ツール（機種の追加は左の一覧の下にある） -->
+                <Button x:Name="ToolsButton" Grid.Column="3" Click="OnTools" Margin="0,0,10,0">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding [Tools], Source={x:Static s:Loc.Instance}}" />
+                        <TextBlock Text="▾" Margin="6,0,0,0" Foreground="{DynamicResource MutedBrush}" />
+                    </StackPanel>
+                    <Button.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{Binding [ToolSaveAll], Source={x:Static s:Loc.Instance}}" Command="{Binding SaveGameListCommand}" CommandParameter="All" />
+                            <MenuItem Header="{Binding [ToolSaveOwned], Source={x:Static s:Loc.Instance}}" Command="{Binding SaveGameListCommand}" CommandParameter="Owned" />
+                            <MenuItem Header="{Binding [ToolSaveMissing], Source={x:Static s:Loc.Instance}}" Command="{Binding SaveGameListCommand}" CommandParameter="Missing" />
+                            <Separator />
+                            <MenuItem Header="{Binding [ToolExtractAll], Source={x:Static s:Loc.Instance}}" Command="{Binding ExtractAllRomsCommand}" />
+                            <MenuItem Header="{Binding [ToolCompressAll], Source={x:Static s:Loc.Instance}}" Command="{Binding CompressAllRomsCommand}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
                 <Button Grid.Column="4" Command="{Binding OpenAppSettingsCommand}" Content="{Binding [Settings], Source={x:Static s:Loc.Instance}}" />
                 <Button Grid.Column="5" Click="OnHelp" Content="{Binding [Help], Source={x:Static s:Loc.Instance}}" Margin="10,0,0,0"
                         ToolTip="{Binding [HelpTip], Source={x:Static s:Loc.Instance}}" />
@@ -428,7 +451,7 @@
                                                 </Border.Background>
                                             </Border>
                                         </UniformGrid>
-                                        <Image x:Name="PreviewImage" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                                        <Image x:Name="PreviewImage" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" MouseLeftButtonUp="OnPreviewClick" />
                                         <!-- 案内文：縞の下寄りに半透明の帯で -->
                                         <Border VerticalAlignment="Bottom" Margin="0,0,0,10" Padding="12,4">
                                             <Border.Background>
