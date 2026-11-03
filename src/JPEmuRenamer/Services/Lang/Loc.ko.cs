@@ -116,6 +116,7 @@ public sealed partial class Loc
         ["ThemeLabel"] = "화면 모드",
         ["ThemeLight"] = "라이트",
         ["ThemeDark"] = "다크",
+        ["ThemeAqua"] = "아쿠아",
         ["UiScale"] = "화면 배율",
         ["FontSizeLabel"] = "글자 크기",
         ["RenameInsideZip"] = "ZIP 안의 ROM 이름도 변경",

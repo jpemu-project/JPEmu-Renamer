@@ -6,7 +6,7 @@ public class AppSettings
 {
     /// <summary>"" = OSの言語に合わせる / "ja" / "en"</summary>
     public string Language { get; set; } = "";
-    /// <summary>"Light" / "Dark"</summary>
+    /// <summary>"Light" / "Dark" / "Aqua"</summary>
     public string Theme { get; set; } = "Light";
     /// <summary>UI全体の表示倍率（0.75〜2.0）</summary>
     public double UiScale { get; set; } = 1.0;

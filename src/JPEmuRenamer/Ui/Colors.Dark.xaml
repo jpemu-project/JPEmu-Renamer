@@ -24,10 +24,22 @@
     <SolidColorBrush x:Key="ErrFgBrush" Color="#F87171" />
     <!-- 切り替えボタンの選択中（白文字が乗る）-->
     <SolidColorBrush x:Key="SegOnBrush" Color="#262B36" />
+    <!-- 入力欄・コンボボックスの地 -->
+    <SolidColorBrush x:Key="InputBrush" Color="#0F1115" />
     <SolidColorBrush x:Key="FooterBrush" Color="#181C23" />
     <SolidColorBrush x:Key="HeaderRowBrush" Color="#1B1F27" />
     <SolidColorBrush x:Key="HeaderLineBrush" Color="#343A47" />
 
+    <!-- 設定などの別ウィンドウの背景 -->
+    <SolidColorBrush x:Key="DialogBrush" Color="#14171D" />
+    <!-- 普通のボタンの地（アクアモードだけつやのある白） -->
+    <SolidColorBrush x:Key="ButtonBgBrush" Color="Transparent" />
+    <!-- 機種アイコン（アクアモードだけ丸い水玉） -->
+    <!-- 1 のとき、機種の色で塗った水玉に白いアイコンを重ねる -->
+    <sys:Double x:Key="SystemIconFilled">0</sys:Double>
+    <CornerRadius x:Key="SystemIconRadius">10</CornerRadius>
+    <SolidColorBrush x:Key="SystemIconBgBrush" Color="#1A1E26" />
+    <SolidColorBrush x:Key="SystemIconGlossBrush" Color="Transparent" />
     <!-- ROM情報カード：暗いカード -->
     <sys:String x:Key="MemoHeaderText">ROM INFO</sys:String>
     <SolidColorBrush x:Key="MemoBgBrush" Color="#1D2027" />

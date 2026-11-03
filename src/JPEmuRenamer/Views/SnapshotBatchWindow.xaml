@@ -5,7 +5,7 @@
         Title="{Binding [SnapBatchTitle], Source={x:Static s:Loc.Instance}}"
         Width="640" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}"
+        Background="{DynamicResource DialogBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True"
         Closing="OnClosing">
     <StackPanel Margin="24,18,24,20">

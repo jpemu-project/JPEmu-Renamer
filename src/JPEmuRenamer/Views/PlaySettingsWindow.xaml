@@ -5,7 +5,7 @@
         Title="{Binding [PlaySettings], Source={x:Static s:Loc.Instance}}"
         Width="760" Height="820" MinWidth="560" MinHeight="480"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}"
+        Background="{DynamicResource DialogBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
     <Window.Resources>
         <Style TargetType="TabItem">

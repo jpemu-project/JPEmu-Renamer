@@ -205,14 +205,19 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Width="44" Height="44" CornerRadius="10" Background="{DynamicResource Panel2Brush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
+                                    <Border Width="44" Height="44" CornerRadius="{DynamicResource SystemIconRadius}" Background="{DynamicResource SystemIconBgBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
                                         <Grid>
+                                            <!-- アクアモード：機種の色の水玉に白いアイコン（ほかのモードでは透明） -->
+                                            <Ellipse Fill="{Binding IconBrush}" Opacity="{DynamicResource SystemIconFilled}" IsHitTestVisible="False" />
                                             <Viewbox Width="32" Height="32" Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
                                                 <Canvas Width="48" Height="48">
                                                     <Path Data="{Binding Icon}" Stroke="{Binding IconBrush}" StrokeThickness="2.6"
                                                           StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                                                    <Path Data="{Binding Icon}" Stroke="White" StrokeThickness="2.6" Opacity="{DynamicResource SystemIconFilled}"
+                                                          StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                                                 </Canvas>
                                             </Viewbox>
+                                            <Ellipse Width="32" Height="18" VerticalAlignment="Top" Margin="0,2,0,0" Fill="{DynamicResource SystemIconGlossBrush}" IsHitTestVisible="False" />
                                             <Image Source="{Binding CustomIcon}" Width="34" Height="34" Visibility="{Binding HasCustomIcon, Converter={StaticResource BoolToVis}}" />
                                         </Grid>
                                     </Border>

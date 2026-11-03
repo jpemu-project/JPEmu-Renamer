@@ -27,7 +27,12 @@ public partial class AppSettingsWindow : Window
         foreach (ComboBoxItem item in LanguageBox.Items)
             if ((string)item.Tag == vm.Settings.Language) LanguageBox.SelectedItem = item;
         if (LanguageBox.SelectedItem == null) LanguageBox.SelectedIndex = 0;
-        (vm.Settings.Theme == ThemeManager.Dark ? ThemeDarkRadio : ThemeLightRadio).IsChecked = true;
+        (vm.Settings.Theme switch
+        {
+            ThemeManager.Dark => ThemeDarkRadio,
+            ThemeManager.Aqua => ThemeAquaRadio,
+            _ => ThemeLightRadio
+        }).IsChecked = true;
 
         InsideZipCheck.IsChecked = vm.Settings.RenameInsideZip;
         SubfolderCheck.IsChecked = vm.Settings.ScanSubfolders;
@@ -84,7 +89,9 @@ public partial class AppSettingsWindow : Window
     private void OnThemeChanged(object sender, RoutedEventArgs e)
     {
         if (loading) return;
-        vm.Settings.Theme = ThemeDarkRadio.IsChecked == true ? ThemeManager.Dark : ThemeManager.Light;
+        vm.Settings.Theme = ThemeDarkRadio.IsChecked == true ? ThemeManager.Dark
+            : ThemeAquaRadio.IsChecked == true ? ThemeManager.Aqua
+            : ThemeManager.Light;
         ThemeManager.Apply(vm.Settings.Theme);
         vm.Save();
     }

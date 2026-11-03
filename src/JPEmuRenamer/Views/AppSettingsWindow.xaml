@@ -5,7 +5,7 @@
         Title="{Binding [AppSettings], Source={x:Static s:Loc.Instance}}"
         Width="520" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}"
+        Background="{DynamicResource DialogBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
 
     <Window.Resources>
@@ -27,6 +27,8 @@
                              Content="{Binding [ThemeLight], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
                 <RadioButton x:Name="ThemeDarkRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                              Content="{Binding [ThemeDark], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+                <RadioButton x:Name="ThemeAquaRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemeAqua], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
             </StackPanel>
         </Border>
 

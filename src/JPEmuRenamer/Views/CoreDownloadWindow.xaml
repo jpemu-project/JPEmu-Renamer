@@ -5,7 +5,7 @@
         Title="{Binding [BulkCoreTitle], Source={x:Static s:Loc.Instance}}"
         Width="820" Height="760" MinWidth="600" MinHeight="420"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}"
+        Background="{DynamicResource DialogBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True"
         Closing="OnClosing">
     <DockPanel>

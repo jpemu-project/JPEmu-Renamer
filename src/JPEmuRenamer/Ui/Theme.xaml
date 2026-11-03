@@ -10,7 +10,7 @@
     <Style TargetType="Button">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource ButtonBgBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Line2Brush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="Padding" Value="16,8" />
@@ -108,7 +108,7 @@
     <!-- 入力欄 -->
     <Style TargetType="TextBox">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-        <Setter Property="Background" Value="{DynamicResource BgBrush}" />
+        <Setter Property="Background" Value="{DynamicResource InputBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Line2Brush}" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextBrush}" />
@@ -170,7 +170,7 @@
 
     <Style TargetType="ComboBox">
         <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
-        <Setter Property="Background" Value="{DynamicResource BgBrush}" />
+        <Setter Property="Background" Value="{DynamicResource InputBrush}" />
         <Setter Property="BorderBrush" Value="{DynamicResource Line2Brush}" />
         <Setter Property="MinHeight" Value="36" />
         <Setter Property="Padding" Value="10,4,30,4" />

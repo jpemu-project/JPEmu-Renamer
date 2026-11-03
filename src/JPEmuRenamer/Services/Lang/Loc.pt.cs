@@ -115,6 +115,7 @@ public sealed partial class Loc
         ["ThemeLabel"] = "Aparência",
         ["ThemeLight"] = "Claro",
         ["ThemeDark"] = "Escuro",
+        ["ThemeAqua"] = "Água",
         ["UiScale"] = "Escala da interface",
         ["FontSizeLabel"] = "Tamanho do texto",
         ["RenameInsideZip"] = "Renomear também a ROM dentro dos arquivos ZIP",
