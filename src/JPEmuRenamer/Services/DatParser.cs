@@ -26,6 +26,7 @@ public static class DatParser
             var publisher = Child(game, "publisher")?.Value.Trim() ?? "";
             var release = Child(game, "releaseNumber")?.Value.Trim() ?? "";
             var comment = Child(game, "comment")?.Value.Trim() ?? "";
+            int? location = int.TryParse(Child(game, "location")?.Value.Trim(), out var loc) ? loc : null;
             // 日本のDAT配布サイトの形式では、画像CRC欄に発売日と価格、sourceRom欄にジャンルが入っている
             var im1 = Child(game, "im1CRC")?.Value.Trim() ?? "";
             var im2 = Child(game, "im2CRC")?.Value.Trim() ?? "";
@@ -36,7 +37,7 @@ public static class DatParser
             DatEntry Entry() => new()
             {
                 Title = title, Publisher = publisher, ReleaseNumber = release,
-                Genre = genre, ReleaseDate = date, Price = price, Comment = comment
+                Genre = genre, ReleaseDate = date, Price = price, Comment = comment, Location = location
             };
 
             bool any = false;

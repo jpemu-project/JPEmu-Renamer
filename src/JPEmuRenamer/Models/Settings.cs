@@ -20,6 +20,8 @@ public class AppSettings
     public bool ScanSubfolders { get; set; } = true;
     /// <summary>タイトル一覧でファイル名の拡張子を表示しない</summary>
     public bool HideExtensions { get; set; }
+    /// <summary>タイトルの前に発売地域の国旗を出す</summary>
+    public bool ShowFlags { get; set; } = true;
 
     public double? WindowWidth { get; set; }
     public double? WindowHeight { get; set; }
@@ -75,6 +77,10 @@ public class SystemConfig
     /// <summary>対象拡張子（".nes" など、小文字）</summary>
     public List<string> Extensions { get; set; } = new();
     public string DatPath { get; set; } = "";
+    /// <summary>リネームのときに、DATに無いファイルを UnknownFolder へ移動する</summary>
+    public bool MoveUnknown { get; set; }
+    /// <summary>DATに無いファイルの移動先</summary>
+    public string UnknownFolder { get; set; } = "";
     /// <summary>この機種の自分で撮ったスクリーンショットのフォルダ（空なら設定画面の共通フォルダを使う）</summary>
     public string OwnShotFolder { get; set; } = "";
     /// <summary>Auto / Include / Exclude（iNESヘッダーなどの扱い）</summary>
@@ -113,6 +119,8 @@ public class DatEntry
     public string ReleaseDate { get; set; } = "";
     public string Price { get; set; } = "";
     public string Comment { get; set; } = "";
+    /// <summary>OfflineList の発売地域の番号（7 = 日本 など）。無ければ null</summary>
+    public int? Location { get; set; }
 }
 
 /// <summary>走査したROMファイル（キャッシュにも使う）</summary>

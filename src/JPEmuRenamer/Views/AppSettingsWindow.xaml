@@ -70,6 +70,8 @@
                   Content="{Binding [ScanSubfolders], Source={x:Static s:Loc.Instance}}" />
         <CheckBox x:Name="HideExtCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
                   Content="{Binding [HideExtensions], Source={x:Static s:Loc.Instance}}" />
+        <CheckBox x:Name="ShowFlagsCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
+                  Content="{Binding [ShowFlags], Source={x:Static s:Loc.Instance}}" />
 
         <TextBlock Style="{StaticResource Label}" Margin="0,22,0,6" Text="{Binding [PreviewSection], Source={x:Static s:Loc.Instance}}" />
         <CheckBox x:Name="PreviewCheck" Checked="OnOptionChanged" Unchecked="OnOptionChanged"

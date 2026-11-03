@@ -38,6 +38,7 @@ public partial class AppSettingsWindow : Window
         InsideZipCheck.IsChecked = vm.Settings.RenameInsideZip;
         SubfolderCheck.IsChecked = vm.Settings.ScanSubfolders;
         HideExtCheck.IsChecked = vm.Settings.HideExtensions;
+        ShowFlagsCheck.IsChecked = vm.Settings.ShowFlags;
         PreviewCheck.IsChecked = vm.Settings.Preview.Enabled;
         var p = vm.Settings.Preview;
         OwnShotFolderBox.Text = p.OwnShotFolder;
@@ -101,13 +102,16 @@ public partial class AppSettingsWindow : Window
     {
         if (loading) return;
         bool subChanged = vm.Settings.ScanSubfolders != (SubfolderCheck.IsChecked == true);
-        bool extChanged = vm.Settings.HideExtensions != (HideExtCheck.IsChecked == true);
+        bool extChanged = vm.Settings.HideExtensions != (HideExtCheck.IsChecked == true)
+                          || vm.Settings.ShowFlags != (ShowFlagsCheck.IsChecked == true);
         vm.Settings.RenameInsideZip = InsideZipCheck.IsChecked == true;
         vm.Settings.ScanSubfolders = SubfolderCheck.IsChecked == true;
         vm.Settings.HideExtensions = HideExtCheck.IsChecked == true;
+        vm.Settings.ShowFlags = ShowFlagsCheck.IsChecked == true;
         vm.Settings.Preview.Enabled = PreviewCheck.IsChecked == true;
         vm.Settings.Preview.PreferOwnShot = PreferOwnShotCheck.IsChecked == true;
         GameItem.HideExtensions = vm.Settings.HideExtensions;
+        GameItem.ShowFlags = vm.Settings.ShowFlags;
         vm.Save();
         // 一覧の行を作り直して表示名を反映する（読み込み済みのCRCは再利用されるのですぐ終わる）
         if (subChanged || extChanged) _ = vm.ReloadAsync();

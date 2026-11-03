@@ -1,4 +1,4 @@
-// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
+﻿// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 using System.ComponentModel;
 using System.Globalization;
 
@@ -228,6 +228,12 @@ public sealed partial class Loc : INotifyPropertyChanged
         ["RenameInsideZip"] = "ZIP内のROM名もリネームする",
         ["ScanSubfolders"] = "サブフォルダの中のROMも読み込む",
         ["HideExtensions"] = "タイトル一覧でファイル名の拡張子（.zipなど）を表示しない",
+        ["ShowFlags"] = "タイトルの前に発売地域の国旗を表示する（DATに地域の情報があるとき）",
+        ["UnknownSection"] = "DATに無いファイル",
+        ["MoveUnknown"] = "リネームのときに、DATに無いファイルを次のフォルダへ移動する",
+        ["UnknownHint"] = "機種ごとの設定です。移動したファイルも「元に戻す」で元の場所に戻せます。",
+        ["ConfirmRenameMove"] = "{0}個のファイルをリネームし、DATに無いファイル{1}個を「{2}」へ移動します。よろしいですか？\n（「元に戻す」で取り消せます）",
+        ["UnknownMoved"] = "DATに無いファイルを{0}個移動しました。",
         ["Close"] = "閉じる",
         ["ScaleHint"] = "Ctrl＋マウスホイールでも変更できます",
         ["Welcome"] = "JPEmu Renamer へようこそ。\n最初に、遊びたい機種を追加しましょう。名前は自由に付けられます（例：ファミコン、Famicom、Family Computer）。今すぐ追加しますか？",
@@ -611,6 +617,12 @@ public sealed partial class Loc : INotifyPropertyChanged
         ["RenameInsideZip"] = "Also rename the ROM inside ZIP files",
         ["ScanSubfolders"] = "Scan subfolders",
         ["HideExtensions"] = "Hide file extensions (.zip etc.) in the title list",
+        ["ShowFlags"] = "Show the region flag before titles (when the DAT has region info)",
+        ["UnknownSection"] = "Files not in the DAT",
+        ["MoveUnknown"] = "When renaming, move files that are not in the DAT to this folder",
+        ["UnknownHint"] = "This is set per system. Moved files can be put back with Undo.",
+        ["ConfirmRenameMove"] = "Rename {0} files and move {1} files not in the DAT to \"{2}\"?\n(You can revert with Undo.)",
+        ["UnknownMoved"] = "Moved {0} files that are not in the DAT.",
         ["Close"] = "Close",
         ["ScaleHint"] = "You can also use Ctrl + mouse wheel",
         ["Welcome"] = "Welcome to JPEmu Renamer.\nFirst, add a system to play. You can name it anything (e.g. Famicom, Family Computer, NES). Add one now?",

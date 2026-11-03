@@ -8,7 +8,11 @@ namespace JPEmuRenamer.Services;
 /// <summary>リネームの実行と取り消し</summary>
 public static class Renamer
 {
-    public record Result(RenameRun Run, int Skipped, List<string> Errors);
+    public record Result(RenameRun Run, int Skipped, List<string> Errors)
+    {
+        /// <summary>移動したDATに無いファイル（移動先のパス）</summary>
+        public List<string> Moved { get; } = new();
+    }
 
     public static Result Execute(IEnumerable<GameItem> items, SystemConfig sys, bool renameInsideZip)
     {
@@ -55,6 +59,39 @@ public static class Renamer
             }
         }
         return new Result(run, skipped, errors);
+    }
+
+    /// <summary>
+    /// ファイルをフォルダへ移動し、同じ実行の記録に足す（取り消しで元の場所に戻せる）。
+    /// 移動先に同じ名前があるものは飛ばす
+    /// </summary>
+    public static void MoveFiles(IEnumerable<string> paths, string folder, Result result)
+    {
+        try { Directory.CreateDirectory(folder); }
+        catch (Exception ex)
+        {
+            result.Errors.Add(folder + "：" + ex.Message);
+            return;
+        }
+        foreach (var from in paths)
+        {
+            var to = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(from));
+            try
+            {
+                if (!File.Exists(from) || File.Exists(to))
+                {
+                    result.Errors.Add(System.IO.Path.GetFileName(from) + "：" + Loc.T("AlreadyExists"));
+                    continue;
+                }
+                File.Move(from, to);
+                result.Run.Records.Add(new RenameRecord { From = from, To = to });
+                result.Moved.Add(to);
+            }
+            catch (Exception ex)
+            {
+                result.Errors.Add(System.IO.Path.GetFileName(from) + "：" + ex.Message);
+            }
+        }
     }
 
     public static int Undo(RenameRun run, List<string> errors)

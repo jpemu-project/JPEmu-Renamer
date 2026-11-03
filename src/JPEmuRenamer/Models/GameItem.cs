@@ -23,6 +23,8 @@ public partial class GameItem : ObservableObject
 {
     /// <summary>DATに無いファイル（ファイル名をそのまま表示する行）で、拡張子を表示しない</summary>
     public static bool HideExtensions { get; set; }
+    /// <summary>タイトルの前に発売地域の国旗を出す</summary>
+    public static bool ShowFlags { get; set; } = true;
 
     private readonly string title;
 
@@ -55,6 +57,8 @@ public partial class GameItem : ObservableObject
     public string ReleaseDate => Dat?.ReleaseDate ?? "";
     public string Price => Dat?.Price ?? "";
     public string Comment => Dat?.Comment ?? "";
+    /// <summary>発売地域の国旗（DATに地域が無いときや、表示しない設定のときは null）</summary>
+    public System.Windows.Media.ImageSource? FlagImage => ShowFlags ? Ui.FlagFactory.Get(Dat?.Location) : null;
     public string CurrentFileName => Rom != null ? System.IO.Path.GetFileName(Rom.Path) : "";
     public string CrcText => Rom != null ? Rom.Crc.ToString("X8") : (Dat?.Crc?.ToString("X8") ?? "");
     public string SizeText => Rom != null ? FormatSize(Rom.RomSize > 0 ? Rom.RomSize : Rom.Size) : "";

@@ -79,6 +79,14 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>DATに無いファイルの移動先を選ぶ</summary>
+    private void OnBrowseUnknown(object sender, RoutedEventArgs e)
+    {
+        var dlg = new Microsoft.Win32.OpenFolderDialog();
+        if (System.IO.Directory.Exists(vm.UnknownFolder)) dlg.InitialDirectory = vm.UnknownFolder;
+        if (dlg.ShowDialog(this) == true) vm.UnknownFolder = dlg.FolderName;
+    }
+
     /// <summary>「ツール」：ボタンの下にメニューを開く</summary>
     private void OnTools(object sender, RoutedEventArgs e)
     {

@@ -33,6 +33,7 @@ public partial class MainViewModel : ObservableObject
         fontSize = Math.Clamp(settings.FontSize, 11, 28);
         filter = settings.ListFilter is "Owned" or "Missing" ? settings.ListFilter : "All";
         GameItem.HideExtensions = settings.HideExtensions;
+        GameItem.ShowFlags = settings.ShowFlags;
         statusText = Loc.T("Ready");
 
         foreach (var s in settings.Systems) Systems.Add(new SystemItem(s));
@@ -137,6 +138,8 @@ public partial class MainViewModel : ObservableObject
         if (value == null) return;
         settings.LastSystemId = value.Config.Id;
         Save();
+        OnPropertyChanged(nameof(MoveUnknown));
+        OnPropertyChanged(nameof(UnknownFolder));
         _ = LoadAsync(value);
     }
 
@@ -397,12 +400,24 @@ public partial class MainViewModel : ObservableObject
         var sys = SelectedSystem?.Config;
         if (sys == null || IsBusy) return;
         var targets = Items.Where(i => i.IsChecked && i.CanRename).ToList();
-        if (targets.Count == 0) return;
-        if (Confirm?.Invoke(Loc.F("ConfirmRename", targets.Count)) != true) return;
+        // DATに無いファイルを移動する設定なら、それも一緒に行う（取り消しで元の場所に戻る）
+        var unknown = sys.MoveUnknown && !string.IsNullOrWhiteSpace(sys.UnknownFolder)
+            ? Items.Where(i => i.Status == MatchStatus.NotInDat && i.Rom != null).Select(i => i.Rom!.Path).Distinct().ToList()
+            : new List<string>();
+        if (targets.Count == 0 && unknown.Count == 0) return;
+        var question = unknown.Count > 0
+            ? Loc.F("ConfirmRenameMove", targets.Count, unknown.Count, sys.UnknownFolder)
+            : Loc.F("ConfirmRename", targets.Count);
+        if (Confirm?.Invoke(question) != true) return;
 
         IsBusy = true;
         bool insideZip = settings.RenameInsideZip;
-        var result = await Task.Run(() => Renamer.Execute(targets, sys, insideZip));
+        var result = await Task.Run(() =>
+        {
+            var r = Renamer.Execute(targets, sys, insideZip);
+            if (unknown.Count > 0) Renamer.MoveFiles(unknown, sys.UnknownFolder, r);
+            return r;
+        });
         if (result.Run.Records.Count > 0)
         {
             var history = Storage.LoadHistory();
@@ -411,10 +426,38 @@ public partial class MainViewModel : ObservableObject
         }
         IsBusy = false;
 
-        var msg = Loc.F("RenameDone", result.Run.Records.Count, result.Skipped);
+        var msg = Loc.F("RenameDone", result.Run.Records.Count - result.Moved.Count, result.Skipped);
+        if (result.Moved.Count > 0) msg += "\n" + Loc.F("UnknownMoved", result.Moved.Count);
         if (result.Errors.Count > 0) msg += "\n\n" + string.Join("\n", result.Errors.Take(10));
         Info?.Invoke(msg);
         await ReloadAsync();
+    }
+
+    /// <summary>リネームのときに、DATに無いファイルを移動する（機種ごと）</summary>
+    public bool MoveUnknown
+    {
+        get => SelectedSystem?.Config.MoveUnknown ?? false;
+        set
+        {
+            if (SelectedSystem == null || SelectedSystem.Config.MoveUnknown == value) return;
+            SelectedSystem.Config.MoveUnknown = value;
+            Save();
+            OnPropertyChanged();
+        }
+    }
+
+    /// <summary>DATに無いファイルの移動先（機種ごと）</summary>
+    public string UnknownFolder
+    {
+        get => SelectedSystem?.Config.UnknownFolder ?? "";
+        set
+        {
+            value = (value ?? "").Trim().Trim('"');
+            if (SelectedSystem == null || SelectedSystem.Config.UnknownFolder == value) return;
+            SelectedSystem.Config.UnknownFolder = value;
+            Save();
+            OnPropertyChanged();
+        }
     }
 
     [RelayCommand]
