@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "从头重播间隔",
         ["PreviewSnapshotTime"] = "批量截图的时间点",
         ["OwnShotFolder"] = "自己截图的文件夹",
+        ["SystemOwnShotFolder"] = "自己截图的文件夹（此机种专用，可选）",
+        ["OwnShotFolderHint"] = "可在“机种设置”中为每个机种指定文件夹。机种未指定时使用这里的共用文件夹（也会查找其中以机种名命名的文件夹）。",
         ["PreferOwnShot"] = "如有与ROM同名的图片（jpg/png），优先于自动预览显示",
         ["OwnShotTip"] = "点击可在自己的截图和自动预览之间切换",
         ["ClearFolder"] = "清除",

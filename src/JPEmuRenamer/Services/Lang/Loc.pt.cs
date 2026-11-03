@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Recomeçar após",
         ["PreviewSnapshotTime"] = "Momento das capturas em lote",
         ["OwnShotFolder"] = "Pasta das suas capturas de tela",
+        ["SystemOwnShotFolder"] = "Pasta das suas capturas (para este sistema, opcional)",
+        ["OwnShotFolderHint"] = "Você pode definir uma pasta por sistema em \"Configurações do sistema\". Esta pasta comum é usada quando o sistema não tem uma (também é procurada uma subpasta com o nome do sistema).",
         ["PreferOwnShot"] = "Mostrar uma imagem (jpg/png) com o mesmo nome da ROM no lugar da prévia automática",
         ["OwnShotTip"] = "Clique para alternar entre sua captura e a prévia automática",
         ["ClearFolder"] = "Remover",

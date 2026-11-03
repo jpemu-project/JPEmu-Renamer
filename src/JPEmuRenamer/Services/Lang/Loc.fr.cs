@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Recommencer après",
         ["PreviewSnapshotTime"] = "Moment des captures groupées",
         ["OwnShotFolder"] = "Dossier de vos captures d'écran",
+        ["SystemOwnShotFolder"] = "Dossier de vos captures (pour ce système, facultatif)",
+        ["OwnShotFolderHint"] = "Vous pouvez définir un dossier par système dans « Paramètres du système ». Ce dossier commun sert quand un système n'en a pas (un sous-dossier portant le nom du système est aussi cherché).",
         ["PreferOwnShot"] = "Afficher en priorité une image (jpg/png) du même nom que la ROM plutôt que l'aperçu auto",
         ["OwnShotTip"] = "Cliquez pour basculer entre votre capture et l'aperçu auto",
         ["ClearFolder"] = "Effacer",

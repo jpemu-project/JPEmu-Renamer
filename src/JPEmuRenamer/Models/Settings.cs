@@ -75,6 +75,8 @@ public class SystemConfig
     /// <summary>対象拡張子（".nes" など、小文字）</summary>
     public List<string> Extensions { get; set; } = new();
     public string DatPath { get; set; } = "";
+    /// <summary>この機種の自分で撮ったスクリーンショットのフォルダ（空なら設定画面の共通フォルダを使う）</summary>
+    public string OwnShotFolder { get; set; } = "";
     /// <summary>Auto / Include / Exclude（iNESヘッダーなどの扱い）</summary>
     public string HeaderMode { get; set; } = "Auto";
     /// <summary>ファイル名を変えない「表示リネーム」（アーケード系向け）</summary>

@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Phát lại sau",
         ["PreviewSnapshotTime"] = "Thời điểm chụp hàng loạt",
         ["OwnShotFolder"] = "Thư mục ảnh chụp màn hình của bạn",
+        ["SystemOwnShotFolder"] = "Thư mục ảnh chụp màn hình của bạn (cho hệ máy này, tùy chọn)",
+        ["OwnShotFolderHint"] = "Có thể đặt thư mục riêng cho từng hệ máy trong \"Cài đặt hệ máy\". Thư mục chung này được dùng khi hệ máy chưa có thư mục riêng (cũng tìm cả thư mục con mang tên hệ máy).",
         ["PreferOwnShot"] = "Hiển thị ảnh (jpg/png) cùng tên với ROM thay cho xem trước tự động",
         ["OwnShotTip"] = "Nhấp để chuyển giữa ảnh chụp của bạn và xem trước tự động",
         ["ClearFolder"] = "Bỏ chọn",

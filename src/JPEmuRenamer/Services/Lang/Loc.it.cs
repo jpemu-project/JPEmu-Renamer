@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Ricomincia dopo",
         ["PreviewSnapshotTime"] = "Momento delle istantanee in blocco",
         ["OwnShotFolder"] = "Cartella dei tuoi screenshot",
+        ["SystemOwnShotFolder"] = "Cartella dei tuoi screenshot (per questo sistema, facoltativa)",
+        ["OwnShotFolderHint"] = "Puoi impostare una cartella per sistema in \"Impostazioni sistema\". Questa cartella comune si usa quando un sistema non ne ha una (viene cercata anche una sottocartella con il nome del sistema).",
         ["PreferOwnShot"] = "Mostra un'immagine (jpg/png) con lo stesso nome della ROM al posto dell'anteprima automatica",
         ["OwnShotTip"] = "Fai clic per passare dal tuo screenshot all'anteprima automatica",
         ["ClearFolder"] = "Rimuovi",

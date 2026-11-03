@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "처음부터 반복까지",
         ["PreviewSnapshotTime"] = "스냅샷 일괄 생성 시점",
         ["OwnShotFolder"] = "직접 찍은 스크린샷 폴더",
+        ["SystemOwnShotFolder"] = "직접 찍은 스크린샷 폴더 (이 기종용, 선택)",
+        ["OwnShotFolderHint"] = "기종별 폴더는 \"기종 설정\"에서 지정할 수 있습니다. 기종에 지정이 없을 때 이 공용 폴더를 사용합니다(안의 \"기종 이름\" 폴더도 찾습니다).",
         ["PreferOwnShot"] = "ROM과 같은 이름의 이미지(jpg·png)가 있으면 자동 미리보기보다 우선 표시",
         ["OwnShotTip"] = "클릭하면 내 스크린샷과 자동 미리보기를 전환",
         ["ClearFolder"] = "해제",

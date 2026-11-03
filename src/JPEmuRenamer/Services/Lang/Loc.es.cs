@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Reiniciar tras",
         ["PreviewSnapshotTime"] = "Momento de las capturas en lote",
         ["OwnShotFolder"] = "Carpeta de tus capturas de pantalla",
+        ["SystemOwnShotFolder"] = "Carpeta de tus capturas (para este sistema, opcional)",
+        ["OwnShotFolderHint"] = "Puedes indicar una carpeta por sistema en \"Ajustes del sistema\". Esta carpeta común se usa cuando un sistema no tiene una (también se busca una subcarpeta con el nombre del sistema).",
         ["PreferOwnShot"] = "Mostrar una imagen (jpg/png) con el mismo nombre que la ROM en lugar de la vista previa automática",
         ["OwnShotTip"] = "Haz clic para alternar entre tu captura y la vista previa automática",
         ["ClearFolder"] = "Quitar",

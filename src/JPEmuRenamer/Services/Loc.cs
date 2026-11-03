@@ -1,4 +1,4 @@
-﻿// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
+// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 using System.ComponentModel;
 using System.Globalization;
 
@@ -133,6 +133,8 @@ public sealed partial class Loc : INotifyPropertyChanged
         ["PreviewLoop"] = "冒頭から繰り返すまで",
         ["PreviewSnapshotTime"] = "スクショ一括作成の撮影時点",
         ["OwnShotFolder"] = "自分で撮ったスクリーンショットのフォルダ",
+        ["SystemOwnShotFolder"] = "自分で撮ったスクリーンショットのフォルダ（この機種用・任意）",
+        ["OwnShotFolderHint"] = "機種ごとのフォルダは「機種の設定」で指定できます。ここは、機種で指定していないときに使う共通のフォルダです（中の「機種名」フォルダも探します）。",
         ["PreferOwnShot"] = "ROMと同じ名前の画像（jpg・png）があれば、自動プレビューより優先して表示する",
         ["OwnShotTip"] = "クリックで自分のスクリーンショットと自動プレビューを切り替え",
         ["ClearFolder"] = "解除",
@@ -514,6 +516,8 @@ public sealed partial class Loc : INotifyPropertyChanged
         ["PreviewLoop"] = "Restart after",
         ["PreviewSnapshotTime"] = "Bulk snapshot time",
         ["OwnShotFolder"] = "Folder of your own screenshots",
+        ["SystemOwnShotFolder"] = "Folder of your own screenshots (for this system, optional)",
+        ["OwnShotFolderHint"] = "You can set a folder per system in \"System settings\". This shared folder is used when a system has none (a subfolder named after the system is searched too).",
         ["PreferOwnShot"] = "Show an image (jpg/png) with the same name as the ROM instead of the auto preview",
         ["OwnShotTip"] = "Click to switch between your screenshot and the auto preview",
         ["ClearFolder"] = "Clear",

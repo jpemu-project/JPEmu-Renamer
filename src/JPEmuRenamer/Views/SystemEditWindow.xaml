@@ -79,6 +79,12 @@
                     <TextBox x:Name="RomBox" />
                 </DockPanel>
 
+                <TextBlock Style="{StaticResource Label}" Text="{Binding [SystemOwnShotFolder], Source={x:Static s:Loc.Instance}}" />
+                <DockPanel>
+                    <Button DockPanel.Dock="Right" Click="OnBrowseOwnShot" Content="{Binding [Browse], Source={x:Static s:Loc.Instance}}" Margin="8,0,0,0" />
+                    <TextBox x:Name="OwnShotBox" />
+                </DockPanel>
+
                 <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
@@ -95,9 +101,9 @@
                     </StackPanel>
                 </Grid>
 
-                <CheckBox x:Name="DisplayOnlyCheck" Margin="0,14,0,0">
-                    <TextBlock Text="{Binding [DisplayRenameOnly], Source={x:Static s:Loc.Instance}}" TextWrapping="Wrap" />
-                </CheckBox>
+                <!-- 文言の折り返しはテーマのチェックボックスの書式で行う（中に要素を入れると文字として表示されてしまう） -->
+                <CheckBox x:Name="DisplayOnlyCheck" Margin="0,14,0,0"
+                          Content="{Binding [DisplayRenameOnly], Source={x:Static s:Loc.Instance}}" />
 
                 <Border Height="1" Background="{DynamicResource LineBrush}" Margin="0,20,0,0" />
 

@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Ulang setelah",
         ["PreviewSnapshotTime"] = "Waktu cuplikan massal",
         ["OwnShotFolder"] = "Folder tangkapan layar Anda sendiri",
+        ["SystemOwnShotFolder"] = "Folder tangkapan layar Anda (untuk sistem ini, opsional)",
+        ["OwnShotFolderHint"] = "Folder per sistem bisa diatur di \"Pengaturan sistem\". Folder bersama ini dipakai jika sistem tidak punya folder sendiri (subfolder bernama sistem juga dicari).",
         ["PreferOwnShot"] = "Tampilkan gambar (jpg/png) bernama sama dengan ROM sebagai ganti pratinjau otomatis",
         ["OwnShotTip"] = "Klik untuk beralih antara tangkapan layar Anda dan pratinjau otomatis",
         ["ClearFolder"] = "Hapus",

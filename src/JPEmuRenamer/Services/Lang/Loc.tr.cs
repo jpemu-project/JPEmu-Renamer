@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Şu süreden sonra yeniden başla",
         ["PreviewSnapshotTime"] = "Toplu anlık görüntü zamanı",
         ["OwnShotFolder"] = "Kendi ekran görüntülerinizin klasörü",
+        ["SystemOwnShotFolder"] = "Kendi ekran görüntülerinizin klasörü (bu sistem için, isteğe bağlı)",
+        ["OwnShotFolderHint"] = "Her sistem için klasörü \"Sistem ayarları\"ndan belirleyebilirsiniz. Bir sistemin klasörü yoksa bu ortak klasör kullanılır (içindeki sistem adlı klasör de aranır).",
         ["PreferOwnShot"] = "ROM ile aynı adda bir resim (jpg/png) varsa otomatik önizleme yerine onu göster",
         ["OwnShotTip"] = "Kendi ekran görüntünüz ile otomatik önizleme arasında geçiş için tıklayın",
         ["ClearFolder"] = "Temizle",

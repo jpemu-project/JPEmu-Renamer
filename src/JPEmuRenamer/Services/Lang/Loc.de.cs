@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Neu starten nach",
         ["PreviewSnapshotTime"] = "Zeitpunkt der Sammel-Schnappschüsse",
         ["OwnShotFolder"] = "Ordner mit eigenen Screenshots",
+        ["SystemOwnShotFolder"] = "Ordner mit eigenen Screenshots (für dieses System, optional)",
+        ["OwnShotFolderHint"] = "In den „Systemeinstellungen“ lässt sich pro System ein Ordner festlegen. Dieser gemeinsame Ordner wird genutzt, wenn ein System keinen hat (ein Unterordner mit dem Systemnamen wird auch durchsucht).",
         ["PreferOwnShot"] = "Ein Bild (jpg/png) mit demselben Namen wie das ROM statt der automatischen Vorschau zeigen",
         ["OwnShotTip"] = "Klicken, um zwischen eigenem Screenshot und automatischer Vorschau zu wechseln",
         ["ClearFolder"] = "Entfernen",

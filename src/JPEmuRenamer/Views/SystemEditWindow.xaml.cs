@@ -131,6 +131,7 @@ public partial class SystemEditWindow : Window
         CustomIconBox.Text = c.CustomIconPath;
         DatBox.Text = c.DatPath;
         RomBox.Text = string.Join(";", c.RomFolders);
+        OwnShotBox.Text = c.OwnShotFolder;
         ExtBox.Text = string.Join(";", c.Extensions);
         Select(HeaderBox, c.HeaderMode);
         DisplayOnlyCheck.IsChecked = c.DisplayRenameOnly;
@@ -182,6 +183,13 @@ public partial class SystemEditWindow : Window
         RomBox.Text = string.Join(";", current);
     }
 
+    private void OnBrowseOwnShot(object sender, RoutedEventArgs e)
+    {
+        var dlg = new OpenFolderDialog();
+        if (System.IO.Directory.Exists(OwnShotBox.Text.Trim())) dlg.InitialDirectory = OwnShotBox.Text.Trim();
+        if (dlg.ShowDialog(this) == true) OwnShotBox.Text = dlg.FolderName;
+    }
+
     private void OnBrowseExe(object sender, RoutedEventArgs e)
     {
         var dlg = new OpenFileDialog { Filter = "exe|*.exe|All|*.*" };
@@ -219,6 +227,7 @@ public partial class SystemEditWindow : Window
         config.DatPath = DatBox.Text.Trim().Trim('"');
         config.RomFolders = RomBox.Text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
             .Select(f => f.Trim('"')).ToList();
+        config.OwnShotFolder = OwnShotBox.Text.Trim().Trim('"');
         config.Extensions = SystemPresets.ParseExtensions(ExtBox.Text);
         config.HeaderMode = Selected(HeaderBox, "Auto");
         config.DisplayRenameOnly = DisplayOnlyCheck.IsChecked == true;

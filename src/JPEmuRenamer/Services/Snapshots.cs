@@ -27,15 +27,22 @@ public static class Snapshots
 
     /// <summary>
     /// 自分で撮ったスクリーンショットを探す。ROMのファイル名（拡張子なし）か、DATのタイトルと同じ名前の画像を、
-    /// フォルダ直下と「機種名」フォルダの中から探す。見つからなければ null
+    /// 機種ごとのフォルダ、共通フォルダの「機種名」フォルダ、共通フォルダ直下の順に探す。見つからなければ null
     /// </summary>
-    public static string? OwnShotFor(string folder, SystemConfig sys, GameItem item)
+    public static string? OwnShotFor(string commonFolder, SystemConfig sys, GameItem item)
     {
-        if (string.IsNullOrWhiteSpace(folder) || !Directory.Exists(folder)) return null;
+        var dirs = new List<string>();
+        if (!string.IsNullOrWhiteSpace(sys.OwnShotFolder)) dirs.Add(sys.OwnShotFolder);
+        if (!string.IsNullOrWhiteSpace(commonFolder))
+        {
+            dirs.Add(System.IO.Path.Combine(commonFolder, Matcher.SafeFileName(sys.Name)));
+            dirs.Add(commonFolder);
+        }
+        dirs.RemoveAll(d => !Directory.Exists(d));
+        if (dirs.Count == 0) return null;
         var names = new List<string>();
         if (item.Rom != null) names.Add(System.IO.Path.GetFileNameWithoutExtension(item.Rom.Path));
         if (item.Dat?.Title is string title) names.Add(Matcher.SafeFileName(title));
-        var dirs = new[] { System.IO.Path.Combine(folder, Matcher.SafeFileName(sys.Name)), folder };
         foreach (var dir in dirs)
             foreach (var name in names.Distinct())
                 foreach (var ext in OwnShotExtensions)

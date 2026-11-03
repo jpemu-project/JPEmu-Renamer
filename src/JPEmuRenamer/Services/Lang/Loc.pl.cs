@@ -54,6 +54,8 @@ public sealed partial class Loc
         ["PreviewLoop"] = "Zacznij od nowa po",
         ["PreviewSnapshotTime"] = "Moment zbiorczych zrzutów",
         ["OwnShotFolder"] = "Folder z własnymi zrzutami ekranu",
+        ["SystemOwnShotFolder"] = "Folder z własnymi zrzutami (dla tego systemu, opcjonalnie)",
+        ["OwnShotFolderHint"] = "Folder dla każdego systemu ustawisz w „Ustawieniach systemu”. Ten wspólny folder jest używany, gdy system nie ma własnego (przeszukiwany jest też podfolder o nazwie systemu).",
         ["PreferOwnShot"] = "Pokazuj obraz (jpg/png) o tej samej nazwie co ROM zamiast automatycznego podglądu",
         ["OwnShotTip"] = "Kliknij, aby przełączać między własnym zrzutem a automatycznym podglądem",
         ["ClearFolder"] = "Wyczyść",

@@ -85,6 +85,7 @@
                     Content="{Binding [Browse], Source={x:Static s:Loc.Instance}}" />
             <TextBox x:Name="OwnShotFolderBox" IsReadOnly="True" />
         </DockPanel>
+        <TextBlock Text="{Binding [OwnShotFolderHint], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}" FontSize="12" Margin="0,4,0,0" TextWrapping="Wrap" />
         <CheckBox x:Name="PreferOwnShotCheck" Margin="0,10,0,0" Checked="OnOptionChanged" Unchecked="OnOptionChanged"
                   Content="{Binding [PreferOwnShot], Source={x:Static s:Loc.Instance}}" />
 
