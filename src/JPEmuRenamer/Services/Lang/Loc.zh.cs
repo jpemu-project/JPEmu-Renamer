@@ -133,6 +133,8 @@ public sealed partial class Loc
         ["HelpTitle"] = "JPEmu Renamer 说明书",
         ["HelpPlay"] = "游戏玩法",
         ["HelpRename"] = "重命名",
+        ["SupportDev"] = "支持开发",
+        ["SupportDevTip"] = "通过捐赠支持 JPEmu Renamer 的开发（将在浏览器中打开捐赠页面）",
         ["ListSeparator"] = "、",
         ["Icon_cart"] = "家用卡带机",
         ["Icon_diskcard"] = "磁碟机",

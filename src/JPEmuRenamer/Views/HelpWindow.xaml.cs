@@ -11,9 +11,13 @@ namespace JPEmuRenamer.Views;
 /// <summary>マニュアル。「ゲームの遊び方」と「リネーム」を切り替え、左の目次から各項目へ移動できる</summary>
 public partial class HelpWindow : Window
 {
+    /// <summary>「開発支援」で開く寄付ページ。空のあいだはボタンを押せない</summary>
+    private const string SupportUrl = "";
+
     public HelpWindow(string tab = "Play")
     {
         InitializeComponent();
+        SupportButton.IsEnabled = SupportUrl.Length > 0;
         if (tab == "Rename") RenameTab.IsChecked = true;
         else PlayTab.IsChecked = true;
     }
@@ -32,6 +36,13 @@ public partial class HelpWindow : Window
     }
 
     private void OnClose(object sender, RoutedEventArgs e) => Close();
+
+    private void OnSupport(object sender, RoutedEventArgs e)
+    {
+        if (SupportUrl.Length == 0) return;
+        try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(SupportUrl) { UseShellExecute = true }); }
+        catch (Exception ex) { MessageBox.Show(this, ex.Message, Title, MessageBoxButton.OK, MessageBoxImage.Warning); }
+    }
 
     // ---------- 表示 ----------
 

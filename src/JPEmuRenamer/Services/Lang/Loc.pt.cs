@@ -132,6 +132,8 @@ public sealed partial class Loc
         ["HelpTitle"] = "Manual do JPEmu Renamer",
         ["HelpPlay"] = "Jogar",
         ["HelpRename"] = "Renomear",
+        ["SupportDev"] = "Apoiar o desenvolvimento",
+        ["SupportDevTip"] = "Apoie o desenvolvimento do JPEmu Renamer com uma doação (abre a página no navegador)",
         ["Icon_cart"] = "Console de mesa (cartucho)",
         ["Icon_diskcard"] = "Disquete",
         ["Icon_disc"] = "Console de disco",

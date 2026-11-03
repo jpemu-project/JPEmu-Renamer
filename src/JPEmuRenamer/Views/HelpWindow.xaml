@@ -21,6 +21,15 @@
                                      Content="{Binding [HelpRename], Source={x:Static s:Loc.Instance}}" Checked="OnTabChecked" />
                     </StackPanel>
                 </Border>
+                <!-- 開発支援（寄付ページをブラウザで開く） -->
+                <Button x:Name="SupportButton" Margin="12,0,0,0" Padding="14,6" HorizontalAlignment="Left" VerticalAlignment="Center"
+                        BorderBrush="{DynamicResource AccentBrush}" Click="OnSupport"
+                        ToolTip="{Binding [SupportDevTip], Source={x:Static s:Loc.Instance}}">
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="♥" Foreground="{DynamicResource AccentBrush}" Margin="0,0,6,0" />
+                        <TextBlock Text="{Binding [SupportDev], Source={x:Static s:Loc.Instance}}" />
+                    </StackPanel>
+                </Button>
             </DockPanel>
         </Border>
 
