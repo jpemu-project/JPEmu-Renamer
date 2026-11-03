@@ -101,6 +101,10 @@ public class DatEntry
     public string Extension { get; set; } = "";
     public string Publisher { get; set; } = "";
     public string ReleaseNumber { get; set; } = "";
+    public string Genre { get; set; } = "";
+    public string ReleaseDate { get; set; } = "";
+    public string Price { get; set; } = "";
+    public string Comment { get; set; } = "";
 }
 
 /// <summary>走査したROMファイル（キャッシュにも使う）</summary>

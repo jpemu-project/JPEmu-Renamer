@@ -51,6 +51,10 @@ public partial class GameItem : ObservableObject
     public bool CanRename => Status == MatchStatus.NameDiff;
 
     public string Publisher => Dat?.Publisher ?? "";
+    public string Genre => Dat?.Genre ?? "";
+    public string ReleaseDate => Dat?.ReleaseDate ?? "";
+    public string Price => Dat?.Price ?? "";
+    public string Comment => Dat?.Comment ?? "";
     public string CurrentFileName => Rom != null ? System.IO.Path.GetFileName(Rom.Path) : "";
     public string CrcText => Rom != null ? Rom.Crc.ToString("X8") : (Dat?.Crc?.ToString("X8") ?? "");
     public string SizeText => Rom != null ? FormatSize(Rom.RomSize > 0 ? Rom.RomSize : Rom.Size) : "";

@@ -49,18 +49,11 @@
                   Content="{Binding [PreviewEnabled], Source={x:Static s:Loc.Instance}}" />
         <StackPanel x:Name="PreviewOptionsPanel" Margin="0,6,0,0" />
 
-        <!-- 2つを同じ幅で並べ、文字が長いときはボタンの中で縮めて収める -->
-        <Grid Margin="0,22,0,0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="10" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Button Click="OnPlaySettings" Padding="12,8"
-                    Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />
-            <Button Grid.Column="2" Click="OnBulkCores" Padding="12,8"
-                    Content="{Binding [OpenBulkCores], Source={x:Static s:Loc.Instance}}" />
-        </Grid>
+        <!-- 長い訳文でも見切れないよう、横に並べず全幅で縦に積む -->
+        <Button Margin="0,22,0,0" Click="OnPlaySettings" Padding="12,8"
+                Content="{Binding [OpenPlaySettingsGlobal], Source={x:Static s:Loc.Instance}}" />
+        <Button Margin="0,8,0,0" Click="OnBulkCores" Padding="12,8"
+                Content="{Binding [OpenBulkCores], Source={x:Static s:Loc.Instance}}" />
 
         <Button IsCancel="True" IsDefault="True" HorizontalAlignment="Right" MinWidth="110" Margin="0,24,0,0"
                 Content="{Binding [Close], Source={x:Static s:Loc.Instance}}" Click="OnClose" />

@@ -1,8 +1,8 @@
-<Window x:Class="JPEmuRenamer.Views.MainWindow"
+﻿<Window x:Class="JPEmuRenamer.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:JPEmuRenamer.Services"
-        Title="JPEmu Renamer" Icon="/Assets/app.ico" Width="1280" Height="800" MinWidth="760" MinHeight="480"
+        Title="JPEmu Renamer" Icon="/Assets/logo.png" Width="1280" Height="800" MinWidth="760" MinHeight="480"
         Background="{StaticResource BgBrush}" Foreground="{StaticResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="{Binding FontSize}"
         UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="ClearType"
@@ -142,7 +142,7 @@
                 </Grid.ColumnDefinitions>
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                    <Image Source="/Assets/logo.png" Width="34" Height="34" RenderOptions.BitmapScalingMode="HighQuality" />
+                    <Image Source="/Assets/logo.png" Width="40" Height="40" RenderOptions.BitmapScalingMode="HighQuality" />
                     <TextBlock Text="JPEmu Renamer" FontSize="20" Margin="10,0,20,0" VerticalAlignment="Center" />
                 </StackPanel>
 
@@ -494,27 +494,108 @@
                                         IsEnabled="{Binding SelectedItem.IsOwned}" />
                             </Grid>
                         </StackPanel>
-                        <StackPanel Margin="0,16,0,16" DataContext="{Binding SelectedItem}">
-                            <TextBlock Text="{Binding Title}" FontSize="22" FontWeight="SemiBold" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding Publisher}" Style="{StaticResource Muted}" Margin="0,4,0,14" />
-                            <Grid TextElement.FontSize="13">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                    <RowDefinition Height="Auto" />
-                                </Grid.RowDefinitions>
-                                <TextBlock Text="{Binding [ColStatus], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" Margin="0,0,16,8" />
-                                <TextBlock Grid.Column="1" Text="{Binding StatusText}" Margin="0,0,0,8" />
-                                <TextBlock Grid.Row="1" Text="{Binding [ColCrc], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" Margin="0,0,16,8" />
-                                <TextBlock Grid.Row="1" Grid.Column="1" Text="{Binding CrcText}" FontFamily="Consolas" Margin="0,0,0,8" />
-                                <TextBlock Grid.Row="2" Text="{Binding [ColCurrent], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" Margin="0,0,16,8" />
-                                <TextBlock Grid.Row="2" Grid.Column="1" Text="{Binding CurrentFileName}" TextWrapping="Wrap" Margin="0,0,0,8" />
+                        <!-- ROM情報：リングで綴じたノート風のカード -->
+                        <ScrollViewer Margin="0,12,0,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                                      Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
+                            <Grid Margin="12,0,0,0" DataContext="{Binding SelectedItem}">
+                                <Grid.Resources>
+                                    <!-- 罫線つきの1行。値が空の行は隠す -->
+                                    <Style x:Key="InfoRow" TargetType="Border">
+                                        <Setter Property="BorderBrush" Value="#2C3038" />
+                                        <Setter Property="BorderThickness" Value="0,0,0,1" />
+                                        <Setter Property="MinHeight" Value="24" />
+                                        <Setter Property="Padding" Value="0,3,0,2" />
+                                        <Style.Triggers>
+                                            <Trigger Property="Tag" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                    <Style x:Key="InfoKey" TargetType="TextBlock">
+                                        <Setter Property="Foreground" Value="#8B909A" />
+                                        <Setter Property="Width" Value="84" />
+                                        <Setter Property="TextTrimming" Value="CharacterEllipsis" />
+                                    </Style>
+                                </Grid.Resources>
+                                <Border Background="#1D2027" BorderBrush="#2F333C" BorderThickness="1" CornerRadius="6" Padding="28,8,14,8">
+                                    <StackPanel TextElement.FontSize="13" TextElement.Foreground="#E4E6EA">
+                                        <TextBlock Text="ROM INFO" FontSize="10" Foreground="#7D828C" HorizontalAlignment="Right" Margin="0,0,0,2" />
+                                        <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="#F2F3F5" TextWrapping="Wrap" Margin="0,-4,0,4" />
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding StatusText}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [ColStatus], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding StatusText}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding Publisher}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoPublisher], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding Publisher}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding Genre}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoGenre], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding Genre}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding ReleaseDate}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoRelease], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding ReleaseDate}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding Price}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoPrice], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding Price}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding CrcText}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="CRC" />
+                                                <TextBlock Text="{Binding CrcText}" FontFamily="Consolas" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding CurrentFileName}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoFile], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding CurrentFileName}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                        <Border Style="{StaticResource InfoRow}" Tag="{Binding Comment}">
+                                            <DockPanel>
+                                                <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [InfoComment], Source={x:Static s:Loc.Instance}}" />
+                                                <TextBlock Text="{Binding Comment}" TextWrapping="Wrap" />
+                                            </DockPanel>
+                                        </Border>
+                                    </StackPanel>
+                                </Border>
+                                <!-- 綴じリング：ページの外から穴へ通るワイヤーを縦に並べる -->
+                                <Rectangle Width="40" HorizontalAlignment="Left" Margin="-12,8,0,6" IsHitTestVisible="False">
+                                    <Rectangle.Fill>
+                                        <DrawingBrush TileMode="Tile" Viewport="0,0,40,24" ViewportUnits="Absolute" Viewbox="0,0,40,24" ViewboxUnits="Absolute" Stretch="None">
+                                            <DrawingBrush.Drawing>
+                                                <DrawingGroup>
+                                                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H40 V24 H0 Z" />
+                                                    <GeometryDrawing Brush="#050608" Geometry="M21,12.5 A4,3 0 1 0 29,12.5 A4,3 0 1 0 21,12.5 Z" />
+                                                    <GeometryDrawing Geometry="M3.8,18.2 C1.8,9.2 13.8,4.2 23.8,11.2">
+                                                        <GeometryDrawing.Pen>
+                                                            <Pen Brush="#80000000" Thickness="3.2" StartLineCap="Round" EndLineCap="Round" />
+                                                        </GeometryDrawing.Pen>
+                                                    </GeometryDrawing>
+                                                    <GeometryDrawing Geometry="M3,17 C1,8 13,3 23,10">
+                                                        <GeometryDrawing.Pen>
+                                                            <Pen Brush="#D9DCE1" Thickness="2.6" StartLineCap="Round" EndLineCap="Round" />
+                                                        </GeometryDrawing.Pen>
+                                                    </GeometryDrawing>
+                                                </DrawingGroup>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Rectangle.Fill>
+                                </Rectangle>
                             </Grid>
-                        </StackPanel>
+                        </ScrollViewer>
                     </DockPanel>
 
                     <!-- 整理：リネーム前後の比較 -->
