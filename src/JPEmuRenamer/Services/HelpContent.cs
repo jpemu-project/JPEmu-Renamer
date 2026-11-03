@@ -1,4 +1,4 @@
-// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
+﻿// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 namespace JPEmuRenamer.Services;
 
 /// <summary>
@@ -11,13 +11,15 @@ public static class HelpContent
     public static string Play(string lang) => lang switch
     {
         "ja" => PlayJa, "zh" => HelpZh.Play, "ko" => HelpKo.Play, "fr" => HelpFr.Play, "it" => HelpIt.Play,
-        "es" => HelpEs.Play, "pt" => HelpPt.Play, "ru" => HelpRu.Play, _ => PlayEn
+        "es" => HelpEs.Play, "pt" => HelpPt.Play, "ru" => HelpRu.Play, "zh-Hant" => HelpZhHant.Play,
+        "de" => HelpDe.Play, "pl" => HelpPl.Play, "tr" => HelpTr.Play, "id" => HelpId.Play, "vi" => HelpVi.Play, "th" => HelpTh.Play, _ => PlayEn
     };
 
     public static string Rename(string lang) => lang switch
     {
         "ja" => RenameJa, "zh" => HelpZh.Rename, "ko" => HelpKo.Rename, "fr" => HelpFr.Rename, "it" => HelpIt.Rename,
-        "es" => HelpEs.Rename, "pt" => HelpPt.Rename, "ru" => HelpRu.Rename, _ => RenameEn
+        "es" => HelpEs.Rename, "pt" => HelpPt.Rename, "ru" => HelpRu.Rename, "zh-Hant" => HelpZhHant.Rename,
+        "de" => HelpDe.Rename, "pl" => HelpPl.Rename, "tr" => HelpTr.Rename, "id" => HelpId.Rename, "vi" => HelpVi.Rename, "th" => HelpTh.Rename, _ => RenameEn
     };
 
     private const string PlayJa = """

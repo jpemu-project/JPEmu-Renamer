@@ -1,4 +1,4 @@
-// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
+﻿// JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 using System.ComponentModel;
 using System.Globalization;
 
@@ -19,12 +19,19 @@ public sealed partial class Loc : INotifyPropertyChanged
         ("ja", "日本語"),
         ("en", "English"),
         ("zh", "简体中文"),
+        ("zh-Hant", "繁體中文"),
         ("ko", "한국어"),
         ("fr", "Français"),
         ("it", "Italiano"),
         ("es", "Español"),
         ("pt", "Português"),
         ("ru", "Русский"),
+        ("de", "Deutsch"),
+        ("pl", "Polski"),
+        ("tr", "Türkçe"),
+        ("id", "Bahasa Indonesia"),
+        ("vi", "Tiếng Việt"),
+        ("th", "ไทย"),
     };
 
     private string language = "ja";
@@ -48,7 +55,8 @@ public sealed partial class Loc : INotifyPropertyChanged
     private static Dictionary<string, Dictionary<string, string>>? tables;
     private static Dictionary<string, Dictionary<string, string>> Tables => tables ??= new()
     {
-        ["ja"] = Ja, ["en"] = En, ["zh"] = Zh, ["ko"] = Ko, ["fr"] = Fr, ["it"] = It, ["es"] = Es, ["pt"] = Pt, ["ru"] = Ru,
+        ["ja"] = Ja, ["en"] = En, ["zh"] = Zh, ["zh-Hant"] = ZhHant, ["ko"] = Ko, ["fr"] = Fr, ["it"] = It, ["es"] = Es, ["pt"] = Pt, ["ru"] = Ru,
+        ["de"] = De, ["pl"] = Pl, ["tr"] = Tr, ["id"] = Id, ["vi"] = Vi, ["th"] = Th,
     };
 
     /// <summary>その言語に無い文言は英語、それも無ければ日本語で表示する</summary>
@@ -67,7 +75,10 @@ public sealed partial class Loc : INotifyPropertyChanged
 
     public static string DetectOsLanguage()
     {
-        var os = CultureInfo.CurrentUICulture.TwoLetterISOLanguageName;
+        var ui = CultureInfo.CurrentUICulture;
+        var os = ui.TwoLetterISOLanguageName;
+        // 中国語は台湾・香港・マカオ（繁体字）とそれ以外（簡体字）で分ける
+        if (os == "zh" && (ui.Name.Contains("Hant") || ui.Name is "zh-TW" or "zh-HK" or "zh-MO")) return "zh-Hant";
         return Tables.ContainsKey(os) ? os : "en";
     }
 

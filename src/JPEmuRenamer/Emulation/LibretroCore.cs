@@ -468,6 +468,13 @@ public sealed unsafe class LibretroCore : IDisposable
                     "ru" => 9u,
                     "ko" => 10u,
                     "zh" => 12u,  // 簡体字
+                    "zh-Hant" => 11u, // 繁体字
+                    "de" => 4u,
+                    "pl" => 14u,
+                    "vi" => 15u,
+                    "tr" => 18u,
+                    "id" => 24u,
+                    // タイ語は libretro に無いので英語
                     _ => Retro.LanguageEnglish
                 };
                 return true;
