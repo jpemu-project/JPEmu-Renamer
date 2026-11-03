@@ -372,14 +372,111 @@
                 <Grid>
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
-                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="12" Background="#0B0D11" BorderBrush="{StaticResource LineBrush}" BorderThickness="1">
-                            <Grid ClipToBounds="True">
-                                <TextBlock x:Name="PreviewText" Foreground="{StaticResource MutedBrush}" FontSize="13" Margin="16"
-                                           TextAlignment="Center" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" />
-                                <Image x:Name="PreviewImage" Stretch="Uniform" Margin="2" RenderOptions.BitmapScalingMode="NearestNeighbor" />
-                                <Button x:Name="PreviewSaveButton" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="8"
-                                        Padding="10,3" MinHeight="28" FontSize="12" Background="#C0101318" Visibility="Collapsed"
-                                        Content="{Binding [PreviewSave], Source={x:Static s:Loc.Instance}}" Click="OnPreviewSave" />
+                        <!-- テレビ風の枠：黒い縁＋下だけシルバー -->
+                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="10" Background="#141518" BorderBrush="#2A2C31" BorderThickness="1">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*" />
+                                    <RowDefinition Height="24" />
+                                </Grid.RowDefinitions>
+                                <Border Margin="9,9,9,8" Background="Black" CornerRadius="2">
+                                    <Grid ClipToBounds="True">
+                                        <!-- 待機中：左が黒に溶ける4色の横縞 -->
+                                        <UniformGrid Rows="4" Margin="0,4">
+                                            <UniformGrid.Style>
+                                                <Style TargetType="UniformGrid">
+                                                    <Setter Property="Visibility" Value="Collapsed" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Source, ElementName=PreviewImage}" Value="{x:Null}">
+                                                            <Setter Property="Visibility" Value="Visible" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </UniformGrid.Style>
+                                            <Border Margin="0,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="Black" Offset="0.08" /><GradientStop Color="#BFE0FF" Offset="0.55" /><GradientStop Color="#E6F3FF" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <Border Margin="0,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="Black" Offset="0.08" /><GradientStop Color="#E3102B" Offset="0.55" /><GradientStop Color="#FF1A3A" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <Border Margin="0,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="Black" Offset="0.08" /><GradientStop Color="#00C98F" Offset="0.55" /><GradientStop Color="#00F0B0" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                            <Border Margin="0,3">
+                                                <Border.Background>
+                                                    <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                        <GradientStop Color="Black" Offset="0.08" /><GradientStop Color="#1747D8" Offset="0.55" /><GradientStop Color="#2A6CFF" Offset="1" />
+                                                    </LinearGradientBrush>
+                                                </Border.Background>
+                                            </Border>
+                                        </UniformGrid>
+                                        <Image x:Name="PreviewImage" Stretch="Uniform" RenderOptions.BitmapScalingMode="NearestNeighbor" />
+                                        <!-- 案内文：縞の下寄りに半透明の帯で -->
+                                        <Border VerticalAlignment="Bottom" Margin="0,0,0,10" Padding="12,4">
+                                            <Border.Background>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="1,0">
+                                                    <GradientStop Color="#00000000" Offset="0" /><GradientStop Color="#A6000000" Offset="0.25" />
+                                                    <GradientStop Color="#A6000000" Offset="0.75" /><GradientStop Color="#00000000" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Border.Background>
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Text, ElementName=PreviewText}" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock x:Name="PreviewText" Foreground="#E9ECF1" FontSize="12"
+                                                       TextAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" />
+                                        </Border>
+                                    </Grid>
+                                </Border>
+                                <!-- シルバーの下枠：ランプ・ロゴ・保存ボタン -->
+                                <Border Grid.Row="1" CornerRadius="0,0,9,9" BorderBrush="#E8EAEC" BorderThickness="0,1,0,0">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#D4D7DB" Offset="0" /><GradientStop Color="#AEB2B7" Offset="1" />
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <Grid>
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0">
+                                            <Ellipse Width="5" Height="5" Margin="0,0,6,0">
+                                                <Ellipse.Style>
+                                                    <Style TargetType="Ellipse">
+                                                        <Setter Property="Fill" Value="#39D17A" />
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Source, ElementName=PreviewImage}" Value="{x:Null}">
+                                                                <Setter Property="Fill" Value="#D9473F" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </Ellipse.Style>
+                                            </Ellipse>
+                                            <Ellipse Width="5" Height="5" Margin="0,0,6,0" Fill="#6C7076" />
+                                            <Ellipse Width="5" Height="5" Fill="#6C7076" />
+                                        </StackPanel>
+                                        <TextBlock Text="J&#x200A;P&#x200A;E&#x200A;m&#x200A;u" FontSize="8" FontWeight="SemiBold" Foreground="#3A3D42"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <Button x:Name="PreviewSaveButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
+                                                Padding="6,0" MinHeight="0" Height="17" MaxWidth="96" FontSize="10" Visibility="Collapsed"
+                                                Background="#C6C9CD" Foreground="#3A3D42" BorderBrush="#8D9197"
+                                                Content="{Binding [PreviewSave], Source={x:Static s:Loc.Instance}}" Click="OnPreviewSave" />
+                                    </Grid>
+                                </Border>
                             </Grid>
                         </Border>
                         <StackPanel DockPanel.Dock="Bottom">
