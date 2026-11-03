@@ -40,6 +40,17 @@
     <CornerRadius x:Key="SystemIconRadius">10</CornerRadius>
     <SolidColorBrush x:Key="SystemIconBgBrush" Color="#1A1E26" />
     <SolidColorBrush x:Key="SystemIconGlossBrush" Color="Transparent" />
+    <!-- テレビ風プレビュー：黒い縁＋シルバーの帯 -->
+    <SolidColorBrush x:Key="TvBezelBrush" Color="#141518" />
+    <SolidColorBrush x:Key="TvBezelBorderBrush" Color="#2A2C31" />
+    <LinearGradientBrush x:Key="TvBandBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#D4D7DB" Offset="0" /><GradientStop Color="#AEB2B7" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TvBandLineBrush" Color="#E8EAEC" />
+    <SolidColorBrush x:Key="TvLedOffBrush" Color="#6C7076" />
+    <SolidColorBrush x:Key="TvLogoBrush" Color="#3A3D42" />
+    <SolidColorBrush x:Key="TvSaveBgBrush" Color="#C6C9CD" />
+    <SolidColorBrush x:Key="TvSaveBorderBrush" Color="#8D9197" />
     <!-- ROM情報カード：暗いカード -->
     <sys:String x:Key="MemoHeaderText">ROM INFO</sys:String>
     <SolidColorBrush x:Key="MemoBgBrush" Color="#1D2027" />

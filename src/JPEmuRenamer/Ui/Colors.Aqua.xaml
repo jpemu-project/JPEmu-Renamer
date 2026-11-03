@@ -71,6 +71,20 @@
         <GradientStop Color="#1AFFFFFF" Offset="1" />
     </LinearGradientBrush>
 
+    <!-- テレビ風プレビュー：水色の透き通った縁＋つやのある青い帯 -->
+    <LinearGradientBrush x:Key="TvBezelBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#F2FBFF" Offset="0" /><GradientStop Color="#BFE6FA" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TvBezelBorderBrush" Color="#8EC7E6" />
+    <LinearGradientBrush x:Key="TvBandBrush" StartPoint="0,0" EndPoint="0,1">
+        <GradientStop Color="#7AD3FA" Offset="0" /><GradientStop Color="#36AEEA" Offset="0.48" />
+        <GradientStop Color="#1693D8" Offset="0.52" /><GradientStop Color="#1FA3E8" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="TvBandLineBrush" Color="#B3EAFF" />
+    <SolidColorBrush x:Key="TvLedOffBrush" Color="#BFE8FB" />
+    <SolidColorBrush x:Key="TvLogoBrush" Color="#FFFFFF" />
+    <SolidColorBrush x:Key="TvSaveBgBrush" Color="#4D0B6FA8" />
+    <SolidColorBrush x:Key="TvSaveBorderBrush" Color="#B3FFFFFF" />
     <!-- ROM情報カード：水色の罫線のリングノート -->
     <sys:String x:Key="MemoHeaderText">memo</sys:String>
     <SolidColorBrush x:Key="MemoBgBrush" Color="#F7FCFF" />

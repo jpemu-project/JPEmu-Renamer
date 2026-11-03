@@ -378,8 +378,8 @@
                 <Grid>
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
-                        <!-- テレビ風の枠：黒い縁＋下だけシルバー -->
-                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="10" Background="#141518" BorderBrush="#2A2C31" BorderThickness="1">
+                        <!-- テレビ風の枠：縁と下の帯の色はテーマごと（Colors.*.xaml の Tv*） -->
+                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="10" Background="{DynamicResource TvBezelBrush}" BorderBrush="{DynamicResource TvBezelBorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
@@ -451,13 +451,8 @@
                                         </Border>
                                     </Grid>
                                 </Border>
-                                <!-- シルバーの下枠：ランプ・ロゴ・保存ボタン -->
-                                <Border Grid.Row="1" CornerRadius="0,0,9,9" BorderBrush="#E8EAEC" BorderThickness="0,1,0,0">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#D4D7DB" Offset="0" /><GradientStop Color="#AEB2B7" Offset="1" />
-                                        </LinearGradientBrush>
-                                    </Border.Background>
+                                <!-- 下の帯：ランプ・ロゴ・保存ボタン -->
+                                <Border Grid.Row="1" CornerRadius="0,0,9,9" Background="{DynamicResource TvBandBrush}" BorderBrush="{DynamicResource TvBandLineBrush}" BorderThickness="0,1,0,0">
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0">
                                             <Ellipse Width="5" Height="5" Margin="0,0,6,0">
@@ -472,14 +467,14 @@
                                                     </Style>
                                                 </Ellipse.Style>
                                             </Ellipse>
-                                            <Ellipse Width="5" Height="5" Margin="0,0,6,0" Fill="#6C7076" />
-                                            <Ellipse Width="5" Height="5" Fill="#6C7076" />
+                                            <Ellipse Width="5" Height="5" Margin="0,0,6,0" Fill="{DynamicResource TvLedOffBrush}" />
+                                            <Ellipse Width="5" Height="5" Fill="{DynamicResource TvLedOffBrush}" />
                                         </StackPanel>
-                                        <TextBlock Text="J&#x200A;P&#x200A;E&#x200A;m&#x200A;u" FontSize="8" FontWeight="SemiBold" Foreground="#3A3D42"
+                                        <TextBlock Text="J&#x200A;P&#x200A;E&#x200A;m&#x200A;u" FontSize="8" FontWeight="SemiBold" Foreground="{DynamicResource TvLogoBrush}"
                                                    HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         <Button x:Name="PreviewSaveButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
                                                 Padding="6,0" MinHeight="0" Height="17" MaxWidth="96" FontSize="10" Visibility="Collapsed"
-                                                Background="#C6C9CD" Foreground="#3A3D42" BorderBrush="#8D9197"
+                                                Background="{DynamicResource TvSaveBgBrush}" Foreground="{DynamicResource TvLogoBrush}" BorderBrush="{DynamicResource TvSaveBorderBrush}"
                                                 Content="{Binding [PreviewSave], Source={x:Static s:Loc.Instance}}" Click="OnPreviewSave" />
                                     </Grid>
                                 </Border>
