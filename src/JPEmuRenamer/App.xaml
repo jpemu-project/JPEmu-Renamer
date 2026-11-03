@@ -5,6 +5,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
+                <!-- 先頭は色。ThemeManager が実行中にダーク／ライトへ差し替える -->
+                <ResourceDictionary Source="Ui/Colors.Light.xaml" />
                 <ResourceDictionary Source="Ui/Theme.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <BooleanToVisibilityConverter x:Key="BoolToVis" />

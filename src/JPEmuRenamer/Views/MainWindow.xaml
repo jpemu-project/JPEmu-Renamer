@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:JPEmuRenamer.Services"
         Title="JPEmu Renamer" Icon="/Assets/logo.png" Width="1280" Height="800" MinWidth="760" MinHeight="480"
-        Background="{StaticResource BgBrush}" Foreground="{StaticResource TextBrush}"
+        Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="{Binding FontSize}"
         UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="ClearType"
         PreviewMouseWheel="OnPreviewMouseWheel" Closing="OnClosing">
@@ -11,27 +11,27 @@
     <Window.Resources>
         <!-- タイトル一覧（Slaunch風：線で区切り、1行おきに色を変える） -->
         <Style x:Key="GameRow" TargetType="ListBoxItem">
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Grid>
-                            <Border x:Name="Bd" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}"
+                            <Border x:Name="Bd" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}"
                                     BorderThickness="0,0,0,1" Padding="14,8">
                                 <ContentPresenter />
                             </Border>
-                            <Rectangle x:Name="Mark" Width="4" HorizontalAlignment="Left" Fill="{StaticResource AccentBrush}" Visibility="Collapsed" />
+                            <Rectangle x:Name="Mark" Width="4" HorizontalAlignment="Left" Fill="{DynamicResource AccentBrush}" Visibility="Collapsed" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource Panel2Brush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel2Brush}" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource Panel3Brush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel3Brush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource SelectedRowBrush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectedRowBrush}" />
                                 <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
                                 <Setter Property="FontWeight" Value="Bold" />
                             </Trigger>
@@ -42,7 +42,7 @@
         </Style>
 
         <Style x:Key="SystemRow" TargetType="ListBoxItem">
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
             <Setter Property="Margin" Value="0,2" />
             <Setter Property="Template">
@@ -53,10 +53,10 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource Panel2Brush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel2Brush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{StaticResource Panel3Brush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel3Brush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -65,12 +65,12 @@
         </Style>
 
         <Style x:Key="GameTitle" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding StatusKey}" Value="Missing">
-                    <Setter Property="Foreground" Value="{StaticResource DimBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DimBrush}" />
                     <Setter Property="FontWeight" Value="Normal" />
                 </DataTrigger>
             </Style.Triggers>
@@ -84,13 +84,13 @@
             <Setter Property="Background" Value="#6B7280" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding StatusKey}" Value="Match">
-                    <Setter Property="Background" Value="{StaticResource OkFgBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource OkFgBrush}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding StatusKey}" Value="NameDiff">
-                    <Setter Property="Background" Value="{StaticResource WarnFgBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource WarnFgBrush}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding StatusKey}" Value="Duplicate">
-                    <Setter Property="Background" Value="{StaticResource ErrFgBrush}" />
+                    <Setter Property="Background" Value="{DynamicResource ErrFgBrush}" />
                 </DataTrigger>
                 <DataTrigger Binding="{Binding StatusKey}" Value="Missing">
                     <Setter Property="Background" Value="Transparent" />
@@ -99,7 +99,7 @@
         </Style>
 
         <Style x:Key="Muted" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource MutedBrush}" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="TextTrimming" Value="CharacterEllipsis" />
         </Style>
@@ -130,7 +130,7 @@
         </Grid.RowDefinitions>
 
         <!-- ヘッダー -->
-        <Border Grid.Row="0" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,0,1" Padding="20,12">
+        <Border Grid.Row="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1" Padding="20,12">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
@@ -148,10 +148,10 @@
 
                 <Border Grid.Column="1" Style="{StaticResource SegGroup}" VerticalAlignment="Center">
                     <StackPanel Orientation="Horizontal">
-                        <RadioButton GroupName="Mode" Style="{StaticResource SegButton}" Tag="{StaticResource AccentBrush}"
+                        <RadioButton GroupName="Mode" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                                      IsChecked="{Binding IsPlayMode, Mode=TwoWay}"
                                      Content="{Binding [Play], Source={x:Static s:Loc.Instance}}" />
-                        <RadioButton GroupName="Mode" Style="{StaticResource SegButton}" Tag="{StaticResource AccentBrush}"
+                        <RadioButton GroupName="Mode" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
                                      IsChecked="{Binding IsManageMode, Mode=TwoWay}"
                                      Content="{Binding [Manage], Source={x:Static s:Loc.Instance}}" />
                     </StackPanel>
@@ -159,9 +159,9 @@
 
                 <Grid Grid.Column="2" Margin="16,0" VerticalAlignment="Center">
                     <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="34,7,8,7" />
-                    <Path Data="M6,1 A5,5 0 1 1 5.99,1 M10,10 L14,14" Stroke="{StaticResource MutedBrush}" StrokeThickness="1.6"
+                    <Path Data="M6,1 A5,5 0 1 1 5.99,1 M10,10 L14,14" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.6"
                           Width="16" Height="16" HorizontalAlignment="Left" Margin="12,0,0,0" IsHitTestVisible="False" />
-                    <TextBlock Text="{Binding [Search], Source={x:Static s:Loc.Instance}}" Foreground="{StaticResource MutedBrush}"
+                    <TextBlock Text="{Binding [Search], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
                                Margin="36,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -192,7 +192,7 @@
             </Grid.ColumnDefinitions>
 
             <!-- 機種一覧 -->
-            <Border Grid.Column="0" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,0,1,0" Padding="12,16">
+            <Border Grid.Column="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,1,0" Padding="12,16">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" Text="{Binding [Systems], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" Margin="10,0,0,8" />
                     <Button DockPanel.Dock="Bottom" Command="{Binding AddSystemCommand}" Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" Margin="0,8,0,0" />
@@ -205,7 +205,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Width="44" Height="44" CornerRadius="10" Background="{StaticResource Panel2Brush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1">
+                                    <Border Width="44" Height="44" CornerRadius="10" Background="{DynamicResource Panel2Brush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
                                         <Grid>
                                             <Viewbox Width="32" Height="32" Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
                                                 <Canvas Width="48" Height="48">
@@ -261,23 +261,23 @@
 
                 <!-- 未設定のとき -->
                 <Border Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource BoolToVis}}"
-                        Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
+                        Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding [NoSystemSetup], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
-                                   Foreground="{StaticResource SubBrush}" LineHeight="26" />
+                                   Foreground="{DynamicResource SubBrush}" LineHeight="26" />
                         <Button Style="{StaticResource AccentButton}" Command="{Binding EditSystemCommand}" HorizontalAlignment="Center" Margin="0,20,0,0"
                                 Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" />
                     </StackPanel>
                 </Border>
 
                 <!-- 機種が1つも無いとき（最初の起動時）：見出しと一覧の上にかぶせる -->
-                <Border Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="10" Background="{StaticResource BgBrush}"
+                <Border Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="10" Background="{DynamicResource BgBrush}"
                         Visibility="{Binding HasNoSystems, Converter={StaticResource BoolToVis}}">
-                    <Border Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
+                    <Border Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520">
                             <TextBlock Text="{Binding [NoSystems], Source={x:Static s:Loc.Instance}}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" />
                             <TextBlock Text="{Binding [NoSystemsHint], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
-                                       Foreground="{StaticResource SubBrush}" LineHeight="26" Margin="0,12,0,0" />
+                                       Foreground="{DynamicResource SubBrush}" LineHeight="26" Margin="0,12,0,0" />
                             <Button Style="{StaticResource AccentButton}" Command="{Binding AddSystemCommand}" HorizontalAlignment="Center" Margin="0,22,0,0"
                                     Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" />
                         </StackPanel>
@@ -287,10 +287,10 @@
                 <Grid Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource InvBoolToVis}}">
                     <!-- 遊ぶ（リスト） -->
                     <Border Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}"
-                            BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
+                            BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
                         <DockPanel>
-                            <Border DockPanel.Dock="Top" Background="#1B1F27" BorderBrush="#343A47" BorderThickness="0,0,0,1" Padding="14,7">
-                                <Grid TextElement.Foreground="{StaticResource MutedBrush}" TextElement.FontSize="12">
+                            <Border DockPanel.Dock="Top" Background="{DynamicResource HeaderRowBrush}" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,7">
+                                <Grid TextElement.Foreground="{DynamicResource MutedBrush}" TextElement.FontSize="12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22" />
                                         <ColumnDefinition Width="*" />
@@ -304,7 +304,7 @@
                             </Border>
                             <ListBox x:Name="GameList" ItemsSource="{Binding ItemsView}" SelectedItem="{Binding SelectedItem}"
                                      ItemContainerStyle="{StaticResource GameRow}" AlternationCount="2"
-                                     Background="{StaticResource PanelBrush}" BorderThickness="0"
+                                     Background="{DynamicResource PanelBrush}" BorderThickness="0"
                                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      MouseDoubleClick="OnGameDoubleClick" KeyDown="OnGameKeyDown"
@@ -368,7 +368,7 @@
             </Grid>
 
             <!-- 詳細 -->
-            <Border Grid.Column="2" Background="{StaticResource PanelBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1,0,0,0" Padding="20,16">
+            <Border Grid.Column="2" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1,0,0,0" Padding="20,16">
                 <Grid>
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
@@ -501,7 +501,7 @@
                                 <Grid.Resources>
                                     <!-- 罫線つきの1行。値が空の行は隠す -->
                                     <Style x:Key="InfoRow" TargetType="Border">
-                                        <Setter Property="BorderBrush" Value="#2C3038" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource MemoLineBrush}" />
                                         <Setter Property="BorderThickness" Value="0,0,0,1" />
                                         <Setter Property="MinHeight" Value="24" />
                                         <Setter Property="Padding" Value="0,3,0,2" />
@@ -512,15 +512,15 @@
                                         </Style.Triggers>
                                     </Style>
                                     <Style x:Key="InfoKey" TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="#8B909A" />
+                                        <Setter Property="Foreground" Value="{DynamicResource MemoKeyBrush}" />
                                         <Setter Property="Width" Value="84" />
                                         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </Grid.Resources>
-                                <Border Background="#1D2027" BorderBrush="#2F333C" BorderThickness="1" CornerRadius="6" Padding="28,8,14,8">
-                                    <StackPanel TextElement.FontSize="13" TextElement.Foreground="#E4E6EA">
-                                        <TextBlock Text="ROM INFO" FontSize="10" Foreground="#7D828C" HorizontalAlignment="Right" Margin="0,0,0,2" />
-                                        <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="#F2F3F5" TextWrapping="Wrap" Margin="0,-4,0,4" />
+                                <Border Background="{DynamicResource MemoBgBrush}" BorderBrush="{DynamicResource MemoBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="28,8,14,8">
+                                    <StackPanel TextElement.FontSize="13" TextElement.Foreground="{DynamicResource MemoTextBrush}">
+                                        <TextBlock Text="{DynamicResource MemoHeaderText}" FontSize="10" Foreground="{DynamicResource MemoHeaderBrush}" HorizontalAlignment="Right" Margin="0,0,0,2" />
+                                        <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource MemoTitleBrush}" TextWrapping="Wrap" Margin="0,-4,0,4" />
                                         <Border Style="{StaticResource InfoRow}" Tag="{Binding StatusText}">
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [ColStatus], Source={x:Static s:Loc.Instance}}" />
@@ -571,45 +571,30 @@
                                         </Border>
                                     </StackPanel>
                                 </Border>
-                                <!-- 綴じリング：ページの外から穴へ通るワイヤーを縦に並べる -->
-                                <Rectangle Width="40" HorizontalAlignment="Left" Margin="-12,8,0,6" IsHitTestVisible="False">
-                                    <Rectangle.Fill>
-                                        <DrawingBrush TileMode="Tile" Viewport="0,0,40,24" ViewportUnits="Absolute" Viewbox="0,0,40,24" ViewboxUnits="Absolute" Stretch="None">
-                                            <DrawingBrush.Drawing>
-                                                <DrawingGroup>
-                                                    <GeometryDrawing Brush="Transparent" Geometry="M0,0 H40 V24 H0 Z" />
-                                                    <GeometryDrawing Brush="#050608" Geometry="M21,12.5 A4,3 0 1 0 29,12.5 A4,3 0 1 0 21,12.5 Z" />
-                                                    <GeometryDrawing Geometry="M3.8,18.2 C1.8,9.2 13.8,4.2 23.8,11.2">
-                                                        <GeometryDrawing.Pen>
-                                                            <Pen Brush="#80000000" Thickness="3.2" StartLineCap="Round" EndLineCap="Round" />
-                                                        </GeometryDrawing.Pen>
-                                                    </GeometryDrawing>
-                                                    <GeometryDrawing Geometry="M3,17 C1,8 13,3 23,10">
-                                                        <GeometryDrawing.Pen>
-                                                            <Pen Brush="#D9DCE1" Thickness="2.6" StartLineCap="Round" EndLineCap="Round" />
-                                                        </GeometryDrawing.Pen>
-                                                    </GeometryDrawing>
-                                                </DrawingGroup>
-                                            </DrawingBrush.Drawing>
-                                        </DrawingBrush>
-                                    </Rectangle.Fill>
-                                </Rectangle>
+                                <!-- ライトモードのノートだけに出る赤い余白線と、右下の折れ -->
+                                <Rectangle Width="1" HorizontalAlignment="Left" Margin="22,1,0,1" Fill="{DynamicResource MemoMarginBrush}" IsHitTestVisible="False" />
+                                <Canvas Width="18" Height="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False">
+                                    <Polygon Points="0,18 18,0 18,18" Fill="{DynamicResource MemoFoldCutBrush}" />
+                                    <Polygon Points="0,18 0,0 18,0" Fill="{DynamicResource MemoFoldBrush}" />
+                                </Canvas>
+                                <!-- 綴じリング：ページの外から穴へ通るワイヤーを縦に並べる（形と色は Colors.*.xaml の MemoRingBrush） -->
+                                <Rectangle Width="40" HorizontalAlignment="Left" Margin="-12,8,0,6" IsHitTestVisible="False" Fill="{DynamicResource MemoRingBrush}" />
                             </Grid>
                         </ScrollViewer>
                     </DockPanel>
 
                     <!-- 整理：リネーム前後の比較 -->
                     <StackPanel Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}">
-                        <Border Background="{StaticResource BgBrush}" BorderBrush="{StaticResource LineBrush}" BorderThickness="1" CornerRadius="10" Padding="14"
+                        <Border Background="{DynamicResource BgBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10" Padding="14"
                                 DataContext="{Binding SelectedItem}">
                             <StackPanel>
                                 <TextBlock Text="{Binding [Before], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" />
-                                <TextBlock Text="{Binding CurrentFileName}" Foreground="{StaticResource SubBrush}" TextWrapping="Wrap" Margin="0,4,0,12" />
+                                <TextBlock Text="{Binding CurrentFileName}" Foreground="{DynamicResource SubBrush}" TextWrapping="Wrap" Margin="0,4,0,12" />
                                 <TextBlock Text="{Binding [After], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" />
-                                <TextBlock Text="{Binding TargetText}" Foreground="{StaticResource WarnFgBrush}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,4,0,0" />
+                                <TextBlock Text="{Binding TargetText}" Foreground="{DynamicResource WarnFgBrush}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,4,0,0" />
                             </StackPanel>
                         </Border>
-                        <TextBlock Text="{Binding [RenameNote], Source={x:Static s:Loc.Instance}}" Foreground="{StaticResource SubBrush}"
+                        <TextBlock Text="{Binding [RenameNote], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource SubBrush}"
                                    TextWrapping="Wrap" LineHeight="24" Margin="0,14,0,0" FontSize="13" />
                     </StackPanel>
                 </Grid>
@@ -617,7 +602,7 @@
         </Grid>
 
         <!-- フッター -->
-        <Border Grid.Row="2" Background="#181C23" BorderBrush="{StaticResource LineBrush}" BorderThickness="0,1,0,0" Padding="20,10">
+        <Border Grid.Row="2" Background="{DynamicResource FooterBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,1,0,0" Padding="20,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

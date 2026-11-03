@@ -5,12 +5,12 @@
         Title="{Binding [AppSettings], Source={x:Static s:Loc.Instance}}"
         Width="520" SizeToContent="Height" ResizeMode="NoResize"
         WindowStartupLocation="CenterOwner" ShowInTaskbar="False"
-        Background="{StaticResource PanelBrush}" Foreground="{StaticResource TextBrush}"
+        Background="{DynamicResource PanelBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="14" UseLayoutRounding="True">
 
     <Window.Resources>
         <Style x:Key="Label" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="{StaticResource MutedBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource MutedBrush}" />
             <Setter Property="FontSize" Value="12.5" />
             <Setter Property="Margin" Value="0,16,0,6" />
         </Style>
@@ -20,19 +20,29 @@
         <TextBlock Style="{StaticResource Label}" Text="{Binding [LanguageLabel], Source={x:Static s:Loc.Instance}}" />
         <ComboBox x:Name="LanguageBox" SelectionChanged="OnLanguageChanged" />
 
+        <TextBlock Style="{StaticResource Label}" Text="{Binding [ThemeLabel], Source={x:Static s:Loc.Instance}}" />
+        <Border Style="{StaticResource SegGroup}" HorizontalAlignment="Left">
+            <StackPanel Orientation="Horizontal">
+                <RadioButton x:Name="ThemeLightRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemeLight], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+                <RadioButton x:Name="ThemeDarkRadio" GroupName="Theme" Style="{StaticResource SegButton}" Tag="{DynamicResource AccentBrush}"
+                             Content="{Binding [ThemeDark], Source={x:Static s:Loc.Instance}}" Checked="OnThemeChanged" />
+            </StackPanel>
+        </Border>
+
         <TextBlock Style="{StaticResource Label}">
             <Run Text="{Binding [UiScale], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
             <Run Text="：" />
-            <Run Text="{Binding UiScale, StringFormat={}{0:P0}, Mode=OneWay}" Foreground="{StaticResource TextBrush}" />
+            <Run Text="{Binding UiScale, StringFormat={}{0:P0}, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
         </TextBlock>
         <Slider Minimum="0.75" Maximum="2" TickFrequency="0.05" IsSnapToTickEnabled="True"
                 Value="{Binding UiScale, Mode=TwoWay}" />
-        <TextBlock Text="{Binding [ScaleHint], Source={x:Static s:Loc.Instance}}" Foreground="{StaticResource MutedBrush}" FontSize="12" Margin="0,4,0,0" />
+        <TextBlock Text="{Binding [ScaleHint], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}" FontSize="12" Margin="0,4,0,0" />
 
         <TextBlock Style="{StaticResource Label}">
             <Run Text="{Binding [FontSizeLabel], Source={x:Static s:Loc.Instance}, Mode=OneWay}" />
             <Run Text="：" />
-            <Run Text="{Binding FontSize, StringFormat={}{0:0}px, Mode=OneWay}" Foreground="{StaticResource TextBrush}" />
+            <Run Text="{Binding FontSize, StringFormat={}{0:0}px, Mode=OneWay}" Foreground="{DynamicResource TextBrush}" />
         </TextBlock>
         <Slider Minimum="11" Maximum="28" TickFrequency="1" IsSnapToTickEnabled="True"
                 Value="{Binding FontSize, Mode=TwoWay}" />

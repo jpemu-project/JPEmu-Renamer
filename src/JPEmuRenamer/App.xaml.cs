@@ -15,6 +15,7 @@ public partial class App : Application
         DispatcherUnhandledException += OnUnhandled;
 
         var settings = Storage.LoadSettings();
+        Ui.ThemeManager.Apply(settings.Theme);
         var vm = new MainViewModel(settings);
         var window = new MainWindow(vm);
         MainWindow = window;

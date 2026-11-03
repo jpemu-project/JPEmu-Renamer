@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using JPEmuRenamer.Models;
 using JPEmuRenamer.Services;
+using JPEmuRenamer.Ui;
 using JPEmuRenamer.ViewModels;
 
 namespace JPEmuRenamer.Views;
@@ -26,6 +27,7 @@ public partial class AppSettingsWindow : Window
         foreach (ComboBoxItem item in LanguageBox.Items)
             if ((string)item.Tag == vm.Settings.Language) LanguageBox.SelectedItem = item;
         if (LanguageBox.SelectedItem == null) LanguageBox.SelectedIndex = 0;
+        (vm.Settings.Theme == ThemeManager.Dark ? ThemeDarkRadio : ThemeLightRadio).IsChecked = true;
 
         InsideZipCheck.IsChecked = vm.Settings.RenameInsideZip;
         SubfolderCheck.IsChecked = vm.Settings.ScanSubfolders;
@@ -73,6 +75,14 @@ public partial class AppSettingsWindow : Window
         if (loading) return;
         if (LanguageBox.SelectedItem is ComboBoxItem item)
             vm.ApplyLanguage((string)item.Tag);
+    }
+
+    private void OnThemeChanged(object sender, RoutedEventArgs e)
+    {
+        if (loading) return;
+        vm.Settings.Theme = ThemeDarkRadio.IsChecked == true ? ThemeManager.Dark : ThemeManager.Light;
+        ThemeManager.Apply(vm.Settings.Theme);
+        vm.Save();
     }
 
     private void OnOptionChanged(object sender, RoutedEventArgs e)

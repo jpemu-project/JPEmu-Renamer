@@ -1,0 +1,59 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <!-- ダークモードの色（ライトモードは Colors.Light.xaml。キーは両方で揃える） -->
+    <SolidColorBrush x:Key="BgBrush" Color="#0F1115" />
+    <SolidColorBrush x:Key="PanelBrush" Color="#14171D" />
+    <SolidColorBrush x:Key="Panel2Brush" Color="#1A1E26" />
+    <SolidColorBrush x:Key="Panel3Brush" Color="#262B36" />
+    <SolidColorBrush x:Key="LineBrush" Color="#2A2F3A" />
+    <SolidColorBrush x:Key="Line2Brush" Color="#3A404D" />
+    <SolidColorBrush x:Key="TextBrush" Color="#E8EAF0" />
+    <SolidColorBrush x:Key="SubBrush" Color="#C3C9D4" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#9AA3B2" />
+    <SolidColorBrush x:Key="DimBrush" Color="#8A93A3" />
+    <SolidColorBrush x:Key="AccentBrush" Color="#E5484D" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="#F0595E" />
+    <SolidColorBrush x:Key="SelectedRowBrush" Color="#3A2226" />
+    <SolidColorBrush x:Key="OkBgBrush" Color="#173A26" />
+    <SolidColorBrush x:Key="OkFgBrush" Color="#4ADE80" />
+    <SolidColorBrush x:Key="WarnBgBrush" Color="#3D3412" />
+    <SolidColorBrush x:Key="WarnFgBrush" Color="#FACC15" />
+    <SolidColorBrush x:Key="ErrBgBrush" Color="#3B1A1C" />
+    <SolidColorBrush x:Key="ErrFgBrush" Color="#F87171" />
+    <!-- 切り替えボタンの選択中（白文字が乗る）-->
+    <SolidColorBrush x:Key="SegOnBrush" Color="#262B36" />
+    <SolidColorBrush x:Key="FooterBrush" Color="#181C23" />
+    <SolidColorBrush x:Key="HeaderRowBrush" Color="#1B1F27" />
+    <SolidColorBrush x:Key="HeaderLineBrush" Color="#343A47" />
+
+    <!-- ROM情報カード：暗いカード -->
+    <sys:String x:Key="MemoHeaderText">ROM INFO</sys:String>
+    <SolidColorBrush x:Key="MemoBgBrush" Color="#1D2027" />
+    <SolidColorBrush x:Key="MemoBorderBrush" Color="#2F333C" />
+    <SolidColorBrush x:Key="MemoLineBrush" Color="#2C3038" />
+    <SolidColorBrush x:Key="MemoKeyBrush" Color="#8B909A" />
+    <SolidColorBrush x:Key="MemoTextBrush" Color="#E4E6EA" />
+    <SolidColorBrush x:Key="MemoTitleBrush" Color="#F2F3F5" />
+    <SolidColorBrush x:Key="MemoHeaderBrush" Color="#7D828C" />
+    <SolidColorBrush x:Key="MemoMarginBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="MemoFoldBrush" Color="Transparent" />
+    <!-- 折れた角の外側（パネルの色で角を欠けさせる） -->
+    <SolidColorBrush x:Key="MemoFoldCutBrush" Color="Transparent" />
+    <DrawingBrush x:Key="MemoRingBrush" TileMode="Tile" Viewport="0,0,40,24" ViewportUnits="Absolute" Viewbox="0,0,40,24" ViewboxUnits="Absolute" Stretch="None">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="Transparent" Geometry="M0,0 H40 V24 H0 Z" />
+                <GeometryDrawing Brush="#050608" Geometry="M21,12.5 A4,3 0 1 0 29,12.5 A4,3 0 1 0 21,12.5 Z" />
+                <GeometryDrawing Geometry="M3.8,18.2 C1.8,9.2 13.8,4.2 23.8,11.2">
+                    <GeometryDrawing.Pen><Pen Brush="#80000000" Thickness="3.2" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
+                </GeometryDrawing>
+                <GeometryDrawing Geometry="M3,17 C1,8 13,3 23,10">
+                    <GeometryDrawing.Pen><Pen Brush="#D9DCE1" Thickness="2.6" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
+</ResourceDictionary>
