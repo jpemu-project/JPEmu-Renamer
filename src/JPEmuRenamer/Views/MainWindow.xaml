@@ -150,17 +150,15 @@
 
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
                     <!-- 公式サイトの見出しと同じ筆記体（Assets/Fonts に同梱、OFL）。
-                         ロゴと同じく「JPEmu」の下に赤・黒・赤の丸を置く（黒は文字色にしてダーク系テーマでも見えるようにする） -->
-                    <Grid Margin="4,0,0,0" VerticalAlignment="Center">
-                        <TextBlock Text="JPEmu" FontFamily="pack://application:,,,/Assets/Fonts/#Great Vibes" FontSize="26" />
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="8,0,0,-3">
+                         ロゴと同じく、タイトルの真ん中の下に赤・黒・赤の丸を置く（黒は文字色にしてダーク系テーマでも見えるようにする） -->
+                    <Grid Margin="4,0,20,0" VerticalAlignment="Center">
+                        <TextBlock Text="JPEmu Renamer" FontFamily="pack://application:,,,/Assets/Fonts/#Great Vibes" FontSize="26" />
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,-3">
                             <Ellipse Width="5" Height="5" Fill="#E5484D" />
                             <Ellipse Width="5" Height="5" Fill="{DynamicResource TextBrush}" Margin="3,0" />
                             <Ellipse Width="5" Height="5" Fill="#E5484D" />
                         </StackPanel>
                     </Grid>
-                    <TextBlock Text=" Renamer" FontFamily="pack://application:,,,/Assets/Fonts/#Great Vibes" FontSize="26"
-                               Margin="0,0,20,0" VerticalAlignment="Center" />
                 </StackPanel>
 
                 <Border Grid.Column="1" Style="{StaticResource SegGroup}" VerticalAlignment="Center">
