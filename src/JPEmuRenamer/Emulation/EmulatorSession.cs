@@ -839,9 +839,28 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
                 if (index == Retro.AnalogRight && id <= 1) return analog[port, 2 + (int)id];
                 if (index == 2 && id < 16) return (padMask[port] & (1 << (int)id)) != 0 ? short.MaxValue : (short)0;
                 return 0;
+            case Retro.DevicePointer:
+                // DS・3DS のタッチ画面：ゲーム画面上のマウス（1人目だけ、1本指）
+                if (port != 0 || index != 0 || req.Preview != null) return 0;
+                var (px, py, down, inside) = pointer;
+                return id switch
+                {
+                    0 => px,
+                    1 => py,
+                    2 => down && inside ? (short)1 : (short)0,
+                    3 => down && inside ? (short)1 : (short)0,
+                    15 => inside ? (short)0 : (short)1,
+                    _ => 0
+                };
         }
         return 0;
     }
+
+    private volatile Tuple<short, short, bool, bool> pointerState = Tuple.Create((short)0, (short)0, false, false);
+    private (short x, short y, bool down, bool inside) pointer => (pointerState.Item1, pointerState.Item2, pointerState.Item3, pointerState.Item4);
+
+    /// <summary>ゲーム画面上のマウスの位置（-0x7FFF〜0x7FFF、画面の左上が負）と左ボタンの状態。UIスレッドから呼ぶ</summary>
+    public void SetPointer(short x, short y, bool down, bool inside) => pointerState = Tuple.Create(x, y, down, inside);
 
     private readonly ushort[,] rumble = new ushort[4, 2];
 

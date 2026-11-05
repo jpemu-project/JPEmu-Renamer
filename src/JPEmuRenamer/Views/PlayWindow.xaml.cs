@@ -191,6 +191,37 @@ public partial class PlayWindow : Window
             Screen.Width * dpi.DpiScaleX, Screen.Height * dpi.DpiScaleY);
     }
 
+    // ---------- マウス（タッチ画面） ----------
+
+    private void OnPointerDown(object sender, MouseButtonEventArgs e)
+    {
+        if (MenuLayer.Visibility == Visibility.Visible || StatusPanel.Visibility == Visibility.Visible) return;
+        Root.CaptureMouse();
+        UpdatePointer(e);
+    }
+
+    private void OnPointerUp(object sender, MouseButtonEventArgs e)
+    {
+        if (Root.IsMouseCaptured) Root.ReleaseMouseCapture();
+        UpdatePointer(e);
+    }
+
+    private void OnPointerMove(object sender, MouseEventArgs e) => UpdatePointer(e);
+
+    /// <summary>ゲーム画面上の位置を libretro の座標（-0x7FFF〜0x7FFF）にしてセッションに渡す</summary>
+    private void UpdatePointer(MouseEventArgs e)
+    {
+        double w = Screen.ActualWidth, h = Screen.ActualHeight;
+        if (w <= 0 || h <= 0) return;
+        // 回転していても、Screen 自身の座標は回転前のゲーム画面の向き
+        var p = e.GetPosition(Screen);
+        bool inside = p.X >= 0 && p.Y >= 0 && p.X < w && p.Y < h && Root.IsMouseOver;
+        short x = (short)Math.Clamp(p.X / w * 0xFFFE - 0x7FFF, -0x7FFF, 0x7FFF);
+        short y = (short)Math.Clamp(p.Y / h * 0xFFFE - 0x7FFF, -0x7FFF, 0x7FFF);
+        bool down = e.LeftButton == MouseButtonState.Pressed && MenuLayer.Visibility != Visibility.Visible;
+        session.SetPointer(x, y, down, inside || Root.IsMouseCaptured);
+    }
+
     // ---------- 全画面 ----------
 
     private void SetFullscreen(bool on)

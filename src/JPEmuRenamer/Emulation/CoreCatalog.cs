@@ -37,6 +37,8 @@ public static class CoreCatalog
         new("mednafen_vb", "Beetle VB"),
         new("melonds", "melonDS"),
         new("desmume", "DeSmuME"),
+        new("melondsds", "melonDS DS"),
+        new("azahar", "Azahar", true),
         new("genesis_plus_gx", "Genesis Plus GX"),
         new("picodrive", "PicoDrive"),
         new("mednafen_saturn", "Beetle Saturn"),
@@ -61,7 +63,11 @@ public static class CoreCatalog
         ["ゲームボーイカラー"] = (new[] { "gambatte", "sameboy", "mgba" }, ""),
         ["ゲームボーイアドバンス"] = (new[] { "mgba", "gpsp" }, "gba_bios.bin?"),
         ["バーチャルボーイ"] = (new[] { "mednafen_vb" }, ""),
-        ["ニンテンドーDS"] = (new[] { "melonds", "desmume" }, "bios7.bin / bios9.bin / firmware.bin?"),
+        ["ニンテンドーDS"] = (new[] { "melonds", "desmume", "melondsds" }, "bios7.bin / bios9.bin / firmware.bin?"),
+        // DSiWare は melonDS DS が DSi モードで NAND に入れてから起動する（DSi の吸い出しファイルが必要。ファームウェアと NAND は名前自由）
+        ["ニンテンドーDSiウェア"] = (new[] { "melondsds" }, "bios7.bin / bios9.bin / dsi_bios7.bin / dsi_bios9.bin / DSi firmware / DSi NAND"),
+        // 3DS は復号済みのROMのみ
+        ["ニンテンドー3DS"] = (new[] { "azahar" }, ""),
         ["SG-1000"] = (new[] { "genesis_plus_gx" }, ""),
         ["マスターシステム"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
         ["メガドライブ"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
@@ -83,7 +89,8 @@ public static class CoreCatalog
     {
         (".nes", "ファミコン"), (".fds", "ディスクシステム"), (".sfc", "スーパーファミコン"), (".smc", "スーパーファミコン"),
         (".z64", "NINTENDO64"), (".n64", "NINTENDO64"), (".v64", "NINTENDO64"), (".gb", "ゲームボーイ"), (".gbc", "ゲームボーイカラー"),
-        (".gba", "ゲームボーイアドバンス"), (".vb", "バーチャルボーイ"), (".nds", "ニンテンドーDS"), (".sg", "SG-1000"),
+        (".gba", "ゲームボーイアドバンス"), (".vb", "バーチャルボーイ"), (".nds", "ニンテンドーDS"),
+        (".3ds", "ニンテンドー3DS"), (".cci", "ニンテンドー3DS"), (".cxi", "ニンテンドー3DS"), (".3dsx", "ニンテンドー3DS"), (".sg", "SG-1000"),
         (".sms", "マスターシステム"), (".md", "メガドライブ"), (".gen", "メガドライブ"), (".gg", "ゲームギア"), (".pce", "PCエンジン"),
         (".ws", "ワンダースワン"), (".wsc", "ワンダースワンカラー"), (".ngp", "ネオジオポケット"), (".ngc", "ネオジオポケットカラー"),
         (".pbp", "プレイステーション"),

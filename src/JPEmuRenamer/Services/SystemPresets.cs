@@ -23,6 +23,8 @@ public static class SystemPresets
         new("ゲームボーイアドバンス", "Game Boy Advance", ".gba;.zip", "handH", "#8B9CFF"),
         new("バーチャルボーイ", "Virtual Boy", ".vb;.zip", "pad", "#E8D35C"),
         new("ニンテンドーDS", "Nintendo DS", ".nds;.zip", "dual", "#C58BF0"),
+        new("ニンテンドーDSiウェア", "Nintendo DSiWare", ".nds;.zip", "dual", "#8B9CFF"),
+        new("ニンテンドー3DS", "Nintendo 3DS", ".3ds;.cci;.cxi;.3dsx", "dual", "#F06B70"),
         new("SG-1000", "SG-1000", ".sg;.zip", "cart", "#B8C2D1"),
         new("マスターシステム", "Master System", ".sms;.zip", "cart", "#F06B70"),
         new("メガドライブ", "Mega Drive / Genesis", ".md;.gen;.bin;.zip", "cart", "#5B9BFF"),
