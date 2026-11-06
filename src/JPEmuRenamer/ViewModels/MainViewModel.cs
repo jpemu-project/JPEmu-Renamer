@@ -32,7 +32,8 @@ public partial class MainViewModel : ObservableObject
         uiScale = Math.Clamp(settings.UiScale, 0.75, 2.0);
         fontSize = Math.Clamp(settings.FontSize, 11, 28);
         filter = settings.ListFilter is "Owned" or "Missing" ? settings.ListFilter : "All";
-        sort = SortOptions.Any(o => o.key == settings.ListSort) ? settings.ListSort : "";
+        // 並び替えを選んでいなければ、あいうえお順にする
+        sort = SortOptions.Any(o => o.key == settings.ListSort) ? settings.ListSort : "Kana";
         GameItem.HideExtensions = settings.HideExtensions;
         GameItem.ShowFlags = settings.ShowFlags;
         statusText = Loc.T("Ready");
