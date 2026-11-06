@@ -32,6 +32,7 @@ public partial class MainViewModel : ObservableObject
         uiScale = Math.Clamp(settings.UiScale, 0.75, 2.0);
         fontSize = Math.Clamp(settings.FontSize, 11, 28);
         filter = settings.ListFilter is "Owned" or "Missing" ? settings.ListFilter : "All";
+        sort = SortOptions.Any(o => o.key == settings.ListSort) ? settings.ListSort : "";
         GameItem.HideExtensions = settings.HideExtensions;
         GameItem.ShowFlags = settings.ShowFlags;
         statusText = Loc.T("Ready");
@@ -47,6 +48,7 @@ public partial class MainViewModel : ObservableObject
             OnPropertyChanged(nameof(CountText));
             OnPropertyChanged(nameof(SelectedCountText));
             OnPropertyChanged(nameof(LaunchButtonText));
+            OnPropertyChanged(nameof(SortButtonText));
             _ = ReloadAsync();
         };
     }
@@ -193,10 +195,7 @@ public partial class MainViewModel : ObservableObject
 
             StatusText = datError != null
                 ? Loc.F("DatError", datError)
-                : Loc.F("Loaded", sys.Name,
-                    list.Count(i => i.Status is MatchStatus.Match or MatchStatus.NameDiff or MatchStatus.Duplicate),
-                    list.Count(i => i.Status == MatchStatus.NameDiff),
-                    list.Count(i => i.Status == MatchStatus.NotInDat));
+                : Loc.F("Loaded", sys.Name, OwnedCount, list.Count(i => i.Status == MatchStatus.NameDiff), MissingCount);
         }
         catch (OperationCanceledException) { }
         catch (Exception ex)
@@ -218,6 +217,7 @@ public partial class MainViewModel : ObservableObject
         var view = CollectionViewSource.GetDefaultView(Items);
         view.Filter = FilterItem;
         ItemsView = view;
+        ApplySort();
 
         OwnedCount = list.Where(i => i.IsOwned && i.Dat != null).Select(i => i.Dat!.Title).Distinct().Count();
         MissingCount = list.Count(i => i.Status == MatchStatus.Missing);
@@ -230,7 +230,11 @@ public partial class MainViewModel : ObservableObject
         if (e.PropertyName == nameof(GameItem.IsChecked)) UpdateSelectedCount();
     }
 
-    private void UpdateSelectedCount() => SelectedCount = Items.Count(i => i.IsChecked && i.CanRename);
+    private void UpdateSelectedCount()
+    {
+        SelectedCount = Items.Count(i => i.IsChecked && i.CanRename);
+        NotifySelection();
+    }
 
     private bool FilterItem(object o)
     {
@@ -243,13 +247,127 @@ public partial class MainViewModel : ObservableObject
             || g.CurrentFileName.Contains(q, StringComparison.OrdinalIgnoreCase);
     }
 
-    partial void OnSearchTextChanged(string value) => ItemsView.Refresh();
+    // ---------- 並び替え ----------
+
+    /// <summary>並び替えの選択肢（キー、文言のキー）</summary>
+    public static readonly (string key, string label)[] SortOptions =
+    {
+        ("DateOld", "SortDateOld"), ("DateNew", "SortDateNew"), ("Kana", "SortKana"),
+        ("Publisher", "SortPublisher"), ("Genre", "SortGenre"), ("Price", "SortPrice"), ("Status", "SortStatus")
+    };
+
+    [ObservableProperty]
+    [NotifyPropertyChangedFor(nameof(SortButtonText))]
+    private string sort = "";
+
+    /// <summary>ボタンの文言（並べ替えていれば、いまの並び順も出す）</summary>
+    public string SortButtonText
+    {
+        get
+        {
+            var opt = SortOptions.FirstOrDefault(o => o.key == Sort);
+            return opt.key == null ? Loc.T("Sort") : Loc.T("Sort") + "：" + Loc.T(opt.label);
+        }
+    }
+
+    partial void OnSortChanged(string value)
+    {
+        settings.ListSort = value;
+        Save();
+        ApplySort();
+    }
+
+    private void ApplySort()
+    {
+        if (ItemsView is not ListCollectionView view) return;
+        view.CustomSort = string.IsNullOrEmpty(Sort) ? null : new ItemSorter(Sort);
+    }
+
+    /// <summary>
+    /// 一覧の並び順。値が無いもの（発売日不明など）は最後。同じ値どうしはタイトルのあいうえお順。
+    /// DATに無いファイルは、どの並び順でも最後にまとめる。
+    /// </summary>
+    private sealed class ItemSorter : System.Collections.IComparer
+    {
+        private readonly string key;
+        public ItemSorter(string key) => this.key = key;
+
+        public int Compare(object? x, object? y)
+        {
+            if (x is not GameItem a || y is not GameItem b) return 0;
+            int c = (a.Status == MatchStatus.NotInDat).CompareTo(b.Status == MatchStatus.NotInDat);
+            if (c != 0) return c;
+            c = key switch
+            {
+                "DateOld" => CompareNullable(DateOf(a), DateOf(b), false),
+                "DateNew" => CompareNullable(DateOf(a), DateOf(b), true),
+                "Publisher" => CompareText(a.Publisher, b.Publisher),
+                "Genre" => CompareText(a.Genre, b.Genre),
+                "Price" => CompareNullable(PriceOf(a), PriceOf(b), false),
+                "Status" => StatusRank(a.Status).CompareTo(StatusRank(b.Status)),
+                _ => 0
+            };
+            if (c != 0) return c;
+            return string.CompareOrdinal(JapaneseReading.Key(a.Title), JapaneseReading.Key(b.Title));
+        }
+
+        /// <summary>空の値は最後</summary>
+        private static int CompareText(string a, string b)
+        {
+            if (string.IsNullOrWhiteSpace(a) || string.IsNullOrWhiteSpace(b)) return string.IsNullOrWhiteSpace(a).CompareTo(string.IsNullOrWhiteSpace(b));
+            return JapaneseReading.Compare.Compare(a, b, JapaneseReading.Options);
+        }
+
+        private static int CompareNullable<T>(T? a, T? b, bool descending) where T : struct, IComparable<T>
+        {
+            if (a == null || b == null) return (a == null).CompareTo(b == null);
+            int c = a.Value.CompareTo(b.Value);
+            return descending ? -c : c;
+        }
+
+        private static int StatusRank(MatchStatus s) => s switch
+        {
+            MatchStatus.NameDiff => 0,
+            MatchStatus.Duplicate => 1,
+            MatchStatus.NotInDat => 2,
+            MatchStatus.Match => 3,
+            _ => 4
+        };
+
+        /// <summary>「1985年9月13日」「1985年9月」「1985年」を日付に（日・月が無ければ月初・年初）</summary>
+        private static DateTime? DateOf(GameItem g)
+        {
+            var m = System.Text.RegularExpressions.Regex.Match(g.ReleaseDate, @"(\d{4})\s*年(?:\s*(\d{1,2})\s*月)?(?:\s*(\d{1,2})\s*日)?");
+            if (!m.Success)
+            {
+                if (DateTime.TryParse(g.ReleaseDate, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out var d)) return d;
+                return null;
+            }
+            int y = int.Parse(m.Groups[1].Value), mo = m.Groups[2].Success ? int.Parse(m.Groups[2].Value) : 1, da = m.Groups[3].Success ? int.Parse(m.Groups[3].Value) : 1;
+            try { return new DateTime(y, Math.Clamp(mo, 1, 12), Math.Clamp(da, 1, DateTime.DaysInMonth(y, Math.Clamp(mo, 1, 12)))); }
+            catch { return null; }
+        }
+
+        /// <summary>「4,900円」などから数字だけを取り出す</summary>
+        private static int? PriceOf(GameItem g)
+        {
+            var digits = new string(g.Price.Normalize(System.Text.NormalizationForm.FormKC).TakeWhile(ch => ch != '(' && ch != '（').Where(char.IsDigit).ToArray());
+            return digits.Length > 0 && digits.Length < 9 ? int.Parse(digits) : null;
+        }
+    }
+
+    partial void OnSearchTextChanged(string value)
+    {
+        ItemsView.Refresh();
+        NotifySelection();
+    }
 
     partial void OnFilterChanged(string value)
     {
         settings.ListFilter = value;
         Save();
         ItemsView.Refresh();
+        NotifySelection();
     }
 
     partial void OnUiScaleChanged(double value)
@@ -388,10 +506,34 @@ public partial class MainViewModel : ObservableObject
     [RelayCommand]
     private Task Rescan() => ReloadAsync();
 
-    [RelayCommand]
-    private void SelectAll(bool? check)
+    /// <summary>いま表示されているリネーム候補（名前違い）。見出しのチェックはこれをまとめて選ぶ</summary>
+    private IEnumerable<GameItem> VisibleCandidates => ItemsView.Cast<GameItem>().Where(i => i.CanRename);
+
+    public bool HasRenameCandidates => VisibleCandidates.Any();
+
+    /// <summary>見出しのチェックの状態（すべて選択＝true、一部＝null、なし＝false）</summary>
+    public bool? AllChecked
     {
-        foreach (var i in Items.Where(i => i.CanRename)) i.IsChecked = check == true;
+        get
+        {
+            var list = VisibleCandidates.ToList();
+            if (list.Count == 0) return false;
+            int on = list.Count(i => i.IsChecked);
+            return on == list.Count ? true : on == 0 ? false : null;
+        }
+        // 見出しのチェックを押すと、一部選択・未選択からは「すべて選択」、すべて選択からは「すべて解除」になる
+        set
+        {
+            bool check = value == true;
+            foreach (var i in VisibleCandidates.ToList()) i.IsChecked = check;
+            NotifySelection();
+        }
+    }
+
+    private void NotifySelection()
+    {
+        OnPropertyChanged(nameof(AllChecked));
+        OnPropertyChanged(nameof(HasRenameCandidates));
     }
 
     [RelayCommand]
@@ -400,13 +542,18 @@ public partial class MainViewModel : ObservableObject
         var sys = SelectedSystem?.Config;
         if (sys == null || IsBusy) return;
         var targets = Items.Where(i => i.IsChecked && i.CanRename).ToList();
-        // DATに無いファイルを移動する設定なら、それも一緒に行う（取り消しで元の場所に戻る）
-        var unknown = sys.MoveUnknown && !string.IsNullOrWhiteSpace(sys.UnknownFolder)
-            ? Items.Where(i => i.Status == MatchStatus.NotInDat && i.Rom != null).Select(i => i.Rom!.Path).Distinct().ToList()
+        // DATに無いファイルと重複ファイル（同じタイトルのファイルが既にあるもの）を移動する設定なら、
+        // それも一緒に行う（取り消しで元の場所に戻る）
+        bool move = sys.MoveUnknown && !string.IsNullOrWhiteSpace(sys.UnknownFolder);
+        List<string> Paths(MatchStatus st) => move
+            ? Items.Where(i => i.Status == st && i.Rom != null).Select(i => i.Rom!.Path).Distinct(StringComparer.OrdinalIgnoreCase).ToList()
             : new List<string>();
+        var notInDat = Paths(MatchStatus.NotInDat);
+        var duplicates = Paths(MatchStatus.Duplicate);
+        var unknown = notInDat.Concat(duplicates).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
         if (targets.Count == 0 && unknown.Count == 0) return;
         var question = unknown.Count > 0
-            ? Loc.F("ConfirmRenameMove", targets.Count, unknown.Count, sys.UnknownFolder)
+            ? Loc.F("ConfirmRenameMove", targets.Count, notInDat.Count, sys.UnknownFolder, duplicates.Count)
             : Loc.F("ConfirmRename", targets.Count);
         if (Confirm?.Invoke(question) != true) return;
 

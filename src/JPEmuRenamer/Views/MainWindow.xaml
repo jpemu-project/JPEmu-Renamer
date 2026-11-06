@@ -285,6 +285,7 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
                     <Border Grid.Column="1" Style="{StaticResource SegGroup}" Margin="8,0">
                         <StackPanel Orientation="Horizontal">
@@ -299,7 +300,9 @@
                                          Content="{Binding [FilterMissing], Source={x:Static s:Loc.Instance}}" />
                         </StackPanel>
                     </Border>
-                    <Button Grid.Column="2" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
+                    <!-- 並び替え：押すと並び順の一覧が開く -->
+                    <Button Grid.Column="2" Content="{Binding SortButtonText}" Click="OnSortClick" Padding="12,4" MinHeight="34" Margin="0,0,8,0" />
+                    <Button Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
                 </Grid>
 
                 <!-- 未設定のとき -->
@@ -386,8 +389,10 @@
                         <DataGrid.Columns>
                             <DataGridTemplateColumn Width="44">
                                 <DataGridTemplateColumn.Header>
-                                    <CheckBox IsChecked="True" Command="{Binding DataContext.SelectAllCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
-                                              CommandParameter="{Binding IsChecked, RelativeSource={RelativeSource Self}}" />
+                                    <!-- リネーム候補（名前違い）をまとめて選ぶ。表示中の候補の状態に合わせて、チェック・一部・なしを表示する -->
+                                    <CheckBox IsChecked="{Binding DataContext.AllChecked, RelativeSource={RelativeSource AncestorType=DataGrid}, Mode=TwoWay}"
+                                              IsEnabled="{Binding DataContext.HasRenameCandidates, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                              ToolTip="{Binding [SelectAllTip], Source={x:Static s:Loc.Instance}}" />
                                 </DataGridTemplateColumn.Header>
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>

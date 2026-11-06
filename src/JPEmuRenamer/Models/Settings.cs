@@ -14,6 +14,8 @@ public class AppSettings
     public double FontSize { get; set; } = 14;
     /// <summary>All / Owned / Missing</summary>
     public string ListFilter { get; set; } = "All";
+    /// <summary>一覧の並び順（空ならDATの順。DateOld / DateNew / Kana / Publisher / Genre / Price / Status）</summary>
+    public string ListSort { get; set; } = "";
     /// <summary>ZIP内のROM名もリネームする</summary>
     public bool RenameInsideZip { get; set; } = true;
     /// <summary>サブフォルダも走査する</summary>

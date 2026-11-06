@@ -97,6 +97,24 @@ public partial class MainWindow : Window
         menu.IsOpen = true;
     }
 
+    /// <summary>「並び替え」：ボタンの下に並び順の一覧を開く（いまの並び順にチェック）</summary>
+    private void OnSortClick(object sender, RoutedEventArgs e)
+    {
+        var button = (System.Windows.Controls.Button)sender;
+        var menu = new System.Windows.Controls.ContextMenu
+        {
+            PlacementTarget = button,
+            Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom
+        };
+        foreach (var (key, label) in MainViewModel.SortOptions)
+        {
+            var item = new System.Windows.Controls.MenuItem { Header = Loc.T(label), IsCheckable = true, IsChecked = vm.Sort == key };
+            item.Click += (_, _) => vm.Sort = key;
+            menu.Items.Add(item);
+        }
+        menu.IsOpen = true;
+    }
+
     /// <summary>テレビの画面をクリック：自分のスクショと自動プレビューを切り替える</summary>
     private void OnPreviewClick(object sender, MouseButtonEventArgs e) => preview.ToggleOwnShot();
 

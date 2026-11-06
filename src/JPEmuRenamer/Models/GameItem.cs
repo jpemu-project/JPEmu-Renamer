@@ -68,6 +68,8 @@ public partial class GameItem : ObservableObject
         MatchStatus.NameDiff => TargetFileName,
         MatchStatus.Match => Loc.T("NoChange"),
         MatchStatus.Duplicate => TargetFileName + " " + Loc.T("AlreadyExists"),
+        // 手元に無いタイトルは、どのタイトルかが分かるようにDATの名前を出す
+        MatchStatus.Missing => title,
         _ => "―"
     };
 
