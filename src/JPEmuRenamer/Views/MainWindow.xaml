@@ -290,11 +290,11 @@
                     <Border Grid.Column="1" Style="{StaticResource SegGroup}" Margin="8,0">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
-                                         IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=Owned}"
-                                         Content="{Binding [FilterOwned], Source={x:Static s:Loc.Instance}}" />
-                            <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
                                          IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=All}"
                                          Content="{Binding [FilterAll], Source={x:Static s:Loc.Instance}}" />
+                            <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
+                                         IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=Owned}"
+                                         Content="{Binding [FilterOwned], Source={x:Static s:Loc.Instance}}" />
                             <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
                                          IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=Missing}"
                                          Content="{Binding [FilterMissing], Source={x:Static s:Loc.Instance}}" />

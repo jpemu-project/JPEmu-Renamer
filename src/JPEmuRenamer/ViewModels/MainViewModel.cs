@@ -133,7 +133,50 @@ public partial class MainViewModel : ObservableObject
     {
         var first = Systems.FirstOrDefault(s => s.Config.Id == settings.LastSystemId) ?? Systems.FirstOrDefault();
         SelectedSystem = first;
+        _ = CountOtherSystemsAsync();
     }
+
+    /// <summary>同じ機種のスキャンとキャッシュ保存が重ならないようにする</summary>
+    private static readonly System.Collections.Concurrent.ConcurrentDictionary<string, object> scanLocks = new();
+    private static object ScanLock(string id) => scanLocks.GetOrAdd(id, _ => new object());
+
+    /// <summary>起動時に、選んでいない機種も所有／未所有の数を数えて左の一覧に出す</summary>
+    private async Task CountOtherSystemsAsync()
+    {
+        bool subfolders = settings.ScanSubfolders;
+        foreach (var item in Systems.ToList())
+        {
+            if (item.Counted || item == SelectedSystem) continue;
+            var sys = item.Config.Clone();
+            if (string.IsNullOrWhiteSpace(sys.DatPath) && sys.RomFolders.Count == 0) continue;
+            try
+            {
+                var list = await Task.Run(() =>
+                {
+                    var dat = string.IsNullOrWhiteSpace(sys.DatPath) ? new List<DatEntry>() : DatParser.Parse(sys.DatPath);
+                    List<RomFile> roms;
+                    lock (ScanLock(sys.Id))
+                    {
+                        var cache = Storage.LoadCache(sys.Id);
+                        roms = RomScanner.Scan(sys, subfolders, cache, null, CancellationToken.None);
+                        Storage.SaveCache(sys.Id, roms);
+                    }
+                    return Matcher.Match(dat, roms, sys);
+                });
+                // 数えている間にその機種を開いた場合は、そちらの結果を使う
+                if (item.Counted) continue;
+                var (owned, missing) = Counts(list);
+                item.OwnedCount = owned;
+                item.MissingCount = missing;
+                item.Counted = true;
+            }
+            catch { /* DATが読めないなどは、その機種を開いたときに表示する */ }
+        }
+    }
+
+    private static (int owned, int missing) Counts(List<GameItem> list) =>
+        (list.Where(i => i.IsOwned && i.Dat != null).Select(i => i.Dat!.Title).Distinct().Count(),
+         list.Count(i => i.Status == MatchStatus.Missing));
 
     partial void OnSelectedSystemChanged(SystemItem? value)
     {
@@ -181,9 +224,13 @@ public partial class MainViewModel : ObservableObject
                     try { dat = DatParser.Parse(sys.DatPath); }
                     catch (Exception ex) { datError = ex.Message; }
                 }
-                var cache = Storage.LoadCache(sys.Id);
-                var roms = RomScanner.Scan(sys, subfolders, cache, progress, ct);
-                Storage.SaveCache(sys.Id, roms);
+                List<RomFile> roms;
+                lock (ScanLock(sys.Id))
+                {
+                    var cache = Storage.LoadCache(sys.Id);
+                    roms = RomScanner.Scan(sys, subfolders, cache, progress, ct);
+                    Storage.SaveCache(sys.Id, roms);
+                }
                 return Matcher.Match(dat, roms, sys);
             }, ct);
 
@@ -219,8 +266,7 @@ public partial class MainViewModel : ObservableObject
         ItemsView = view;
         ApplySort();
 
-        OwnedCount = list.Where(i => i.IsOwned && i.Dat != null).Select(i => i.Dat!.Title).Distinct().Count();
-        MissingCount = list.Count(i => i.Status == MatchStatus.Missing);
+        (OwnedCount, MissingCount) = Counts(list);
         SelectedItem = list.FirstOrDefault(i => FilterItem(i));
         UpdateSelectedCount();
     }
