@@ -526,8 +526,9 @@
                                             <Ellipse Width="5" Height="5" Margin="0,0,6,0" Fill="{DynamicResource TvLedOffBrush}" />
                                             <Ellipse Width="5" Height="5" Fill="{DynamicResource TvLedOffBrush}" />
                                         </StackPanel>
-                                        <TextBlock Text="J&#x200A;P&#x200A;E&#x200A;m&#x200A;u" FontSize="8" FontWeight="SemiBold" Foreground="{DynamicResource TvLogoBrush}"
-                                                   HorizontalAlignment="Center" VerticalAlignment="Center" />
+                                        <!-- ヘッダーのタイトルと同じ筆記体（Great Vibes） -->
+                                        <TextBlock Text="JPEmu" FontFamily="pack://application:,,,/Assets/Fonts/#Great Vibes" FontSize="15" Foreground="{DynamicResource TvLogoBrush}"
+                                                   HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,1,0,0" />
                                         <Button x:Name="PreviewSaveButton" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,8,0"
                                                 Padding="6,0" MinHeight="0" Height="17" MaxWidth="96" FontSize="10" Visibility="Collapsed"
                                                 Background="{DynamicResource TvSaveBgBrush}" Foreground="{DynamicResource TvLogoBrush}" BorderBrush="{DynamicResource TvSaveBorderBrush}"
