@@ -33,6 +33,8 @@ public class AppSettings
 
     public string? LastSystemId { get; set; }
     public bool FirstRunDone { get; set; }
+    /// <summary>移動先が未設定の機種に、ほかの機種の移動先を一度だけ当てはめたか</summary>
+    public bool MoveDefaultsApplied { get; set; }
 
     /// <summary>BIOSなどを置くフォルダ（空ならデータフォルダの system）</summary>
     public string BiosDir { get; set; } = "";

@@ -38,6 +38,14 @@ public partial class MainViewModel : ObservableObject
         GameItem.ShowFlags = settings.ShowFlags;
         statusText = Loc.T("Ready");
 
+        // 移動先を決めていない機種には、ほかの機種と同じ移動先を一度だけ当てはめる
+        // （まだどの機種にも移動先が無ければ、決めた後の起動で行う）
+        if (!settings.MoveDefaultsApplied && settings.Systems.Any(s => s.MoveUnknown && !string.IsNullOrWhiteSpace(s.UnknownFolder)))
+        {
+            foreach (var s in settings.Systems) ApplyDefaultMove(s);
+            settings.MoveDefaultsApplied = true;
+            Storage.SaveSettings(settings);
+        }
         foreach (var s in settings.Systems) Systems.Add(new SystemItem(s));
         Systems.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasNoSystems));
         itemsView = CollectionViewSource.GetDefaultView(items);
@@ -680,11 +688,27 @@ public partial class MainViewModel : ObservableObject
         await ReloadAsync();
     }
 
+    /// <summary>
+    /// 移動先が未設定の機種を、ほかの機種と同じ移動先で「DATに無いファイルと重複ファイルを移動する」をオンにする。
+    /// どの機種も移動先を決めていなければ何もしない。
+    /// </summary>
+    private void ApplyDefaultMove(SystemConfig sys)
+    {
+        if (!string.IsNullOrWhiteSpace(sys.UnknownFolder)) return;
+        var folder = settings.Systems
+            .Where(s => s != sys && s.MoveUnknown && !string.IsNullOrWhiteSpace(s.UnknownFolder))
+            .Select(s => s.UnknownFolder).FirstOrDefault();
+        if (folder == null) return;
+        sys.UnknownFolder = folder;
+        sys.MoveUnknown = true;
+    }
+
     [RelayCommand]
     private void AddSystem()
     {
         var result = EditSystemDialog?.Invoke(null);
         if (result?.config == null) return;
+        ApplyDefaultMove(result.Value.config);
         settings.Systems.Add(result.Value.config);
         Save();
         var item = new SystemItem(result.Value.config);
