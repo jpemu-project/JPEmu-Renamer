@@ -264,6 +264,9 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
+    /// <summary>起動後に一度でも一覧を読み込んだか</summary>
+    private bool firstLoadDone;
+
     private void SetItems(List<GameItem> list)
     {
         foreach (var old in Items) old.PropertyChanged -= OnItemPropertyChanged;
@@ -276,7 +279,9 @@ public partial class MainViewModel : ObservableObject
         ApplySort();
 
         (OwnedCount, MissingCount) = Counts(list);
-        SelectedItem = list.FirstOrDefault(i => FilterItem(i));
+        // 起動直後は何も選ばない（勝手に自動プレビューが始まらないように）。2回目以降の読み込みでは先頭を選ぶ
+        SelectedItem = firstLoadDone ? list.FirstOrDefault(i => FilterItem(i)) : null;
+        if (list.Count > 0) firstLoadDone = true;
         UpdateSelectedCount();
     }
 

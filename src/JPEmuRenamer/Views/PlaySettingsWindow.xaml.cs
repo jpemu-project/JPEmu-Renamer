@@ -102,7 +102,9 @@ public partial class PlaySettingsWindow : Window
         }
         Add("Global", Loc.T("ScopeGlobal"), true);
         Add("System", context.System != null ? Loc.F("ScopeSystem", context.System.Name) : Loc.T("ScopeSystemNone"), context.System != null);
-        Add("Game", context.GameTitle != null ? Loc.F("ScopeGame", Trim(context.GameTitle, 24)) : Loc.T("ScopeGameNone"), context.Game != null);
+        // ゲームを選ばずに開いたときは、押せない「ゲーム」を出さない
+        if (context.Game != null)
+            Add("Game", context.GameTitle != null ? Loc.F("ScopeGame", Trim(context.GameTitle, 24)) : Loc.T("ScopeGameNone"), true);
     }
 
     private static string Trim(string s, int max) => s.Length <= max ? s : s[..(max - 1)] + "…";

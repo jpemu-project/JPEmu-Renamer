@@ -225,7 +225,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250" MinWidth="200" />
                 <ColumnDefinition Width="*" MinWidth="360" />
-                <ColumnDefinition Width="360" MinWidth="280" />
+                <ColumnDefinition Width="456" MinWidth="280" />
             </Grid.ColumnDefinitions>
 
             <!-- 機種一覧 -->
@@ -435,7 +435,7 @@
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
                         <!-- テレビ風の枠：縁と下の帯の色はテーマごと（Colors.*.xaml の Tv*） -->
-                        <Border DockPanel.Dock="Top" Height="240" CornerRadius="10" Background="{DynamicResource TvBezelBrush}" BorderBrush="{DynamicResource TvBezelBorderBrush}" BorderThickness="1">
+                        <Border DockPanel.Dock="Top" Height="312" CornerRadius="10" Background="{DynamicResource TvBezelBrush}" BorderBrush="{DynamicResource TvBezelBorderBrush}" BorderThickness="1">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
