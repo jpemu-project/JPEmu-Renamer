@@ -340,7 +340,7 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="112" />
+                                        <ColumnDefinition Width="0.45*" MinWidth="130" MaxWidth="200" />
                                         <ColumnDefinition Width="88" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="1" Text="{Binding [ColTitle], Source={x:Static s:Loc.Instance}}" />
@@ -361,7 +361,7 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="22" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="112" />
+                                                <ColumnDefinition Width="0.45*" MinWidth="130" MaxWidth="200" />
                                                 <ColumnDefinition Width="88" />
                                             </Grid.ColumnDefinitions>
                                             <Border Style="{StaticResource StatusDot}" HorizontalAlignment="Left" />
