@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "자동 미리보기",
         ["PreviewLoading"] = "미리보기 준비 중…",
         ["PreviewFailed"] = "이 게임은 미리보기를 할 수 없습니다",
+        ["BiosMissing"] = "BIOS({0})를 찾을 수 없어 미리 보기를 할 수 없습니다",
+        ["BiosMissingLaunch"] = "이 게임을 실행하려면 BIOS({0})가 필요합니다.\n본인 기기에서 추출한 BIOS를 다음 폴더에 넣어 주세요.\n{1}",
         ["PreviewSection"] = "자동 미리보기",
         ["PreviewEnabled"] = "게임을 선택하면 오른쪽 위에 게임 영상을 자동으로 재생",
         ["PreviewSpeed"] = "재생 속도",

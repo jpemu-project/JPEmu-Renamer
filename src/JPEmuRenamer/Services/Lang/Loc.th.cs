@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "ตัวอย่างอัตโนมัติ",
         ["PreviewLoading"] = "กำลังเตรียมตัวอย่าง…",
         ["PreviewFailed"] = "ไม่สามารถแสดงตัวอย่างเกมนี้ได้",
+        ["BiosMissing"] = "แสดงตัวอย่างไม่ได้ เพราะไม่พบ BIOS ({0})",
+        ["BiosMissingLaunch"] = "เกมนี้ต้องใช้ BIOS ({0})\nโปรดนำ BIOS ที่ดัมพ์จากเครื่องของคุณเองไปไว้ในโฟลเดอร์นี้\n{1}",
         ["PreviewSection"] = "ตัวอย่างอัตโนมัติ",
         ["PreviewEnabled"] = "เมื่อเลือกเกม ให้เล่นภาพจากเกมที่มุมขวาบน",
         ["PreviewSpeed"] = "ความเร็วในการเล่น",

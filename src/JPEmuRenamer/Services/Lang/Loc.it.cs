@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Anteprima automatica",
         ["PreviewLoading"] = "Preparazione dell'anteprima…",
         ["PreviewFailed"] = "Impossibile mostrare l'anteprima di questo gioco",
+        ["BiosMissing"] = "Anteprima non disponibile: BIOS ({0}) non trovato",
+        ["BiosMissingLaunch"] = "Questo gioco richiede il BIOS ({0}).\nMetti un BIOS estratto dalla tua console in questa cartella:\n{1}",
         ["PreviewSection"] = "Anteprima automatica",
         ["PreviewEnabled"] = "Mostra filmati del gioco in alto a destra quando selezioni un gioco",
         ["PreviewSpeed"] = "Velocità di riproduzione",

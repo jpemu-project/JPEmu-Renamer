@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Автопросмотр",
         ["PreviewLoading"] = "Подготовка просмотра…",
         ["PreviewFailed"] = "Не удалось показать просмотр этой игры",
+        ["BiosMissing"] = "Предпросмотр невозможен: BIOS ({0}) не найден",
+        ["BiosMissingLaunch"] = "Для этой игры нужен BIOS ({0}).\nПоместите BIOS, снятый с вашей собственной консоли, в эту папку:\n{1}",
         ["PreviewSection"] = "Автопросмотр",
         ["PreviewEnabled"] = "Показывать видео игры справа вверху при выборе игры",
         ["PreviewSpeed"] = "Скорость воспроизведения",

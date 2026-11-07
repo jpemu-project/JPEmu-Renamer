@@ -191,6 +191,13 @@ public sealed class PreviewController
 
         var gameKey = target.Rom!.Crc.ToString("X8");
         var context = new PlayContext(settings(), sys, gameKey, target.Title, saveSettings);
+        // 必要なBIOSが無ければ、起動せずに何が足りないかを出す
+        if (CoreCatalog.MissingBios(sys, context.BiosDir) is string bios)
+        {
+            ShowIdle();
+            if (snapshot == null) text.Text = Loc.F("BiosMissing", bios);
+            return;
+        }
         var opt = Options;
         var request = new SessionRequest(coreName, target.Rom.Path, target.Rom.InnerName, sys, gameKey, target.Title,
             context.Resolve(), context.BiosDir,

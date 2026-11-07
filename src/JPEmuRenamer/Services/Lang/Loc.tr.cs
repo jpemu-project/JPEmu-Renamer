@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Otomatik önizleme",
         ["PreviewLoading"] = "Önizleme hazırlanıyor…",
         ["PreviewFailed"] = "Bu oyunun önizlemesi gösterilemedi",
+        ["BiosMissing"] = "Önizleme yapılamıyor: BIOS ({0}) bulunamadı",
+        ["BiosMissingLaunch"] = "Bu oyun BIOS ({0}) gerektirir.\nKendi konsolunuzdan aldığınız BIOS'u bu klasöre koyun:\n{1}",
         ["PreviewSection"] = "Otomatik önizleme",
         ["PreviewEnabled"] = "Bir oyun seçildiğinde sağ üstte oyun görüntüsü oynat",
         ["PreviewSpeed"] = "Oynatma hızı",

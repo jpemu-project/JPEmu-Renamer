@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Automatyczny podgląd",
         ["PreviewLoading"] = "Przygotowywanie podglądu…",
         ["PreviewFailed"] = "Nie udało się wyświetlić podglądu tego tytułu",
+        ["BiosMissing"] = "Brak podglądu: nie znaleziono BIOS-u ({0})",
+        ["BiosMissingLaunch"] = "Ta gra wymaga BIOS-u ({0}).\nUmieść BIOS zrzucony z własnej konsoli w tym folderze:\n{1}",
         ["PreviewSection"] = "Automatyczny podgląd",
         ["PreviewEnabled"] = "Po wybraniu tytułu odtwarzaj nagranie z gry w prawym górnym rogu",
         ["PreviewSpeed"] = "Prędkość odtwarzania",

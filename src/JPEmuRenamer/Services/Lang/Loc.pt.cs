@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Prévia automática",
         ["PreviewLoading"] = "Preparando a prévia…",
         ["PreviewFailed"] = "Não foi possível mostrar a prévia deste jogo",
+        ["BiosMissing"] = "Não é possível pré-visualizar: BIOS ({0}) não encontrada",
+        ["BiosMissingLaunch"] = "Este jogo precisa da BIOS ({0}).\nColoque uma BIOS extraída do seu próprio console nesta pasta:\n{1}",
         ["PreviewSection"] = "Prévia automática",
         ["PreviewEnabled"] = "Exibir imagens do jogo no canto superior direito ao selecionar um jogo",
         ["PreviewSpeed"] = "Velocidade de reprodução",

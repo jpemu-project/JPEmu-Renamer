@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Xem trước tự động",
         ["PreviewLoading"] = "Đang chuẩn bị xem trước…",
         ["PreviewFailed"] = "Không thể xem trước game này",
+        ["BiosMissing"] = "Không thể xem trước: không tìm thấy BIOS ({0})",
+        ["BiosMissingLaunch"] = "Game này cần BIOS ({0}).\nHãy đặt BIOS trích xuất từ máy của bạn vào thư mục này:\n{1}",
         ["PreviewSection"] = "Xem trước tự động",
         ["PreviewEnabled"] = "Phát cảnh trong game ở góc trên bên phải khi chọn một game",
         ["PreviewSpeed"] = "Tốc độ phát",

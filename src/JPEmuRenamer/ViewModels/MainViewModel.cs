@@ -510,6 +510,11 @@ public partial class MainViewModel : ObservableObject
         }
 
         var context = new PlayContext(settings, sys, item.Rom.Crc.ToString("X8"), item.Title, Save);
+        if (CoreCatalog.MissingBios(sys, context.BiosDir) is string bios)
+        {
+            Info?.Invoke(Loc.F("BiosMissingLaunch", bios, context.BiosDir));
+            return;
+        }
         var request = new SessionRequest(coreName, item.Rom.Path, item.Rom.InnerName, sys, context.GameKey!, item.Title,
             context.Resolve(), context.BiosDir);
         if (OpenPlayWindow?.Invoke(context, request) == false)

@@ -47,6 +47,8 @@ public sealed partial class Loc
         ["PreviewWaiting"] = "Pratinjau otomatis",
         ["PreviewLoading"] = "Menyiapkan pratinjau…",
         ["PreviewFailed"] = "Judul ini tidak dapat dipratinjau",
+        ["BiosMissing"] = "Tidak bisa pratinjau: BIOS ({0}) tidak ditemukan",
+        ["BiosMissingLaunch"] = "Game ini memerlukan BIOS ({0}).\nLetakkan BIOS yang di-dump dari konsol Anda sendiri di folder ini:\n{1}",
         ["PreviewSection"] = "Pratinjau otomatis",
         ["PreviewEnabled"] = "Putar cuplikan permainan di kanan atas saat judul dipilih",
         ["PreviewSpeed"] = "Kecepatan putar",

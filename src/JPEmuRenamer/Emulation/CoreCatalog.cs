@@ -129,6 +129,32 @@ public static class CoreCatalog
         return bios.EndsWith('?') ? Loc.F("BiosOptional", bios.TrimEnd('?')) : bios;
     }
 
+    /// <summary>無いと起動できないBIOS（機種 → ファイル名の候補。どれか1つあればよい）</summary>
+    private static readonly Dictionary<string, string[]> RequiredBios = new()
+    {
+        ["ディスクシステム"] = new[] { "disksys.rom" },
+        ["メガCD"] = new[] { "bios_CD_J.bin" },
+        ["セガサターン"] = new[] { "sega_101.bin", "mpr-17933.bin" },
+        ["PCエンジン CD-ROM²"] = new[] { "syscard3.pce" },
+        ["ネオジオ"] = new[] { "neogeo.zip" },
+    };
+
+    /// <summary>
+    /// この機種で必要なBIOSが見つからなければ、そのファイル名を返す（見つかれば・不要なら null）。
+    /// BIOSフォルダ（とその中のコア名のフォルダ）、ネオジオはROMフォルダも探す。
+    /// </summary>
+    public static string? MissingBios(SystemConfig sys, string biosDir)
+    {
+        var key = SystemKey(sys);
+        if (key == null || !RequiredBios.TryGetValue(key, out var names)) return null;
+        var dirs = new List<string> { biosDir, Path.Combine(biosDir, CoreNameFor(sys)) };
+        if (key == "ネオジオ") dirs.AddRange(sys.RomFolders);
+        foreach (var dir in dirs)
+            foreach (var n in names)
+                try { if (File.Exists(Path.Combine(dir, n))) return null; } catch { }
+        return names[0];
+    }
+
     /// <summary>機種名の表示用（日本語以外では候補の英語名にする）</summary>
     public static string SystemDisplayName(string japaneseKey) =>
         SystemPresets.All.FirstOrDefault(p => p.Name == japaneseKey)?.DisplayName ?? japaneseKey;
