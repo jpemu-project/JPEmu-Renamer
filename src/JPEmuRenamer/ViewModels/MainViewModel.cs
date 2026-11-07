@@ -190,6 +190,8 @@ public partial class MainViewModel : ObservableObject
     partial void OnSelectedSystemChanged(SystemItem? value)
     {
         if (value == null) return;
+        // 前の機種で選んでいたゲームを外す（読み込みが終わるまでの間にそのデモが流れないように）
+        SelectedItem = null;
         settings.LastSystemId = value.Config.Id;
         Save();
         OnPropertyChanged(nameof(MoveUnknown));
@@ -244,7 +246,7 @@ public partial class MainViewModel : ObservableObject
             }, ct);
 
             if (ct.IsCancellationRequested) return;
-            SetItems(list);
+            SetItems(list, sys.Id);
             sysItem.OwnedCount = OwnedCount;
             sysItem.MissingCount = MissingCount;
             sysItem.Counted = true;
@@ -264,11 +266,14 @@ public partial class MainViewModel : ObservableObject
         }
     }
 
-    /// <summary>起動後に一度でも一覧を読み込んだか</summary>
-    private bool firstLoadDone;
+    /// <summary>今の一覧がどの機種のものか（同じ機種の読み直しのときだけ選択を引き継ぐ）</summary>
+    private string? listSystemId;
 
-    private void SetItems(List<GameItem> list)
+    private void SetItems(List<GameItem> list, string? systemId = null)
     {
+        // 同じ機種の読み直し（リネーム後など）なら、選んでいたゲームを選び直す
+        var prev = systemId != null && systemId == listSystemId ? SelectedItem : null;
+        listSystemId = systemId;
         foreach (var old in Items) old.PropertyChanged -= OnItemPropertyChanged;
         foreach (var it in list) it.PropertyChanged += OnItemPropertyChanged;
 
@@ -279,9 +284,11 @@ public partial class MainViewModel : ObservableObject
         ApplySort();
 
         (OwnedCount, MissingCount) = Counts(list);
-        // 起動直後は何も選ばない（勝手に自動プレビューが始まらないように）。2回目以降の読み込みでは先頭を選ぶ
-        SelectedItem = firstLoadDone ? list.FirstOrDefault(i => FilterItem(i)) : null;
-        if (list.Count > 0) firstLoadDone = true;
+        // 起動直後や機種を切り替えたときは何も選ばない（選んでいないゲームの自動プレビューが始まらないように）
+        SelectedItem = prev == null ? null
+            : list.FirstOrDefault(i => FilterItem(i) && i.Title == prev.Title &&
+                                       string.Equals(i.Rom?.Path, prev.Rom?.Path, StringComparison.OrdinalIgnoreCase))
+              ?? list.FirstOrDefault(i => FilterItem(i) && i.Title == prev.Title);
         UpdateSelectedCount();
     }
 
