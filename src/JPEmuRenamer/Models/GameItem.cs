@@ -41,6 +41,13 @@ public partial class GameItem : ObservableObject
     public MatchStatus Status { get; }
     /// <summary>表示名（照合済みはDATの名前、未照合はファイル名）</summary>
     public string Title => HideExtensions && Status == MatchStatus.NotInDat ? System.IO.Path.GetFileNameWithoutExtension(title) : title;
+    /// <summary>
+    /// タイトル一覧に出す名前。「拡張子を表示しない」をオフにしているときは、
+    /// 照合済みのゲームにも手元のファイルの拡張子（.zip など）を付ける
+    /// </summary>
+    public string ListTitle => !HideExtensions && Rom != null && Status != MatchStatus.NotInDat
+        ? title + System.IO.Path.GetExtension(Rom.Path)
+        : Title;
     public DatEntry? Dat { get; }
     public RomFile? Rom { get; }
     /// <summary>リネーム後のファイル名</summary>

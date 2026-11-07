@@ -369,7 +369,7 @@
                                             <DockPanel Grid.Column="1">
                                                 <Image DockPanel.Dock="Left" Source="{Binding FlagImage}" Height="12" Margin="0,0,7,0" VerticalAlignment="Center"
                                                        RenderOptions.BitmapScalingMode="HighQuality" />
-                                                <TextBlock Text="{Binding Title}" Style="{StaticResource GameTitle}" FontSize="15" />
+                                                <TextBlock Text="{Binding ListTitle}" Style="{StaticResource GameTitle}" FontSize="15" />
                                             </DockPanel>
                                             <TextBlock Grid.Column="2" Text="{Binding Publisher}" Style="{StaticResource Muted}" FontSize="13" FontWeight="Normal" TextTrimming="CharacterEllipsis" ToolTip="{Binding Publisher}" Margin="0,0,6,0" />
                                             <Border Grid.Column="3" Style="{StaticResource StatusBadge}">
