@@ -249,7 +249,7 @@ OfflineList形式のDATファイル（XML）を使います。機種ごとに用
 
 # 便利な機能
 | 機能 | 使い方 |
-| 所有のみ / すべて / 未所有のみ | 一覧の上で、表示するタイトルを絞り込みます。未所有のみで、まだ持っていないタイトルが分かります |
+| すべて / 所有のみ / 未所有のみ | 一覧の上で、表示するタイトルを絞り込みます。未所有のみで、まだ持っていないタイトルが分かります |
 | 検索 | 上の検索欄に入力すると、タイトルとファイル名で絞り込みます |
 | 再照合 | ROMを追加・削除したあとに押すと、読み込み直します |
 | 拡張子を表示しない | 「設定」→「タイトル一覧でファイル名の拡張子を表示しない」 |
@@ -492,7 +492,7 @@ With "Settings" → "Also rename the ROM inside ZIP files" on, the ROM inside ea
 
 # Handy features
 | Feature | How to use |
-| Owned / All / Missing | Filters the list. "Missing" shows titles you do not have yet |
+| All / Owned / Missing | Filters the list. "Missing" shows titles you do not have yet |
 | Search | Type in the search box to filter by title or file name |
 | Rescan | Press after adding or removing ROMs |
 | Hide extensions | "Settings" → "Hide file extensions in the title list" |

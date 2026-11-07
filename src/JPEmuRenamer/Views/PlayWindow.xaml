@@ -5,7 +5,8 @@
         Background="Black" Foreground="{DynamicResource TextBrush}" FontFamily="{StaticResource UiFont}"
         WindowStartupLocation="CenterScreen" UseLayoutRounding="True"
         Closing="OnClosing" Closed="OnClosed" SizeChanged="OnSizeChanged" Deactivated="OnDeactivated">
-    <Grid x:Name="Root" Background="Black">
+    <Grid x:Name="Root" Background="Black" MouseMove="OnPointerMove" MouseLeftButtonDown="OnPointerDown"
+          MouseLeftButtonUp="OnPointerUp" MouseLeave="OnPointerMove" LostMouseCapture="OnPointerMove">
         <Image x:Name="Screen" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill"
                RenderOptions.BitmapScalingMode="NearestNeighbor" SnapsToDevicePixels="True" />
 

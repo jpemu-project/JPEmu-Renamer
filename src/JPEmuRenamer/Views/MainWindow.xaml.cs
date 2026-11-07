@@ -44,12 +44,21 @@ public partial class MainWindow : Window
         {
             if (e.PropertyName is nameof(MainViewModel.SelectedItem) or nameof(MainViewModel.SelectedSystem) or nameof(MainViewModel.IsManageMode))
                 preview.Select(vm.SelectedSystem?.Config, vm.SelectedItem, !vm.IsManageMode);
+            if (e.PropertyName == nameof(MainViewModel.IsManageMode)) UpdateDetailWidth();
         };
+        UpdateDetailWidth();
         Activated += (_, _) => preview.SetActive(true);
         Deactivated += (_, _) => preview.SetActive(false);
 
         RestoreWindowPlacement(vm.Settings);
     }
+
+    /// <summary>
+    /// 右の詳細欄の幅：プレイ画面ではテレビ風のプレビューを大きく見せるため広く、
+    /// リネーム画面では一覧のファイル名が読めるよう従来の幅にする
+    /// </summary>
+    private void UpdateDetailWidth() =>
+        DetailColumn.Width = new GridLength(vm.IsManageMode ? 360 : 456);
 
     private PlayWindow? playWindow;
     private HelpWindow? helpWindow;
@@ -94,6 +103,24 @@ public partial class MainWindow : Window
         menu.PlacementTarget = ToolsButton;
         menu.DataContext = vm;
         menu.Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom;
+        menu.IsOpen = true;
+    }
+
+    /// <summary>「並び替え」：ボタンの下に並び順の一覧を開く（いまの並び順にチェック）</summary>
+    private void OnSortClick(object sender, RoutedEventArgs e)
+    {
+        var button = (System.Windows.Controls.Button)sender;
+        var menu = new System.Windows.Controls.ContextMenu
+        {
+            PlacementTarget = button,
+            Placement = System.Windows.Controls.Primitives.PlacementMode.Bottom
+        };
+        foreach (var (key, label) in MainViewModel.SortOptions)
+        {
+            var item = new System.Windows.Controls.MenuItem { Header = Loc.T(label), IsCheckable = true, IsChecked = vm.Sort == key };
+            item.Click += (_, _) => vm.Sort = key;
+            menu.Items.Add(item);
+        }
         menu.IsOpen = true;
     }
 

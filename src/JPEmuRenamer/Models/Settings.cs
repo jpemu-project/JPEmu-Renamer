@@ -14,6 +14,8 @@ public class AppSettings
     public double FontSize { get; set; } = 14;
     /// <summary>All / Owned / Missing</summary>
     public string ListFilter { get; set; } = "All";
+    /// <summary>一覧の並び順（空ならDATの順。DateOld / DateNew / Kana / Publisher / Genre / Price / Status）</summary>
+    public string ListSort { get; set; } = "";
     /// <summary>ZIP内のROM名もリネームする</summary>
     public bool RenameInsideZip { get; set; } = true;
     /// <summary>サブフォルダも走査する</summary>
@@ -31,6 +33,8 @@ public class AppSettings
 
     public string? LastSystemId { get; set; }
     public bool FirstRunDone { get; set; }
+    /// <summary>移動先が未設定の機種に、ほかの機種の移動先を一度だけ当てはめたか</summary>
+    public bool MoveDefaultsApplied { get; set; }
 
     /// <summary>BIOSなどを置くフォルダ（空ならデータフォルダの system）</summary>
     public string BiosDir { get; set; } = "";

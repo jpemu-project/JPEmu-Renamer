@@ -78,10 +78,15 @@ public static class Renamer
             var to = System.IO.Path.Combine(folder, System.IO.Path.GetFileName(from));
             try
             {
-                if (!File.Exists(from) || File.Exists(to))
+                if (!File.Exists(from)) continue;
+                // 移動先に同じ名前があるとき（別の機種で同じファイル名を移動済みなど）は、
+                // 「名前 (2).zip」のように番号を付けて移動する
+                if (File.Exists(to))
                 {
-                    result.Errors.Add(System.IO.Path.GetFileName(from) + "：" + Loc.T("AlreadyExists"));
-                    continue;
+                    var stem = System.IO.Path.GetFileNameWithoutExtension(from);
+                    var ext = System.IO.Path.GetExtension(from);
+                    for (int n = 2; File.Exists(to); n++)
+                        to = System.IO.Path.Combine(folder, $"{stem} ({n}){ext}");
                 }
                 File.Move(from, to);
                 result.Run.Records.Add(new RenameRecord { From = from, To = to });

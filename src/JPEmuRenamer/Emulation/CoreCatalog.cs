@@ -37,12 +37,15 @@ public static class CoreCatalog
         new("mednafen_vb", "Beetle VB"),
         new("melonds", "melonDS"),
         new("desmume", "DeSmuME"),
+        new("melondsds", "melonDS DS"),
+        new("azahar", "Azahar", true),
         new("genesis_plus_gx", "Genesis Plus GX"),
         new("picodrive", "PicoDrive"),
         new("mednafen_saturn", "Beetle Saturn"),
         new("yabause", "Yabause"),
         new("mednafen_pce_fast", "Beetle PCE FAST"),
         new("mednafen_pce", "Beetle PCE"),
+        new("mednafen_supergrafx", "Beetle SuperGrafx"),
         new("mednafen_wswan", "Beetle WonderSwan"),
         new("mednafen_ngp", "Beetle NeoPop"),
         new("fbneo", "FinalBurn Neo"),
@@ -61,15 +64,21 @@ public static class CoreCatalog
         ["ゲームボーイカラー"] = (new[] { "gambatte", "sameboy", "mgba" }, ""),
         ["ゲームボーイアドバンス"] = (new[] { "mgba", "gpsp" }, "gba_bios.bin?"),
         ["バーチャルボーイ"] = (new[] { "mednafen_vb" }, ""),
-        ["ニンテンドーDS"] = (new[] { "melonds", "desmume" }, "bios7.bin / bios9.bin / firmware.bin?"),
+        ["ニンテンドーDS"] = (new[] { "melonds", "desmume", "melondsds" }, "bios7.bin / bios9.bin / firmware.bin?"),
+        // DSiWare は melonDS DS が DSi モードで NAND に入れてから起動する（DSi の吸い出しファイルが必要。ファームウェアと NAND は名前自由）
+        ["ニンテンドーDSiウェア"] = (new[] { "melondsds" }, "bios7.bin / bios9.bin / dsi_bios7.bin / dsi_bios9.bin / DSi firmware / DSi NAND"),
+        // 3DS は復号済みのROMのみ
+        ["ニンテンドー3DS"] = (new[] { "azahar" }, ""),
         ["SG-1000"] = (new[] { "genesis_plus_gx" }, ""),
         ["マスターシステム"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
         ["メガドライブ"] = (new[] { "genesis_plus_gx", "picodrive" }, ""),
-        ["ゲームギア"] = (new[] { "genesis_plus_gx" }, ""),
+        ["スーパー32X"] = (new[] { "picodrive" }, ""),
+        ["ゲームギア"] =(new[] { "genesis_plus_gx" }, ""),
         ["メガCD"] = (new[] { "genesis_plus_gx", "picodrive" }, "bios_CD_J.bin"),
         ["セガサターン"] = (new[] { "mednafen_saturn", "yabause" }, "sega_101.bin"),
         ["PCエンジン"] = (new[] { "mednafen_pce_fast", "mednafen_pce" }, ""),
-        ["PCエンジン CD-ROM²"] = (new[] { "mednafen_pce_fast", "mednafen_pce" }, "syscard3.pce"),
+        ["PCエンジン スーパーグラフィックス"] = (new[] { "mednafen_supergrafx", "mednafen_pce" }, ""),
+        ["PCエンジン CD-ROM²"] =(new[] { "mednafen_pce_fast", "mednafen_pce" }, "syscard3.pce"),
         ["ワンダースワン"] = (new[] { "mednafen_wswan" }, ""),
         ["ワンダースワンカラー"] = (new[] { "mednafen_wswan" }, ""),
         ["ネオジオポケット"] = (new[] { "mednafen_ngp" }, ""),
@@ -83,8 +92,10 @@ public static class CoreCatalog
     {
         (".nes", "ファミコン"), (".fds", "ディスクシステム"), (".sfc", "スーパーファミコン"), (".smc", "スーパーファミコン"),
         (".z64", "NINTENDO64"), (".n64", "NINTENDO64"), (".v64", "NINTENDO64"), (".gb", "ゲームボーイ"), (".gbc", "ゲームボーイカラー"),
-        (".gba", "ゲームボーイアドバンス"), (".vb", "バーチャルボーイ"), (".nds", "ニンテンドーDS"), (".sg", "SG-1000"),
+        (".gba", "ゲームボーイアドバンス"), (".vb", "バーチャルボーイ"), (".nds", "ニンテンドーDS"),
+        (".3ds", "ニンテンドー3DS"), (".cci", "ニンテンドー3DS"), (".cxi", "ニンテンドー3DS"), (".3dsx", "ニンテンドー3DS"), (".sg", "SG-1000"),
         (".sms", "マスターシステム"), (".md", "メガドライブ"), (".gen", "メガドライブ"), (".gg", "ゲームギア"), (".pce", "PCエンジン"),
+        (".32x", "スーパー32X"), (".sgx", "PCエンジン スーパーグラフィックス"),
         (".ws", "ワンダースワン"), (".wsc", "ワンダースワンカラー"), (".ngp", "ネオジオポケット"), (".ngc", "ネオジオポケットカラー"),
         (".pbp", "プレイステーション"),
     };
@@ -116,6 +127,32 @@ public static class CoreCatalog
         var bios = key != null ? BySystem[key].bios : "";
         // 末尾の ? は「無くても動く（任意）」の印
         return bios.EndsWith('?') ? Loc.F("BiosOptional", bios.TrimEnd('?')) : bios;
+    }
+
+    /// <summary>無いと起動できないBIOS（機種 → ファイル名の候補。どれか1つあればよい）</summary>
+    private static readonly Dictionary<string, string[]> RequiredBios = new()
+    {
+        ["ディスクシステム"] = new[] { "disksys.rom" },
+        ["メガCD"] = new[] { "bios_CD_J.bin" },
+        ["セガサターン"] = new[] { "sega_101.bin", "mpr-17933.bin" },
+        ["PCエンジン CD-ROM²"] = new[] { "syscard3.pce" },
+        ["ネオジオ"] = new[] { "neogeo.zip" },
+    };
+
+    /// <summary>
+    /// この機種で必要なBIOSが見つからなければ、そのファイル名を返す（見つかれば・不要なら null）。
+    /// BIOSフォルダ（とその中のコア名のフォルダ）、ネオジオはROMフォルダも探す。
+    /// </summary>
+    public static string? MissingBios(SystemConfig sys, string biosDir)
+    {
+        var key = SystemKey(sys);
+        if (key == null || !RequiredBios.TryGetValue(key, out var names)) return null;
+        var dirs = new List<string> { biosDir, Path.Combine(biosDir, CoreNameFor(sys)) };
+        if (key == "ネオジオ") dirs.AddRange(sys.RomFolders);
+        foreach (var dir in dirs)
+            foreach (var n in names)
+                try { if (File.Exists(Path.Combine(dir, n))) return null; } catch { }
+        return names[0];
     }
 
     /// <summary>機種名の表示用（日本語以外では候補の英語名にする）</summary>
