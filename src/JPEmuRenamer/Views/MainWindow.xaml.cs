@@ -44,12 +44,21 @@ public partial class MainWindow : Window
         {
             if (e.PropertyName is nameof(MainViewModel.SelectedItem) or nameof(MainViewModel.SelectedSystem) or nameof(MainViewModel.IsManageMode))
                 preview.Select(vm.SelectedSystem?.Config, vm.SelectedItem, !vm.IsManageMode);
+            if (e.PropertyName == nameof(MainViewModel.IsManageMode)) UpdateDetailWidth();
         };
+        UpdateDetailWidth();
         Activated += (_, _) => preview.SetActive(true);
         Deactivated += (_, _) => preview.SetActive(false);
 
         RestoreWindowPlacement(vm.Settings);
     }
+
+    /// <summary>
+    /// 右の詳細欄の幅：プレイ画面ではテレビ風のプレビューを大きく見せるため広く、
+    /// リネーム画面では一覧のファイル名が読めるよう従来の幅にする
+    /// </summary>
+    private void UpdateDetailWidth() =>
+        DetailColumn.Width = new GridLength(vm.IsManageMode ? 360 : 456);
 
     private PlayWindow? playWindow;
     private HelpWindow? helpWindow;
