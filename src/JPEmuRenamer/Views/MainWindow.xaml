@@ -340,8 +340,8 @@
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22" />
                                         <ColumnDefinition Width="*" />
-                                        <ColumnDefinition Width="150" />
-                                        <ColumnDefinition Width="100" />
+                                        <ColumnDefinition Width="112" />
+                                        <ColumnDefinition Width="88" />
                                     </Grid.ColumnDefinitions>
                                     <TextBlock Grid.Column="1" Text="{Binding [ColTitle], Source={x:Static s:Loc.Instance}}" />
                                     <TextBlock Grid.Column="2" Text="{Binding [ColPublisher], Source={x:Static s:Loc.Instance}}" />
@@ -361,8 +361,8 @@
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="22" />
                                                 <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="150" />
-                                                <ColumnDefinition Width="100" />
+                                                <ColumnDefinition Width="112" />
+                                                <ColumnDefinition Width="88" />
                                             </Grid.ColumnDefinitions>
                                             <Border Style="{StaticResource StatusDot}" HorizontalAlignment="Left" />
                                             <!-- 発売地域の国旗（設定で消せる）とタイトル -->
@@ -371,7 +371,7 @@
                                                        RenderOptions.BitmapScalingMode="HighQuality" />
                                                 <TextBlock Text="{Binding Title}" Style="{StaticResource GameTitle}" FontSize="15" />
                                             </DockPanel>
-                                            <TextBlock Grid.Column="2" Text="{Binding Publisher}" Style="{StaticResource Muted}" FontSize="13" FontWeight="Normal" />
+                                            <TextBlock Grid.Column="2" Text="{Binding Publisher}" Style="{StaticResource Muted}" FontSize="13" FontWeight="Normal" TextTrimming="CharacterEllipsis" ToolTip="{Binding Publisher}" Margin="0,0,6,0" />
                                             <Border Grid.Column="3" Style="{StaticResource StatusBadge}">
                                                 <TextBlock Text="{Binding StatusText}" Style="{StaticResource StatusText}" FontWeight="Normal" />
                                             </Border>
