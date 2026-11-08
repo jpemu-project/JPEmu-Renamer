@@ -129,30 +129,45 @@ public static class CoreCatalog
         return bios.EndsWith('?') ? Loc.F("BiosOptional", bios.TrimEnd('?')) : bios;
     }
 
-    /// <summary>無いと起動できないBIOS（機種 → ファイル名の候補。どれか1つあればよい）</summary>
-    private static readonly Dictionary<string, string[]> RequiredBios = new()
+    /// <summary>
+    /// 無いと起動できないBIOS（機種 → 必要なファイルの組。組の中はどれか1つあればよく、組はすべて必要）。
+    /// GBA・DS・プレイステーションのBIOSは、コアが代わりの仕組みを持っていて無くても動くので含めない
+    /// </summary>
+    private static readonly Dictionary<string, string[][]> RequiredBios = new()
     {
-        ["ディスクシステム"] = new[] { "disksys.rom" },
-        ["メガCD"] = new[] { "bios_CD_J.bin" },
-        ["セガサターン"] = new[] { "sega_101.bin", "mpr-17933.bin" },
-        ["PCエンジン CD-ROM²"] = new[] { "syscard3.pce" },
-        ["ネオジオ"] = new[] { "neogeo.zip" },
+        ["ディスクシステム"] = new[] { new[] { "disksys.rom" } },
+        ["ニンテンドーDSiウェア"] = new[]
+        {
+            new[] { "bios7.bin" }, new[] { "bios9.bin" }, new[] { "dsi_bios7.bin" }, new[] { "dsi_bios9.bin" }
+        },
+        ["メガCD"] = new[] { new[] { "bios_CD_J.bin" } },
+        ["セガサターン"] = new[] { new[] { "sega_101.bin", "mpr-17933.bin" } },
+        ["PCエンジン CD-ROM²"] = new[] { new[] { "syscard3.pce" } },
+        ["ネオジオ"] = new[] { new[] { "neogeo.zip" } },
     };
 
     /// <summary>
-    /// この機種で必要なBIOSが見つからなければ、そのファイル名を返す（見つかれば・不要なら null）。
-    /// BIOSフォルダ（とその中のコア名のフォルダ）、ネオジオはROMフォルダも探す。
+    /// この機種で必要なBIOSが見つからなければ、足りないファイル名を返す（そろっている・不要なら null）。
+    /// BIOSフォルダとその中のコア用フォルダ、ネオジオはROMフォルダも探す。
     /// </summary>
     public static string? MissingBios(SystemConfig sys, string biosDir)
     {
         var key = SystemKey(sys);
-        if (key == null || !RequiredBios.TryGetValue(key, out var names)) return null;
-        var dirs = new List<string> { biosDir, Path.Combine(biosDir, CoreNameFor(sys)) };
+        if (key == null || !RequiredBios.TryGetValue(key, out var groups)) return null;
+        var core = CoreNameFor(sys);
+        // Yabause はBIOSが無くても動く（Beetle Saturn は必要）
+        if (key == "セガサターン" && core == "yabause") return null;
+        var dirs = new List<string> { biosDir, Path.Combine(biosDir, core), Path.Combine(biosDir, "melonDS DS") };
         if (key == "ネオジオ") dirs.AddRange(sys.RomFolders);
-        foreach (var dir in dirs)
-            foreach (var n in names)
-                try { if (File.Exists(Path.Combine(dir, n))) return null; } catch { }
-        return names[0];
+        var missing = groups
+            .Where(names => !dirs.Any(dir => names.Any(n => Exists(Path.Combine(dir, n)))))
+            .Select(names => names[0]).ToList();
+        return missing.Count > 0 ? string.Join(" / ", missing) : null;
+    }
+
+    private static bool Exists(string path)
+    {
+        try { return File.Exists(path); } catch { return false; }
     }
 
     /// <summary>機種名の表示用（日本語以外では候補の英語名にする）</summary>
