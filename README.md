@@ -31,7 +31,7 @@ A Windows emulator launcher that manages, renames (by CRC32 against OfflineList 
 
 BIOSが必要な機種（ディスクシステム、メガCD、PCエンジンCD-ROM²、ネオジオなど）は、プレイ設定の「BIOSフォルダ」（既定は設定フォルダの `system`）にBIOSファイルを置いてください。
 
-設定は `%APPDATA%\JPEmuRenamer` に保存されます。exeと同じフォルダに空の `portable.txt` を置くと、そのフォルダの `data\` に保存します（ポータブル運用）。
+設定やコア、セーブデータは、exeと同じフォルダの `data\` に保存されます。フォルダごとUSBメモリなどに入れて持ち運べます（ポータブル版）。exeのフォルダの中にあるROMやDATなどの場所は相対パスで覚えるので、USBメモリのドライブ文字が変わってもそのまま使えます。1.1.0 までの `%APPDATA%\JPEmuRenamer` の設定は、初めて起動したときに自動で引き継ぎます（元のフォルダは残ります）。exeのフォルダに書き込めないとき（Program Files など）は、これまでどおり `%APPDATA%\JPEmuRenamer` を使います。
 
 ## ビルド
 

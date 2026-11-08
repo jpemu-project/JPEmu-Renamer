@@ -122,7 +122,7 @@ A/B などの名前は、スーパーファミコンのボタン配置（右がA
 | ステートセーブ | 設定フォルダの `states\機種名` |
 | スクリーンショット | 設定フォルダの `screenshots\機種名` |
 
-設定フォルダは `%APPDATA%\JPEmuRenamer` です（exeと同じフォルダに `portable.txt` を置くと、そのフォルダの `data`）。保存先は「プレイ設定」で変えられます。
+設定フォルダは、exeと同じフォルダの `data` です。フォルダごとUSBメモリなどに入れて持ち運べます（exeのフォルダに書き込めないときは `%APPDATA%\JPEmuRenamer`）。保存先は「プレイ設定」で変えられます。
 
 # プレイ設定
 「プレイ」タブの「プレイ設定」ボタン、タイトルの右クリック、プレイ中のメニュー、アプリの「設定」から開けます。
@@ -365,7 +365,7 @@ Save the exact moment of the game. `F2` saves, `F4` loads, `F6` / `F7` change th
 | Save states | `states\<system>` in the settings folder |
 | Screenshots | `screenshots\<system>` in the settings folder |
 
-The settings folder is `%APPDATA%\JPEmuRenamer` (or `data` next to the exe when `portable.txt` is there). Locations can be changed in "Play settings".
+The settings folder is `data` next to the exe, so you can carry the whole folder on a USB drive (`%APPDATA%\JPEmuRenamer` is used only when the exe's folder is not writable). Locations can be changed in "Play settings".
 
 # Play settings
 Open them from the "Play settings" button on the Play tab, a title's right-click menu, the in-game menu or the app's "Settings".

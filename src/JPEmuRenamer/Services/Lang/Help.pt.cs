@@ -104,7 +104,7 @@ Salvam o momento exato do jogo. `F2` salva, `F4` carrega e `F6` / `F7` trocam de
 | Estados salvos | `states\<sistema>` na pasta de configurações |
 | Capturas de tela | `screenshots\<sistema>` na pasta de configurações |
 
-A pasta de configurações é `%APPDATA%\JPEmuRenamer` (ou `data` ao lado do exe se existir `portable.txt`). Os locais podem ser alterados em "Configurações de jogo".
+A pasta de configurações é `data` ao lado do exe, então você pode levar a pasta inteira num pendrive USB (`%APPDATA%\JPEmuRenamer` só se a pasta do exe não permitir gravação). Os locais podem ser alterados em "Configurações de jogo".
 
 # Configurações de jogo
 Abra pelo botão "Configurações de jogo" da aba Jogar, clicando com o botão direito em um jogo, pelo menu do jogo ou pelas "Configurações" do aplicativo.

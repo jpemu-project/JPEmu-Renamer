@@ -104,7 +104,7 @@ Guardan el instante exacto del juego. `F2` guarda, `F4` carga y `F6` / `F7` camb
 | Guardados de estado | `states\<sistema>` en la carpeta de ajustes |
 | Capturas de pantalla | `screenshots\<sistema>` en la carpeta de ajustes |
 
-La carpeta de ajustes es `%APPDATA%\JPEmuRenamer` (o `data` junto al exe si existe `portable.txt`). Las ubicaciones se cambian en "Ajustes de juego".
+La carpeta de ajustes es `data` junto al exe, así que puedes llevar toda la carpeta en una memoria USB (`%APPDATA%\JPEmuRenamer` solo si no se puede escribir en la carpeta del exe). Las ubicaciones se cambian en "Ajustes de juego".
 
 # Ajustes de juego
 Ábrelos con el botón "Ajustes de juego" de la pestaña Jugar, con clic derecho en un juego, desde el menú del juego o desde los "Ajustes" de la aplicación.

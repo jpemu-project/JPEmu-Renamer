@@ -36,7 +36,9 @@ jobs:
           Copy-Item LICENSE publish/LICENSE.txt
           Copy-Item README.md publish/README.md
           Copy-Item src/JPEmuRenamer/Assets/Fonts/OFL-GreatVibes.txt publish/OFL-GreatVibes.txt
-          Compress-Archive -Path publish/* -DestinationPath JPEmuRenamer-win-x64.zip
+          # ZIPの中は JPEmuRenamer フォルダ1つにする（設定は exe の横の data\ に作られるので、フォルダごと持ち運べる）
+          Rename-Item publish JPEmuRenamer
+          Compress-Archive -Path JPEmuRenamer -DestinationPath JPEmuRenamer-win-x64.zip
 
       - uses: actions/upload-artifact@v4
         with:

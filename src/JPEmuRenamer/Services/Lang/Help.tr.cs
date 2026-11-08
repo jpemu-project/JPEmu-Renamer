@@ -104,7 +104,7 @@ Oyunun tam o anını kaydeder. `F2` kaydeder, `F4` yükler, `F6` / `F7` yuvayı 
 | Durum kayıtları | Ayarlar klasöründe `states\<sistem>` |
 | Ekran görüntüleri | Ayarlar klasöründe `screenshots\<sistem>` |
 
-Ayarlar klasörü `%APPDATA%\JPEmuRenamer`'dır (exe'nin yanında `portable.txt` varsa exe'nin yanındaki `data`). Konumlar "Oyun ayarları"ndan değiştirilebilir.
+Ayarlar klasörü exe'nin yanındaki `data`'dır; klasörün tamamını USB bellekte taşıyabilirsiniz (`%APPDATA%\JPEmuRenamer` yalnızca exe'nin klasörüne yazılamıyorsa kullanılır). Konumlar "Oyun ayarları"ndan değiştirilebilir.
 
 # Oyun ayarları
 Oyna sekmesindeki "Oyun ayarları" düğmesinden, bir oyuna sağ tıklayarak, oyun içi menüden veya uygulamanın "Ayarlar"ından açabilirsiniz.

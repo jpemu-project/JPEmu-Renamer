@@ -104,7 +104,7 @@ Sichern genau den aktuellen Moment. `F2` sichert, `F4` lädt, `F6` / `F7` wechse
 | Speicherstände | `states\<System>` im Einstellungsordner |
 | Screenshots | `screenshots\<System>` im Einstellungsordner |
 
-Der Einstellungsordner ist `%APPDATA%\JPEmuRenamer` (oder `data` neben der exe, wenn `portable.txt` vorhanden ist). Die Orte lassen sich in den „Spieleinstellungen“ ändern.
+Der Einstellungsordner ist `data` neben der exe, sodass Sie den ganzen Ordner auf einem USB-Stick mitnehmen können (`%APPDATA%\JPEmuRenamer` nur, wenn der Ordner der exe nicht beschreibbar ist). Die Orte lassen sich in den „Spieleinstellungen“ ändern.
 
 # Spieleinstellungen
 Öffne sie über den Knopf „Spieleinstellungen“ auf dem Reiter Spielen, per Rechtsklick auf ein Spiel, über das Spielmenü oder über die „Einstellungen“ der App.

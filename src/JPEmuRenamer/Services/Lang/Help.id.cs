@@ -104,7 +104,7 @@ Menyimpan saat persis di dalam game. `F2` menyimpan, `F4` memuat, `F6` / `F7` me
 | Save state | `states\<sistem>` di folder pengaturan |
 | Tangkapan layar | `screenshots\<sistem>` di folder pengaturan |
 
-Folder pengaturan adalah `%APPDATA%\JPEmuRenamer` (atau `data` di sebelah exe jika ada `portable.txt`). Lokasi bisa diubah di "Pengaturan permainan".
+Folder pengaturan adalah `data` di sebelah exe, jadi seluruh folder bisa dibawa di flashdisk USB (`%APPDATA%\JPEmuRenamer` hanya dipakai jika folder exe tidak bisa ditulisi). Lokasi bisa diubah di "Pengaturan permainan".
 
 # Pengaturan permainan
 Buka lewat tombol "Pengaturan permainan" di tab Main, klik kanan pada game, menu dalam game, atau "Pengaturan" aplikasi.

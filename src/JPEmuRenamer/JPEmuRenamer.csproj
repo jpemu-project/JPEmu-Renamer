@@ -9,7 +9,7 @@
     <AssemblyName>JPEmuRenamer</AssemblyName>
     <RootNamespace>JPEmuRenamer</RootNamespace>
     <Product>JPEmu Renamer</Product>
-    <Version>1.1.0</Version>
+    <Version>1.1.1</Version>
     <Copyright>JPEmu Renamer contributors / GPL-3.0-or-later</Copyright>
     <EnableWindowsTargeting>true</EnableWindowsTargeting>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>

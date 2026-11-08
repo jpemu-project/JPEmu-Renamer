@@ -104,7 +104,7 @@ Lưu đúng khoảnh khắc hiện tại của game. `F2` để lưu, `F4` để
 | Lưu nhanh | `states\<hệ máy>` trong thư mục cài đặt |
 | Ảnh chụp màn hình | `screenshots\<hệ máy>` trong thư mục cài đặt |
 
-Thư mục cài đặt là `%APPDATA%\JPEmuRenamer` (hoặc `data` cạnh tệp exe nếu có `portable.txt`). Có thể đổi vị trí trong "Cài đặt chơi".
+Thư mục cài đặt là `data` cạnh tệp exe, nên bạn có thể mang cả thư mục trong USB (chỉ dùng `%APPDATA%\JPEmuRenamer` khi không ghi được vào thư mục của exe). Có thể đổi vị trí trong "Cài đặt chơi".
 
 # Cài đặt chơi
 Mở bằng nút "Cài đặt chơi" ở thẻ Chơi, nhấp chuột phải vào game, từ menu trong game hoặc từ "Cài đặt" của ứng dụng.

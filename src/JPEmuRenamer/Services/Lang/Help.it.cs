@@ -104,7 +104,7 @@ Salvano l'istante esatto del gioco. `F2` salva, `F4` carica, `F6` / `F7` cambian
 | Salvataggi di stato | `states\<sistema>` nella cartella delle impostazioni |
 | Screenshot | `screenshots\<sistema>` nella cartella delle impostazioni |
 
-La cartella delle impostazioni è `%APPDATA%\JPEmuRenamer` (oppure `data` accanto all'exe se c'è `portable.txt`). I percorsi si cambiano in "Impostazioni di gioco".
+La cartella delle impostazioni è `data` accanto all'exe, così puoi portare l'intera cartella su una chiavetta USB (`%APPDATA%\JPEmuRenamer` solo se la cartella dell'exe non è scrivibile). I percorsi si cambiano in "Impostazioni di gioco".
 
 # Impostazioni di gioco
 Aprile dal pulsante "Impostazioni di gioco" della scheda Gioca, dal clic destro su un gioco, dal menu di gioco o dalle "Impostazioni" dell'app.

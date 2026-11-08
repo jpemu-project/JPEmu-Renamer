@@ -104,7 +104,7 @@ Enregistrent l'instant exact du jeu. `F2` sauvegarde, `F4` charge, `F6` / `F7` c
 | Sauvegardes d'état | `states\<système>` dans le dossier des paramètres |
 | Captures d'écran | `screenshots\<système>` dans le dossier des paramètres |
 
-Le dossier des paramètres est `%APPDATA%\JPEmuRenamer` (ou `data` à côté de l'exe si `portable.txt` s'y trouve). Les emplacements se modifient dans « Paramètres de jeu ».
+Le dossier des paramètres est `data` à côté de l'exe : vous pouvez emporter tout le dossier sur une clé USB (`%APPDATA%\JPEmuRenamer` seulement si le dossier de l'exe n'est pas accessible en écriture). Les emplacements se modifient dans « Paramètres de jeu ».
 
 # Paramètres de jeu
 Ouvrez-les avec le bouton « Paramètres de jeu » de l'onglet Jouer, le clic droit sur un jeu, le menu en jeu ou les « Paramètres » de l'application.

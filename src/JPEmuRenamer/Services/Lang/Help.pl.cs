@@ -104,7 +104,7 @@ Zapisują dokładny moment gry. `F2` zapisuje, `F4` wczytuje, `F6` / `F7` zmieni
 | Zapisy stanu | `states\<system>` w folderze ustawień |
 | Zrzuty ekranu | `screenshots\<system>` w folderze ustawień |
 
-Folder ustawień to `%APPDATA%\JPEmuRenamer` (lub `data` obok pliku exe, jeśli jest tam `portable.txt`). Lokalizacje zmienisz w „Ustawieniach gry”.
+Folder ustawień to `data` obok pliku exe, więc cały folder można nosić na pendrivie USB (`%APPDATA%\JPEmuRenamer` tylko wtedy, gdy do folderu exe nie da się zapisywać). Lokalizacje zmienisz w „Ustawieniach gry”.
 
 # Ustawienia gry
 Otworzysz je przyciskiem „Ustawienia gry” na karcie Graj, prawym kliknięciem na grze, z menu w grze lub z „Ustawień” aplikacji.

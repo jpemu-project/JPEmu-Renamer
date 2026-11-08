@@ -104,7 +104,7 @@ JPEmu Renamer 會整理你自己傾印的 ROM，並讓你立刻遊玩——使�
 | 即時存檔 | 設定資料夾中的 `states\<主機>` |
 | 截圖 | 設定資料夾中的 `screenshots\<主機>` |
 
-設定資料夾是 `%APPDATA%\JPEmuRenamer`（若 exe 旁有 `portable.txt`，則為 exe 旁的 `data`）。儲存位置可在「遊玩設定」中變更。
+設定資料夾是 exe 旁的 `data`，可以把整個資料夾放進 USB 隨身碟帶著走（只有在 exe 的資料夾無法寫入時才使用 `%APPDATA%\JPEmuRenamer`）。儲存位置可在「遊玩設定」中變更。
 
 # 遊玩設定
 可從「遊玩」分頁的「遊玩設定」按鈕、在遊戲上按右鍵、遊戲選單，或應用程式的「設定」開啟。
