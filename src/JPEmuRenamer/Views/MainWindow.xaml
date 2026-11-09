@@ -279,15 +279,46 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
-                <!-- 機種名と本数は左の機種一覧に出ているので、ここは絞り込みと機種の設定だけ -->
+                <!-- いま選んでいる機種（アイコン・名前・本数）と、絞り込み・並び替え・機種の設定 -->
                 <Grid Margin="0,0,0,8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" Style="{StaticResource SegGroup}" Margin="8,0">
+                    <!-- 1行目：いま選んでいる機種。機種が1つも無いときは、下の「機種が1つも無いとき」の案内がかぶさる -->
+                    <Grid Grid.Row="0" Grid.ColumnSpan="4" Margin="2,0,0,10" DataContext="{Binding SelectedSystem}" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Border Width="38" Height="38" CornerRadius="{DynamicResource SystemIconRadius}" Background="{DynamicResource SystemIconBgBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
+                            <Grid>
+                                <Ellipse Fill="{Binding IconBrush}" Opacity="{DynamicResource SystemIconFilled}" IsHitTestVisible="False" />
+                                <Viewbox Width="28" Height="28" Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
+                                    <Canvas Width="48" Height="48">
+                                        <Path Data="{Binding Icon}" Stroke="{Binding IconBrush}" StrokeThickness="2.6"
+                                              StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                                        <Path Data="{Binding Icon}" Stroke="White" StrokeThickness="2.6" Opacity="{DynamicResource SystemIconFilled}"
+                                              StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
+                                    </Canvas>
+                                </Viewbox>
+                                <Ellipse Width="28" Height="16" VerticalAlignment="Top" Margin="0,2,0,0" Fill="{DynamicResource SystemIconGlossBrush}" IsHitTestVisible="False" />
+                                <Image Source="{Binding CustomIcon}" Width="30" Height="30" Visibility="{Binding HasCustomIcon, Converter={StaticResource BoolToVis}}" />
+                            </Grid>
+                        </Border>
+                        <TextBlock Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis">
+                            <Run Text="{Binding Name, Mode=OneWay}" FontWeight="SemiBold" FontSize="20" />
+                            <Run Text="{Binding CountText, Mode=OneWay}" FontSize="13" Foreground="{DynamicResource SubBrush}" />
+                        </TextBlock>
+                    </Grid>
+                    <!-- 2行目：絞り込み・並び替え・機種の設定 -->
+                    <Border Grid.Row="1" Grid.Column="1" Style="{StaticResource SegGroup}" Margin="8,0">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton GroupName="Filter" Style="{StaticResource SegButton}" Padding="12,4"
                                          IsChecked="{Binding Filter, Converter={StaticResource Equals}, ConverterParameter=All}"
@@ -301,8 +332,8 @@
                         </StackPanel>
                     </Border>
                     <!-- 並び替え：押すと並び順の一覧が開く -->
-                    <Button Grid.Column="2" Content="{Binding SortButtonText}" Click="OnSortClick" Padding="12,4" MinHeight="34" Margin="0,0,8,0" />
-                    <Button Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
+                    <Button Grid.Row="1" Grid.Column="2" Content="{Binding SortButtonText}" Click="OnSortClick" Padding="12,4" MinHeight="34" Margin="0,0,8,0" />
+                    <Button Grid.Row="1" Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
                 </Grid>
 
                 <!-- 未設定のとき -->
