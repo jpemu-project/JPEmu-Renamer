@@ -239,13 +239,26 @@ public partial class MainViewModel : ObservableObject
                 lock (ScanLock(sys.Id))
                 {
                     var cache = Storage.LoadCache(sys.Id);
-                    roms = RomScanner.Scan(sys, subfolders, cache, progress, ct);
+                    // 別の機種に切り替えても読み込みは最後まで続け、キャッシュと左の一覧の本数を更新する
+                    // （途中で捨てると、本数が空のままになり、次に開いたときに最初から読み直しになる）
+                    roms = RomScanner.Scan(sys, subfolders, cache, progress, CancellationToken.None);
                     Storage.SaveCache(sys.Id, roms);
                 }
                 return Matcher.Match(dat, roms, sys);
-            }, ct);
+            });
 
-            if (ct.IsCancellationRequested) return;
+            if (ct.IsCancellationRequested)
+            {
+                // 切り替え後に終わった分は、一覧には出さず本数だけ更新する
+                if (datError == null)
+                {
+                    var (owned, missing) = Counts(list);
+                    sysItem.OwnedCount = owned;
+                    sysItem.MissingCount = missing;
+                    sysItem.Counted = true;
+                }
+                return;
+            }
             SetItems(list, sys.Id);
             sysItem.OwnedCount = OwnedCount;
             sysItem.MissingCount = MissingCount;
