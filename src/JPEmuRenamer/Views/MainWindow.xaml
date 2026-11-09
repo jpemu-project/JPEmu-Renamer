@@ -287,9 +287,16 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
-                    <!-- 狭いときは後ろ（本数）から「…」で省略する。機種が1つも無いときは「機種が1つも無いとき」の案内がかぶさる -->
-                    <TextBlock Grid.Column="0" Margin="4,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
-                               DataContext="{Binding SelectedSystem}" ToolTip="{Binding Name}">
+                    <!-- 全部が収まらないほど狭いときは何も出さない（SystemTitleFull で本来の幅を測って比べる）。
+                         機種が1つも無いときは「機種が1つも無いとき」の案内がかぶさる -->
+                    <Canvas Grid.Column="0" Visibility="Hidden" ClipToBounds="True">
+                        <TextBlock x:Name="SystemTitleFull" DataContext="{Binding SelectedSystem}" SizeChanged="OnSystemTitleSizeChanged">
+                            <Run Text="{Binding Name, Mode=OneWay}" FontWeight="SemiBold" FontSize="17" />
+                            <Run Text="{Binding CountText, Mode=OneWay}" FontSize="12" />
+                        </TextBlock>
+                    </Canvas>
+                    <TextBlock x:Name="SystemTitle" Grid.Column="0" Margin="4,0,0,0" VerticalAlignment="Center" TextTrimming="CharacterEllipsis"
+                               DataContext="{Binding SelectedSystem}" SizeChanged="OnSystemTitleSizeChanged">
                         <Run Text="{Binding Name, Mode=OneWay}" FontWeight="SemiBold" FontSize="17" />
                         <Run Text="{Binding CountText, Mode=OneWay}" FontSize="12" Foreground="{DynamicResource SubBrush}" />
                     </TextBlock>

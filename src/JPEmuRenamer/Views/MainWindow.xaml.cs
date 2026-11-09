@@ -14,6 +14,14 @@ public partial class MainWindow : Window
 {
     private readonly MainViewModel vm;
 
+    /// <summary>一覧の上の機種名と本数は、全部が収まるときだけ出す（途中で切れた表示は出さない）</summary>
+    private void OnSystemTitleSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        // SystemTitle は列の幅いっぱいに置かれるので、その幅（余白を除く）に本来の幅が入るかで決める
+        double room = SystemTitle.ActualWidth;
+        SystemTitle.Visibility = SystemTitleFull.ActualWidth <= room + 0.5 ? Visibility.Visible : Visibility.Hidden;
+    }
+
     public MainWindow(MainViewModel vm)
     {
         InitializeComponent();
