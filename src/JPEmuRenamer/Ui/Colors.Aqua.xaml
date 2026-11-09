@@ -36,6 +36,8 @@
         <GradientStop Color="#34B2F0" Offset="1" />
     </LinearGradientBrush>
     <SolidColorBrush x:Key="SelectedRowBrush" Color="#CCBFE8FB" />
+    <!-- 左の機種一覧で選んでいる機種（一覧の選択より濃く） -->
+    <SolidColorBrush x:Key="SystemSelectedBrush" Color="#E68ED2F4" />
     <SolidColorBrush x:Key="OkBgBrush" Color="#D6F3E4" />
     <SolidColorBrush x:Key="OkFgBrush" Color="#13804A" />
     <SolidColorBrush x:Key="WarnBgBrush" Color="#FDF1C7" />

@@ -16,6 +16,8 @@
     <SolidColorBrush x:Key="AccentBrush" Color="#E5484D" />
     <SolidColorBrush x:Key="AccentHoverBrush" Color="#F0595E" />
     <SolidColorBrush x:Key="SelectedRowBrush" Color="#3A2226" />
+    <!-- 左の機種一覧で選んでいる機種（一覧の選択より濃く） -->
+    <SolidColorBrush x:Key="SystemSelectedBrush" Color="#5C2A30" />
     <SolidColorBrush x:Key="OkBgBrush" Color="#173A26" />
     <SolidColorBrush x:Key="OkFgBrush" Color="#4ADE80" />
     <SolidColorBrush x:Key="WarnBgBrush" Color="#3D3412" />
