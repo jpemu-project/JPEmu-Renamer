@@ -171,7 +171,10 @@ public partial class MainViewModel : ObservableObject
                         roms = RomScanner.Scan(sys, subfolders, cache, progress, CancellationToken.None);
                         Storage.SaveCache(sys.Id, roms);
                     }
-                    return Matcher.Match(dat, roms, sys);
+                    var matched = Matcher.Match(dat, roms, sys);
+                    // あいうえお順の読みを、画面に出す前に裏で求めておく
+                    JapaneseReading.Prefetch(matched.Select(i => i.Title));
+                    return matched;
                 });
                 // 数えている間にその機種を開いた場合は、そちらの結果を使う
                 if (item.Counted) continue;
@@ -252,7 +255,10 @@ public partial class MainViewModel : ObservableObject
                     roms = RomScanner.Scan(sys, subfolders, cache, progress, CancellationToken.None);
                     Storage.SaveCache(sys.Id, roms);
                 }
-                return Matcher.Match(dat, roms, sys);
+                var matched = Matcher.Match(dat, roms, sys);
+                // あいうえお順の読みを、画面に出す前に裏で求めておく
+                JapaneseReading.Prefetch(matched.Select(i => i.Title));
+                return matched;
             });
 
             if (ct.IsCancellationRequested)
@@ -369,6 +375,7 @@ public partial class MainViewModel : ObservableObject
     {
         if (ItemsView is not ListCollectionView view) return;
         view.CustomSort = string.IsNullOrEmpty(Sort) ? null : new ItemSorter(Sort);
+        JapaneseReading.Save();
     }
 
     /// <summary>

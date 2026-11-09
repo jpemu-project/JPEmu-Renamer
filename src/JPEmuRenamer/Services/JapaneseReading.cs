@@ -23,25 +23,124 @@ public static class JapaneseReading
     }
 
     private static IFELanguage? ime;
-    private static bool imeFailed;
+    private static volatile bool imeFailed;
     private static readonly Dictionary<string, string> cache = new(StringComparer.Ordinal);
+    /// <summary>IME で求めた読み（data\readings.json に保存し、次に起動したときも使う）</summary>
+    private static readonly Dictionary<string, string> readings = new(StringComparer.Ordinal);
+    private static bool loaded, dirty;
+
+    private static string ReadingsPath => System.IO.Path.Combine(Storage.DataDir, "readings.json");
 
     /// <summary>並べ替え用のキー（ひらがな・全角半角をそろえたもの）。結果は覚えておく</summary>
     public static string Key(string title)
     {
         if (string.IsNullOrEmpty(title)) return "";
+        bool needs = NeedsReading(title);
         lock (cache)
         {
             if (cache.TryGetValue(title, out var k)) return k;
-            k = Normalize(NeedsReading(title) ? Phonetic(title) ?? title : title);
-            cache[title] = k;
-            return k;
+            EnsureLoaded();
+            if (needs && readings.TryGetValue(title, out var saved))
+            {
+                k = Normalize(saved);
+                cache[title] = k;
+                return k;
+            }
         }
+        // IME への問い合わせは時間がかかるので、ロックの外で行う
+        string? phonetic = needs ? Phonetic(title) : null;
+        var key = Normalize(phonetic ?? title);
+        lock (cache)
+        {
+            cache[title] = key;
+            if (phonetic != null)
+            {
+                readings[title] = phonetic;
+                dirty = true;
+            }
+        }
+        return key;
+    }
+
+    /// <summary>
+    /// 一覧を出す前に、裏のスレッドで読みを求めておく（初めて開く機種でも、画面が止まらないように）。
+    /// 新しく求めた読みは保存する。
+    /// </summary>
+    public static void Prefetch(IEnumerable<string> titles)
+    {
+        foreach (var t in titles) Key(t);
+        Save();
+    }
+
+    /// <summary>新しく求めた読みがあれば data\readings.json に保存する</summary>
+    public static void Save()
+    {
+        string json;
+        lock (cache)
+        {
+            if (!dirty) return;
+            json = System.Text.Json.JsonSerializer.Serialize(readings, new System.Text.Json.JsonSerializerOptions
+            {
+                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+            });
+            dirty = false;
+        }
+        try
+        {
+            var tmp = ReadingsPath + "." + Environment.CurrentManagedThreadId + ".tmp";
+            File.WriteAllText(tmp, json);
+            File.Move(tmp, ReadingsPath, true);
+        }
+        catch { }
+    }
+
+    private static void EnsureLoaded()
+    {
+        if (loaded) return;
+        loaded = true;
+        try
+        {
+            if (File.Exists(ReadingsPath))
+            {
+                var d = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, string>>(File.ReadAllText(ReadingsPath));
+                if (d != null) foreach (var kv in d) readings[kv.Key] = kv.Value;
+            }
+        }
+        catch { }
     }
 
     private static bool NeedsReading(string s) => s.Any(c => c >= 0x4E00 && c <= 0x9FFF || c == '々');
 
+    // MS-IME の COM オブジェクトは、作ったスレッド（STA）からだけ使う。
+    // どのスレッドから頼まれても、専用のスレッドで順番に問い合わせる。
+    private static readonly System.Collections.Concurrent.BlockingCollection<(string text, TaskCompletionSource<string?> done)> imeQueue = new();
+    private static Thread? imeThread;
+    private static readonly object imeThreadLock = new();
+
     private static string? Phonetic(string s)
+    {
+        if (imeFailed) return null;
+        lock (imeThreadLock)
+        {
+            if (imeThread == null)
+            {
+                imeThread = new Thread(ImeLoop) { IsBackground = true, Name = "MS-IME reading" };
+                imeThread.SetApartmentState(ApartmentState.STA);
+                imeThread.Start();
+            }
+        }
+        var done = new TaskCompletionSource<string?>(TaskCreationOptions.RunContinuationsAsynchronously);
+        imeQueue.Add((s, done));
+        return done.Task.GetAwaiter().GetResult();
+    }
+
+    private static void ImeLoop()
+    {
+        foreach (var (text, done) in imeQueue.GetConsumingEnumerable())
+            done.SetResult(PhoneticCore(text));
+    }
+
+    private static string? PhoneticCore(string s)
     {
         if (imeFailed) return null;
         try
