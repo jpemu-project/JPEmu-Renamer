@@ -158,6 +158,7 @@ public partial class MainViewModel : ObservableObject
             if (item.Counted || item == SelectedSystem) continue;
             var sys = item.Config.Clone();
             if (string.IsNullOrWhiteSpace(sys.DatPath) && sys.RomFolders.Count == 0) continue;
+            var progress = ScanProgress(item);
             try
             {
                 var list = await Task.Run(() =>
@@ -167,7 +168,7 @@ public partial class MainViewModel : ObservableObject
                     lock (ScanLock(sys.Id))
                     {
                         var cache = Storage.LoadCache(sys.Id);
-                        roms = RomScanner.Scan(sys, subfolders, cache, null, CancellationToken.None);
+                        roms = RomScanner.Scan(sys, subfolders, cache, progress, CancellationToken.None);
                         Storage.SaveCache(sys.Id, roms);
                     }
                     return Matcher.Match(dat, roms, sys);
@@ -182,6 +183,16 @@ public partial class MainViewModel : ObservableObject
             catch { /* DATが読めないなどは、その機種を開いたときに表示する */ }
         }
     }
+
+    /// <summary>
+    /// 読み込みの進み具合を下の欄に出す。その機種を選んで読み込みを待っている間だけ出すので、
+    /// 裏で続いている読み込み（起動時の数え・切り替える前の読み込み）の進み具合も、その機種を選べば見える。
+    /// </summary>
+    private IProgress<(int done, int total)> ScanProgress(SystemItem item) =>
+        new Progress<(int done, int total)>(p =>
+        {
+            if (SelectedSystem == item && IsBusy) StatusText = Loc.F("Scanning", p.done, p.total);
+        });
 
     private static (int owned, int missing) Counts(List<GameItem> list) =>
         (list.Where(i => i.IsOwned && i.Dat != null).Select(i => i.Dat!.Title).Distinct().Count(),
@@ -219,10 +230,7 @@ public partial class MainViewModel : ObservableObject
         }
 
         IsBusy = true;
-        var progress = new Progress<(int done, int total)>(p =>
-        {
-            if (!ct.IsCancellationRequested) StatusText = Loc.F("Scanning", p.done, p.total);
-        });
+        var progress = ScanProgress(sysItem);
 
         try
         {
