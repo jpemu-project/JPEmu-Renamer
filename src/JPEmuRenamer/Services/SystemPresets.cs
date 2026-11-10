@@ -44,9 +44,22 @@ public static class SystemPresets
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 
-    /// <summary>候補の名前（日本語・英語のどちらでも）から、日本語の名前を返す</summary>
-    public static string? JapaneseNameOf(string name) =>
-        All.FirstOrDefault(p => p.Name == name || p.NameEn.Equals(name, StringComparison.OrdinalIgnoreCase))?.Name;
+    /// <summary>
+    /// 候補の名前（日本語・英語のどちらでも）から、日本語の名前を返す。
+    /// 書き方の違い（全角・半角、「²」と「2」、大文字・小文字、空白・「-」「・」の有無）は同じとみなす。
+    /// 英語名は「Famicom / NES」の「NES」のように、「/」で区切ったどちらでもよい。
+    /// </summary>
+    public static string? JapaneseNameOf(string name)
+    {
+        var n = NormalizeName(name);
+        if (n.Length == 0) return null;
+        return All.FirstOrDefault(p => NormalizeName(p.Name) == n || NormalizeName(p.NameEn) == n
+                                       || p.NameEn.Split('/').Any(e => NormalizeName(e) == n))?.Name;
+    }
+
+    private static string NormalizeName(string s) =>
+        new string(s.Normalize(System.Text.NormalizationForm.FormKC).ToLowerInvariant()
+                    .Where(c => !char.IsWhiteSpace(c) && c is not ('-' or '・' or '.' or '_')).ToArray());
 
     public static readonly IReadOnlyList<string> IconKinds = new[]
     {
