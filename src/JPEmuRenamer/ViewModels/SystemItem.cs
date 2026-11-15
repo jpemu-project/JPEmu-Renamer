@@ -24,18 +24,21 @@ public partial class SystemItem : ObservableObject
     public bool HasCustomIcon => CustomIcon != null;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CountText))]
+    [NotifyPropertyChangedFor(nameof(CountText), nameof(IsComplete))]
     private int ownedCount;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CountText))]
+    [NotifyPropertyChangedFor(nameof(CountText), nameof(IsComplete))]
     private int missingCount;
 
     [ObservableProperty]
-    [NotifyPropertyChangedFor(nameof(CountText))]
+    [NotifyPropertyChangedFor(nameof(CountText), nameof(IsComplete))]
     private bool counted;
 
     public string CountText => Counted ? Loc.F("OwnedMissing", OwnedCount, MissingCount) : "";
+
+    /// <summary>未所有が0本（1本以上持っている）＝コンプリート。左の一覧で王冠を出す</summary>
+    public bool IsComplete => Counted && MissingCount == 0 && OwnedCount > 0;
 
     public void Update(SystemConfig config)
     {

@@ -271,6 +271,21 @@
                                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                                         <TextBlock Text="{Binding CountText}" Style="{StaticResource Muted}" FontSize="12" TextWrapping="Wrap" />
                                     </StackPanel>
+                                    <!-- 未所有が0本の機種（コンプリート）は、アイコンの右上に小さな王冠 -->
+                                    <Viewbox Grid.Column="0" Width="16" Height="13" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,-6,-6,0"
+                                             IsHitTestVisible="False" Visibility="{Binding IsComplete, Converter={StaticResource BoolToVis}}">
+                                        <Path Data="M1,4 L5,7.5 L8,1 L11,7.5 L15,4 L13.6,11 L2.4,11 Z" StrokeThickness="1" StrokeLineJoin="Round">
+                                            <Path.Fill>
+                                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                                    <GradientStop Color="#FFE27A" Offset="0" />
+                                                    <GradientStop Color="#F2B51E" Offset="1" />
+                                                </LinearGradientBrush>
+                                            </Path.Fill>
+                                            <Path.Stroke>
+                                                <SolidColorBrush Color="#B07D0A" />
+                                            </Path.Stroke>
+                                        </Path>
+                                    </Viewbox>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
