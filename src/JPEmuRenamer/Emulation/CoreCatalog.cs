@@ -51,6 +51,23 @@ public static class CoreCatalog
         new("fbneo", "FinalBurn Neo"),
         new("pcsx_rearmed", "PCSX ReARMed"),
         new("swanstation", "SwanStation"),
+        new("mednafen_pcfx", "Beetle PC-FX"),
+        new("opera", "Opera"),
+        new("emuscv", "EmuSCV"),
+        new("pokemini", "PokeMini"),
+        new("stella", "Stella"),
+        new("a5200", "a5200"),
+        new("prosystem", "ProSystem"),
+        new("handy", "Handy"),
+        new("mednafen_lynx", "Beetle Lynx"),
+        new("virtualjaguar", "Virtual Jaguar"),
+        new("gearcoleco", "Gearcoleco"),
+        new("freeintv", "FreeIntv"),
+        new("vecx", "vecx"),
+        new("o2em", "O2EM"),
+        new("freechaf", "FreeChaF"),
+        new("sameduck", "SameDuck"),
+        new("potator", "Potator"),
     }.ToDictionary(c => c.Name);
 
     /// <summary>機種名 → コアの候補（先頭が既定）と、必要なBIOSの説明</summary>
@@ -85,6 +102,25 @@ public static class CoreCatalog
         ["ネオジオポケットカラー"] = (new[] { "mednafen_ngp" }, ""),
         ["ネオジオ"] = (new[] { "fbneo" }, "neogeo.zip"),
         ["プレイステーション"] = (new[] { "pcsx_rearmed", "swanstation" }, "scph5500.bin / scph5501.bin / scph5502.bin?"),
+        // ---- No-Intro・Redump にDATがある、ゲームパッドだけで遊べる機種（2026-11 に追加） ----
+        ["サテラビュー"] = (new[] { "snes9x", "bsnes" }, "BS-X.bin"),
+        ["ポケモンミニ"] = (new[] { "pokemini" }, "bios.min?"),
+        ["キッズコンピュータ ピコ"] = (new[] { "picodrive" }, ""),
+        ["PC-FX"] = (new[] { "mednafen_pcfx" }, "pcfx.rom"),
+        ["スーパーカセットビジョン"] = (new[] { "emuscv" }, "upd7801g.s01"),
+        ["3DO"] = (new[] { "opera" }, "panafz10.bin"),
+        ["アタリ2600"] = (new[] { "stella" }, ""),
+        ["アタリ5200"] = (new[] { "a5200" }, "5200.rom"),
+        ["アタリ7800"] = (new[] { "prosystem" }, "7800 BIOS (U).rom?"),
+        ["アタリ リンクス"] = (new[] { "handy", "mednafen_lynx" }, "lynxboot.img"),
+        ["アタリ ジャガー"] = (new[] { "virtualjaguar" }, ""),
+        ["コレコビジョン"] = (new[] { "gearcoleco" }, "colecovision.rom"),
+        ["インテレビジョン"] = (new[] { "freeintv" }, "exec.bin / grom.bin"),
+        ["ベクトレックス"] = (new[] { "vecx" }, ""),
+        ["オデッセイ²"] = (new[] { "o2em" }, "o2rom.bin"),
+        ["チャンネルF"] = (new[] { "freechaf" }, "sl31253.bin / sl31254.bin"),
+        ["メガダック"] = (new[] { "sameduck" }, ""),
+        ["スーパービジョン"] = (new[] { "potator" }, ""),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -98,6 +134,9 @@ public static class CoreCatalog
         (".32x", "スーパー32X"), (".sgx", "PCエンジン スーパーグラフィックス"),
         (".ws", "ワンダースワン"), (".wsc", "ワンダースワンカラー"), (".ngp", "ネオジオポケット"), (".ngc", "ネオジオポケットカラー"),
         (".pbp", "プレイステーション"),
+        (".bs", "サテラビュー"), (".min", "ポケモンミニ"), (".a26", "アタリ2600"), (".a52", "アタリ5200"), (".a78", "アタリ7800"),
+        (".lnx", "アタリ リンクス"), (".j64", "アタリ ジャガー"), (".jag", "アタリ ジャガー"), (".col", "コレコビジョン"),
+        (".int", "インテレビジョン"), (".vec", "ベクトレックス"), (".chf", "チャンネルF"), (".sv", "スーパービジョン"),
     };
 
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;
@@ -144,6 +183,16 @@ public static class CoreCatalog
         ["セガサターン"] = new[] { new[] { "sega_101.bin", "mpr-17933.bin" } },
         ["PCエンジン CD-ROM²"] = new[] { new[] { "syscard3.pce" } },
         ["ネオジオ"] = new[] { new[] { "neogeo.zip" } },
+        ["サテラビュー"] = new[] { new[] { "BS-X.bin" } },
+        ["PC-FX"] = new[] { new[] { "pcfx.rom" } },
+        ["スーパーカセットビジョン"] = new[] { new[] { "upd7801g.s01" } },
+        ["3DO"] = new[] { new[] { "panafz10.bin", "panafz10-norsa.bin", "panafz1.bin", "panafz1j.bin", "panafz1j-norsa.bin", "goldstar.bin", "sanyotry.bin", "3do_arcade_saot.bin" } },
+        ["アタリ5200"] = new[] { new[] { "5200.rom" } },
+        ["アタリ リンクス"] = new[] { new[] { "lynxboot.img" } },
+        ["コレコビジョン"] = new[] { new[] { "colecovision.rom" } },
+        ["インテレビジョン"] = new[] { new[] { "exec.bin" }, new[] { "grom.bin" } },
+        ["オデッセイ²"] = new[] { new[] { "o2rom.bin" } },
+        ["チャンネルF"] = new[] { new[] { "sl31254.bin" }, new[] { "sl31253.bin", "sl90025.bin" } },
     };
 
     /// <summary>
