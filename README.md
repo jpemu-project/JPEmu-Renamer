@@ -5,7 +5,7 @@ A free, portable Windows emulator launcher that manages, renames (by CRC32 again
 
 - 公式サイト / Website：**https://jpemu-project.github.io/**
 - ダウンロード / Download：[最新版 / Latest release](../../releases/latest)（`JPEmuRenamer-win-x64.zip`、インストール不要）
-- 日本語DAT（27機種）/ Japanese DATs：[公式サイトで配布](https://jpemu-project.github.io/#download)
+- 日本語DAT / Japanese DATs：[公式サイトで配布](https://jpemu-project.github.io/#download)
 
 ## 最新版（1.1.x）でできること
 
@@ -29,7 +29,7 @@ A free, portable Windows emulator launcher that manages, renames (by CRC32 again
 - **ポータブル**：設定やセーブはexeの横の `data\` に保存。フォルダごとUSBメモリに入れて持ち運べる
 - **ヘルプ**：アプリ内に使い方の説明（F1）
 
-日本で発売されたゲームのタイトルを日本語で収めたDAT（27機種）を[公式サイト](https://jpemu-project.github.io/)で配布しています。ダウンロードして、「機種の設定」でDATとして指定してください。
+日本で発売されたゲームのタイトルを日本語で収めたDATを[公式サイト](https://jpemu-project.github.io/)で配布しています。ダウンロードして、「機種の設定」でDATとして指定してください。
 
 ## 使い方
 
