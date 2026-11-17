@@ -23,7 +23,7 @@ Wähle links ein System und öffne oben rechts die „Systemeinstellungen“. Mi
 | Eintrag | Beschreibung |
 | Systemname | Name in der Liste |
 | Symbol / Farbe | Symbol in der Systemliste. Eigene Bilder (PNG/ICO/JPG) sind möglich |
-| DAT-Datei | Spieleliste zum Umbenennen (OfflineList-Format). Zum reinen Spielen nicht nötig |
+| DAT-Datei | Spieleliste zum Umbenennen (OfflineList / No-Intro-Format). Zum reinen Spielen nicht nötig |
 | ROM-Ordner | Ordner mit den ROMs. Mehrere mit `;` trennen |
 | Dateiendungen | Zu lesende Endungen (z. B. `.nes;.zip`) |
 | Standard-Startart | Integrierter Core oder Emulator |
@@ -178,7 +178,7 @@ Die App berechnet die CRC32 (einen Fingerabdruck des Inhalts) jedes ROMs und ver
 
 # Vorbereitung
 ## DAT-Datei besorgen
-Verwende für jedes System ein DAT im OfflineList-Format (XML). Auch alte DATs in Shift-JIS werden unterstützt.
+Verwende für jedes System ein DAT: OfflineList (XML) oder clrmamepro-Format wie No-Intro (XML oder Text). Ein DAT kann auch in seiner ZIP-Datei bleiben. Auch alte DATs in Shift-JIS werden unterstützt.
 
 ## System einrichten
 Wähle links das System und stelle in den „Systemeinstellungen“ Folgendes ein.
@@ -241,7 +241,7 @@ Ist „Einstellungen“ → „Auch das ROM in ZIP-Dateien umbenennen“ eingesc
 # Fehlerbehebung
 | Problem | Was prüfen |
 | Nichts passt | Prüfen, ob das DAT zum richtigen System gehört. „Header-Behandlung“ auf „Mit Header“ oder „Ohne Header“ zu stellen kann helfen |
-| „Die DAT-Datei konnte nicht gelesen werden“ | Sicherstellen, dass es ein OfflineList-DAT (XML) ist |
+| „Die DAT-Datei konnte nicht gelesen werden“ | Sicherstellen, dass es ein OfflineList / No-Intro-DAT ist |
 | „Doppelt“ | Du hast zwei oder mehr ROMs desselben Titels. Eins in einen anderen Ordner verschieben |
 | Mit „(existiert)“ übersprungen | Eine Datei mit dem neuen Namen gibt es schon. Entscheiden, welche bleibt, und von Hand aufräumen |
 | Name im ZIP hat sich nicht geändert | Ist der ZIP-Name schon richtig, bleibt der innere Name unverändert |

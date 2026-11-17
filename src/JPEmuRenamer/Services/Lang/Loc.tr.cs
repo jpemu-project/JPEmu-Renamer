@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "Simge",
         ["IconColor"] = "Simge rengi",
         ["CustomIcon"] = "Özel simge (isteğe bağlı)",
-        ["DatFile"] = "DAT dosyası (OfflineList biçimi)",
+        ["DatFile"] = "DAT dosyası (OfflineList / No-Intro)",
         ["RomFolder"] = "ROM klasörleri (; ile ayırın)",
         ["Extensions"] = "Uzantılar (; ile ayırın)",
         ["HeaderMode"] = "Başlık işleme (CRC)",

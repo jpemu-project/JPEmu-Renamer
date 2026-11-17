@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "아이콘",
         ["IconColor"] = "아이콘 색",
         ["CustomIcon"] = "사용자 아이콘(선택)",
-        ["DatFile"] = "DAT 파일(OfflineList 형식)",
+        ["DatFile"] = "DAT 파일(OfflineList / No-Intro)",
         ["RomFolder"] = "ROM 폴더(여러 개는 ; 로 구분)",
         ["Extensions"] = "확장자(; 로 구분)",
         ["HeaderMode"] = "헤더 처리(CRC 계산)",

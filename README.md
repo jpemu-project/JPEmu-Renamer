@@ -10,7 +10,7 @@ A free, portable Windows emulator launcher that manages, renames (by CRC32 again
 ## 最新版（1.1.x）でできること
 
 - **27機種**に対応（ファミコンからプレイステーションまで）。表示は**16言語**、テーマは6種類
-- **ROM管理**：機種ごとにROMフォルダとDATを登録し、CRC32を計算して照合（ZIP内のROM、iNES/FDSヘッダー込み・除外の両方に対応）
+- **ROM管理**：機種ごとにROMフォルダとDAT（OfflineList形式、または No-Intro などの clrmamepro 形式。ZIPのままでも可）を登録し、CRC32を計算して照合（ZIP内のROM、iNES/FDSヘッダー込み・除外の両方に対応）
 - **未所有の表示**：DATにあって手元に無いタイトルも一覧に表示（すべて／所有のみ／未所有のみ）。左の機種一覧に所有／未所有の本数を表示
 - **並び替え**：あいうえお順・発売日順・メーカー順・ジャンル順・価格順・状態順。発売地域の国旗も表示
 - **リネーム**：CRC32が一致したファイルだけをDATの名前に変更。ZIP内のROM名も変更可。実行前に一覧で確認、「元に戻す」で1回分を丸ごと戻せる。DATに無いファイルや重複ファイルは、指定したフォルダへ移動できる
@@ -35,7 +35,7 @@ A free, portable Windows emulator launcher that manages, renames (by CRC32 again
 
 1. [Releases](../../releases) または Actions の成果物から `JPEmuRenamer-win-x64.zip` をダウンロードして展開
 2. `JPEmuRenamer.exe` を起動（インストール不要）
-3. 「機種の設定」でDATファイル（OfflineList形式）とROMフォルダを指定
+3. 「機種の設定」でDATファイル（OfflineList形式、または No-Intro などの clrmamepro 形式）とROMフォルダを指定
 4. 「リネーム」タブで照合結果を確認し、「リネームを実行」
 5. 「プレイ」タブでタイトルを選んで「起動」。初めて使うコアは、その場でダウンロードするか確認します
 

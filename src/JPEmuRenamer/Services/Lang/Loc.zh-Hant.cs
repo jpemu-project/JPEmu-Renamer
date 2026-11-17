@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "圖示",
         ["IconColor"] = "圖示顏色",
         ["CustomIcon"] = "自訂圖示（選填）",
-        ["DatFile"] = "DAT 檔（OfflineList 格式）",
+        ["DatFile"] = "DAT 檔（OfflineList・No-Intro 格式）",
         ["RomFolder"] = "ROM 資料夾（以 ; 分隔）",
         ["Extensions"] = "副檔名（以 ; 分隔）",
         ["HeaderMode"] = "檔頭處理（CRC）",

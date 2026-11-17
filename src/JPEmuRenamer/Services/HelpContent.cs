@@ -41,7 +41,7 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 | 項目 | 内容 |
 | ハード名 | 一覧に表示する名前 |
 | アイコン・色 | 機種一覧のアイコン。自作の画像（PNG/ICO/JPG）も使えます |
-| DATファイル | リネームに使うタイトル一覧（OfflineList形式）。遊ぶだけなら空でもかまいません |
+| DATファイル | リネームに使うタイトル一覧（OfflineList / No-Intro形式）。遊ぶだけなら空でもかまいません |
 | ROMフォルダ | ROMを置いたフォルダ。複数あるときは `;` で区切ります |
 | 対象拡張子 | 読み込むファイルの拡張子（例：`.nes;.zip`） |
 | 既定の起動方法 | 内蔵コアか外部exeか |
@@ -196,7 +196,7 @@ ROMの中身からCRC32（ファイルの指紋のような値）を計算し、
 
 # 準備
 ## DATファイルを用意する
-OfflineList形式のDATファイル（XML）を使います。機種ごとに用意してください。古いShift-JISのDATにも対応しています。
+DATファイルは、OfflineList形式（XML）と、No-Intro などの clrmamepro 形式（XML・テキスト）を使えます。ZIPに入ったままでも読めます。機種ごとに用意してください。古いShift-JISのDATにも対応しています。
 
 ## 機種を設定する
 左の機種一覧で機種を選び、「機種の設定」で次を指定します。
@@ -259,7 +259,7 @@ OfflineList形式のDATファイル（XML）を使います。機種ごとに用
 # 困ったとき
 | 症状 | 確認すること |
 | 照合が0件になる | DATファイルの機種が合っているか確認してください。「ヘッダーの扱い」を「ヘッダー込み」や「ヘッダー除外」に変えると一致することがあります |
-| 「DATファイルを読み込めませんでした」 | OfflineList形式（XML）のDATか確認してください |
+| 「DATファイルを読み込めませんでした」 | OfflineList / No-Intro形式のDATか確認してください |
 | 「重複」になる | 同じタイトルのROMが2つ以上あります。片方を別のフォルダに移してください |
 | 「（既存あり）」でスキップされた | リネーム後の名前のファイルがすでにあります。どちらを残すか決めてから、手で整理してください |
 | ZIPの中の名前が変わらない | ZIPファイルの名前がすでに正しい場合、中の名前は変わりません |
@@ -284,7 +284,7 @@ Choose a system on the left and open "System settings" at the top right. Add sys
 | Item | Description |
 | System name | Name shown in the list |
 | Icon / color | Icon in the system list. Custom images (PNG/ICO/JPG) are supported |
-| DAT file | Title list used for renaming (OfflineList format). Optional if you only play |
+| DAT file | Title list used for renaming (OfflineList / No-Intro format). Optional if you only play |
 | ROM folders | Folders containing ROMs. Separate several with `;` |
 | Extensions | Extensions to read (e.g. `.nes;.zip`) |
 | Default launch method | Built-in core or emulator exe |
@@ -439,7 +439,7 @@ The app computes the CRC32 (a fingerprint of the contents) of each ROM and compa
 
 # Preparation
 ## Get a DAT file
-Use an OfflineList-format DAT (XML) for each system. Old Shift-JIS DATs are supported.
+Use one DAT per system: OfflineList (XML) or clrmamepro format such as No-Intro (XML or text). A DAT can stay inside its ZIP. Old Shift-JIS DATs are supported.
 
 ## Set up the system
 Choose the system on the left and set the following in "System settings".
@@ -502,7 +502,7 @@ With "Settings" → "Also rename the ROM inside ZIP files" on, the ROM inside ea
 # Troubleshooting
 | Problem | What to check |
 | Nothing matches | Check that the DAT is for the right system. Changing "Header handling" to "Include" or "Exclude" may help |
-| "Could not read the DAT file" | Make sure it is an OfflineList (XML) DAT |
+| "Could not read the DAT file" | Make sure it is an OfflineList / No-Intro DAT |
 | "Duplicate" | You have two or more ROMs for the same title. Move one to another folder |
 | Skipped with "(exists)" | A file with the new name already exists. Decide which to keep and sort them by hand |
 | The name inside the ZIP did not change | If the ZIP name is already correct, the inner name is left as is |

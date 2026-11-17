@@ -23,7 +23,7 @@ Choisissez un système à gauche et ouvrez « Paramètres du système » en haut
 | Élément | Description |
 | Nom du système | Nom affiché dans la liste |
 | Icône / couleur | Icône dans la liste des systèmes. Les images personnalisées (PNG/ICO/JPG) sont acceptées |
-| Fichier DAT | Liste de jeux utilisée pour renommer (format OfflineList). Facultatif si vous voulez seulement jouer |
+| Fichier DAT | Liste de jeux utilisée pour renommer (format OfflineList / No-Intro). Facultatif si vous voulez seulement jouer |
 | Dossiers de ROM | Dossiers contenant les ROM. Séparez-les par `;` |
 | Extensions | Extensions à lire (ex. : `.nes;.zip`) |
 | Méthode de lancement par défaut | Cœur intégré ou émulateur |
@@ -178,7 +178,7 @@ L'application calcule le CRC32 (une empreinte du contenu) de chaque ROM et le co
 
 # Préparation
 ## Obtenir un fichier DAT
-Utilisez un DAT au format OfflineList (XML) pour chaque système. Les anciens DAT en Shift-JIS sont pris en charge.
+Utilisez un DAT par système : OfflineList (XML) ou format clrmamepro comme No-Intro (XML ou texte). Le DAT peut rester dans son ZIP. Les anciens DAT en Shift-JIS sont pris en charge.
 
 ## Configurer le système
 Choisissez le système à gauche et réglez les éléments suivants dans « Paramètres du système ».
@@ -241,7 +241,7 @@ Avec « Paramètres » → « Renommer aussi la ROM dans les fichiers ZIP » act
 # Dépannage
 | Problème | À vérifier |
 | Rien ne correspond | Vérifiez que le DAT correspond au bon système. Passer « Gestion de l'en-tête » sur « Inclure » ou « Exclure » peut aider |
-| « Impossible de lire le fichier DAT » | Vérifiez qu'il s'agit d'un DAT OfflineList (XML) |
+| « Impossible de lire le fichier DAT » | Vérifiez qu'il s'agit d'un DAT OfflineList / No-Intro |
 | « Doublon » | Vous avez au moins deux ROM pour le même titre. Déplacez-en une dans un autre dossier |
 | Ignoré avec « (existe déjà) » | Un fichier portant le nouveau nom existe déjà. Choisissez lequel garder et triez-les à la main |
 | Le nom dans le ZIP n'a pas changé | Si le nom du ZIP est déjà correct, le nom interne reste tel quel |

@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "Biểu tượng",
         ["IconColor"] = "Màu biểu tượng",
         ["CustomIcon"] = "Biểu tượng riêng (tùy chọn)",
-        ["DatFile"] = "Tệp DAT (định dạng OfflineList)",
+        ["DatFile"] = "Tệp DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Thư mục ROM (cách nhau bằng ;)",
         ["Extensions"] = "Phần mở rộng (cách nhau bằng ;)",
         ["HeaderMode"] = "Xử lý header (CRC)",

@@ -169,7 +169,7 @@ public partial class SystemEditWindow : Window
 
     private void OnBrowseDat(object sender, RoutedEventArgs e)
     {
-        var dlg = new OpenFileDialog { Filter = "DAT|*.xml;*.dat|All|*.*" };
+        var dlg = new OpenFileDialog { Filter = "DAT|*.xml;*.dat;*.zip|All|*.*" };
         if (dlg.ShowDialog(this) == true) DatBox.Text = dlg.FileName;
     }
 

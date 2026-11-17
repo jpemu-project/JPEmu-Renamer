@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "Значок",
         ["IconColor"] = "Цвет значка",
         ["CustomIcon"] = "Свой значок (необязательно)",
-        ["DatFile"] = "Файл DAT (формат OfflineList)",
+        ["DatFile"] = "Файл DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Папки с ROM (через ;)",
         ["Extensions"] = "Расширения (через ;)",
         ["HeaderMode"] = "Обработка заголовка (CRC)",

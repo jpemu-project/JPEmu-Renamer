@@ -23,7 +23,7 @@ Escolha um sistema à esquerda e abra "Configurações do sistema" no canto supe
 | Item | Descrição |
 | Nome do sistema | Nome exibido na lista |
 | Ícone / cor | Ícone na lista de sistemas. Imagens próprias (PNG/ICO/JPG) são aceitas |
-| Arquivo DAT | Lista de jogos usada para renomear (formato OfflineList). Opcional se você só vai jogar |
+| Arquivo DAT | Lista de jogos usada para renomear (formato OfflineList / No-Intro). Opcional se você só vai jogar |
 | Pastas de ROMs | Pastas que contêm as ROMs. Separe com `;` |
 | Extensões | Extensões lidas (ex.: `.nes;.zip`) |
 | Método de início padrão | Núcleo integrado ou emulador |
@@ -178,7 +178,7 @@ O aplicativo calcula o CRC32 (uma impressão digital do conteúdo) de cada ROM e
 
 # Preparação
 ## Obter um arquivo DAT
-Use um DAT no formato OfflineList (XML) para cada sistema. DATs antigos em Shift-JIS também são aceitos.
+Use um DAT por sistema: OfflineList (XML) ou formato clrmamepro como No-Intro (XML ou texto). O DAT pode continuar dentro do ZIP. DATs antigos em Shift-JIS também são aceitos.
 
 ## Configurar o sistema
 Escolha o sistema à esquerda e defina o seguinte em "Configurações do sistema".
@@ -241,7 +241,7 @@ Com "Configurações" → "Renomear também a ROM dentro dos arquivos ZIP" ativa
 # Solução de problemas
 | Problema | O que verificar |
 | Nada coincide | Verifique se o DAT é do sistema certo. Trocar "Tratamento do cabeçalho" para "Incluir cabeçalho" ou "Excluir cabeçalho" pode ajudar |
-| "Não foi possível ler o arquivo DAT" | Confirme que é um DAT OfflineList (XML) |
+| "Não foi possível ler o arquivo DAT" | Confirme que é um DAT OfflineList / No-Intro |
 | "Duplicado" | Você tem duas ou mais ROMs do mesmo título. Mova uma para outra pasta |
 | Pulado com "(já existe)" | Já existe um arquivo com o novo nome. Decida qual manter e organize à mão |
 | O nome dentro do ZIP não mudou | Se o nome do ZIP já está correto, o nome interno fica como está |

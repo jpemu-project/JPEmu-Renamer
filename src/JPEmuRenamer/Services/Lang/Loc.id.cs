@@ -116,7 +116,7 @@ public sealed partial class Loc
         ["Icon"] = "Ikon",
         ["IconColor"] = "Warna ikon",
         ["CustomIcon"] = "Ikon sendiri (opsional)",
-        ["DatFile"] = "File DAT (format OfflineList)",
+        ["DatFile"] = "File DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Folder ROM (pisahkan dengan ;)",
         ["Extensions"] = "Ekstensi (pisahkan dengan ;)",
         ["HeaderMode"] = "Penanganan header (CRC)",

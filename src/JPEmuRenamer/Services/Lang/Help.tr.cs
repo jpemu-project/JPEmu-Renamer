@@ -23,7 +23,7 @@ Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Siste
 | Öğe | Açıklama |
 | Sistem adı | Listede görünen ad |
 | Simge / renk | Sistem listesindeki simge. Kendi resimleriniz (PNG/ICO/JPG) de kullanılabilir |
-| DAT dosyası | Yeniden adlandırma için oyun listesi (OfflineList biçimi). Yalnızca oynayacaksanız gerekmez |
+| DAT dosyası | Yeniden adlandırma için oyun listesi (OfflineList / No-Intro biçimi). Yalnızca oynayacaksanız gerekmez |
 | ROM klasörleri | ROM'ların bulunduğu klasörler. Birden çoksa `;` ile ayırın |
 | Uzantılar | Okunacak uzantılar (ör. `.nes;.zip`) |
 | Varsayılan başlatma yöntemi | Yerleşik çekirdek veya emülatör |
@@ -178,7 +178,7 @@ Uygulama her ROM'un CRC32'sini (içeriğin parmak izi) hesaplar ve DAT dosyasıy
 
 # Hazırlık
 ## DAT dosyası edinme
-Her sistem için OfflineList biçiminde (XML) bir DAT kullanın. Eski Shift-JIS DAT'ları da desteklenir.
+Her sistem için bir DAT kullanın: OfflineList (XML) ya da No-Intro gibi clrmamepro biçimi (XML veya metin). DAT, ZIP dosyasının içinde kalabilir. Eski Shift-JIS DAT'ları da desteklenir.
 
 ## Sistemi ayarlama
 Soldan sistemi seçin ve "Sistem ayarları"nda şunları ayarlayın.
@@ -241,7 +241,7 @@ Tabloyu görmek için üstteki "Yeniden adlandır" sekmesine geçin.
 # Sorun giderme
 | Sorun | Kontrol edilecekler |
 | Hiçbiri eşleşmiyor | DAT'ın doğru sisteme ait olduğunu kontrol edin. "Başlık işleme"yi "Başlıkla" veya "Başlıksız" yapmak yardımcı olabilir |
-| "DAT dosyası okunamadı" | OfflineList DAT'ı (XML) olduğundan emin olun |
+| "DAT dosyası okunamadı" | OfflineList / No-Intro DAT'ı olduğundan emin olun |
 | "Yinelenen" | Aynı başlıktan iki veya daha fazla ROM'unuz var. Birini başka bir klasöre taşıyın |
 | "(zaten var)" ile atlandı | Yeni addaki dosya zaten var. Hangisini tutacağınıza karar verip elle düzenleyin |
 | ZIP içindeki ad değişmedi | ZIP'in kendi adı zaten doğruysa içteki ad değiştirilmez |

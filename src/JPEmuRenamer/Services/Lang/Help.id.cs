@@ -23,7 +23,7 @@ Pilih sistem di kiri lalu buka "Pengaturan sistem" di kanan atas. Tambahkan sist
 | Item | Keterangan |
 | Nama sistem | Nama yang tampil di daftar |
 | Ikon / warna | Ikon di daftar sistem. Gambar sendiri (PNG/ICO/JPG) juga bisa |
-| File DAT | Daftar game untuk penggantian nama (format OfflineList). Tidak perlu jika hanya bermain |
+| File DAT | Daftar game untuk penggantian nama (format OfflineList / No-Intro). Tidak perlu jika hanya bermain |
 | Folder ROM | Folder berisi ROM. Pisahkan dengan `;` jika lebih dari satu |
 | Ekstensi | Ekstensi yang dibaca (mis. `.nes;.zip`) |
 | Cara menjalankan bawaan | Core bawaan atau emulator |
@@ -178,7 +178,7 @@ Aplikasi menghitung CRC32 (sidik jari isi file) setiap ROM dan membandingkannya 
 
 # Persiapan
 ## Mendapatkan file DAT
-Gunakan DAT berformat OfflineList (XML) untuk setiap sistem. DAT lama berkode Shift-JIS juga didukung.
+Gunakan satu DAT untuk setiap sistem: OfflineList (XML) atau format clrmamepro seperti No-Intro (XML atau teks). DAT boleh tetap di dalam ZIP-nya. DAT lama berkode Shift-JIS juga didukung.
 
 ## Mengatur sistem
 Pilih sistem di kiri lalu atur hal berikut di "Pengaturan sistem".
@@ -241,7 +241,7 @@ Jika "Pengaturan" → "Ganti juga nama ROM di dalam file ZIP" aktif, ROM di dala
 # Pemecahan masalah
 | Masalah | Yang perlu diperiksa |
 | Tidak ada yang cocok | Pastikan DAT untuk sistem yang benar. Mengubah "Penanganan header" ke "Dengan header" atau "Tanpa header" bisa membantu |
-| "File DAT tidak dapat dibaca" | Pastikan itu DAT OfflineList (XML) |
+| "File DAT tidak dapat dibaca" | Pastikan itu DAT OfflineList / No-Intro |
 | "Duplikat" | Anda punya dua ROM atau lebih untuk judul yang sama. Pindahkan salah satunya ke folder lain |
 | Dilewati dengan "(sudah ada)" | File dengan nama baru sudah ada. Tentukan mana yang disimpan lalu rapikan secara manual |
 | Nama di dalam ZIP tidak berubah | Jika nama ZIP-nya sudah benar, nama di dalamnya dibiarkan |

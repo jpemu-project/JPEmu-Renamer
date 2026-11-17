@@ -23,7 +23,7 @@ Chọn hệ máy bên trái rồi mở "Cài đặt hệ máy" ở góc trên b�
 | Mục | Mô tả |
 | Tên hệ máy | Tên hiển thị trong danh sách |
 | Biểu tượng / màu | Biểu tượng trong danh sách hệ máy. Có thể dùng ảnh riêng (PNG/ICO/JPG) |
-| Tệp DAT | Danh sách game dùng để đổi tên (định dạng OfflineList). Không cần nếu chỉ chơi |
+| Tệp DAT | Danh sách game dùng để đổi tên (định dạng OfflineList / No-Intro). Không cần nếu chỉ chơi |
 | Thư mục ROM | Thư mục chứa ROM. Nếu nhiều thì cách nhau bằng `;` |
 | Phần mở rộng | Phần mở rộng sẽ đọc (ví dụ `.nes;.zip`) |
 | Cách chạy mặc định | Lõi tích hợp hoặc trình giả lập |
@@ -178,7 +178,7 @@ Mở "Cài đặt" → "Tải / cập nhật lõi tích hợp".
 
 # Chuẩn bị
 ## Lấy tệp DAT
-Hãy dùng DAT định dạng OfflineList (XML) cho từng hệ máy. DAT cũ mã Shift-JIS cũng được hỗ trợ.
+Hãy dùng một DAT cho mỗi hệ máy: định dạng OfflineList (XML) hoặc clrmamepro như No-Intro (XML hoặc văn bản). DAT có thể để nguyên trong tệp ZIP. DAT cũ mã Shift-JIS cũng được hỗ trợ.
 
 ## Cài đặt hệ máy
 Chọn hệ máy bên trái và đặt các mục sau trong "Cài đặt hệ máy".
@@ -241,7 +241,7 @@ Khi bật "Cài đặt" → "Đổi tên cả ROM bên trong tệp ZIP", ROM tro
 # Khắc phục sự cố
 | Vấn đề | Cần kiểm tra |
 | Không có gì khớp | Kiểm tra DAT có đúng hệ máy không. Đổi "Xử lý header" sang "Có header" hoặc "Không có header" có thể giúp ích |
-| "Không đọc được tệp DAT" | Hãy chắc đó là DAT OfflineList (XML) |
+| "Không đọc được tệp DAT" | Hãy chắc đó là DAT OfflineList / No-Intro |
 | "Trùng lặp" | Bạn có từ hai ROM trở lên của cùng một game. Hãy chuyển một tệp sang thư mục khác |
 | Bị bỏ qua kèm "(đã tồn tại)" | Đã có tệp mang tên mới. Hãy quyết định giữ tệp nào rồi sắp xếp thủ công |
 | Tên bên trong ZIP không đổi | Nếu tên của chính ZIP đã đúng, tên bên trong được giữ nguyên |

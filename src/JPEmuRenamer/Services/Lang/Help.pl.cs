@@ -23,7 +23,7 @@ Wybierz system po lewej i otwórz „Ustawienia systemu” w prawym górnym rogu
 | Pozycja | Opis |
 | Nazwa systemu | Nazwa na liście |
 | Ikona / kolor | Ikona na liście systemów. Można użyć własnych obrazów (PNG/ICO/JPG) |
-| Plik DAT | Lista gier do zmiany nazw (format OfflineList). Niepotrzebna, jeśli tylko grasz |
+| Plik DAT | Lista gier do zmiany nazw (format OfflineList / No-Intro). Niepotrzebna, jeśli tylko grasz |
 | Foldery ROM | Foldery z ROM-ami. Kilka oddziel `;` |
 | Rozszerzenia | Odczytywane rozszerzenia (np. `.nes;.zip`) |
 | Domyślny sposób uruchamiania | Wbudowany rdzeń lub emulator |
@@ -178,7 +178,7 @@ Aplikacja oblicza CRC32 (odcisk zawartości) każdego ROM-u i porównuje go z pl
 
 # Przygotowanie
 ## Plik DAT
-Dla każdego systemu użyj DAT w formacie OfflineList (XML). Obsługiwane są też stare pliki DAT w Shift-JIS.
+Dla każdego systemu użyj jednego DAT: OfflineList (XML) lub format clrmamepro, np. No-Intro (XML lub tekst). DAT może zostać w swoim pliku ZIP. Obsługiwane są też stare pliki DAT w Shift-JIS.
 
 ## Konfiguracja systemu
 Wybierz system po lewej i w „Ustawieniach systemu” ustaw poniższe pozycje.
@@ -241,7 +241,7 @@ Gdy włączone jest „Ustawienia” → „Zmieniaj też nazwę ROM-u wewnątrz
 # Rozwiązywanie problemów
 | Problem | Co sprawdzić |
 | Nic nie pasuje | Sprawdź, czy DAT jest od właściwego systemu. Może pomóc zmiana „Obsługi nagłówka” na „Z nagłówkiem” lub „Bez nagłówka” |
-| „Nie udało się odczytać pliku DAT” | Upewnij się, że to DAT OfflineList (XML) |
+| „Nie udało się odczytać pliku DAT” | Upewnij się, że to DAT OfflineList / No-Intro |
 | „Duplikat” | Masz dwa lub więcej ROM-ów tego samego tytułu. Przenieś jeden do innego folderu |
 | Pominięto z dopiskiem „(istnieje)” | Plik o nowej nazwie już istnieje. Zdecyduj, który zostawić, i uporządkuj ręcznie |
 | Nazwa wewnątrz ZIP się nie zmieniła | Jeśli nazwa samego ZIP-a jest już poprawna, nazwa wewnętrzna zostaje bez zmian |
