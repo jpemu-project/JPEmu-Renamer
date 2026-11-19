@@ -9,7 +9,7 @@
         PreviewMouseWheel="OnPreviewMouseWheel" Closing="OnClosing">
 
     <Window.Resources>
-        <!-- タイトル一覧（Slaunch風：線で区切り、1行おきに色を変える） -->
+        <!-- タイトル一覧：へこんだ枠の中で、ゲームごとに細い線で区切る。選んだ行だけ浮き上がる（その行の線は消す） -->
         <Style x:Key="GameRow" TargetType="ListBoxItem">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
@@ -17,22 +17,25 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Grid>
-                            <Border x:Name="Bd" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}"
-                                    BorderThickness="0,0,0,1" Padding="14,5">
+                            <Border x:Name="ShD" CornerRadius="12" Background="{DynamicResource BgBrush}" Effect="{DynamicResource SoftShadowDarkSmall}" Visibility="Hidden" />
+                            <Border x:Name="ShL" CornerRadius="12" Background="{DynamicResource BgBrush}" Effect="{DynamicResource SoftShadowLightSmall}" Visibility="Hidden" />
+                            <Border x:Name="Bd" Background="Transparent" BorderBrush="{DynamicResource LineBrush}"
+                                    BorderThickness="0,0,0,1" Padding="14,6" Margin="6,0">
                                 <ContentPresenter />
                             </Border>
-                            <Rectangle x:Name="Mark" Width="4" HorizontalAlignment="Left" Fill="{DynamicResource AccentBrush}" Visibility="Collapsed" />
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="ItemsControl.AlternationIndex" Value="1">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel2Brush}" />
-                            </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
                                 <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel3Brush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SelectedRowBrush}" />
-                                <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="ShD" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="ShL" Property="Visibility" Value="Visible" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource BgBrush}" />
+                                <Setter TargetName="Bd" Property="BorderThickness" Value="0" />
+                                <Setter TargetName="Bd" Property="CornerRadius" Value="12" />
+                                <Setter TargetName="Bd" Property="Margin" Value="0" />
+                                <Setter TargetName="Bd" Property="Padding" Value="20,6" />
                                 <Setter Property="FontWeight" Value="Bold" />
                             </Trigger>
                         </ControlTemplate.Triggers>
@@ -41,33 +44,54 @@
             </Setter>
         </Style>
 
+        <!-- 機種一覧：選んでいる機種はへこませ、左にアクセント色の印を付ける -->
         <Style x:Key="SystemRow" TargetType="ListBoxItem">
             <Setter Property="Foreground" Value="{DynamicResource TextBrush}" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-            <Setter Property="Margin" Value="0,2" />
+            <Setter Property="Margin" Value="0,3" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ListBoxItem">
                         <Grid>
-                            <Border x:Name="Bd" Background="Transparent" CornerRadius="10" Padding="10,8">
+                            <Border x:Name="Bd" Background="Transparent" BorderBrush="Transparent" BorderThickness="1" CornerRadius="16" Padding="10,8">
                                 <ContentPresenter />
                             </Border>
-                            <!-- 選んでいる機種：濃い背景と、左のアクセント色の印（ゲーム一覧の選択と同じ印） -->
-                            <Border x:Name="Mark" Width="4" Margin="0,8" HorizontalAlignment="Left" CornerRadius="2"
+                            <Border x:Name="Mark" Width="4" Margin="2,14" HorizontalAlignment="Left" CornerRadius="2"
                                     Background="{DynamicResource AccentBrush}" Visibility="Collapsed" />
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel2Brush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Panel3Brush}" />
                             </Trigger>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SystemSelectedBrush}" />
+                                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource SoftInsetBrush}" />
+                                <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource SoftInsetEdgeBrush}" />
                                 <Setter TargetName="Mark" Property="Visibility" Value="Visible" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+        </Style>
+
+        <!-- 機種アイコン：小さく浮き上がる。選んでいる機種はアクセント色に白い線画 -->
+        <Style x:Key="SystemIconBox" TargetType="Border">
+            <Setter Property="Background" Value="{DynamicResource SystemIconBgBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource SoftRaisedEdgeBrush}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+                    <Setter Property="BorderBrush" Value="Transparent" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+        <Style x:Key="SystemIconWhite" TargetType="Path">
+            <Setter Property="Opacity" Value="{DynamicResource SystemIconFilled}" />
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                </DataTrigger>
+            </Style.Triggers>
         </Style>
 
         <Style x:Key="GameTitle" TargetType="TextBlock">
@@ -136,12 +160,12 @@
         </Grid.RowDefinitions>
 
         <!-- ヘッダー -->
-        <Border Grid.Row="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,0,1" Padding="16,6">
+        <Border Grid.Row="0" Background="Transparent" Padding="20,12,20,6">
             <Border.Resources>
                 <!-- ヘッダーのボタンは低めにして、一覧に場所をゆずる -->
                 <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-                    <Setter Property="MinHeight" Value="32" />
-                    <Setter Property="Padding" Value="14,4" />
+                    <Setter Property="MinHeight" Value="34" />
+                    <Setter Property="Padding" Value="16,4" />
                 </Style>
             </Border.Resources>
             <Grid>
@@ -185,11 +209,11 @@
                         <ColumnDefinition Width="100*" MaxWidth="420" />
                         <ColumnDefinition Width="1*" />
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="34,5,8,5" />
+                    <TextBox x:Name="SearchBox" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged, Delay=200}" Padding="40,7,10,7" />
                     <Path Data="M6,1 A5,5 0 1 1 5.99,1 M10,10 L14,14" Stroke="{DynamicResource MutedBrush}" StrokeThickness="1.6"
-                          Width="16" Height="16" HorizontalAlignment="Left" Margin="12,0,0,0" IsHitTestVisible="False" />
+                          Width="16" Height="16" HorizontalAlignment="Left" Margin="16,0,0,0" IsHitTestVisible="False" />
                     <TextBlock Text="{Binding [Search], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
-                               Margin="36,0,10,0" VerticalAlignment="Center" IsHitTestVisible="False" TextTrimming="CharacterEllipsis">
+                               Margin="42,0,10,0" VerticalAlignment="Center" IsHitTestVisible="False" TextTrimming="CharacterEllipsis">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
                                 <Setter Property="Visibility" Value="Collapsed" />
@@ -234,8 +258,8 @@
                 <ColumnDefinition x:Name="DetailColumn" Width="456" MinWidth="280" />
             </Grid.ColumnDefinitions>
 
-            <!-- 機種一覧 -->
-            <Border Grid.Column="0" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,0,1,0" Padding="12,16">
+            <!-- 機種一覧：浮き上がったカード -->
+            <ContentControl Grid.Column="0" Style="{StaticResource SoftCard}" Margin="18,8,8,10" Padding="10,14">
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Top" Text="{Binding [Systems], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" Margin="10,0,0,8" />
                     <Button DockPanel.Dock="Bottom" Command="{Binding AddSystemCommand}" Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" Margin="0,8,0,0" />
@@ -251,7 +275,7 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Width="44" Height="44" CornerRadius="{DynamicResource SystemIconRadius}" Background="{DynamicResource SystemIconBgBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1">
+                                    <Border Width="44" Height="44" CornerRadius="{DynamicResource SystemIconRadius}" Style="{StaticResource SystemIconBox}" BorderThickness="1">
                                         <Grid>
                                             <!-- アクアモード：機種の色の水玉に白いアイコン（ほかのモードでは透明） -->
                                             <Ellipse Fill="{Binding IconBrush}" Opacity="{DynamicResource SystemIconFilled}" IsHitTestVisible="False" />
@@ -259,7 +283,7 @@
                                                 <Canvas Width="48" Height="48">
                                                     <Path Data="{Binding Icon}" Stroke="{Binding IconBrush}" StrokeThickness="2.6"
                                                           StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                                                    <Path Data="{Binding Icon}" Stroke="White" StrokeThickness="2.6" Opacity="{DynamicResource SystemIconFilled}"
+                                                    <Path Data="{Binding Icon}" Stroke="White" StrokeThickness="2.6" Style="{StaticResource SystemIconWhite}"
                                                           StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
                                                 </Canvas>
                                             </Viewbox>
@@ -291,17 +315,17 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
                 </DockPanel>
-            </Border>
+            </ContentControl>
 
             <!-- タイトル一覧／管理表 -->
-            <Grid Grid.Column="1" Margin="14,10">
+            <Grid Grid.Column="1" Margin="14,8,10,10">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
                 <!-- いま選んでいる機種の名前と本数（1行）と、絞り込み・並び替え・機種の設定 -->
-                <Grid Margin="0,0,0,8">
+                <Grid Margin="0,0,0,12">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="Auto" />
@@ -335,13 +359,13 @@
                         </StackPanel>
                     </Border>
                     <!-- 並び替え：押すと並び順の一覧が開く -->
-                    <Button Grid.Column="2" Content="{Binding SortButtonText}" Click="OnSortClick" Padding="12,4" MinHeight="34" Margin="0,0,8,0" />
-                    <Button Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="12,4" MinHeight="34" />
+                    <Button Grid.Column="2" Content="{Binding SortButtonText}" Click="OnSortClick" Padding="14,4" MinHeight="34" Margin="0,0,10,0" />
+                    <Button Grid.Column="3" Command="{Binding EditSystemCommand}" Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" Padding="14,4" MinHeight="34" />
                 </Grid>
 
                 <!-- 未設定のとき -->
                 <Border Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource BoolToVis}}"
-                        Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
+                        Style="{StaticResource SoftWell}" Padding="32">
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding [NoSystemSetup], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
                                    Foreground="{DynamicResource SubBrush}" LineHeight="26" />
@@ -353,7 +377,7 @@
                 <!-- 機種が1つも無いとき（最初の起動時）：見出しと一覧の上にかぶせる -->
                 <Border Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="10" Background="{DynamicResource BgBrush}"
                         Visibility="{Binding HasNoSystems, Converter={StaticResource BoolToVis}}">
-                    <Border Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="12" Padding="32">
+                    <Border Style="{StaticResource SoftWell}" Padding="32">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520">
                             <TextBlock Text="{Binding [NoSystems], Source={x:Static s:Loc.Instance}}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" />
                             <TextBlock Text="{Binding [NoSystemsHint], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
@@ -367,9 +391,9 @@
                 <Grid Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource InvBoolToVis}}">
                     <!-- 遊ぶ（リスト） -->
                     <Border Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}"
-                            BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10" ClipToBounds="True">
+                            Style="{StaticResource SoftWell}" Padding="6,4,6,8">
                         <DockPanel>
-                            <Border DockPanel.Dock="Top" Background="{DynamicResource HeaderRowBrush}" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,5">
+                            <Border DockPanel.Dock="Top" Background="Transparent" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,6" Margin="6,0">
                                 <Grid TextElement.Foreground="{DynamicResource MutedBrush}" TextElement.FontSize="12">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="22" />
@@ -383,8 +407,8 @@
                                 </Grid>
                             </Border>
                             <ListBox x:Name="GameList" ItemsSource="{Binding ItemsView}" SelectedItem="{Binding SelectedItem}"
-                                     ItemContainerStyle="{StaticResource GameRow}" AlternationCount="2"
-                                     Background="{DynamicResource PanelBrush}" BorderThickness="0"
+                                     ItemContainerStyle="{StaticResource GameRow}"
+                                     Background="Transparent" BorderThickness="0" Padding="0,4,0,0"
                                      VirtualizingPanel.IsVirtualizing="True" VirtualizingPanel.VirtualizationMode="Recycling"
                                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                                      MouseDoubleClick="OnGameDoubleClick" KeyDown="OnGameKeyDown"
@@ -416,8 +440,9 @@
                         </DockPanel>
                     </Border>
 
-                    <!-- 整理（管理表） -->
-                    <DataGrid Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}"
+                    <!-- 整理（管理表）：へこんだ枠の中に置く -->
+                    <Border Style="{StaticResource SoftWell}" Padding="6,4" Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}" />
+                    <DataGrid Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}" Margin="7,5"
                               ItemsSource="{Binding ItemsView}" SelectedItem="{Binding SelectedItem}" IsReadOnly="True"
                               EnableRowVirtualization="True" ContextMenu="{StaticResource GameMenu}">
                         <DataGrid.Columns>
@@ -464,18 +489,19 @@
             </Grid>
 
             <!-- 詳細 -->
-            <Border Grid.Column="2" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1,0,0,0" Padding="20,16">
+            <Border Grid.Column="2" Background="Transparent" Padding="10,8,20,10">
                 <Grid>
                     <!-- 遊ぶ：プレビューと起動 -->
                     <DockPanel Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}">
-                        <!-- テレビ風の枠：縁と下の帯の色はテーマごと（Colors.*.xaml の Tv*） -->
-                        <Border DockPanel.Dock="Top" Height="312" CornerRadius="10" Background="{DynamicResource TvBezelBrush}" BorderBrush="{DynamicResource TvBezelBorderBrush}" BorderThickness="1">
+                        <!-- テレビ風の枠：浮き上がったカードに、へこんだ画面を埋め込む -->
+                        <ContentControl DockPanel.Dock="Top" Height="320" Style="{StaticResource SoftCard}" Padding="12,12,12,4">
                             <Grid>
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="*" />
-                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="26" />
                                 </Grid.RowDefinitions>
-                                <Border Margin="9,9,9,8" Background="Black" CornerRadius="2">
+                                <Border Style="{StaticResource SoftWell}" CornerRadius="14" Padding="7">
+                                <Border Background="Black" CornerRadius="9">
                                     <Grid ClipToBounds="True">
                                         <!-- 待機中：左が黒に溶ける4色の横縞 -->
                                         <UniformGrid Rows="4" Margin="0,4">
@@ -541,8 +567,9 @@
                                         </Border>
                                     </Grid>
                                 </Border>
+                                </Border>
                                 <!-- 下の帯：ランプ・ロゴ・保存ボタン -->
-                                <Border Grid.Row="1" CornerRadius="0,0,9,9" Background="{DynamicResource TvBandBrush}" BorderBrush="{DynamicResource TvBandLineBrush}" BorderThickness="0,1,0,0">
+                                <Border Grid.Row="1" Background="{DynamicResource TvBandBrush}">
                                     <Grid>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="12,0,0,0">
                                             <Ellipse Width="5" Height="5" Margin="0,0,6,0">
@@ -570,7 +597,7 @@
                                     </Grid>
                                 </Border>
                             </Grid>
-                        </Border>
+                        </ContentControl>
                         <StackPanel DockPanel.Dock="Bottom">
                             <Button Style="{StaticResource AccentButton}" Command="{Binding LaunchCommand}" Content="{Binding LaunchButtonText}"
                                     MinHeight="50" FontSize="16" IsEnabled="{Binding HasSelection}" />
@@ -586,14 +613,14 @@
                                         IsEnabled="{Binding SelectedItem.IsOwned}" />
                             </Grid>
                         </StackPanel>
-                        <!-- ROM情報：リングで綴じたノート風のカード -->
-                        <ScrollViewer Margin="0,12,0,12" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
+                        <!-- ROM情報：へこんだカード -->
+                        <ScrollViewer Margin="0,16,0,16" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled"
                                       Visibility="{Binding HasSelection, Converter={StaticResource BoolToVis}}">
-                            <Grid Margin="12,0,0,0" DataContext="{Binding SelectedItem}">
+                            <Grid DataContext="{Binding SelectedItem}">
                                 <Grid.Resources>
                                     <!-- 罫線つきの1行。値が空の行は隠す -->
                                     <Style x:Key="InfoRow" TargetType="Border">
-                                        <Setter Property="BorderBrush" Value="{DynamicResource MemoLineBrush}" />
+                                        <Setter Property="BorderBrush" Value="{DynamicResource LineBrush}" />
                                         <Setter Property="BorderThickness" Value="0,0,0,1" />
                                         <Setter Property="MinHeight" Value="24" />
                                         <Setter Property="Padding" Value="0,3,0,2" />
@@ -604,15 +631,14 @@
                                         </Style.Triggers>
                                     </Style>
                                     <Style x:Key="InfoKey" TargetType="TextBlock">
-                                        <Setter Property="Foreground" Value="{DynamicResource MemoKeyBrush}" />
+                                        <Setter Property="Foreground" Value="{DynamicResource MutedBrush}" />
                                         <Setter Property="Width" Value="100" />
                                         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </Grid.Resources>
-                                <Border Background="{DynamicResource MemoBgBrush}" BorderBrush="{DynamicResource MemoBorderBrush}" BorderThickness="1" CornerRadius="6" Padding="28,8,14,8">
-                                    <StackPanel TextElement.FontSize="13" TextElement.Foreground="{DynamicResource MemoTextBrush}">
-                                        <TextBlock Text="{DynamicResource MemoHeaderText}" FontSize="10" Foreground="{DynamicResource MemoHeaderBrush}" HorizontalAlignment="Right" Margin="0,0,0,2" />
-                                        <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource MemoTitleBrush}" TextWrapping="Wrap" Margin="0,-4,0,4" />
+                                <Border Style="{StaticResource SoftWell}" Padding="18,12,16,10">
+                                    <StackPanel TextElement.FontSize="13" TextElement.Foreground="{DynamicResource SubBrush}">
+                                        <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" TextWrapping="Wrap" Margin="0,0,0,4" />
                                         <Border Style="{StaticResource InfoRow}" Tag="{Binding StatusText}">
                                             <DockPanel>
                                                 <TextBlock Style="{StaticResource InfoKey}" Text="{Binding [ColStatus], Source={x:Static s:Loc.Instance}}" />
@@ -663,21 +689,13 @@
                                         </Border>
                                     </StackPanel>
                                 </Border>
-                                <!-- ライトモードのノートだけに出る赤い余白線と、右下の折れ -->
-                                <Rectangle Width="1" HorizontalAlignment="Left" Margin="22,1,0,1" Fill="{DynamicResource MemoMarginBrush}" IsHitTestVisible="False" />
-                                <Canvas Width="18" Height="18" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsHitTestVisible="False">
-                                    <Polygon Points="0,18 18,0 18,18" Fill="{DynamicResource MemoFoldCutBrush}" />
-                                    <Polygon Points="0,18 0,0 18,0" Fill="{DynamicResource MemoFoldBrush}" />
-                                </Canvas>
-                                <!-- 綴じリング：ページの外から穴へ通るワイヤーを縦に並べる（形と色は Colors.*.xaml の MemoRingBrush） -->
-                                <Rectangle Width="40" HorizontalAlignment="Left" Margin="-12,8,0,6" IsHitTestVisible="False" Fill="{DynamicResource MemoRingBrush}" />
                             </Grid>
                         </ScrollViewer>
                     </DockPanel>
 
                     <!-- 整理：リネーム前後の比較 -->
                     <StackPanel Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}">
-                        <Border Background="{DynamicResource BgBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10" Padding="14"
+                        <Border Style="{StaticResource SoftWell}" Padding="16"
                                 DataContext="{Binding SelectedItem}">
                             <StackPanel>
                                 <TextBlock Text="{Binding [Before], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" />
@@ -690,8 +708,7 @@
                                    TextWrapping="Wrap" LineHeight="24" Margin="0,14,0,0" FontSize="13" />
 
                         <!-- DATに無いファイルの移動（機種ごと）。「リネーム」と同時に行い、「取り消し」で元に戻る -->
-                        <Border Background="{DynamicResource Panel2Brush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1" CornerRadius="10"
-                                Padding="14" Margin="0,16,0,0">
+                        <Border Style="{StaticResource SoftWell}" Padding="16" Margin="0,16,0,0">
                             <StackPanel>
                                 <TextBlock Text="{Binding [UnknownSection], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" Margin="0,0,0,8" />
                                 <CheckBox IsChecked="{Binding MoveUnknown}" FontSize="13"
@@ -711,7 +728,7 @@
         </Grid>
 
         <!-- フッター -->
-        <Border Grid.Row="2" Background="{DynamicResource FooterBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="0,1,0,0" Padding="20,10">
+        <Border Grid.Row="2" Background="{DynamicResource FooterBrush}" Padding="24,4,24,10">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />

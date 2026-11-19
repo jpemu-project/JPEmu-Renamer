@@ -2,87 +2,89 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:sys="clr-namespace:System;assembly=mscorlib">
 
-    <!-- ライトモードの色（ダークモードは Colors.Dark.xaml。キーは両方で揃える） -->
-    <SolidColorBrush x:Key="BgBrush" Color="#F3F4F7" />
-    <SolidColorBrush x:Key="PanelBrush" Color="#FFFFFF" />
-    <SolidColorBrush x:Key="Panel2Brush" Color="#F7F8FA" />
-    <SolidColorBrush x:Key="Panel3Brush" Color="#E9ECF1" />
-    <SolidColorBrush x:Key="LineBrush" Color="#DFE2E8" />
-    <SolidColorBrush x:Key="Line2Brush" Color="#C7CCD5" />
-    <SolidColorBrush x:Key="TextBrush" Color="#1C2028" />
-    <SolidColorBrush x:Key="SubBrush" Color="#3E4553" />
-    <SolidColorBrush x:Key="MutedBrush" Color="#6B7280" />
-    <SolidColorBrush x:Key="DimBrush" Color="#7C8494" />
-    <SolidColorBrush x:Key="AccentBrush" Color="#E5484D" />
-    <SolidColorBrush x:Key="AccentHoverBrush" Color="#D63B40" />
-    <SolidColorBrush x:Key="SelectedRowBrush" Color="#FCE4E5" />
-    <!-- 左の機種一覧で選んでいる機種（一覧の選択より濃く） -->
-    <SolidColorBrush x:Key="SystemSelectedBrush" Color="#F7C6C8" />
-    <SolidColorBrush x:Key="OkBgBrush" Color="#DCF4E5" />
-    <SolidColorBrush x:Key="OkFgBrush" Color="#15803D" />
-    <SolidColorBrush x:Key="WarnBgBrush" Color="#FDF1C7" />
-    <SolidColorBrush x:Key="WarnFgBrush" Color="#A16207" />
-    <SolidColorBrush x:Key="ErrBgBrush" Color="#FDE2E2" />
-    <SolidColorBrush x:Key="ErrFgBrush" Color="#B91C1C" />
-    <!-- 切り替えボタンの選択中（白文字が乗る）-->
-    <SolidColorBrush x:Key="SegOnBrush" Color="#5A6170" />
-    <!-- 切り替えボタンを並べた枠の地 -->
-    <SolidColorBrush x:Key="SegGroupBrush" Color="#F3F4F7" />
-    <!-- 入力欄・コンボボックスの地 -->
-    <SolidColorBrush x:Key="InputBrush" Color="#F3F4F7" />
-    <SolidColorBrush x:Key="FooterBrush" Color="#ECEEF2" />
-    <SolidColorBrush x:Key="HeaderRowBrush" Color="#F1F3F6" />
-    <SolidColorBrush x:Key="HeaderLineBrush" Color="#D5D9E0" />
+    <!-- ライト：青みのある淡い灰色に、水色から緑のアクセント
+         ソフトUI（ニューモーフィズム）：背景とパネルを同じ色にし、明るい影（左上）と暗い影（右下）で浮き上がり・へこみを表す。
+         キーは6つのテーマで揃える（Ui/Theme.xaml と Views/*.xaml が DynamicResource で参照する） -->
 
-    <!-- 設定などの別ウィンドウの背景 -->
-    <SolidColorBrush x:Key="DialogBrush" Color="#FFFFFF" />
-    <!-- 普通のボタンの地（アクアモードだけつやのある白） -->
-    <SolidColorBrush x:Key="ButtonBgBrush" Color="Transparent" />
-    <!-- 機種アイコン（アクアモードだけ丸い水玉） -->
-    <!-- 1 のとき、機種の色で塗った水玉に白いアイコンを重ねる -->
+    <!-- 地の色と、浮き上がり・へこみの影の色 -->
+    <Color x:Key="SoftBaseColor">#E4E9F0</Color>
+    <Color x:Key="SoftHiColor">#FFFFFF</Color>
+    <Color x:Key="SoftLoColor">#B8C2D0</Color>
+    <Color x:Key="AccentGlowColor">#22B8CF</Color>
+    <SolidColorBrush x:Key="BgBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="DialogBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="PanelBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="Panel2Brush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="Panel3Brush" Color="#DCE2EA" />
+    <SolidColorBrush x:Key="SegGroupBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="InputBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="FooterBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="HeaderRowBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="ButtonBgBrush" Color="#E4E9F0" />
+    <!-- へこんだ面：左上が少し暗い -->
+    <LinearGradientBrush x:Key="SoftInsetBrush" StartPoint="0,0" EndPoint="0.7,1">
+        <GradientStop Color="#D3DAE4" Offset="0" /><GradientStop Color="#E4E9F0" Offset="0.45" />
+    </LinearGradientBrush>
+    <!-- へこんだ面のふち（左上が暗く、右下が明るい） -->
+    <LinearGradientBrush x:Key="SoftInsetEdgeBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#B8C2D0" Offset="0" /><GradientStop Color="#FFFFFF" Offset="1" />
+    </LinearGradientBrush>
+    <!-- 浮き上がった小さな部品のふち（影を使わない軽い浮き上がり。左上が明るく、右下が暗い） -->
+    <LinearGradientBrush x:Key="SoftRaisedEdgeBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FFFFFF" Offset="0" /><GradientStop Color="#B8C2D0" Offset="1" />
+    </LinearGradientBrush>
+    <!-- 影 -->
+    <DropShadowEffect x:Key="SoftShadowDark" Color="#B8C2D0" Direction="315" ShadowDepth="5" BlurRadius="14" Opacity="1" />
+    <DropShadowEffect x:Key="SoftShadowLight" Color="#FFFFFF" Direction="135" ShadowDepth="5" BlurRadius="14" Opacity="1" />
+    <DropShadowEffect x:Key="SoftShadowDarkSmall" Color="#B8C2D0" Direction="315" ShadowDepth="3" BlurRadius="8" Opacity="1" />
+    <DropShadowEffect x:Key="SoftShadowLightSmall" Color="#FFFFFF" Direction="135" ShadowDepth="3" BlurRadius="8" Opacity="1" />
+    <DropShadowEffect x:Key="AccentGlow" Color="#22B8CF" Direction="270" ShadowDepth="4" BlurRadius="16" Opacity="0.55" />
+
+    <!-- 線と文字 -->
+    <SolidColorBrush x:Key="LineBrush" Color="#CDD4DE" />
+    <SolidColorBrush x:Key="Line2Brush" Color="#B8C1CD" />
+    <SolidColorBrush x:Key="HeaderLineBrush" Color="#CDD4DE" />
+    <SolidColorBrush x:Key="TextBrush" Color="#2E3A4C" />
+    <SolidColorBrush x:Key="SubBrush" Color="#4A5668" />
+    <SolidColorBrush x:Key="MutedBrush" Color="#7A8699" />
+    <SolidColorBrush x:Key="DimBrush" Color="#8C97A8" />
+
+    <!-- アクセント（選んでいるもの・起動ボタン）：グラデーション -->
+    <LinearGradientBrush x:Key="AccentBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#22B8CF" Offset="0" /><GradientStop Color="#3DD6A0" Offset="1" />
+    </LinearGradientBrush>
+    <LinearGradientBrush x:Key="AccentHoverBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#3CC6DA" Offset="0" /><GradientStop Color="#58E0AE" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="AccentTextBrush" Color="#22B8CF" />
+    <LinearGradientBrush x:Key="SegOnBrush" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#22B8CF" Offset="0" /><GradientStop Color="#3DD6A0" Offset="1" />
+    </LinearGradientBrush>
+    <SolidColorBrush x:Key="SelectedRowBrush" Color="#D7E2EC" />
+    <SolidColorBrush x:Key="SystemSelectedBrush" Color="#E4E9F0" />
+
+    <!-- 状態バッジ -->
+    <SolidColorBrush x:Key="OkBgBrush" Color="#D2F2E5" />
+    <SolidColorBrush x:Key="OkFgBrush" Color="#1F8A63" />
+    <SolidColorBrush x:Key="WarnBgBrush" Color="#FBEFC9" />
+    <SolidColorBrush x:Key="WarnFgBrush" Color="#9A6A06" />
+    <SolidColorBrush x:Key="ErrBgBrush" Color="#F8DADA" />
+    <SolidColorBrush x:Key="ErrFgBrush" Color="#B42323" />
+
+    <!-- 機種アイコン：地の色で小さく浮き上がる -->
     <sys:Double x:Key="SystemIconFilled">0</sys:Double>
-    <CornerRadius x:Key="SystemIconRadius">10</CornerRadius>
-    <SolidColorBrush x:Key="SystemIconBgBrush" Color="#F7F8FA" />
+    <CornerRadius x:Key="SystemIconRadius">14</CornerRadius>
+    <SolidColorBrush x:Key="SystemIconBgBrush" Color="#E4E9F0" />
     <SolidColorBrush x:Key="SystemIconGlossBrush" Color="Transparent" />
-    <!-- テレビ風プレビュー：白い縁＋明るいシルバーの帯 -->
-    <LinearGradientBrush x:Key="TvBezelBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#FFFFFF" Offset="0" /><GradientStop Color="#EEF0F3" Offset="1" />
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="TvBezelBorderBrush" Color="#D3D7DE" />
-    <LinearGradientBrush x:Key="TvBandBrush" StartPoint="0,0" EndPoint="0,1">
-        <GradientStop Color="#E9EBEE" Offset="0" /><GradientStop Color="#CDD1D7" Offset="1" />
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="TvBandLineBrush" Color="#F7F8FA" />
-    <SolidColorBrush x:Key="TvLedOffBrush" Color="#9AA0A8" />
-    <SolidColorBrush x:Key="TvLogoBrush" Color="#5A6170" />
-    <SolidColorBrush x:Key="TvSaveBgBrush" Color="#F3F4F6" />
-    <SolidColorBrush x:Key="TvSaveBorderBrush" Color="#B4BAC3" />
-    <!-- ROM情報カード：クリーム色のリングノート -->
-    <sys:String x:Key="MemoHeaderText">memo</sys:String>
-    <SolidColorBrush x:Key="MemoBgBrush" Color="#EFEBDD" />
-    <SolidColorBrush x:Key="MemoBorderBrush" Color="#D8D2BF" />
-    <SolidColorBrush x:Key="MemoLineBrush" Color="#CFC8B3" />
-    <SolidColorBrush x:Key="MemoKeyBrush" Color="#8A856F" />
-    <SolidColorBrush x:Key="MemoTextBrush" Color="#3B3A35" />
-    <SolidColorBrush x:Key="MemoTitleBrush" Color="#2F2E2A" />
-    <SolidColorBrush x:Key="MemoHeaderBrush" Color="#9A9583" />
-    <SolidColorBrush x:Key="MemoMarginBrush" Color="#E2A3A0" />
-    <SolidColorBrush x:Key="MemoFoldBrush" Color="#D6CFB9" />
-    <!-- 折れた角の外側（パネルの色で角を欠けさせる） -->
-    <SolidColorBrush x:Key="MemoFoldCutBrush" Color="#FFFFFF" />
-    <DrawingBrush x:Key="MemoRingBrush" TileMode="Tile" Viewport="0,0,40,24" ViewportUnits="Absolute" Viewbox="0,0,40,24" ViewboxUnits="Absolute" Stretch="None">
-        <DrawingBrush.Drawing>
-            <DrawingGroup>
-                <GeometryDrawing Brush="Transparent" Geometry="M0,0 H40 V24 H0 Z" />
-                <GeometryDrawing Brush="#4A4636" Geometry="M21,12.5 A4,3 0 1 0 29,12.5 A4,3 0 1 0 21,12.5 Z" />
-                <GeometryDrawing Geometry="M3.8,18.2 C1.8,9.2 13.8,4.2 23.8,11.2">
-                    <GeometryDrawing.Pen><Pen Brush="#40000000" Thickness="3.2" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
-                </GeometryDrawing>
-                <GeometryDrawing Geometry="M3,17 C1,8 13,3 23,10">
-                    <GeometryDrawing.Pen><Pen Brush="#A9ADB4" Thickness="2.6" StartLineCap="Round" EndLineCap="Round" /></GeometryDrawing.Pen>
-                </GeometryDrawing>
-            </DrawingGroup>
-        </DrawingBrush.Drawing>
-    </DrawingBrush>
+
+    <!-- テレビ風プレビュー：地の色で浮き上がった枠に、へこんだ画面を埋め込む -->
+    <SolidColorBrush x:Key="TvBezelBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="TvBezelBorderBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TvBandBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TvBandLineBrush" Color="Transparent" />
+    <SolidColorBrush x:Key="TvLedOffBrush" Color="#B8C2D0" />
+    <SolidColorBrush x:Key="TvLogoBrush" Color="#7A8699" />
+    <SolidColorBrush x:Key="TvSaveBgBrush" Color="#E4E9F0" />
+    <SolidColorBrush x:Key="TvSaveBorderBrush" Color="#B8C1CD" />
 
 </ResourceDictionary>
