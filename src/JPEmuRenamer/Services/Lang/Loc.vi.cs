@@ -206,6 +206,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Đổi đĩa ({0} / {1})",
         ["MsgDisk"] = "Đã đổi sang đĩa {0} / {1}",
         ["MsgDiskFailed"] = "Không đổi được đĩa",
+        ["MsgMouseHint"] = "Nhấp vào màn hình trò chơi để dùng chuột trong trò chơi",
+        ["MsgMouseCaptured"] = "Chuột đang dùng trong trò chơi (nhấn F12 mở menu để trả lại)",
         ["MsgSlot"] = "Ô lưu nhanh {0}",
         ["MsgStateUnsupported"] = "Lõi này không hỗ trợ lưu nhanh",
         ["MsgStateSaved"] = "Đã lưu nhanh vào ô {0}",

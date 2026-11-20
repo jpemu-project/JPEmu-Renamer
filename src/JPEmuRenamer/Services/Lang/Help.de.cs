@@ -86,6 +86,7 @@ Bei Computersystemen wie MSX, PC-8801, PC-9801, X68000 und X1 geht die Tastatur 
 | Vollbild umschalten | `F11` |
 
 - Andere Tastenkürzel wie Spielstände findest du im Menü. Ein Gamepad funktioniert weiterhin als Joystick.
+- Bei Amiga, X68000 und PC-9801 klickst du auf das Spielbild, um die Maus im Spiel zu verwenden. Mit F12 (Menü) oder beim Wechsel zu einem anderen Fenster wird sie freigegeben.
 - Für Spiele mit mehreren Disketten erstelle eine `.m3u`-Datei mit einem Dateinamen pro Zeile und starte sie; mit „Diskette wechseln“ im Menü wechselst du die Diskette.
 - Lege BIOS-Dateien (ROM) wie in den Systemeinstellungen angegeben in den BIOS-Ordner oder in den Ordner des Cores darin.
 # Spielmenü

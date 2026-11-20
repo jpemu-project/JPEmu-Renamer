@@ -4,7 +4,7 @@
         Title="JPEmu Renamer" Width="800" Height="640" MinWidth="320" MinHeight="240"
         Background="Black" Foreground="{DynamicResource TextBrush}" FontFamily="{StaticResource UiFont}"
         WindowStartupLocation="CenterScreen" UseLayoutRounding="True"
-        Closing="OnClosing" Closed="OnClosed" SizeChanged="OnSizeChanged" Deactivated="OnDeactivated">
+        Closing="OnClosing" Closed="OnClosed" SizeChanged="OnSizeChanged" Deactivated="OnDeactivated" LocationChanged="OnLocationChanged">
     <Grid x:Name="Root" Background="Black" MouseMove="OnPointerMove" MouseLeftButtonDown="OnPointerDown"
           MouseLeftButtonUp="OnPointerUp" MouseLeave="OnPointerMove" LostMouseCapture="OnPointerMove">
         <Image x:Name="Screen" HorizontalAlignment="Center" VerticalAlignment="Center" Stretch="Fill"

@@ -206,6 +206,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Diskette wechseln ({0} / {1})",
         ["MsgDisk"] = "Zu Diskette {0} / {1} gewechselt",
         ["MsgDiskFailed"] = "Diskette konnte nicht gewechselt werden",
+        ["MsgMouseHint"] = "Klicke auf das Spielbild, um die Maus im Spiel zu verwenden",
+        ["MsgMouseCaptured"] = "Die Maus ist im Spiel (F12 öffnet das Menü und gibt sie frei)",
         ["MsgSlot"] = "Speicherplatz {0}",
         ["MsgStateUnsupported"] = "Dieser Core unterstützt keine Speicherstände",
         ["MsgStateSaved"] = "Speicherstand in Platz {0} gesichert",

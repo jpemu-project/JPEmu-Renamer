@@ -207,6 +207,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Diski değiştir ({0} / {1})",
         ["MsgDisk"] = "{0} / {1} numaralı diske geçildi",
         ["MsgDiskFailed"] = "Disk değiştirilemedi",
+        ["MsgMouseHint"] = "Fareyi oyunda kullanmak için oyun ekranına tıklayın",
+        ["MsgMouseCaptured"] = "Fare oyunda (F12 ile menüyü açınca serbest kalır)",
         ["MsgSlot"] = "Durum yuvası {0}",
         ["MsgStateUnsupported"] = "Bu çekirdek durum kaydını desteklemiyor",
         ["MsgStateSaved"] = "Durum {0}. yuvaya kaydedildi",

@@ -1,5 +1,6 @@
 // JPEmu Renamer - SPDX-License-Identifier: GPL-3.0-or-later
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -68,7 +69,11 @@ public partial class PlayWindow : Window
         started = true;
         StatusPanel.Visibility = Visibility.Collapsed;
         if (settings.WindowMode == "Fullscreen") SetFullscreen(true);
-        ShowOsd(Loc.F("MsgStarted", session.CoreDisplayName));
+        // パソコン系の機種は、キーボードとマウスの使い方もあわせて出す
+        var msg = Loc.F("MsgStarted", session.CoreDisplayName);
+        if (session.KeyboardMode) msg += "\n" + Loc.T("MsgKeyboardMode");
+        if (session.MouseMode) msg += "\n" + Loc.T("MsgMouseHint");
+        ShowOsd(msg);
     }
 
     private void ShowFailure(string msg)
@@ -167,7 +172,12 @@ public partial class PlayWindow : Window
         Top = work.Top + (work.Height - winH) / 2;
     }
 
-    private void OnSizeChanged(object sender, SizeChangedEventArgs e) => Dispatcher.BeginInvoke(UpdateLayoutSize, DispatcherPriority.Render);
+    private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+    {
+        Dispatcher.BeginInvoke(UpdateLayoutSize, DispatcherPriority.Render);
+        // マウスを渡している間に大きさが変わったら、中央と閉じ込める範囲を合わせ直す
+        if (session.MouseCaptured) Dispatcher.BeginInvoke(() => UpdateMouseCapture(true), DispatcherPriority.Render);
+    }
 
     private void ApplyVideoSettings()
     {
@@ -196,8 +206,49 @@ public partial class PlayWindow : Window
     private void OnPointerDown(object sender, MouseButtonEventArgs e)
     {
         if (MenuLayer.Visibility == Visibility.Visible || StatusPanel.Visibility == Visibility.Visible) return;
+        // マウスで遊ぶ機種：クリックしたらマウスをゲームに渡す（ボタンと動きはセッションが直接読む）
+        if (session.MouseMode)
+        {
+            if (started && !session.MouseCaptured) StartMouseCapture();
+            return;
+        }
         Root.CaptureMouse();
         UpdatePointer(e);
+    }
+
+    // ---------- マウスをゲームに渡す（Amiga・X68000・PC-98 など） ----------
+
+    [DllImport("user32.dll")] private static extern bool ClipCursor(ref NativeRect rect);
+    [DllImport("user32.dll", EntryPoint = "ClipCursor")] private static extern bool ClipCursorOff(IntPtr none);
+    [StructLayout(LayoutKind.Sequential)] private struct NativeRect { public int Left, Top, Right, Bottom; }
+
+    /// <summary>カーソルを隠してウィンドウの中に閉じ込め、マウスの動きをゲームに送る</summary>
+    private void StartMouseCapture()
+    {
+        if (!UpdateMouseCapture(true)) return;
+        Cursor = Cursors.None;
+        ShowOsd(Loc.T("MsgMouseCaptured"));
+    }
+
+    /// <summary>マウスを戻す（メニューを開いたとき、ほかのウィンドウに切り替えたとき、閉じるとき）</summary>
+    private void StopMouseCapture()
+    {
+        if (!session.MouseCaptured) return;
+        session.SetMouseCapture(false, 0, 0);
+        ClipCursorOff(IntPtr.Zero);
+        Cursor = fullscreen && MenuLayer.Visibility != Visibility.Visible ? Cursors.None : null;
+    }
+
+    /// <summary>ゲーム画面の中央と範囲（画面の座標）を求めて、セッションとカーソルの閉じ込めに渡す</summary>
+    private bool UpdateMouseCapture(bool on)
+    {
+        if (Root.ActualWidth <= 0 || Root.ActualHeight <= 0 || !IsActive) return false;
+        var tl = Root.PointToScreen(new Point(0, 0));
+        var br = Root.PointToScreen(new Point(Root.ActualWidth, Root.ActualHeight));
+        var rect = new NativeRect { Left = (int)tl.X, Top = (int)tl.Y, Right = (int)br.X, Bottom = (int)br.Y };
+        ClipCursor(ref rect);
+        session.SetMouseCapture(on, (rect.Left + rect.Right) / 2, (rect.Top + rect.Bottom) / 2);
+        return true;
     }
 
     private void OnPointerUp(object sender, MouseButtonEventArgs e)
@@ -227,6 +278,7 @@ public partial class PlayWindow : Window
     private void SetFullscreen(bool on)
     {
         if (on == fullscreen) return;
+        StopMouseCapture();
         if (on)
         {
             windowedBounds = new Rect(Left, Top, Width, Height);
@@ -264,8 +316,14 @@ public partial class PlayWindow : Window
         Dispatcher.BeginInvoke(UpdateLayoutSize, DispatcherPriority.Render);
     }
 
+    private void OnLocationChanged(object? sender, EventArgs e)
+    {
+        if (session.MouseCaptured) UpdateMouseCapture(true);
+    }
+
     private void OnDeactivated(object? sender, EventArgs e)
     {
+        StopMouseCapture();
         // 画面モードを変えた全画面で他のアプリに切り替えたら、元の画面モードに戻す
         if (fullscreen && modeChanged) SetFullscreen(false);
     }
@@ -332,6 +390,7 @@ public partial class PlayWindow : Window
     private void OpenMenu()
     {
         if (!started) return;
+        StopMouseCapture();
         session.MenuPaused = true;
         MenuTitle.Text = session.Request.Title;
         MenuSub.Text = session.CoreDisplayName;
@@ -505,6 +564,7 @@ public partial class PlayWindow : Window
 
     private void OnClosing(object? sender, CancelEventArgs e)
     {
+        StopMouseCapture();
         closingRequested = true;
         CompositionTarget.Rendering -= OnRendering;
         navTimer.Stop();

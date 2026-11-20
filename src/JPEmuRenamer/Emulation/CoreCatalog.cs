@@ -89,6 +89,11 @@ public static class CoreCatalog
 
     public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
 
+    /// <summary>マウスで操作するゲームが多いコア。ゲーム画面をクリックすると、マウスをゲームに渡す</summary>
+    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai" };
+
+    public static bool UsesMouse(string coreName) => MouseCores.Contains(coreName);
+
     /// <summary>機種名 → コアの候補（先頭が既定）と、必要なBIOSの説明</summary>
     private static readonly Dictionary<string, (string[] cores, string bios)> BySystem = new()
     {

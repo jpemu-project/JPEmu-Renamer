@@ -104,6 +104,7 @@ MSX・PC-8801・PC-9801・X68000・X1 などのパソコン系の機種では、
 | 全画面の切り替え | `F11` |
 
 - ステートセーブなど、ほかのホットキーはメニューから使ってください。ゲームパッドは、そのままジョイスティックとして使えます。
+- Amiga・X68000・PC-9801 では、ゲーム画面をクリックするとマウスをゲームで使えます。F12 でメニューを開くか、ほかのウィンドウに切り替えると戻ります。
 - ディスクが2枚以上のゲームは、ディスクのファイル名を1行に1つずつ書いた `.m3u` ファイルを作って起動すると、メニューの「ディスクを入れ替える」で入れ替えられます。
 - BIOS（ROM）は、機種の設定に表示される案内のとおりに、BIOSフォルダ（またはその中のコアごとのフォルダ）に置いてください。
 # プレイ中のメニュー
@@ -357,6 +358,7 @@ On computer systems such as MSX, PC-8801, PC-9801, X68000 and X1, the keyboard g
 | Toggle fullscreen | `F11` |
 
 - Use the menu for the other hotkeys, such as save states. A gamepad still works as the joystick.
+- On Amiga, X68000 and PC-9801, click the game screen to use the mouse in the game. Open the menu with F12 or switch to another window to release it.
 - For games with two or more disks, make an `.m3u` file listing the disk file names one per line and launch it; then "Swap disk" in the menu changes disks.
 - Put BIOS (ROM) files in the BIOS folder, or the core's folder inside it, as shown in the system settings.
 # In-game menu

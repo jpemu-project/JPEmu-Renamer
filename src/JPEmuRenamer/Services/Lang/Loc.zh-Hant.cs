@@ -208,6 +208,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "更換磁碟（{0} / {1}）",
         ["MsgDisk"] = "已更換為磁碟 {0} / {1}",
         ["MsgDiskFailed"] = "無法更換磁碟",
+        ["MsgMouseHint"] = "點一下遊戲畫面，就能在遊戲中使用滑鼠",
+        ["MsgMouseCaptured"] = "滑鼠正在遊戲中使用（按 F12 開啟選單即可放開）",
         ["MsgSlot"] = "即時存檔欄位 {0}",
         ["MsgStateUnsupported"] = "這個核心不支援即時存檔",
         ["MsgStateSaved"] = "已即時存檔到欄位 {0}",

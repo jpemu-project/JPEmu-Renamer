@@ -86,6 +86,7 @@ En sistemas de ordenador como MSX, PC-8801, PC-9801, X68000 y X1, el teclado va 
 | Pantalla completa | `F11` |
 
 - Usa el menú para los demás atajos, como los estados guardados. El mando sigue funcionando como joystick.
+- En Amiga, X68000 y PC-9801, haz clic en la pantalla del juego para usar el ratón en el juego. Abre el menú con F12 o cambia a otra ventana para liberarlo.
 - Para juegos con varios discos, crea un archivo `.m3u` con un nombre de archivo de disco por línea y ábrelo; "Cambiar disco" en el menú cambia de disco.
 - Coloca los archivos BIOS (ROM) en la carpeta BIOS, o en la carpeta del núcleo dentro de ella, como se indica en los ajustes del sistema.
 # Menú del juego

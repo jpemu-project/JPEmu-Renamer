@@ -207,6 +207,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Cambiar disco ({0} / {1})",
         ["MsgDisk"] = "Cambiado al disco {0} / {1}",
         ["MsgDiskFailed"] = "No se pudo cambiar el disco",
+        ["MsgMouseHint"] = "Haz clic en la pantalla del juego para usar el ratón en el juego",
+        ["MsgMouseCaptured"] = "El ratón está en el juego (pulsa F12 para el menú y liberarlo)",
         ["MsgSlot"] = "Ranura de estado {0}",
         ["MsgStateUnsupported"] = "Este núcleo no admite guardados de estado",
         ["MsgStateSaved"] = "Estado guardado en la ranura {0}",

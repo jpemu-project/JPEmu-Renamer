@@ -206,6 +206,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Ganti disk ({0} / {1})",
         ["MsgDisk"] = "Beralih ke disk {0} / {1}",
         ["MsgDiskFailed"] = "Tidak dapat mengganti disk",
+        ["MsgMouseHint"] = "Klik layar game untuk memakai mouse di game",
+        ["MsgMouseCaptured"] = "Mouse sedang dipakai game (tekan F12 untuk menu dan melepasnya)",
         ["MsgSlot"] = "Slot state {0}",
         ["MsgStateUnsupported"] = "Core ini tidak mendukung save state",
         ["MsgStateSaved"] = "State disimpan ke slot {0}",

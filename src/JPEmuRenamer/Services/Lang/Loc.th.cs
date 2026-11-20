@@ -207,6 +207,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "เปลี่ยนดิสก์ ({0} / {1})",
         ["MsgDisk"] = "เปลี่ยนเป็นดิสก์ {0} / {1} แล้ว",
         ["MsgDiskFailed"] = "เปลี่ยนดิสก์ไม่ได้",
+        ["MsgMouseHint"] = "คลิกที่หน้าจอเกมเพื่อใช้เมาส์ในเกม",
+        ["MsgMouseCaptured"] = "เกมกำลังใช้เมาส์ (กด F12 เปิดเมนูเพื่อปล่อยเมาส์)",
         ["MsgSlot"] = "ช่องเซฟสเตต {0}",
         ["MsgStateUnsupported"] = "คอร์นี้ไม่รองรับเซฟสเตต",
         ["MsgStateSaved"] = "เซฟสเตตลงช่อง {0} แล้ว",

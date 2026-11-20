@@ -208,6 +208,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "디스크 교체 ({0} / {1})",
         ["MsgDisk"] = "디스크 {0} / {1}(으)로 교체했습니다",
         ["MsgDiskFailed"] = "디스크를 교체하지 못했습니다",
+        ["MsgMouseHint"] = "게임 화면을 클릭하면 게임에서 마우스를 쓸 수 있습니다",
+        ["MsgMouseCaptured"] = "마우스를 게임에서 쓰는 중입니다 (F12로 메뉴를 열면 돌아옵니다)",
         ["MsgSlot"] = "스테이트 슬롯 {0}",
         ["MsgStateUnsupported"] = "이 코어는 스테이트 저장을 지원하지 않습니다",
         ["MsgStateSaved"] = "슬롯 {0}에 스테이트를 저장했습니다",

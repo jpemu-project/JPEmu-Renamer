@@ -207,6 +207,8 @@ public sealed partial class Loc
         ["MenuDisk"] = "Changer de disque ({0} / {1})",
         ["MsgDisk"] = "Disque {0} / {1} inséré",
         ["MsgDiskFailed"] = "Impossible de changer de disque",
+        ["MsgMouseHint"] = "Cliquez sur l'écran du jeu pour utiliser la souris dans le jeu",
+        ["MsgMouseCaptured"] = "La souris est dans le jeu (F12 ouvre le menu et la libère)",
         ["MsgSlot"] = "Emplacement de sauvegarde d'état {0}",
         ["MsgStateUnsupported"] = "Ce cœur ne prend pas en charge les sauvegardes d'état",
         ["MsgStateSaved"] = "État sauvegardé dans l'emplacement {0}",

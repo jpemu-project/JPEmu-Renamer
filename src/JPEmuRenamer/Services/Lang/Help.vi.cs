@@ -86,6 +86,7 @@ Trên các hệ máy tính như MSX, PC-8801, PC-9801, X68000 và X1, bàn phím
 | Toàn màn hình | `F11` |
 
 - Dùng menu cho các phím tắt khác, như lưu trạng thái. Tay cầm vẫn dùng như cần điều khiển.
+- Trên Amiga, X68000 và PC-9801, nhấp vào màn hình trò chơi để dùng chuột trong trò chơi. Mở menu bằng F12 hoặc chuyển sang cửa sổ khác để trả lại chuột.
 - Với trò chơi có hai đĩa trở lên, hãy tạo tệp `.m3u` ghi mỗi dòng một tên tệp đĩa rồi mở tệp đó; "Đổi đĩa" trong menu sẽ đổi đĩa.
 - Đặt tệp BIOS (ROM) vào thư mục BIOS, hoặc thư mục của lõi bên trong đó, như hướng dẫn trong cài đặt hệ máy.
 # Menu trong game

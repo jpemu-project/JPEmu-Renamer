@@ -86,6 +86,7 @@ MSX, PC-8801, PC-9801, X68000 ve X1 gibi bilgisayar sistemlerinde klavye doğrud
 | Tam ekran | `F11` |
 
 - Durum kaydı gibi diğer kısayollar için menüyü kullanın. Oyun kolu yine joystick olarak çalışır.
+- Amiga, X68000 ve PC-9801 sistemlerinde fareyi oyunda kullanmak için oyun ekranına tıklayın. F12 ile menüyü açınca veya başka bir pencereye geçince serbest kalır.
 - İki veya daha fazla diskli oyunlar için her satıra bir disk dosyası adı yazılmış bir `.m3u` dosyası oluşturup başlatın; menüdeki "Diski değiştir" diski değiştirir.
 - BIOS (ROM) dosyalarını sistem ayarlarında gösterildiği gibi BIOS klasörüne veya içindeki çekirdek klasörüne koyun.
 # Oyun içi menü

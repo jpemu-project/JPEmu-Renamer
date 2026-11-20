@@ -137,6 +137,62 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     private IEnumerable<InputBinding>? PadBindings(IEnumerable<InputBinding>? list) =>
         KeyboardMode && list != null ? list.Where(b => b.Kind != "Key") : list;
 
+    // ---------- マウス（Amiga・X68000・PC-98 など） ----------
+
+    /// <summary>マウスをゲームに渡せるコアか。画面をクリックすると渡し、メニューを開くかほかのウィンドウに切り替えると戻す</summary>
+    public bool MouseMode { get; private set; }
+
+    [DllImport("user32.dll")] private static extern bool GetCursorPos(out NativePoint p);
+    [DllImport("user32.dll")] private static extern bool SetCursorPos(int x, int y);
+    [StructLayout(LayoutKind.Sequential)] private struct NativePoint { public int X, Y; }
+
+    private volatile bool mouseCaptured;
+    private volatile int mouseCenterX, mouseCenterY;
+    private int mouseDx, mouseDy;
+    private bool mouseLeft, mouseRight, mouseMiddle;
+    /// <summary>マウスを渡したときに押していたボタン（渡すためのクリック）は、離すまでゲームに送らない</summary>
+    private bool mouseButtonsHeld;
+
+    /// <summary>
+    /// マウスをゲームに渡す・戻す（UIスレッドから呼ぶ）。渡している間は、カーソルを毎回画面の中央（cx, cy：画面の座標）に戻し、
+    /// その動いた分をゲームに送るので、ウィンドウの端で止まらずに動かせる
+    /// </summary>
+    public void SetMouseCapture(bool on, int cx, int cy)
+    {
+        mouseCenterX = cx;
+        mouseCenterY = cy;
+        if (on && !mouseCaptured)
+        {
+            mouseButtonsHeld = true;
+            SetCursorPos(cx, cy);
+        }
+        mouseCaptured = on;
+    }
+
+    public bool MouseCaptured => mouseCaptured;
+
+    /// <summary>このフレームのマウスの動きとボタンを読む（エミュレーションのスレッド）</summary>
+    private void ReadMouse()
+    {
+        if (!mouseCaptured || MenuPaused)
+        {
+            mouseDx = mouseDy = 0;
+            mouseLeft = mouseRight = mouseMiddle = false;
+            return;
+        }
+        if (GetCursorPos(out var p))
+        {
+            mouseDx = p.X - mouseCenterX;
+            mouseDy = p.Y - mouseCenterY;
+            if (mouseDx != 0 || mouseDy != 0) SetCursorPos(mouseCenterX, mouseCenterY);
+        }
+        bool l = input.KeyDown(0x01), r = input.KeyDown(0x02), m = input.KeyDown(0x04);
+        if (mouseButtonsHeld && !l && !r && !m) mouseButtonsHeld = false;
+        mouseLeft = l && !mouseButtonsHeld;
+        mouseRight = r && !mouseButtonsHeld;
+        mouseMiddle = m && !mouseButtonsHeld;
+    }
+
     // ---------- ディスクの入れ替え ----------
 
     /// <summary>ディスクの枚数（コアが入れ替えに対応していなければ 0）と、いま入っているディスク（0から）。UIスレッドから読む</summary>
@@ -326,7 +382,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
 
         // パソコン系の機種：キーボードはそのままゲームに送る（メニューは F12、全画面は F11）
         KeyboardMode = req.Preview == null && CoreCatalog.UsesKeyboard(req.CoreName);
-        if (KeyboardMode) Message?.Invoke(Loc.T("MsgKeyboardMode"));
+        MouseMode = req.Preview == null && CoreCatalog.UsesMouse(req.CoreName);
         DiskCount = core.DiskCount;
         DiskIndex = core.DiskIndex;
 
@@ -868,6 +924,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         // プレビューでは何も押さない（タイトル画面のデモを見せる）
         if (profile == null || req.Preview != null) return;
         if (KeyboardMode) SendKeyboardEvents();
+        if (MouseMode) ReadMouse();
         int turboRate = Math.Max(1, settings.TurboRate ?? 3);
         bool turboOn = frameCount / turboRate % 2 == 0;
         for (int p = 0; p < 4; p++)
@@ -914,6 +971,20 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
                 if (index == Retro.AnalogRight && id <= 1) return analog[port, 2 + (int)id];
                 if (index == 2 && id < 16) return (padMask[port] & (1 << (int)id)) != 0 ? short.MaxValue : (short)0;
                 return 0;
+            case Retro.DeviceMouse:
+            {
+                // 1人目だけ。X・Y は前のフレームからの動き、2〜：左・右ボタン、6：中ボタン
+                if (!MouseMode || port != 0) return 0;
+                return id switch
+                {
+                    0 => (short)Math.Clamp(mouseDx, short.MinValue, short.MaxValue),
+                    1 => (short)Math.Clamp(mouseDy, short.MinValue, short.MaxValue),
+                    2 => mouseLeft ? (short)1 : (short)0,
+                    3 => mouseRight ? (short)1 : (short)0,
+                    6 => mouseMiddle ? (short)1 : (short)0,
+                    _ => 0
+                };
+            }
             case Retro.DeviceKeyboard:
             {
                 // パソコン系の機種：id は RETROK_*。キーボードモードのときだけ答える
