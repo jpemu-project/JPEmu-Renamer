@@ -194,6 +194,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "\"{0}\" çekirdeği indirildi",
         ["CoreDownloadFailed"] = "\"{0}\" çekirdeği indirilemedi: {1}",
         ["CoreMissing"] = "\"{0}\" çekirdeği bulunamadı. \"Sistem ayarları\"ndan indirin.",
+        ["CoreAssetsFailed"] = "\"{0}\" çekirdeğinin ihtiyaç duyduğu dosyalar indirilemedi ({1}). İnternet bağlantınızı kontrol edin.",
         ["ZipEmpty"] = "ZIP dosyasında ROM yok.",
         ["HwNotSupported"] = "Bu çekirdeğin gerektirdiği çizim yöntemi (OpenGL) kullanılamıyor. Ekran kartı sürücüsünü güncelleyin veya başka bir çekirdek seçin.",
         ["LoadGameFailed"] = "{0} oyunu yükleyemedi. Sistem BIOS gerektiriyorsa BIOS klasöründe olduğundan emin olun.",

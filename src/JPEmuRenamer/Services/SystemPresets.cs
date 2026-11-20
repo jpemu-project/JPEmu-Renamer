@@ -75,6 +75,8 @@ public static class SystemPresets
         new("FM TOWNS", "FM Towns", ".cue;.chd;.iso;.d88;.m3u", "pc", "#5B9BFF"),
         new("64DD", "Nintendo 64DD", ".ndd;.zip", "diskcard", "#5B9BFF"),
         new("CD-i", "Philips CD-i", ".chd;.iso;.cue", "disc", "#A78BFA"),
+        new("ドリームキャスト", "Dreamcast", ".gdi;.cdi;.chd;.cue;.m3u", "disc", "#F5A524"),
+        new("PSP", "PSP", ".iso;.cso;.pbp;.chd", "handH", "#5B9BFF"),
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 

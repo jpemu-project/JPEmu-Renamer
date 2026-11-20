@@ -384,6 +384,9 @@ public sealed unsafe class LibretroCore : IDisposable
     private bool Environment(uint cmd, void* data)
     {
         Trace?.Invoke($"env {cmd & 0xFFFF}{((cmd & Retro.EnvExperimental) != 0 ? "|EXP" : "")}");
+        // SET_HW_SHARED_CONTEXT（44 | 実験的）は SET_SERIALIZATION_QUIRKS（44）と番号が重なる。
+        // 共有の OpenGL コンテキストは用意していないので「非対応」と答える（PPSSPP などが別スレッドで描画しようとしないように）
+        if (cmd == (Retro.SetSerializationQuirks | Retro.EnvExperimental)) return false;
         switch (cmd & ~(Retro.EnvExperimental | Retro.EnvPrivate))
         {
             case Retro.SetRotation:

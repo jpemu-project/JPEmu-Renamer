@@ -83,6 +83,8 @@ public static class CoreCatalog
         new("geartowns", "GearTowns"),
         new("neocd", "NeoCD"),
         new("same_cdi", "SAME CDi"),
+        new("flycast", "Flycast", true),
+        new("ppsspp", "PPSSPP", true),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
@@ -167,6 +169,9 @@ public static class CoreCatalog
         ["FM TOWNS"] = (new[] { "geartowns" }, "FMT_SYS.ROM / FMT_DOS.ROM / FMT_FNT.ROM / FMT_DIC.ROM"),
         ["64DD"] = (new[] { "mupen64plus_next" }, "Mupen64plus\\IPL.n64"),
         ["CD-i"] = (new[] { "same_cdi" }, "cdimono1.zip"),
+        // 3D の機種（OpenGL で描画する）。Flycast は BIOS が無くても動く。PPSSPP の部品（フォントなど）は初めて使うときに自動で取ってくる
+        ["ドリームキャスト"] = (new[] { "flycast" }, "dc\\dc_boot.bin / dc_flash.bin?"),
+        ["PSP"] = (new[] { "ppsspp" }, ""),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -187,6 +192,7 @@ public static class CoreCatalog
         (".2d", "X1"), (".tzx", "ZX Spectrum"), (".z80", "ZX Spectrum"), (".d64", "コモドール64"), (".t64", "コモドール64"),
         (".adf", "Amiga"), (".cdt", "Amstrad CPC"),
         (".ndd", "64DD"), (".atr", "Atari 800"), (".xex", "Atari 800"), (".xfd", "Atari 800"), (".sc", "SC-3000"),
+        (".gdi", "ドリームキャスト"), (".cdi", "ドリームキャスト"), (".cso", "PSP"),
     };
 
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;
@@ -322,6 +328,45 @@ public static class CoreCatalog
         var h = new HttpClient { Timeout = TimeSpan.FromMinutes(5) };
         h.DefaultRequestHeaders.UserAgent.ParseAdd("JPEmuRenamer/1.0");
         return h;
+    }
+
+    /// <summary>
+    /// コアが動くのに必要な部品（libretro 公式の配布サイトの assets/system にあるもの）。
+    /// コアの名前 → BIOSフォルダの中のフォルダ名（これが無ければ取ってくる）
+    /// </summary>
+    private static readonly Dictionary<string, string> CoreAssets = new(StringComparer.OrdinalIgnoreCase)
+    {
+        ["ppsspp"] = "PPSSPP",
+    };
+
+    /// <summary>このコアに必要な部品が BIOSフォルダに無ければ、配布サイトから取ってきて展開する（無い・要らないときは何もしない）</summary>
+    public static async Task EnsureCoreAssetsAsync(string coreName, string systemDir, CancellationToken ct)
+    {
+        if (!CoreAssets.TryGetValue(coreName, out var folder)) return;
+        if (Directory.Exists(System.IO.Path.Combine(systemDir, folder))) return;
+        Directory.CreateDirectory(systemDir);
+        var tmpZip = System.IO.Path.Combine(systemDir, folder + ".download");
+        try
+        {
+            using (var resp = await Http.GetAsync("https://buildbot.libretro.com/assets/system/" + folder + ".zip", HttpCompletionOption.ResponseHeadersRead, ct))
+            {
+                resp.EnsureSuccessStatusCode();
+                await using var src = await resp.Content.ReadAsStreamAsync(ct);
+                await using var dst = File.Create(tmpZip);
+                await src.CopyToAsync(dst, ct);
+            }
+            // ZIP の中は「PPSSPP/…」。途中で止まっても半端なフォルダが残らないよう、別の名前に展開してから名前を変える
+            var tmpDir = System.IO.Path.Combine(systemDir, folder + ".extract");
+            if (Directory.Exists(tmpDir)) Directory.Delete(tmpDir, true);
+            ZipFile.ExtractToDirectory(tmpZip, tmpDir);
+            var inner = System.IO.Path.Combine(tmpDir, folder);
+            Directory.Move(Directory.Exists(inner) ? inner : tmpDir, System.IO.Path.Combine(systemDir, folder));
+            if (Directory.Exists(tmpDir)) Directory.Delete(tmpDir, true);
+        }
+        finally
+        {
+            try { File.Delete(tmpZip); } catch { }
+        }
     }
 
     /// <summary>コアをダウンロードして cores フォルダに置く（既にあれば更新）</summary>

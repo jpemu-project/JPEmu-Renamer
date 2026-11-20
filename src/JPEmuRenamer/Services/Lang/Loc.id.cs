@@ -193,6 +193,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Core \"{0}\" berhasil diunduh",
         ["CoreDownloadFailed"] = "Core \"{0}\" gagal diunduh: {1}",
         ["CoreMissing"] = "Core \"{0}\" tidak ditemukan. Unduh di \"Pengaturan sistem\".",
+        ["CoreAssetsFailed"] = "Tidak dapat mengunduh file yang dibutuhkan core \"{0}\" ({1}). Periksa koneksi internet Anda.",
         ["ZipEmpty"] = "Tidak ada ROM di dalam file ZIP.",
         ["HwNotSupported"] = "Cara render yang dibutuhkan core ini (OpenGL) tidak tersedia. Perbarui driver grafis atau pilih core lain.",
         ["LoadGameFailed"] = "{0} tidak dapat memuat game. Jika sistem ini butuh BIOS, pastikan BIOS ada di folder BIOS.",

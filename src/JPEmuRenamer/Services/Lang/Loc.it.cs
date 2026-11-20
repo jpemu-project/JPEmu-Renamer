@@ -193,6 +193,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Core \"{0}\" scaricato",
         ["CoreDownloadFailed"] = "Impossibile scaricare il core \"{0}\": {1}",
         ["CoreMissing"] = "Core \"{0}\" non trovato. Scaricalo in \"Impostazioni sistema\".",
+        ["CoreAssetsFailed"] = "Impossibile scaricare i file necessari al core \"{0}\" ({1}). Controlla la connessione a internet.",
         ["ZipEmpty"] = "Il file ZIP non contiene ROM.",
         ["HwNotSupported"] = "Il metodo di rendering richiesto da questo core (OpenGL) non è disponibile. Aggiorna il driver grafico o scegli un altro core.",
         ["LoadGameFailed"] = "{0} non è riuscito a caricare il gioco. Se il sistema richiede un BIOS, verifica che sia nella cartella BIOS.",

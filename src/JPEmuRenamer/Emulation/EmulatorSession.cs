@@ -340,6 +340,14 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         Directory.CreateDirectory(SaveDir);
         Directory.CreateDirectory(req.BiosDir);
 
+        // PPSSPP などは、フォントなどの部品が BIOSフォルダに要る。無ければ初めての起動のときに配布サイトから取ってくる
+        try { CoreCatalog.EnsureCoreAssetsAsync(req.CoreName, req.BiosDir, CancellationToken.None).GetAwaiter().GetResult(); }
+        catch (Exception ex)
+        {
+            error = Loc.F("CoreAssetsFailed", req.CoreName, ex.Message);
+            return false;
+        }
+
         core = new LibretroCore(dll, this);
         core.Init();
         CoreDisplayName = string.IsNullOrEmpty(core.LibraryName) ? req.CoreName : core.LibraryName;

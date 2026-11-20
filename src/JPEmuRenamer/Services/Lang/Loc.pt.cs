@@ -193,6 +193,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Núcleo \"{0}\" baixado",
         ["CoreDownloadFailed"] = "Não foi possível baixar o núcleo \"{0}\": {1}",
         ["CoreMissing"] = "Núcleo \"{0}\" não encontrado. Baixe-o em \"Configurações do sistema\".",
+        ["CoreAssetsFailed"] = "Não foi possível baixar os arquivos de que o núcleo \"{0}\" precisa ({1}). Verifique sua conexão com a internet.",
         ["ZipEmpty"] = "O arquivo ZIP não contém nenhuma ROM.",
         ["HwNotSupported"] = "O modo de desenho exigido por este núcleo (OpenGL) não está disponível. Atualize o driver de vídeo ou escolha outro núcleo.",
         ["LoadGameFailed"] = "{0} não conseguiu carregar o jogo. Se o sistema precisar de BIOS, verifique se ela está na pasta BIOS.",

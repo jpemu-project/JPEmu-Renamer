@@ -193,6 +193,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Đã tải lõi \"{0}\"",
         ["CoreDownloadFailed"] = "Không tải được lõi \"{0}\": {1}",
         ["CoreMissing"] = "Không tìm thấy lõi \"{0}\". Hãy tải trong \"Cài đặt hệ máy\".",
+        ["CoreAssetsFailed"] = "Không tải được các tệp mà lõi \"{0}\" cần ({1}). Hãy kiểm tra kết nối internet.",
         ["ZipEmpty"] = "Không có ROM trong tệp ZIP.",
         ["HwNotSupported"] = "Không dùng được cách vẽ mà lõi này cần (OpenGL). Hãy cập nhật driver đồ họa hoặc chọn lõi khác.",
         ["LoadGameFailed"] = "{0} không tải được game. Nếu hệ máy cần BIOS, hãy kiểm tra BIOS đã nằm trong thư mục BIOS chưa.",

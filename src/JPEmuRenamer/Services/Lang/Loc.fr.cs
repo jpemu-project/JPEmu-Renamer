@@ -194,6 +194,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Cœur « {0} » téléchargé",
         ["CoreDownloadFailed"] = "Impossible de télécharger le cœur « {0} » : {1}",
         ["CoreMissing"] = "Cœur « {0} » introuvable. Téléchargez-le dans « Paramètres du système ».",
+        ["CoreAssetsFailed"] = "Impossible de télécharger les fichiers nécessaires au cœur « {0} » ({1}). Vérifiez votre connexion internet.",
         ["ZipEmpty"] = "Le fichier ZIP ne contient aucune ROM.",
         ["HwNotSupported"] = "Le mode de rendu requis par ce cœur (OpenGL) n'est pas disponible. Mettez à jour le pilote graphique ou choisissez un autre cœur.",
         ["LoadGameFailed"] = "{0} n'a pas pu charger le jeu. Si ce système nécessite un BIOS, vérifiez qu'il se trouve dans le dossier BIOS.",
