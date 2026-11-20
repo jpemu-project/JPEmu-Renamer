@@ -79,18 +79,22 @@ public static class CoreCatalog
         new("vice_x64", "VICE x64"),
         new("puae", "PUAE"),
         new("cap32", "Caprice32"),
+        new("atari800", "Atari800"),
+        new("geartowns", "GearTowns"),
+        new("neocd", "NeoCD"),
+        new("same_cdi", "SAME CDi"),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
     private static readonly HashSet<string> KeyboardCores = new(StringComparer.OrdinalIgnoreCase)
     {
-        "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32"
+        "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32", "atari800", "geartowns"
     };
 
     public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
 
     /// <summary>マウスで操作するゲームが多いコア。ゲーム画面をクリックすると、マウスをゲームに渡す</summary>
-    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai" };
+    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai", "geartowns" };
 
     public static bool UsesMouse(string coreName) => MouseCores.Contains(coreName);
 
@@ -156,6 +160,13 @@ public static class CoreCatalog
         ["コモドール64"] = (new[] { "vice_x64" }, ""),
         ["Amiga"] = (new[] { "puae" }, "kick34005.A500?"),
         ["Amstrad CPC"] = (new[] { "cap32" }, ""),
+        // ---- 2026-11-20 に追加 ----
+        ["ネオジオCD"] = (new[] { "neocd" }, "neocd\\neocd_f.rom（など） / 000-lo.lo"),
+        ["SC-3000"] = (new[] { "genesis_plus_gx", "bluemsx" }, ""),
+        ["Atari 800"] = (new[] { "atari800" }, "ATARIXL.ROM / ATARIBAS.ROM?"),
+        ["FM TOWNS"] = (new[] { "geartowns" }, "FMT_SYS.ROM / FMT_DOS.ROM / FMT_FNT.ROM / FMT_DIC.ROM"),
+        ["64DD"] = (new[] { "mupen64plus_next" }, "Mupen64plus\\IPL.n64"),
+        ["CD-i"] = (new[] { "same_cdi" }, "cdimono1.zip"),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -175,6 +186,7 @@ public static class CoreCatalog
         (".mx1", "MSX"), (".mx2", "MSX2"), (".d98", "PC-9801"), (".fdi", "PC-9801"), (".hdi", "PC-9801"), (".dim", "X68000"), (".xdf", "X68000"),
         (".2d", "X1"), (".tzx", "ZX Spectrum"), (".z80", "ZX Spectrum"), (".d64", "コモドール64"), (".t64", "コモドール64"),
         (".adf", "Amiga"), (".cdt", "Amstrad CPC"),
+        (".ndd", "64DD"), (".atr", "Atari 800"), (".xex", "Atari 800"), (".xfd", "Atari 800"), (".sc", "SC-3000"),
     };
 
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;

@@ -86,7 +86,7 @@ Em sistemas de computador como MSX, PC-8801, PC-9801, X68000 e X1, o teclado vai
 | Tela cheia | `F11` |
 
 - Use o menu para os outros atalhos, como save states. O controle continua funcionando como joystick.
-- No Amiga, X68000 e PC-9801, clique na tela do jogo para usar o mouse no jogo. Abra o menu com F12 ou mude para outra janela para liberá-lo.
+- No Amiga, X68000, PC-9801 e FM TOWNS, clique na tela do jogo para usar o mouse no jogo. Abra o menu com F12 ou mude para outra janela para liberá-lo.
 - Para jogos com dois ou mais discos, crie um arquivo `.m3u` com um nome de arquivo de disco por linha e abra-o; "Trocar disco" no menu troca o disco.
 - Coloque os arquivos de BIOS (ROM) na pasta BIOS, ou na pasta do núcleo dentro dela, conforme indicado nas configurações do sistema.
 # Menu do jogo

@@ -69,6 +69,12 @@ public static class SystemPresets
         new("コモドール64", "Commodore 64", ".d64;.t64;.prg;.crt;.tap;.m3u;.zip", "pc", "#8B9CFF"),
         new("Amiga", "Amiga", ".adf;.hdf;.ipf;.lha;.m3u;.zip", "pc", "#FF8A5B"),
         new("Amstrad CPC", "Amstrad CPC", ".dsk;.sna;.cdt;.zip", "pc", "#E8D35C"),
+        new("ネオジオCD", "Neo Geo CD", ".cue;.chd", "disc", "#FF8A5B"),
+        new("SC-3000", "SC-3000", ".sc;.sg;.bin;.zip", "pc", "#B8C2D1"),
+        new("Atari 800", "Atari 8-bit", ".atr;.xex;.xfd;.atx;.cas;.car;.rom;.zip", "pc", "#F5A524"),
+        new("FM TOWNS", "FM Towns", ".cue;.chd;.iso;.d88;.m3u", "pc", "#5B9BFF"),
+        new("64DD", "Nintendo 64DD", ".ndd;.zip", "diskcard", "#5B9BFF"),
+        new("CD-i", "Philips CD-i", ".chd;.iso;.cue", "disc", "#A78BFA"),
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 

@@ -86,7 +86,7 @@ Sur les systèmes informatiques comme MSX, PC-8801, PC-9801, X68000 et X1, le cl
 | Plein écran | `F11` |
 
 - Utilisez le menu pour les autres raccourcis, comme les sauvegardes d'état. La manette fonctionne toujours comme joystick.
-- Sur Amiga, X68000 et PC-9801, cliquez sur l'écran du jeu pour utiliser la souris dans le jeu. Ouvrez le menu avec F12 ou passez à une autre fenêtre pour la libérer.
+- Sur Amiga, X68000, PC-9801 et FM TOWNS, cliquez sur l'écran du jeu pour utiliser la souris dans le jeu. Ouvrez le menu avec F12 ou passez à une autre fenêtre pour la libérer.
 - Pour les jeux à plusieurs disques, créez un fichier `.m3u` listant un nom de fichier de disque par ligne et lancez-le ; « Changer de disque » dans le menu change de disque.
 - Placez les fichiers BIOS (ROM) dans le dossier BIOS, ou dans le dossier du cœur à l'intérieur, comme indiqué dans les paramètres du système.
 # Menu en jeu

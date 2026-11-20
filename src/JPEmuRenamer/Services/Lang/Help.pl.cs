@@ -86,7 +86,7 @@ W systemach komputerowych, takich jak MSX, PC-8801, PC-9801, X68000 i X1, klawia
 | Pełny ekran | `F11` |
 
 - Inne skróty, np. stany gry, są dostępne w menu. Pad nadal działa jako joystick.
-- W Amiga, X68000 i PC-9801 kliknij ekran gry, aby używać myszy w grze. Otwórz menu klawiszem F12 lub przełącz się na inne okno, aby ją zwolnić.
+- W Amiga, X68000, PC-9801 i FM TOWNS kliknij ekran gry, aby używać myszy w grze. Otwórz menu klawiszem F12 lub przełącz się na inne okno, aby ją zwolnić.
 - Dla gier na kilku dyskach utwórz plik `.m3u` z jedną nazwą pliku dysku w każdym wierszu i uruchom go; opcja „Zmień dysk” w menu zmienia dysk.
 - Umieść pliki BIOS (ROM) w folderze BIOS lub w folderze rdzenia wewnątrz niego, zgodnie z ustawieniami systemu.
 # Menu w grze
