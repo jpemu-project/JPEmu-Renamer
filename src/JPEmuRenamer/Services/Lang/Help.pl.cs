@@ -78,6 +78,16 @@ Podłączone kontrolery są wykrywane automatycznie i dostają standardowy ukła
 
 > Wszystkie klawisze i przyciski zmienisz w „Ustawieniach gry”. W trybie pełnoekranowym `Esc` najpierw wraca do okna.
 
+## Systemy komputerowe (klawiatura)
+W systemach komputerowych, takich jak MSX, PC-8801, PC-9801, X68000 i X1, klawiatura trafia bezpośrednio do gry (do pisania w BASIC i gier sterowanych klawiaturą).
+
+| Działanie | Klawisz |
+| Menu | `F12` (przycisk Guide na padzie) |
+| Pełny ekran | `F11` |
+
+- Inne skróty, np. stany gry, są dostępne w menu. Pad nadal działa jako joystick.
+- Dla gier na kilku dyskach utwórz plik `.m3u` z jedną nazwą pliku dysku w każdym wierszu i uruchom go; opcja „Zmień dysk” w menu zmienia dysk.
+- Umieść pliki BIOS (ROM) w folderze BIOS lub w folderze rdzenia wewnątrz niego, zgodnie z ustawieniami systemu.
 # Menu w grze
 `F1` (lub przycisk Guide) otwiera menu i wstrzymuje grę. `↑` `↓` – wybór, `Enter` (A) – zatwierdzenie, `Esc` (B) – zamknięcie.
 

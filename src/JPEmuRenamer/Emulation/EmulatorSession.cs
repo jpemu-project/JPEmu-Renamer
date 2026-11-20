@@ -88,7 +88,73 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
 
     public int Slot { get; private set; }
     public bool Paused { get; private set; }
-    public bool MenuPaused { get; set; }
+    public bool MenuPaused
+    {
+        get => menuPaused;
+        set
+        {
+            menuPaused = value;
+            // メニューを閉じたとき、メニューの操作に使ったキーをゲームに送らないよう、キーの状態を合わせ直す
+            if (!value) keySyncNeeded = true;
+        }
+    }
+    private volatile bool menuPaused;
+
+    // ---------- パソコン系の機種のキーボード ----------
+
+    /// <summary>キーボードをゲームに送るか（パソコン系のコアのとき）。このときキーボードのホットキーは F11・F12 だけ</summary>
+    public bool KeyboardMode { get; private set; }
+    /// <summary>キーボードのうち、アプリが使うのでゲームに送らないキー（F11＝全画面、F12＝メニュー）</summary>
+    private const int VkFullscreen = 0x7A, VkMenu = 0x7B;
+    /// <summary>ゲームに「押されている」と伝えているキー（VK ごと）</summary>
+    private readonly bool[] gameKeys = new bool[256];
+    /// <summary>メニューを閉じたとき（と起動したとき）に押していたキー。離すまでゲームには送らない</summary>
+    private readonly bool[] ignoredKeys = new bool[256];
+    private volatile bool keySyncNeeded = true;
+
+    private bool RawGameKey(int vk) => vk != VkFullscreen && vk != VkMenu && input.KeyDown(vk);
+    private bool GameKey(int vk) => vk is > 0 and < 256 && gameKeys[vk];
+
+    /// <summary>キーボードの状態を読み、押された・離されたキーをキーボードのコールバックでコアに知らせる（エミュレーションのスレッド）</summary>
+    private void SendKeyboardEvents()
+    {
+        if (core == null) return;
+        bool sync = keySyncNeeded;
+        keySyncNeeded = false;
+        foreach (var vk in KeyboardMap.MappedKeys)
+        {
+            bool raw = RawGameKey(vk);
+            if (sync && raw) ignoredKeys[vk] = true;
+            if (ignoredKeys[vk] && !raw) ignoredKeys[vk] = false;
+            bool now = raw && !ignoredKeys[vk];
+            if (now == gameKeys[vk]) continue;
+            gameKeys[vk] = now;
+            core.SendKey(now, KeyboardMap.ToRetro(vk), now ? KeyboardMap.Character(vk, GameKey) : 0, KeyboardMap.Modifiers(GameKey));
+        }
+    }
+
+    /// <summary>パッドの割り当てのうち、キーボードモードのときはキーボードの分を除く（キーはゲームに直接送るため）</summary>
+    private IEnumerable<InputBinding>? PadBindings(IEnumerable<InputBinding>? list) =>
+        KeyboardMode && list != null ? list.Where(b => b.Kind != "Key") : list;
+
+    // ---------- ディスクの入れ替え ----------
+
+    /// <summary>ディスクの枚数（コアが入れ替えに対応していなければ 0）と、いま入っているディスク（0から）。UIスレッドから読む</summary>
+    public int DiskCount { get; private set; }
+    public int DiskIndex { get; private set; }
+
+    /// <summary>次のディスクに入れ替える（最後の次は1枚目）</summary>
+    public void RequestNextDisk() => Post(() =>
+    {
+        if (core == null) return;
+        int count = core.DiskCount;
+        DiskCount = count;
+        if (count < 2) return;
+        int next = (core.DiskIndex + 1) % count;
+        bool ok = core.ChangeDisk(next);
+        DiskIndex = core.DiskIndex;
+        Message?.Invoke(ok ? Loc.F("MsgDisk", next + 1, count) : Loc.T("MsgDiskFailed"));
+    });
     public bool FastForwarding { get; private set; }
     public double Fps { get; private set; } = 60;
     public double AspectRatio { get; private set; } = 4.0 / 3.0;
@@ -257,6 +323,12 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
 
         for (uint p = 0; p < 4; p++) core.SetControllerPortDevice(p, Retro.DeviceJoypad);
         ApplyAvInfo(core.AvInfo);
+
+        // パソコン系の機種：キーボードはそのままゲームに送る（メニューは F12、全画面は F11）
+        KeyboardMode = req.Preview == null && CoreCatalog.UsesKeyboard(req.CoreName);
+        if (KeyboardMode) Message?.Invoke(Loc.T("MsgKeyboardMode"));
+        DiskCount = core.DiskCount;
+        DiskIndex = core.DiskIndex;
 
         if (useHw)
         {
@@ -626,7 +698,9 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         if (hk == null) return;
         foreach (var name in InputProfile.HotkeyNames)
         {
-            bool now = hk.TryGetValue(name, out var list) && input.AnyActive(list, 0);
+            // キーボードモードではキーボードの割り当てを使わず、メニューは F12、全画面は F11 にする（ほかのキーはゲームが使う）
+            bool now = hk.TryGetValue(name, out var list) && input.AnyActive(PadBindings(list), 0)
+                       || KeyboardMode && (name == "Menu" && input.KeyDown(VkMenu) || name == "Fullscreen" && input.KeyDown(VkFullscreen));
             hotkeyPrev.TryGetValue(name, out var before);
             hotkeyPrev[name] = now;
 
@@ -793,6 +867,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         var profile = settings.Input;
         // プレビューでは何も押さない（タイトル画面のデモを見せる）
         if (profile == null || req.Preview != null) return;
+        if (KeyboardMode) SendKeyboardEvents();
         int turboRate = Math.Max(1, settings.TurboRate ?? 3);
         bool turboOn = frameCount / turboRate % 2 == 0;
         for (int p = 0; p < 4; p++)
@@ -804,7 +879,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
                 for (int id = 0; id < InputProfile.Controls.Length; id++)
                 {
                     var name = InputProfile.Controls[id];
-                    if (!map.Buttons.TryGetValue(name, out var list) || !input.AnyActive(list, p)) continue;
+                    if (!map.Buttons.TryGetValue(name, out var list) || !input.AnyActive(PadBindings(list), p)) continue;
                     if (map.Turbo.Contains(name) && !turboOn) continue;
                     mask |= (ushort)(1 << ControlToRetro(id));
                 }
@@ -839,6 +914,12 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
                 if (index == Retro.AnalogRight && id <= 1) return analog[port, 2 + (int)id];
                 if (index == 2 && id < 16) return (padMask[port] & (1 << (int)id)) != 0 ? short.MaxValue : (short)0;
                 return 0;
+            case Retro.DeviceKeyboard:
+            {
+                // パソコン系の機種：id は RETROK_*。キーボードモードのときだけ答える
+                if (!KeyboardMode) return 0;
+                return GameKey(KeyboardMap.ToVk(id)) ? (short)1 : (short)0;
+            }
             case Retro.DevicePointer:
                 // DS・3DS のタッチ画面：ゲーム画面上のマウス（1人目だけ、1本指）
                 if (port != 0 || index != 0 || req.Preview != null) return 0;

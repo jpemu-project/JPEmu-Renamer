@@ -61,6 +61,7 @@ public static class Retro
     public const uint SetCoreOptionsDisplay = 55;
     public const uint GetPreferredHwRender = 56;
     public const uint GetDiskControlInterfaceVersion = 57;
+    public const uint SetDiskControlExtInterface = 58;
     public const uint GetMessageInterfaceVersion = 59;
     public const uint SetMessageExt = 60;
     public const uint GetInputMaxUsers = 61;

@@ -78,6 +78,16 @@ Les manettes connectées sont détectées automatiquement et reçoivent une disp
 
 > Toutes les touches et tous les boutons se modifient dans « Paramètres de jeu ». En plein écran, `Échap` revient d'abord en fenêtre.
 
+## Systèmes informatiques (clavier)
+Sur les systèmes informatiques comme MSX, PC-8801, PC-9801, X68000 et X1, le clavier est envoyé directement au jeu (pour taper en BASIC et pour les jeux au clavier).
+
+| Action | Touche |
+| Menu | `F12` (bouton Guide de la manette) |
+| Plein écran | `F11` |
+
+- Utilisez le menu pour les autres raccourcis, comme les sauvegardes d'état. La manette fonctionne toujours comme joystick.
+- Pour les jeux à plusieurs disques, créez un fichier `.m3u` listant un nom de fichier de disque par ligne et lancez-le ; « Changer de disque » dans le menu change de disque.
+- Placez les fichiers BIOS (ROM) dans le dossier BIOS, ou dans le dossier du cœur à l'intérieur, comme indiqué dans les paramètres du système.
 # Menu en jeu
 `F1` (ou le bouton Guide de la manette) ouvre le menu et met le jeu en pause. Utilisez `↑` `↓` pour choisir, `Entrée` (A) pour valider et `Échap` (B) pour fermer.
 

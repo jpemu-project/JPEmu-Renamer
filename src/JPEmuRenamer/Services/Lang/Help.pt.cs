@@ -78,6 +78,16 @@ Controles conectados são detectados automaticamente e recebem um layout padrão
 
 > Todas as teclas e botões podem ser alterados em "Configurações de jogo". Em tela cheia, `Esc` volta primeiro para a janela.
 
+## Sistemas de computador (teclado)
+Em sistemas de computador como MSX, PC-8801, PC-9801, X68000 e X1, o teclado vai direto para o jogo (para digitar em BASIC e para jogos controlados pelo teclado).
+
+| Ação | Tecla |
+| Menu | `F12` (botão Guide no controle) |
+| Tela cheia | `F11` |
+
+- Use o menu para os outros atalhos, como save states. O controle continua funcionando como joystick.
+- Para jogos com dois ou mais discos, crie um arquivo `.m3u` com um nome de arquivo de disco por linha e abra-o; "Trocar disco" no menu troca o disco.
+- Coloque os arquivos de BIOS (ROM) na pasta BIOS, ou na pasta do núcleo dentro dela, conforme indicado nas configurações do sistema.
 # Menu do jogo
 `F1` (ou o botão Guide do controle) abre o menu e pausa o jogo. Use `↑` `↓` para escolher, `Enter` (A) para confirmar e `Esc` (B) para fechar.
 

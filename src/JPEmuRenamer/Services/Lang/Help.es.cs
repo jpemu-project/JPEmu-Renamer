@@ -78,6 +78,16 @@ Los mandos conectados se detectan automáticamente y reciben una distribución e
 
 > Todas las teclas y botones se cambian en "Ajustes de juego". En pantalla completa, `Esc` vuelve primero a la ventana.
 
+## Sistemas de ordenador (teclado)
+En sistemas de ordenador como MSX, PC-8801, PC-9801, X68000 y X1, el teclado va directamente al juego (para escribir en BASIC y para juegos que se controlan con el teclado).
+
+| Acción | Tecla |
+| Menú | `F12` (botón Guide en el mando) |
+| Pantalla completa | `F11` |
+
+- Usa el menú para los demás atajos, como los estados guardados. El mando sigue funcionando como joystick.
+- Para juegos con varios discos, crea un archivo `.m3u` con un nombre de archivo de disco por línea y ábrelo; "Cambiar disco" en el menú cambia de disco.
+- Coloca los archivos BIOS (ROM) en la carpeta BIOS, o en la carpeta del núcleo dentro de ella, como se indica en los ajustes del sistema.
 # Menú del juego
 `F1` (o el botón Guide del mando) abre el menú y pausa el juego. Usa `↑` `↓` para elegir, `Intro` (A) para aceptar y `Esc` (B) para cerrar.
 

@@ -78,6 +78,16 @@ Bağlı kumandalar otomatik algılanır ve standart düzen atanır: Xbox (XInput
 
 > Tüm tuşlar "Oyun ayarları"ndan değiştirilebilir. Tam ekrandayken `Esc` önce pencereye döner.
 
+## Bilgisayar sistemleri (klavye)
+MSX, PC-8801, PC-9801, X68000 ve X1 gibi bilgisayar sistemlerinde klavye doğrudan oyuna gönderilir (BASIC'te yazmak ve klavyeyle oynanan oyunlar için).
+
+| İşlem | Tuş |
+| Menü | `F12` (oyun kolunda Guide düğmesi) |
+| Tam ekran | `F11` |
+
+- Durum kaydı gibi diğer kısayollar için menüyü kullanın. Oyun kolu yine joystick olarak çalışır.
+- İki veya daha fazla diskli oyunlar için her satıra bir disk dosyası adı yazılmış bir `.m3u` dosyası oluşturup başlatın; menüdeki "Diski değiştir" diski değiştirir.
+- BIOS (ROM) dosyalarını sistem ayarlarında gösterildiği gibi BIOS klasörüne veya içindeki çekirdek klasörüne koyun.
 # Oyun içi menü
 `F1` (veya kumandanın Guide düğmesi) menüyü açar ve oyunu duraklatır. `↑` `↓` ile seçin, `Enter` (A) ile onaylayın, `Esc` (B) ile kapatın.
 

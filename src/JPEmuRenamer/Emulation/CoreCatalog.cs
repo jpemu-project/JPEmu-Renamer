@@ -68,7 +68,26 @@ public static class CoreCatalog
         new("freechaf", "FreeChaF"),
         new("sameduck", "SameDuck"),
         new("potator", "Potator"),
+        // パソコン系（キーボードをそのままゲームに送る）
+        new("fmsx", "fMSX"),
+        new("bluemsx", "blueMSX"),
+        new("quasi88", "QUASI88"),
+        new("np2kai", "Neko Project II kai"),
+        new("px68k", "PX68k"),
+        new("x1", "X Millennium"),
+        new("fuse", "Fuse"),
+        new("vice_x64", "VICE x64"),
+        new("puae", "PUAE"),
+        new("cap32", "Caprice32"),
     }.ToDictionary(c => c.Name);
+
+    /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
+    private static readonly HashSet<string> KeyboardCores = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32"
+    };
+
+    public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
 
     /// <summary>機種名 → コアの候補（先頭が既定）と、必要なBIOSの説明</summary>
     private static readonly Dictionary<string, (string[] cores, string bios)> BySystem = new()
@@ -121,6 +140,17 @@ public static class CoreCatalog
         ["チャンネルF"] = (new[] { "freechaf" }, "sl31253.bin / sl31254.bin"),
         ["メガダック"] = (new[] { "sameduck" }, ""),
         ["スーパービジョン"] = (new[] { "potator" }, ""),
+        // ---- パソコン系（キーボードで操作する。BIOSはコアごとのフォルダに置くものがある） ----
+        ["MSX"] = (new[] { "fmsx", "bluemsx" }, "MSX.ROM（fMSX） / Machines・Databases フォルダ（blueMSX）"),
+        ["MSX2"] = (new[] { "fmsx", "bluemsx" }, "MSX2.ROM / MSX2EXT.ROM（fMSX） / Machines・Databases フォルダ（blueMSX）"),
+        ["PC-8801"] = (new[] { "quasi88" }, "quasi88\\N88.ROM / N88SUB.ROM / N88_0.ROM〜N88_3.ROM"),
+        ["PC-9801"] = (new[] { "np2kai" }, "np2kai\\bios.rom / font.bmp / itf.rom / sound.rom"),
+        ["X68000"] = (new[] { "px68k" }, "keropi\\iplrom.dat / cgrom.dat"),
+        ["X1"] = (new[] { "x1" }, "xmil\\IPLROM.X1 / FNT0808.X1 / FNT0816.X1 / FNT1616.X1"),
+        ["ZX Spectrum"] = (new[] { "fuse" }, ""),
+        ["コモドール64"] = (new[] { "vice_x64" }, ""),
+        ["Amiga"] = (new[] { "puae" }, "kick34005.A500?"),
+        ["Amstrad CPC"] = (new[] { "cap32" }, ""),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -137,6 +167,9 @@ public static class CoreCatalog
         (".bs", "サテラビュー"), (".min", "ポケモンミニ"), (".a26", "アタリ2600"), (".a52", "アタリ5200"), (".a78", "アタリ7800"),
         (".lnx", "アタリ リンクス"), (".j64", "アタリ ジャガー"), (".jag", "アタリ ジャガー"), (".col", "コレコビジョン"),
         (".int", "インテレビジョン"), (".vec", "ベクトレックス"), (".chf", "チャンネルF"), (".sv", "スーパービジョン"),
+        (".mx1", "MSX"), (".mx2", "MSX2"), (".d98", "PC-9801"), (".fdi", "PC-9801"), (".hdi", "PC-9801"), (".dim", "X68000"), (".xdf", "X68000"),
+        (".2d", "X1"), (".tzx", "ZX Spectrum"), (".z80", "ZX Spectrum"), (".d64", "コモドール64"), (".t64", "コモドール64"),
+        (".adf", "Amiga"), (".cdt", "Amstrad CPC"),
     };
 
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;

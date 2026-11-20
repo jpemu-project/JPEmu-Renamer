@@ -354,6 +354,9 @@ public partial class PlayWindow : Window
         MenuList.Items.Add(new MenuItem("SaveState", Loc.F("MenuSaveState", session.Slot)));
         MenuList.Items.Add(new MenuItem("LoadState", Loc.F("MenuLoadState", session.Slot)));
         MenuList.Items.Add(new MenuItem("SlotNext", Loc.F("MenuSlot", session.Slot)));
+        // ディスクが2枚以上のゲーム（パソコン系の .m3u など）：次のディスクに入れ替える
+        if (session.DiskCount > 1)
+            MenuList.Items.Add(new MenuItem("Disk", Loc.F("MenuDisk", session.DiskIndex + 1, session.DiskCount)));
         MenuList.Items.Add(new MenuItem("Screenshot", Loc.T("MenuScreenshot")));
         MenuList.Items.Add(new MenuItem("Fullscreen", fullscreen ? Loc.T("MenuWindowed") : Loc.T("MenuFullscreen")));
         MenuList.Items.Add(new MenuItem("Settings", Loc.T("MenuSettings")));
@@ -394,6 +397,10 @@ public partial class PlayWindow : Window
             case "SlotNext":
                 session.ChangeSlot(1);
                 Dispatcher.BeginInvoke(BuildMenu, DispatcherPriority.Background);
+                break;
+            case "Disk":
+                session.RequestNextDisk();
+                CloseMenu();
                 break;
             case "Screenshot":
                 CloseMenu();

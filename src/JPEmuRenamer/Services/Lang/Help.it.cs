@@ -78,6 +78,16 @@ I controller collegati vengono rilevati automaticamente e ricevono una disposizi
 
 > Tutti i tasti e i pulsanti si cambiano in "Impostazioni di gioco". A schermo intero, `Esc` torna prima alla finestra.
 
+## Sistemi computer (tastiera)
+Sui sistemi computer come MSX, PC-8801, PC-9801, X68000 e X1, la tastiera va direttamente al gioco (per scrivere in BASIC e per i giochi controllati da tastiera).
+
+| Azione | Tasto |
+| Menu | `F12` (tasto Guide sul controller) |
+| Schermo intero | `F11` |
+
+- Usa il menu per le altre scorciatoie, come i salvataggi di stato. Il controller funziona ancora come joystick.
+- Per i giochi con più dischi, crea un file `.m3u` con un nome di file disco per riga e avvialo; "Cambia disco" nel menu cambia disco.
+- Metti i file BIOS (ROM) nella cartella BIOS, o nella cartella del core al suo interno, come indicato nelle impostazioni del sistema.
 # Menu di gioco
 `F1` (o il tasto Guide del controller) apre il menu e mette in pausa il gioco. Usa `↑` `↓` per scegliere, `Invio` (A) per confermare ed `Esc` (B) per chiudere.
 

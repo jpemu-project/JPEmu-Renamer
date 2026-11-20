@@ -59,6 +59,16 @@ public static class SystemPresets
         new("チャンネルF", "Channel F", ".chf;.bin;.zip", "cart", "#FF8A5B"),
         new("メガダック", "Mega Duck", ".bin;.zip", "handV", "#4FC3D9"),
         new("スーパービジョン", "Supervision", ".sv;.bin;.zip", "handV", "#7CC96A"),
+        new("MSX", "MSX", ".rom;.mx1;.dsk;.cas;.m3u;.zip", "pc", "#5B9BFF"),
+        new("MSX2", "MSX2", ".rom;.mx2;.dsk;.m3u;.zip", "pc", "#A78BFA"),
+        new("PC-8801", "PC-8801", ".d88;.88d;.t88;.cmt;.m3u;.zip", "pc", "#7CC96A"),
+        new("PC-9801", "PC-9801", ".d98;.98d;.fdi;.hdi;.hdm;.fdd;.nhd;.d88;.m3u;.zip", "pc", "#B8C2D1"),
+        new("X68000", "X68000", ".dim;.xdf;.hdm;.2hd;.d88;.hdf;.m3u;.zip", "pc", "#F06B70"),
+        new("X1", "X1", ".2d;.2hd;.d88;.88d;.hdm;.tfd;.m3u;.zip", "pc", "#F5A524"),
+        new("ZX Spectrum", "ZX Spectrum", ".tzx;.tap;.z80;.sna;.dsk;.zip", "pc", "#4FC3D9"),
+        new("コモドール64", "Commodore 64", ".d64;.t64;.prg;.crt;.tap;.m3u;.zip", "pc", "#8B9CFF"),
+        new("Amiga", "Amiga", ".adf;.hdf;.ipf;.lha;.m3u;.zip", "pc", "#FF8A5B"),
+        new("Amstrad CPC", "Amstrad CPC", ".dsk;.sna;.cdt;.zip", "pc", "#E8D35C"),
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 

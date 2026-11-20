@@ -184,6 +184,38 @@ public sealed unsafe class LibretroCore : IDisposable
     }
 
     public void SetControllerPortDevice(uint port, uint device) => setControllerPortDevice(port, device);
+
+    // ---------- キーボード（SET_KEYBOARD_CALLBACK） ----------
+
+    private delegate* unmanaged[Cdecl]<byte, uint, uint, ushort, void> keyboardCallback;
+
+    /// <summary>キーが押された・離されたことをコアに知らせる（コアがキーボードのコールバックを登録したときだけ）</summary>
+    public void SendKey(bool down, uint keycode, uint character, ushort modifiers)
+    {
+        if (keyboardCallback != null) keyboardCallback(down ? (byte)1 : (byte)0, keycode, character, modifiers);
+    }
+
+    // ---------- ディスクの入れ替え（SET_DISK_CONTROL_INTERFACE） ----------
+
+    private delegate* unmanaged[Cdecl]<byte, byte> diskSetEject;
+    private delegate* unmanaged[Cdecl]<byte> diskGetEject;
+    private delegate* unmanaged[Cdecl]<uint> diskGetIndex;
+    private delegate* unmanaged[Cdecl]<uint, byte> diskSetIndex;
+    private delegate* unmanaged[Cdecl]<uint> diskGetCount;
+
+    /// <summary>ディスクの枚数（コアがディスクの入れ替えに対応していなければ 0）</summary>
+    public int DiskCount => diskGetCount != null ? (int)diskGetCount() : 0;
+    public int DiskIndex => diskGetIndex != null ? (int)diskGetIndex() : 0;
+
+    /// <summary>ディスクを取り出して、index 番目（0から）を入れる</summary>
+    public bool ChangeDisk(int index)
+    {
+        if (diskSetEject == null || diskSetIndex == null) return false;
+        diskSetEject(1);
+        bool ok = diskSetIndex((uint)index) != 0;
+        diskSetEject(0);
+        return ok;
+    }
     public void Run() => run();
     public void Reset() => reset();
 
@@ -480,6 +512,25 @@ public sealed unsafe class LibretroCore : IDisposable
                 return true;
             case Retro.GetInputBitmasks:
                 return true;
+            case Retro.SetKeyboardCallback:
+                // struct retro_keyboard_callback { void (*callback)(bool down, unsigned keycode, uint32_t character, uint16_t mods); }
+                keyboardCallback = *(delegate* unmanaged[Cdecl]<byte, uint, uint, ushort, void>*)data;
+                return true;
+            case Retro.GetDiskControlInterfaceVersion:
+                *(uint*)data = 1;
+                return true;
+            case Retro.SetDiskControlInterface:
+            case Retro.SetDiskControlExtInterface:
+            {
+                // 先頭の5つ：set_eject_state / get_eject_state / get_image_index / set_image_index / get_num_images
+                var f = (IntPtr*)data;
+                diskSetEject = (delegate* unmanaged[Cdecl]<byte, byte>)f[0];
+                diskGetEject = (delegate* unmanaged[Cdecl]<byte>)f[1];
+                diskGetIndex = (delegate* unmanaged[Cdecl]<uint>)f[2];
+                diskSetIndex = (delegate* unmanaged[Cdecl]<uint, byte>)f[3];
+                diskGetCount = (delegate* unmanaged[Cdecl]<uint>)f[4];
+                return true;
+            }
             case Retro.GetInputMaxUsers:
                 *(uint*)data = 4;
                 return true;

@@ -78,6 +78,16 @@ Angeschlossene Controller werden automatisch erkannt und erhalten eine Standardb
 
 > Alle Tasten lassen sich in den „Spieleinstellungen“ ändern. Im Vollbild kehrt `Esc` zuerst zum Fenster zurück.
 
+## Computersysteme (Tastatur)
+Bei Computersystemen wie MSX, PC-8801, PC-9801, X68000 und X1 geht die Tastatur direkt an das Spiel (für Eingaben in BASIC und für Spiele mit Tastatursteuerung).
+
+| Aktion | Taste |
+| Menü | `F12` (Guide-Taste am Gamepad) |
+| Vollbild umschalten | `F11` |
+
+- Andere Tastenkürzel wie Spielstände findest du im Menü. Ein Gamepad funktioniert weiterhin als Joystick.
+- Für Spiele mit mehreren Disketten erstelle eine `.m3u`-Datei mit einem Dateinamen pro Zeile und starte sie; mit „Diskette wechseln“ im Menü wechselst du die Diskette.
+- Lege BIOS-Dateien (ROM) wie in den Systemeinstellungen angegeben in den BIOS-Ordner oder in den Ordner des Cores darin.
 # Spielmenü
 `F1` (oder die Guide-Taste) öffnet das Menü und pausiert das Spiel. Mit `↑` `↓` wählen, mit `Enter` (A) bestätigen, mit `Esc` (B) schließen.
 

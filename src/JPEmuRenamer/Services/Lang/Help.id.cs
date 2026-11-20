@@ -78,6 +78,16 @@ Kontroler yang terhubung dikenali otomatis dan diberi tata letak standar: Xbox (
 
 > Semua tombol bisa diubah di "Pengaturan permainan". Saat layar penuh, `Esc` kembali ke jendela terlebih dahulu.
 
+## Sistem komputer (keyboard)
+Pada sistem komputer seperti MSX, PC-8801, PC-9801, X68000, dan X1, keyboard langsung dikirim ke game (untuk mengetik di BASIC dan game yang dikendalikan dengan keyboard).
+
+| Aksi | Tombol |
+| Menu | `F12` (tombol Guide pada gamepad) |
+| Layar penuh | `F11` |
+
+- Gunakan menu untuk hotkey lain, seperti save state. Gamepad tetap berfungsi sebagai joystick.
+- Untuk game dengan dua disk atau lebih, buat file `.m3u` yang berisi satu nama file disk per baris lalu jalankan; "Ganti disk" di menu mengganti disk.
+- Letakkan file BIOS (ROM) di folder BIOS, atau di folder core di dalamnya, sesuai petunjuk di pengaturan sistem.
 # Menu dalam game
 `F1` (atau tombol Guide di kontroler) membuka menu dan menjeda game. Gunakan `↑` `↓` untuk memilih, `Enter` (A) untuk konfirmasi, dan `Esc` (B) untuk menutup.
 

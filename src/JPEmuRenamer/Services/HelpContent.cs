@@ -96,6 +96,16 @@ A/B などの名前は、スーパーファミコンのボタン配置（右がA
 
 > キーやパッドの割り当ては「プレイ設定」で自由に変えられます。全画面で `Esc` を押すと、まずウィンドウに戻ります。
 
+## パソコン系の機種（キーボード）
+MSX・PC-8801・PC-9801・X68000・X1 などのパソコン系の機種では、キーボードがそのままゲームに送られます（BASIC の入力や、キーボードで操作するゲームのため）。
+
+| 操作 | キー |
+| メニュー | `F12`（パッドはガイドボタン） |
+| 全画面の切り替え | `F11` |
+
+- ステートセーブなど、ほかのホットキーはメニューから使ってください。ゲームパッドは、そのままジョイスティックとして使えます。
+- ディスクが2枚以上のゲームは、ディスクのファイル名を1行に1つずつ書いた `.m3u` ファイルを作って起動すると、メニューの「ディスクを入れ替える」で入れ替えられます。
+- BIOS（ROM）は、機種の設定に表示される案内のとおりに、BIOSフォルダ（またはその中のコアごとのフォルダ）に置いてください。
 # プレイ中のメニュー
 `F1`（またはパッドのガイドボタン）でメニューを開くと、ゲームが一時停止します。`↑` `↓` で選び、`Enter`（パッドのA）で決定、`Esc`（パッドのB）で閉じます。
 
@@ -339,6 +349,16 @@ Connected pads are detected automatically and get a standard layout: Xbox (XInpu
 
 > All keys and buttons can be changed in "Play settings". In full screen, `Esc` first returns to a window.
 
+## Computer systems (keyboard)
+On computer systems such as MSX, PC-8801, PC-9801, X68000 and X1, the keyboard goes straight to the game (for typing in BASIC and for keyboard-controlled games).
+
+| Action | Key |
+| Menu | `F12` (Guide button on a pad) |
+| Toggle fullscreen | `F11` |
+
+- Use the menu for the other hotkeys, such as save states. A gamepad still works as the joystick.
+- For games with two or more disks, make an `.m3u` file listing the disk file names one per line and launch it; then "Swap disk" in the menu changes disks.
+- Put BIOS (ROM) files in the BIOS folder, or the core's folder inside it, as shown in the system settings.
 # In-game menu
 `F1` (or the pad's Guide button) opens the menu and pauses the game. Use `↑` `↓` to select, `Enter` (pad A) to confirm and `Esc` (pad B) to close.
 

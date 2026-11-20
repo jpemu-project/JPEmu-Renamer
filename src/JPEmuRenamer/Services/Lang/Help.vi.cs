@@ -78,6 +78,16 @@ Tay cầm đã kết nối được nhận diện tự động và gán bố c�
 
 > Mọi phím và nút đều đổi được trong "Cài đặt chơi". Khi đang toàn màn hình, `Esc` sẽ quay về cửa sổ trước.
 
+## Hệ máy tính (bàn phím)
+Trên các hệ máy tính như MSX, PC-8801, PC-9801, X68000 và X1, bàn phím được gửi thẳng vào trò chơi (để gõ trong BASIC và cho các trò chơi điều khiển bằng bàn phím).
+
+| Thao tác | Phím |
+| Menu | `F12` (nút Guide trên tay cầm) |
+| Toàn màn hình | `F11` |
+
+- Dùng menu cho các phím tắt khác, như lưu trạng thái. Tay cầm vẫn dùng như cần điều khiển.
+- Với trò chơi có hai đĩa trở lên, hãy tạo tệp `.m3u` ghi mỗi dòng một tên tệp đĩa rồi mở tệp đó; "Đổi đĩa" trong menu sẽ đổi đĩa.
+- Đặt tệp BIOS (ROM) vào thư mục BIOS, hoặc thư mục của lõi bên trong đó, như hướng dẫn trong cài đặt hệ máy.
 # Menu trong game
 `F1` (hoặc nút Guide trên tay cầm) mở menu và tạm dừng game. Dùng `↑` `↓` để chọn, `Enter` (A) để xác nhận và `Esc` (B) để đóng.
 
