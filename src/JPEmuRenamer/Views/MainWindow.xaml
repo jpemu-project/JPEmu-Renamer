@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:JPEmuRenamer.Services"
+        xmlns:ui="clr-namespace:JPEmuRenamer.Ui"
         Title="JPEmu Renamer" Icon="/Assets/logo.png" Width="1280" Height="800" MinWidth="760" MinHeight="480"
         Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="{Binding FontSize}"
@@ -364,7 +365,7 @@
                 </Grid>
 
                 <!-- 未設定のとき -->
-                <Border Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource BoolToVis}}"
+                <ui:SoftInsetBorder Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource BoolToVis}}"
                         Style="{StaticResource SoftWell}" Padding="32">
                     <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                         <TextBlock Text="{Binding [NoSystemSetup], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
@@ -372,12 +373,12 @@
                         <Button Style="{StaticResource AccentButton}" Command="{Binding EditSystemCommand}" HorizontalAlignment="Center" Margin="0,20,0,0"
                                 Content="{Binding [EditSystem], Source={x:Static s:Loc.Instance}}" />
                     </StackPanel>
-                </Border>
+                </ui:SoftInsetBorder>
 
                 <!-- 機種が1つも無いとき（最初の起動時）：見出しと一覧の上にかぶせる -->
                 <Border Grid.Row="0" Grid.RowSpan="2" Panel.ZIndex="10" Background="{DynamicResource BgBrush}"
                         Visibility="{Binding HasNoSystems, Converter={StaticResource BoolToVis}}">
-                    <Border Style="{StaticResource SoftWell}" Padding="32">
+                    <ui:SoftInsetBorder Style="{StaticResource SoftWell}" Padding="32">
                         <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center" MaxWidth="520">
                             <TextBlock Text="{Binding [NoSystems], Source={x:Static s:Loc.Instance}}" FontSize="20" FontWeight="SemiBold" TextAlignment="Center" />
                             <TextBlock Text="{Binding [NoSystemsHint], Source={x:Static s:Loc.Instance}}" TextAlignment="Center" TextWrapping="Wrap"
@@ -385,12 +386,12 @@
                             <Button Style="{StaticResource AccentButton}" Command="{Binding AddSystemCommand}" HorizontalAlignment="Center" Margin="0,22,0,0"
                                     Content="{Binding [AddSystem], Source={x:Static s:Loc.Instance}}" />
                         </StackPanel>
-                    </Border>
+                    </ui:SoftInsetBorder>
                 </Border>
 
                 <Grid Grid.Row="1" Visibility="{Binding NeedsSetup, Converter={StaticResource InvBoolToVis}}">
                     <!-- 遊ぶ（リスト） -->
-                    <Border Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}"
+                    <ui:SoftInsetBorder Visibility="{Binding IsManageMode, Converter={StaticResource InvBoolToVis}}"
                             Style="{StaticResource SoftWell}" Padding="6,4,6,8">
                         <DockPanel>
                             <Border DockPanel.Dock="Top" Background="Transparent" BorderBrush="{DynamicResource HeaderLineBrush}" BorderThickness="0,0,0,1" Padding="14,6" Margin="6,0">
@@ -438,10 +439,10 @@
                                 </ListBox.ItemTemplate>
                             </ListBox>
                         </DockPanel>
-                    </Border>
+                    </ui:SoftInsetBorder>
 
                     <!-- 整理（管理表）：へこんだ枠の中に置く -->
-                    <Border Style="{StaticResource SoftWell}" Padding="6,4" Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}" />
+                    <ui:SoftInsetBorder Style="{StaticResource SoftWell}" Padding="6,4" Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}" />
                     <DataGrid Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}" Margin="7,5"
                               ItemsSource="{Binding ItemsView}" SelectedItem="{Binding SelectedItem}" IsReadOnly="True"
                               EnableRowVirtualization="True" ContextMenu="{StaticResource GameMenu}">
@@ -500,7 +501,7 @@
                                     <RowDefinition Height="*" />
                                     <RowDefinition Height="26" />
                                 </Grid.RowDefinitions>
-                                <Border Style="{StaticResource SoftWell}" CornerRadius="14" Padding="7">
+                                <ui:SoftInsetBorder Style="{StaticResource SoftWell}" CornerRadius="14" Padding="7">
                                 <Border Background="Black" CornerRadius="9">
                                     <Grid ClipToBounds="True">
                                         <!-- 待機中：左が黒に溶ける4色の横縞 -->
@@ -567,7 +568,7 @@
                                         </Border>
                                     </Grid>
                                 </Border>
-                                </Border>
+                                </ui:SoftInsetBorder>
                                 <!-- 下の帯：ランプ・ロゴ・保存ボタン -->
                                 <Border Grid.Row="1" Background="{DynamicResource TvBandBrush}">
                                     <Grid>
@@ -636,7 +637,7 @@
                                         <Setter Property="TextTrimming" Value="CharacterEllipsis" />
                                     </Style>
                                 </Grid.Resources>
-                                <Border Style="{StaticResource SoftWell}" Padding="18,12,16,10">
+                                <ui:SoftInsetBorder Style="{StaticResource SoftWell}" Padding="18,12,16,10">
                                     <StackPanel TextElement.FontSize="13" TextElement.Foreground="{DynamicResource SubBrush}">
                                         <TextBlock Text="{Binding Title}" FontSize="15" FontWeight="SemiBold" Foreground="{DynamicResource TextBrush}" TextWrapping="Wrap" Margin="0,0,0,4" />
                                         <Border Style="{StaticResource InfoRow}" Tag="{Binding StatusText}">
@@ -688,14 +689,14 @@
                                             </DockPanel>
                                         </Border>
                                     </StackPanel>
-                                </Border>
+                                </ui:SoftInsetBorder>
                             </Grid>
                         </ScrollViewer>
                     </DockPanel>
 
                     <!-- 整理：リネーム前後の比較 -->
                     <StackPanel Visibility="{Binding IsManageMode, Converter={StaticResource BoolToVis}}">
-                        <Border Style="{StaticResource SoftWell}" Padding="16"
+                        <ui:SoftInsetBorder Style="{StaticResource SoftWell}" Padding="16"
                                 DataContext="{Binding SelectedItem}">
                             <StackPanel>
                                 <TextBlock Text="{Binding [Before], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" />
@@ -703,12 +704,12 @@
                                 <TextBlock Text="{Binding [After], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" />
                                 <TextBlock Text="{Binding TargetText}" Foreground="{DynamicResource WarnFgBrush}" FontWeight="Bold" TextWrapping="Wrap" Margin="0,4,0,0" />
                             </StackPanel>
-                        </Border>
+                        </ui:SoftInsetBorder>
                         <TextBlock Text="{Binding [RenameNote], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource SubBrush}"
                                    TextWrapping="Wrap" LineHeight="24" Margin="0,14,0,0" FontSize="13" />
 
                         <!-- DATに無いファイルの移動（機種ごと）。「リネーム」と同時に行い、「取り消し」で元に戻る -->
-                        <Border Style="{StaticResource SoftWell}" Padding="16" Margin="0,16,0,0">
+                        <ui:SoftInsetBorder Style="{StaticResource SoftWell}" Padding="16" Margin="0,16,0,0">
                             <StackPanel>
                                 <TextBlock Text="{Binding [UnknownSection], Source={x:Static s:Loc.Instance}}" Style="{StaticResource Muted}" FontSize="12" Margin="0,0,0,8" />
                                 <CheckBox IsChecked="{Binding MoveUnknown}" FontSize="13"
@@ -721,7 +722,7 @@
                                 <TextBlock Text="{Binding [UnknownHint], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
                                            FontSize="12" TextWrapping="Wrap" Margin="0,8,0,0" />
                             </StackPanel>
-                        </Border>
+                        </ui:SoftInsetBorder>
                     </StackPanel>
                 </Grid>
             </Border>
