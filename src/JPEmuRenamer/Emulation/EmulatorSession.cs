@@ -225,6 +225,9 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
     public event Action<string>? Failed;
     /// <summary>画面に短く出すメッセージ</summary>
     public event Action<string>? Message;
+
+    /// <summary>起動の準備中に、いま何をしているか（コアの部品のダウンロードなど）</summary>
+    public event Action<string>? Loading;
     /// <summary>画面側で処理するホットキー（Menu / Fullscreen / Screenshot / Exit）</summary>
     public event Action<string>? Hotkey;
     /// <summary>映像の大きさや縦横比が変わった</summary>
@@ -341,6 +344,7 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         Directory.CreateDirectory(req.BiosDir);
 
         // PPSSPP などは、フォントなどの部品が BIOSフォルダに要る。無ければ初めての起動のときに配布サイトから取ってくる
+        if (CoreCatalog.NeedsCoreAssets(req.CoreName, req.BiosDir)) Loading?.Invoke(Loc.F("CoreAssetsDownloading", req.CoreName));
         try { CoreCatalog.EnsureCoreAssetsAsync(req.CoreName, req.BiosDir, CancellationToken.None).GetAwaiter().GetResult(); }
         catch (Exception ex)
         {

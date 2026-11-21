@@ -195,6 +195,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "코어 \"{0}\"을(를) 다운로드했습니다",
         ["CoreDownloadFailed"] = "코어 \"{0}\"을(를) 다운로드할 수 없습니다: {1}",
         ["CoreMissing"] = "코어 \"{0}\"을(를) 찾을 수 없습니다. \"기종 설정\"에서 다운로드하세요.",
+        ["CoreAssetsDownloading"] = "코어 \"{0}\"에 필요한 파일을 내려받는 중입니다(처음 한 번만, 시간이 조금 걸립니다)…",
         ["CoreAssetsFailed"] = "코어 \"{0}\"에 필요한 파일을 내려받지 못했습니다({1}). 인터넷 연결을 확인하세요.",
         ["ZipEmpty"] = "ZIP 안에 ROM이 없습니다.",
         ["HwNotSupported"] = "이 코어에 필요한 그리기 방식(OpenGL)을 사용할 수 없습니다. 그래픽 드라이버를 업데이트하거나 다른 코어를 선택하세요.",

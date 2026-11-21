@@ -195,6 +195,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "已下載核心「{0}」",
         ["CoreDownloadFailed"] = "無法下載核心「{0}」：{1}",
         ["CoreMissing"] = "找不到核心「{0}」。請在「主機設定」中下載。",
+        ["CoreAssetsDownloading"] = "正在下載核心「{0}」所需的檔案（僅限第一次，可能需要一點時間）…",
         ["CoreAssetsFailed"] = "無法下載核心「{0}」所需的檔案（{1}）。請確認網路連線。",
         ["ZipEmpty"] = "ZIP 檔中沒有 ROM。",
         ["HwNotSupported"] = "無法使用這個核心需要的繪圖方式（OpenGL）。請更新顯示卡驅動程式，或選擇其他核心。",

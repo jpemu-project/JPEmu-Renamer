@@ -193,6 +193,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Pobrano rdzeń „{0}”",
         ["CoreDownloadFailed"] = "Nie udało się pobrać rdzenia „{0}”: {1}",
         ["CoreMissing"] = "Nie znaleziono rdzenia „{0}”. Pobierz go w „Ustawieniach systemu”.",
+        ["CoreAssetsDownloading"] = "Pobieranie plików potrzebnych rdzeniowi „{0}” (tylko za pierwszym razem; może to chwilę potrwać)…",
         ["CoreAssetsFailed"] = "Nie udało się pobrać plików potrzebnych rdzeniowi „{0}” ({1}). Sprawdź połączenie z internetem.",
         ["ZipEmpty"] = "W pliku ZIP nie ma ROM-u.",
         ["HwNotSupported"] = "Sposób renderowania wymagany przez ten rdzeń (OpenGL) jest niedostępny. Zaktualizuj sterownik karty graficznej lub wybierz inny rdzeń.",

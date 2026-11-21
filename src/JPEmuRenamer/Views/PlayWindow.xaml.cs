@@ -47,6 +47,7 @@ public partial class PlayWindow : Window
         session.Started += () => Dispatcher.BeginInvoke(OnSessionStarted);
         session.Failed += msg => Dispatcher.BeginInvoke(() => ShowFailure(msg));
         session.Message += msg => Dispatcher.BeginInvoke(() => ShowOsd(msg));
+        session.Loading += msg => Dispatcher.BeginInvoke(() => StatusText.Text = msg);
         session.Hotkey += name => Dispatcher.BeginInvoke(() => OnHotkey(name));
         session.GeometryChanged += () => Dispatcher.BeginInvoke(UpdateLayoutSize);
         session.Stopped += () => Dispatcher.BeginInvoke(OnSessionStopped);

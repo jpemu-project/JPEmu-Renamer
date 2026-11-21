@@ -194,6 +194,7 @@ public sealed partial class Loc
         ["CoreDownloaded"] = "Núcleo \"{0}\" descargado",
         ["CoreDownloadFailed"] = "No se pudo descargar el núcleo \"{0}\": {1}",
         ["CoreMissing"] = "No se encuentra el núcleo \"{0}\". Descárgalo en \"Ajustes del sistema\".",
+        ["CoreAssetsDownloading"] = "Descargando los archivos que necesita el núcleo \"{0}\" (solo la primera vez; puede tardar un poco)…",
         ["CoreAssetsFailed"] = "No se pudieron descargar los archivos que necesita el núcleo \"{0}\" ({1}). Comprueba tu conexión a internet.",
         ["ZipEmpty"] = "El archivo ZIP no contiene ninguna ROM.",
         ["HwNotSupported"] = "No está disponible el modo de dibujo que necesita este núcleo (OpenGL). Actualiza el controlador gráfico o elige otro núcleo.",

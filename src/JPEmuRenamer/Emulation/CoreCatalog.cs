@@ -120,6 +120,10 @@ public static class CoreCatalog
         new("jollycv", "JollyCV"),
         new("x16emu", "x16emu"),
         new("tamalibretro", "TamaLIBretro"),
+        // 重い3Dの機種（OpenGL で描画する）
+        new("dolphin", "Dolphin", true),
+        new("pcsx2", "LRPS2", true),
+        new("play", "Play!", true),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
@@ -250,6 +254,11 @@ public static class CoreCatalog
         ["アタリ ジャガーCD"] = (new[] { "virtualjaguar" }, "[BIOS] Atari Jaguar CD (World).j64?"),
         ["Commander X16"] = (new[] { "x16emu" }, ""),
         ["たまごっち"] = (new[] { "tamalibretro" }, ""),
+        // Dolphin の Sys フォルダと LRPS2 の部品は、初めて使うときに自動で取ってくる。
+        // LRPS2 は PS2 のBIOS（名前は自由）を pcsx2\bios に置く。Play! はBIOSが無くても動く（試作段階）
+        ["ゲームキューブ"] = (new[] { "dolphin" }, "dolphin-emu\\Sys\\GC\\JAP\\IPL.bin?"),
+        ["Wii"] = (new[] { "dolphin" }, ""),
+        ["プレイステーション2"] = (new[] { "pcsx2", "play" }, "pcsx2\\bios\\（PS2 のBIOS。ファイル名は自由。Play! では不要）"),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -278,6 +287,7 @@ public static class CoreCatalog
         (".bin777", "カセットビジョン"), (".gme", "ポケットステーション"), (".nuon", "NUON"), (".p8", "PICO-8"),
         (".hex", "Arduboy"), (".arduboy", "Arduboy"), (".ch8", "CHIP-8"), (".sc8", "CHIP-8"), (".xo8", "CHIP-8"),
         (".ssd", "BBC Micro"), (".dsd", "BBC Micro"), (".pfi", "P/ECE"), (".myv", "マイビジョン"),
+        (".gcm", "ゲームキューブ"), (".gcz", "ゲームキューブ"), (".wbfs", "Wii"), (".wad", "Wii"), (".zso", "プレイステーション2"),
     };
 
     /// <summary>手で登録したコア（コアの一覧の画面に出すもの）</summary>
@@ -392,8 +402,11 @@ public static class CoreCatalog
     public static string? MissingBios(SystemConfig sys, string biosDir)
     {
         var key = SystemKey(sys);
-        if (key == null || !RequiredBios.TryGetValue(key, out var groups)) return null;
         var core = CoreNameFor(sys);
+        // LRPS2 は pcsx2\bios の中にBIOSが1つでもあればよい（ファイル名は自由）
+        if (core == "pcsx2")
+            return HasAnyFile(Path.Combine(biosDir, "pcsx2", "bios")) ? null : "pcsx2\\bios\\（PS2 BIOS）";
+        if (key == null || !RequiredBios.TryGetValue(key, out var groups)) return null;
         // Yabause はBIOSが無くても動く（Beetle Saturn は必要）
         if (key == "セガサターン" && core == "yabause") return null;
         var dirs = new List<string> { biosDir, Path.Combine(biosDir, core), Path.Combine(biosDir, "melonDS DS") };
@@ -402,6 +415,11 @@ public static class CoreCatalog
             .Where(names => !dirs.Any(dir => names.Any(n => Exists(Path.Combine(dir, n)))))
             .Select(names => names[0]).ToList();
         return missing.Count > 0 ? string.Join(" / ", missing) : null;
+    }
+
+    private static bool HasAnyFile(string dir)
+    {
+        try { return Directory.Exists(dir) && Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories).Any(); } catch { return false; }
     }
 
     private static bool Exists(string path)
@@ -466,40 +484,62 @@ public static class CoreCatalog
 
     /// <summary>
     /// コアが動くのに必要な部品（libretro 公式の配布サイトの assets/system にあるもの）。
-    /// コアの名前 → BIOSフォルダの中のフォルダ名（これが無ければ取ってくる）
+    /// コアの名前 → （BIOSフォルダの中の、これが無ければ取ってくるフォルダ, 配布サイトのZIPの名前）
     /// </summary>
-    private static readonly Dictionary<string, string> CoreAssets = new(StringComparer.OrdinalIgnoreCase)
+    private static readonly Dictionary<string, (string check, string zip)> CoreAssets = new(StringComparer.OrdinalIgnoreCase)
     {
-        ["ppsspp"] = "PPSSPP",
+        ["ppsspp"] = ("PPSSPP", "PPSSPP"),
+        ["dolphin"] = ("dolphin-emu\\Sys", "Dolphin"),
+        ["pcsx2"] = ("pcsx2\\resources", "LRPS2"),
     };
+
+    /// <summary>このコアに必要な部品が、まだ BIOSフォルダに無いか（あれば取ってくる必要がある）</summary>
+    public static bool NeedsCoreAssets(string coreName, string systemDir) =>
+        CoreAssets.TryGetValue(coreName, out var asset) && !Directory.Exists(System.IO.Path.Combine(systemDir, asset.check));
 
     /// <summary>このコアに必要な部品が BIOSフォルダに無ければ、配布サイトから取ってきて展開する（無い・要らないときは何もしない）</summary>
     public static async Task EnsureCoreAssetsAsync(string coreName, string systemDir, CancellationToken ct)
     {
-        if (!CoreAssets.TryGetValue(coreName, out var folder)) return;
-        if (Directory.Exists(System.IO.Path.Combine(systemDir, folder))) return;
+        if (!CoreAssets.TryGetValue(coreName, out var asset)) return;
+        if (Directory.Exists(System.IO.Path.Combine(systemDir, asset.check))) return;
         Directory.CreateDirectory(systemDir);
-        var tmpZip = System.IO.Path.Combine(systemDir, folder + ".download");
+        var tmpZip = System.IO.Path.Combine(systemDir, asset.zip + ".download");
+        var tmpDir = System.IO.Path.Combine(systemDir, asset.zip + ".extract");
         try
         {
-            using (var resp = await Http.GetAsync("https://buildbot.libretro.com/assets/system/" + folder + ".zip", HttpCompletionOption.ResponseHeadersRead, ct))
+            using (var resp = await Http.GetAsync("https://buildbot.libretro.com/assets/system/" + asset.zip + ".zip", HttpCompletionOption.ResponseHeadersRead, ct))
             {
                 resp.EnsureSuccessStatusCode();
                 await using var src = await resp.Content.ReadAsStreamAsync(ct);
                 await using var dst = File.Create(tmpZip);
                 await src.CopyToAsync(dst, ct);
             }
-            // ZIP の中は「PPSSPP/…」。途中で止まっても半端なフォルダが残らないよう、別の名前に展開してから名前を変える
-            var tmpDir = System.IO.Path.Combine(systemDir, folder + ".extract");
+            // ZIP の中は「PPSSPP/…」「dolphin-emu/Sys/…」のように BIOSフォルダからの形になっている。
+            // 途中で止まっても半端なフォルダが残らないよう、別の場所に展開してから移す。利用者が置いたファイルは上書きしない
             if (Directory.Exists(tmpDir)) Directory.Delete(tmpDir, true);
             ZipFile.ExtractToDirectory(tmpZip, tmpDir);
-            var inner = System.IO.Path.Combine(tmpDir, folder);
-            Directory.Move(Directory.Exists(inner) ? inner : tmpDir, System.IO.Path.Combine(systemDir, folder));
-            if (Directory.Exists(tmpDir)) Directory.Delete(tmpDir, true);
+            MergeInto(tmpDir, systemDir);
         }
         finally
         {
             try { File.Delete(tmpZip); } catch { }
+            try { if (Directory.Exists(tmpDir)) Directory.Delete(tmpDir, true); } catch { }
+        }
+    }
+
+    private static void MergeInto(string from, string to)
+    {
+        Directory.CreateDirectory(to);
+        foreach (var dir in Directory.GetDirectories(from))
+        {
+            var target = System.IO.Path.Combine(to, System.IO.Path.GetFileName(dir));
+            if (!Directory.Exists(target)) Directory.Move(dir, target);
+            else MergeInto(dir, target);
+        }
+        foreach (var file in Directory.GetFiles(from))
+        {
+            var target = System.IO.Path.Combine(to, System.IO.Path.GetFileName(file));
+            if (!File.Exists(target)) File.Move(file, target);
         }
     }
 
