@@ -86,7 +86,7 @@ Pada sistem komputer seperti MSX, PC-8801, PC-9801, X68000, dan X1, keyboard lan
 | Layar penuh | `F11` |
 
 - Gunakan menu untuk hotkey lain, seperti save state. Gamepad tetap berfungsi sebagai joystick.
-- Pada Amiga, X68000, PC-9801, dan FM TOWNS, klik layar game untuk memakai mouse di game. Buka menu dengan F12 atau pindah ke jendela lain untuk melepasnya.
+- Pada Amiga, X68000, PC-9801, FM TOWNS, Atari ST, Macintosh, dan MS-DOS, klik layar game untuk memakai mouse di game. Buka menu dengan F12 atau pindah ke jendela lain untuk melepasnya.
 - Untuk game dengan dua disk atau lebih, buat file `.m3u` yang berisi satu nama file disk per baris lalu jalankan; "Ganti disk" di menu mengganti disk.
 - Letakkan file BIOS (ROM) di folder BIOS, atau di folder core di dalamnya, sesuai petunjuk di pengaturan sistem.
 # Menu dalam game

@@ -86,7 +86,7 @@ Sui sistemi computer come MSX, PC-8801, PC-9801, X68000 e X1, la tastiera va dir
 | Schermo intero | `F11` |
 
 - Usa il menu per le altre scorciatoie, come i salvataggi di stato. Il controller funziona ancora come joystick.
-- Su Amiga, X68000, PC-9801 e FM TOWNS, fai clic sullo schermo di gioco per usare il mouse nel gioco. Apri il menu con F12 o passa a un'altra finestra per rilasciarlo.
+- Su Amiga, X68000, PC-9801, FM TOWNS, Atari ST, Macintosh e MS-DOS, fai clic sullo schermo di gioco per usare il mouse nel gioco. Apri il menu con F12 o passa a un'altra finestra per rilasciarlo.
 - Per i giochi con più dischi, crea un file `.m3u` con un nome di file disco per riga e avvialo; "Cambia disco" nel menu cambia disco.
 - Metti i file BIOS (ROM) nella cartella BIOS, o nella cartella del core al suo interno, come indicato nelle impostazioni del sistema.
 # Menu di gioco

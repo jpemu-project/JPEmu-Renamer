@@ -85,18 +85,35 @@ public static class CoreCatalog
         new("same_cdi", "SAME CDi"),
         new("flycast", "Flycast", true),
         new("ppsspp", "PPSSPP", true),
+        // 2026-11-21 に追加（パソコン系・小さな機種）
+        new("hatari", "Hatari"),
+        new("vice_x128", "VICE x128"),
+        new("vice_xvic", "VICE xvic"),
+        new("vice_xplus4", "VICE xplus4"),
+        new("vice_xpet", "VICE xpet"),
+        new("vice_xcbm2", "VICE xcbm2"),
+        new("81", "EightyOne"),
+        new("theodore", "Theodore"),
+        new("uzem", "Uzem"),
+        new("gw", "Game & Watch"),
+        new("vemulator", "VeMUlator"),
+        new("mu", "Mu"),
+        new("minivmac", "Mini vMac"),
+        new("bk", "bk"),
+        new("dosbox_pure", "DOSBox Pure"),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
     private static readonly HashSet<string> KeyboardCores = new(StringComparer.OrdinalIgnoreCase)
     {
-        "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32", "atari800", "geartowns"
+        "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32", "atari800", "geartowns",
+        "hatari", "vice_x128", "vice_xvic", "vice_xplus4", "vice_xpet", "vice_xcbm2", "81", "theodore", "minivmac", "bk", "dosbox_pure"
     };
 
     public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
 
     /// <summary>マウスで操作するゲームが多いコア。ゲーム画面をクリックすると、マウスをゲームに渡す</summary>
-    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai", "geartowns" };
+    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai", "geartowns", "hatari", "minivmac", "dosbox_pure" };
 
     public static bool UsesMouse(string coreName) => MouseCores.Contains(coreName);
 
@@ -172,6 +189,24 @@ public static class CoreCatalog
         // 3D の機種（OpenGL で描画する）。Flycast は BIOS が無くても動く。PPSSPP の部品（フォントなど）は初めて使うときに自動で取ってくる
         ["ドリームキャスト"] = (new[] { "flycast" }, "dc\\dc_boot.bin / dc_flash.bin?"),
         ["PSP"] = (new[] { "ppsspp" }, ""),
+        // ---- 2026-11-21 に追加（パソコン系・小さな機種） ----
+        ["Atari ST"] = (new[] { "hatari" }, "tos.img"),
+        ["Atari Falcon"] = (new[] { "hatari" }, "tos.img（Falcon 用の TOS 4.0x）"),
+        ["コモドール128"] = (new[] { "vice_x128" }, ""),
+        ["VIC-20"] = (new[] { "vice_xvic" }, ""),
+        ["Plus/4"] = (new[] { "vice_xplus4" }, ""),
+        ["PET"] = (new[] { "vice_xpet" }, ""),
+        ["CBM-II"] = (new[] { "vice_xcbm2" }, ""),
+        ["ZX81"] = (new[] { "81" }, ""),
+        ["スペクトラビデオ"] = (new[] { "bluemsx" }, "Machines・Databases フォルダ（blueMSX）"),
+        ["Thomson MO/TO"] = (new[] { "theodore" }, ""),
+        ["Uzebox"] = (new[] { "uzem" }, ""),
+        ["ゲーム&ウオッチ"] = (new[] { "gw" }, ""),
+        ["ビジュアルメモリ"] = (new[] { "vemulator" }, ""),
+        ["Palm OS"] = (new[] { "mu" }, "palmos41-en-m515.rom / bootloader-dbvz.rom"),
+        ["マッキントッシュ"] = (new[] { "minivmac" }, "MacII.ROM"),
+        ["BK-0010"] = (new[] { "bk" }, "bk\\MONIT10.ROM / FOCAL10.ROM など"),
+        ["MS-DOS"] = (new[] { "dosbox_pure" }, ""),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -193,6 +228,9 @@ public static class CoreCatalog
         (".adf", "Amiga"), (".cdt", "Amstrad CPC"),
         (".ndd", "64DD"), (".atr", "Atari 800"), (".xex", "Atari 800"), (".xfd", "Atari 800"), (".sc", "SC-3000"),
         (".gdi", "ドリームキャスト"), (".cdi", "ドリームキャスト"), (".cso", "PSP"),
+        (".msa", "Atari ST"), (".stx", "Atari ST"), (".d71", "コモドール128"), (".d81", "コモドール128"), (".t81", "ZX81"),
+        (".sap", "Thomson MO/TO"), (".k7", "Thomson MO/TO"), (".uze", "Uzebox"), (".mgw", "ゲーム&ウオッチ"), (".vms", "ビジュアルメモリ"),
+        (".prc", "Palm OS"), (".hfv", "マッキントッシュ"), (".dosz", "MS-DOS"),
     };
 
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;
