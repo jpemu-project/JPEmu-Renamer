@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:s="clr-namespace:JPEmuRenamer.Services"
         xmlns:ui="clr-namespace:JPEmuRenamer.Ui"
-        Title="JPEmu Renamer" Icon="/Assets/logo.png" Width="1280" Height="800" MinWidth="760" MinHeight="480"
+        Title="JPEmu Renamer" Icon="/Assets/app.ico" Width="1280" Height="800" MinWidth="760" MinHeight="480"
         Background="{DynamicResource BgBrush}" Foreground="{DynamicResource TextBrush}"
         FontFamily="{StaticResource UiFont}" FontSize="{Binding FontSize}"
         UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal" TextOptions.TextRenderingMode="ClearType"

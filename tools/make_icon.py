@@ -1,4 +1,4 @@
-"""アプリアイコン（app.ico）を作る。
+"""（以前のアプリアイコン。いまの app.ico は make-icon.ps1 で作る）アプリアイコン（app.ico）を作る。
 白ベースに筆記体（Dancing Script Bold）の「JPEmu」と、赤・黒・赤のドット3つ。
 32px以下は頭文字「J」だけにする。
 使い方: python make_icon.py <DancingScript-Bold.ttf> <出力.ico> [プレビューPNGの出力先]
