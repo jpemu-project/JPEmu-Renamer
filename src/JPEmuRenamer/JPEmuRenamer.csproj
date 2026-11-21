@@ -30,6 +30,8 @@
     <Resource Include="Assets\app.ico" />
     <Resource Include="Assets\logo.png" />
     <Resource Include="Assets\Fonts\GreatVibes-Regular.ttf" />
+    <!-- libretro 公式のコア情報（tools/gen-coreinfo.ps1 で作る） -->
+    <EmbeddedResource Include="Emulation\CoreInfo.json" LogicalName="JPEmuRenamer.Emulation.CoreInfo.json" />
   </ItemGroup>
 
 </Project>

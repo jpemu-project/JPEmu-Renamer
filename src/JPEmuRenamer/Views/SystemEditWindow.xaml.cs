@@ -55,13 +55,15 @@ public partial class SystemEditWindow : Window
         CoreBox.ItemsSource = candidates;
         CoreBox.SelectedItem = candidates.FirstOrDefault(c => c.Name == current) ?? candidates.FirstOrDefault();
         loading = false;
-        var bios = CoreCatalog.BiosHintFor(probe);
-        BiosHint.Text = string.IsNullOrEmpty(bios) ? "" : Loc.F("BiosNeeded", bios);
         UpdateCoreStatus();
     }
 
     private void UpdateCoreStatus()
     {
+        // BIOSの説明は、選んでいるコアによって変わることがある
+        var probe = new SystemConfig { Name = NameBox.Text.Trim(), Extensions = SystemPresets.ParseExtensions(ExtBox.Text) };
+        var bios = CoreCatalog.BiosHintFor(probe, (CoreBox.SelectedItem as CoreInfo)?.Name);
+        BiosHint.Text = string.IsNullOrEmpty(bios) ? "" : Loc.F("BiosNeeded", bios);
         if (CoreBox.SelectedItem is not CoreInfo core)
         {
             CoreStatus.Text = "";

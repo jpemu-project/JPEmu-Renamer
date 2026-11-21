@@ -101,13 +101,33 @@ public static class CoreCatalog
         new("minivmac", "Mini vMac"),
         new("bk", "bk"),
         new("dosbox_pure", "DOSBox Pure"),
+        // 2026-11-21 に追加（コア情報ファイルから選んだ機種）
+        new("applewin", "AppleWin"),
+        new("amiarcadia", "AmiArcadia"),
+        new("pd777", "PD777"),
+        new("playdiaemu", "PlaydiaEmu"),
+        new("pokket", "Pokket"),
+        new("ep128emu_core", "ep128emu"),
+        new("m2000", "M2000"),
+        new("hyperscanemu", "HyperScanEmu"),
+        new("nuance", "Nuance", true),
+        new("retro8", "Retro8"),
+        new("ardens", "Ardens"),
+        new("arduous", "Arduous"),
+        new("jaxe", "JAXE"),
+        new("b2", "b2"),
+        new("piece", "piece-emu"),
+        new("jollycv", "JollyCV"),
+        new("x16emu", "x16emu"),
+        new("tamalibretro", "TamaLIBretro"),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
     private static readonly HashSet<string> KeyboardCores = new(StringComparer.OrdinalIgnoreCase)
     {
         "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32", "atari800", "geartowns",
-        "hatari", "vice_x128", "vice_xvic", "vice_xplus4", "vice_xpet", "vice_xcbm2", "81", "theodore", "minivmac", "bk", "dosbox_pure"
+        "hatari", "vice_x128", "vice_xvic", "vice_xplus4", "vice_xpet", "vice_xcbm2", "81", "theodore", "minivmac", "bk", "dosbox_pure",
+        "applewin", "ep128emu_core", "m2000", "b2", "x16emu"
     };
 
     public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
@@ -183,9 +203,9 @@ public static class CoreCatalog
         ["ネオジオCD"] = (new[] { "neocd" }, "neocd\\neocd_f.rom（など） / 000-lo.lo"),
         ["SC-3000"] = (new[] { "genesis_plus_gx", "bluemsx" }, ""),
         ["Atari 800"] = (new[] { "atari800" }, "ATARIXL.ROM / ATARIBAS.ROM?"),
-        ["FM TOWNS"] = (new[] { "geartowns" }, "FMT_SYS.ROM / FMT_DOS.ROM / FMT_FNT.ROM / FMT_DIC.ROM"),
+        ["FM TOWNS"] = (new[] { "geartowns" }, "geartowns\\FMT_SYS.ROM / FMT_DOS.ROM / FMT_FNT.ROM / FMT_DIC.ROM"),
         ["64DD"] = (new[] { "mupen64plus_next" }, "Mupen64plus\\IPL.n64"),
-        ["CD-i"] = (new[] { "same_cdi" }, "cdimono1.zip"),
+        ["CD-i"] = (new[] { "same_cdi" }, "same_cdi\\bios\\cdimono1.zip"),
         // 3D の機種（OpenGL で描画する）。Flycast は BIOS が無くても動く。PPSSPP の部品（フォントなど）は初めて使うときに自動で取ってくる
         ["ドリームキャスト"] = (new[] { "flycast" }, "dc\\dc_boot.bin / dc_flash.bin?"),
         ["PSP"] = (new[] { "ppsspp" }, ""),
@@ -207,6 +227,29 @@ public static class CoreCatalog
         ["マッキントッシュ"] = (new[] { "minivmac" }, "MacII.ROM"),
         ["BK-0010"] = (new[] { "bk" }, "bk\\MONIT10.ROM / FOCAL10.ROM など"),
         ["MS-DOS"] = (new[] { "dosbox_pure" }, ""),
+        // ---- 2026-11-21 に追加（コア情報ファイルから選んだ機種。説明が空のものはコア情報から自動で出す） ----
+        ["Apple II"] = (new[] { "applewin" }, ""),
+        ["Amiga CD32"] = (new[] { "puae" }, "kick40060.CD32 / kick40060.CD32.ext"),
+        ["コレコ アダム"] = (new[] { "gearcoleco" }, "colecovision.rom / eos.rom / writer.rom"),
+        ["アルカディア2001"] = (new[] { "amiarcadia" }, ""),
+        ["カセットビジョン"] = (new[] { "pd777" }, ""),
+        ["スーファミターボ"] = (new[] { "snes9x" }, "STBIOS.bin"),
+        ["プレイディア"] = (new[] { "playdiaemu" }, ""),
+        ["ポケットステーション"] = (new[] { "pokket" }, "pocketstation.bin?"),
+        ["Enterprise 128"] = (new[] { "ep128emu_core" }, ""),
+        ["P2000T"] = (new[] { "m2000" }, ""),
+        ["ハイパースキャン"] = (new[] { "hyperscanemu" }, ""),
+        ["NUON"] = (new[] { "nuance" }, ""),
+        ["PICO-8"] = (new[] { "retro8" }, ""),
+        ["Arduboy"] = (new[] { "ardens", "arduous" }, ""),
+        ["CHIP-8"] = (new[] { "jaxe" }, ""),
+        ["BBC Micro"] = (new[] { "b2" }, ""),
+        ["P/ECE"] = (new[] { "piece" }, ""),
+        ["マイビジョン"] = (new[] { "jollycv" }, ""),
+        ["クリエイティビジョン"] = (new[] { "jollycv" }, "bioscv.rom"),
+        ["アタリ ジャガーCD"] = (new[] { "virtualjaguar" }, "[BIOS] Atari Jaguar CD (World).j64?"),
+        ["Commander X16"] = (new[] { "x16emu" }, ""),
+        ["たまごっち"] = (new[] { "tamalibretro" }, ""),
     };
 
     /// <summary>拡張子から推測するときの対応（機種名が候補と違う場合）</summary>
@@ -231,11 +274,21 @@ public static class CoreCatalog
         (".msa", "Atari ST"), (".stx", "Atari ST"), (".d71", "コモドール128"), (".d81", "コモドール128"), (".t81", "ZX81"),
         (".sap", "Thomson MO/TO"), (".k7", "Thomson MO/TO"), (".uze", "Uzebox"), (".mgw", "ゲーム&ウオッチ"), (".vms", "ビジュアルメモリ"),
         (".prc", "Palm OS"), (".hfv", "マッキントッシュ"), (".dosz", "MS-DOS"),
+        (".woz", "Apple II"), (".nib", "Apple II"), (".do", "Apple II"), (".po", "Apple II"), (".ddp", "コレコ アダム"),
+        (".bin777", "カセットビジョン"), (".gme", "ポケットステーション"), (".nuon", "NUON"), (".p8", "PICO-8"),
+        (".hex", "Arduboy"), (".arduboy", "Arduboy"), (".ch8", "CHIP-8"), (".sc8", "CHIP-8"), (".xo8", "CHIP-8"),
+        (".ssd", "BBC Micro"), (".dsd", "BBC Micro"), (".pfi", "P/ECE"), (".myv", "マイビジョン"),
     };
 
+    /// <summary>手で登録したコア（コアの一覧の画面に出すもの）</summary>
     public static IReadOnlyCollection<CoreInfo> All => Cores.Values;
 
-    public static CoreInfo? Get(string name) => Cores.GetValueOrDefault(name);
+    /// <summary>コア情報ファイルにだけあるコア（その他の機種で選べる）。Vulkan・Direct3D だけで描画するコアは除く</summary>
+    private static readonly Lazy<Dictionary<string, CoreInfo>> InfoOnlyCores = new(() =>
+        CoreInfoDb.All.Where(i => !i.Unsupported && !Cores.ContainsKey(i.Name))
+            .ToDictionary(i => i.Name, i => new CoreInfo(i.Name, i.DisplayName, i.UsesOpenGl), StringComparer.OrdinalIgnoreCase));
+
+    public static CoreInfo? Get(string name) => Cores.GetValueOrDefault(name) ?? InfoOnlyCores.Value.GetValueOrDefault(name);
 
     private static string? SystemKey(SystemConfig sys)
     {
@@ -247,19 +300,49 @@ public static class CoreCatalog
         return null;
     }
 
-    /// <summary>この機種で選べるコア（候補が無い機種はすべて）</summary>
+    /// <summary>
+    /// この機種で選べるコア。候補が無い機種は、拡張子に対応しているコアをコア情報ファイルから探す（見つからなければすべて）
+    /// </summary>
     public static List<CoreInfo> CandidatesFor(SystemConfig sys)
     {
         var key = SystemKey(sys);
-        return key != null ? BySystem[key].cores.Select(n => Cores[n]).ToList() : Cores.Values.OrderBy(c => c.DisplayName).ToList();
+        if (key != null) return BySystem[key].cores.Select(n => Cores[n]).ToList();
+        var all = Cores.Values.Concat(InfoOnlyCores.Value.Values).OrderBy(c => c.DisplayName, StringComparer.OrdinalIgnoreCase).ToList();
+        // zip は多くのコアが対応しているので、機種を見分ける手がかりにしない
+        var exts = sys.Extensions.Select(e => e.TrimStart('.').ToLowerInvariant()).Where(e => e is not ("zip" or "7z")).ToHashSet();
+        if (exts.Count == 0) return all;
+        var matched = all.Where(c => CoreInfoDb.Get(c.Name)?.Extensions.Any(exts.Contains) == true).ToList();
+        return matched.Count > 0 ? matched : all;
     }
 
-    public static string BiosHintFor(SystemConfig sys)
+    /// <summary>
+    /// 必要なBIOSの説明。手で書いた説明が無い機種は、使うコアのコア情報ファイルから「無いと動かない」ファイルを出す
+    /// </summary>
+    public static string BiosHintFor(SystemConfig sys, string? coreName = null)
     {
         var key = SystemKey(sys);
         var bios = key != null ? BySystem[key].bios : "";
+        if (bios.Length == 0) bios = BiosHintFromCoreInfo(string.IsNullOrEmpty(coreName) ? CoreNameFor(sys) : coreName);
         // 末尾の ? は「無くても動く（任意）」の印
         return bios.EndsWith('?') ? Loc.F("BiosOptional", bios.TrimEnd('?')) : bios;
+    }
+
+    private static string BiosHintFromCoreInfo(string coreName)
+    {
+        // 部品を自動で取ってくるコアは、説明を出さない
+        if (string.IsNullOrEmpty(coreName) || CoreAssets.ContainsKey(coreName)) return "";
+        var required = CoreInfoDb.Get(coreName)?.Firmware.Where(f => !f.Optional).Select(f => f.Path.Replace('/', '\\')).ToList();
+        if (required == null || required.Count == 0) return "";
+        // 同じフォルダのものは、2つめからフォルダ名を省く（例: nuance\bios.cof / minibios.cof）
+        var parts = new List<string>();
+        string? lastDir = null;
+        foreach (var p in required)
+        {
+            var dir = Path.GetDirectoryName(p);
+            parts.Add(!string.IsNullOrEmpty(dir) && dir == lastDir ? Path.GetFileName(p) : p);
+            lastDir = dir;
+        }
+        return string.Join(" / ", parts);
     }
 
     /// <summary>
@@ -287,6 +370,19 @@ public static class CoreCatalog
         ["インテレビジョン"] = new[] { new[] { "exec.bin" }, new[] { "grom.bin" } },
         ["オデッセイ²"] = new[] { new[] { "o2rom.bin" } },
         ["チャンネルF"] = new[] { new[] { "sl31254.bin" }, new[] { "sl31253.bin", "sl90025.bin" } },
+        // ここから下は、コア情報ファイルで「必須」とされているもの（BIOSフォルダの中のコア用フォルダからも探す）
+        ["FM TOWNS"] = new[]
+        {
+            new[] { "FMT_SYS.ROM", "fmtowns.zip", "fmtowns/fmt_sys.rom", "fmtownsux.zip", "fmtownshr.zip", "fmtownsftv.zip", "fmtownsmx.zip", "fmtmarty.zip" }
+        },
+        ["CD-i"] = new[] { new[] { "bios/cdimono1.zip" } },
+        ["X68000"] = new[] { new[] { "keropi/iplrom.dat" }, new[] { "keropi/cgrom.dat" } },
+        ["マッキントッシュ"] = new[] { new[] { "MacII.ROM" } },
+        ["Amiga CD32"] = new[] { new[] { "kick40060.CD32" }, new[] { "kick40060.CD32.ext" } },
+        ["スーファミターボ"] = new[] { new[] { "STBIOS.bin" } },
+        ["クリエイティビジョン"] = new[] { new[] { "bioscv.rom" } },
+        ["ハイパースキャン"] = new[] { new[] { "spg290.bin" }, new[] { "hyperscan.bin" } },
+        ["Commander X16"] = new[] { new[] { "x16/rom.bin" } },
     };
 
     /// <summary>
@@ -410,7 +506,7 @@ public static class CoreCatalog
     /// <summary>コアをダウンロードして cores フォルダに置く（既にあれば更新）</summary>
     public static async Task DownloadAsync(string coreName, IProgress<double>? progress, CancellationToken ct)
     {
-        if (!Cores.ContainsKey(coreName)) throw new ArgumentException(coreName);
+        if (Get(coreName) == null) throw new ArgumentException(coreName);
         Directory.CreateDirectory(Storage.CoresDir);
         var url = BuildbotBase + coreName + "_libretro.dll.zip";
         var tmpZip = System.IO.Path.Combine(Storage.CoresDir, coreName + ".download");
