@@ -37,24 +37,11 @@
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [Name], Source={x:Static s:Loc.Instance}}" />
                 <TextBox x:Name="NameBox" LostFocus="OnNameOrExtChanged" TextChanged="OnNameChanged" />
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="16" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <StackPanel>
-                        <TextBlock Style="{StaticResource Label}" Text="{Binding [Icon], Source={x:Static s:Loc.Instance}}" />
-                        <DockPanel>
-                            <Image x:Name="IconPreview" DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,10,0" />
-                            <ComboBox x:Name="IconBox" SelectionChanged="OnIconChanged" VerticalAlignment="Center" />
-                        </DockPanel>
-                    </StackPanel>
-                    <StackPanel Grid.Column="2">
-                        <TextBlock Style="{StaticResource Label}" Text="{Binding [IconColor], Source={x:Static s:Loc.Instance}}" />
-                        <TextBox x:Name="ColorBox" TextChanged="OnColorChanged" MinHeight="40" />
-                    </StackPanel>
-                </Grid>
+                <TextBlock Style="{StaticResource Label}" Text="{Binding [Icon], Source={x:Static s:Loc.Instance}}" />
+                <DockPanel>
+                    <Image x:Name="IconPreview" DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,10,0" />
+                    <ComboBox x:Name="IconBox" SelectionChanged="OnIconChanged" VerticalAlignment="Center" />
+                </DockPanel>
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [CustomIcon], Source={x:Static s:Loc.Instance}}" />
                 <DockPanel>

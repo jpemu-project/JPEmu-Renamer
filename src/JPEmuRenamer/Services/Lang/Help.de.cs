@@ -18,11 +18,11 @@ JPEmu Renamer verwaltet die ROMs, die du selbst ausgelesen hast, und lässt dich
 > Verwende ROMs, die du aus deiner eigenen Software ausgelesen hast.
 
 # Systemeinstellungen
-Wähle links ein System und öffne oben rechts die „Systemeinstellungen“. Mit „+ System hinzufügen“ legst du weitere an. Eine Vorlage füllt Dateiendungen, Symbol, Farbe und integrierten Core aus.
+Wähle links ein System und öffne oben rechts die „Systemeinstellungen“. Mit „+ System hinzufügen“ legst du weitere an. Eine Vorlage füllt Dateiendungen, Symbol und integrierten Core aus.
 
 | Eintrag | Beschreibung |
 | Systemname | Name in der Liste |
-| Symbol / Farbe | Symbol in der Systemliste. Eigene Bilder (PNG/ICO/JPG) sind möglich |
+| Symbol | Symbol in der Systemliste (die Farbe folgt dem Design). Eigene Bilder (PNG/ICO/JPG) sind möglich |
 | DAT-Datei | Spieleliste zum Umbenennen (OfflineList / No-Intro-Format). Zum reinen Spielen nicht nötig |
 | ROM-Ordner | Ordner mit den ROMs. Mehrere mit `;` trennen |
 | Dateiendungen | Zu lesende Endungen (z. B. `.nes;.zip`) |

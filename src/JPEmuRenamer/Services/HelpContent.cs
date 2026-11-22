@@ -36,11 +36,11 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 > ROMは、自分が持っているソフトから吸い出したものを使ってください。
 
 # 機種の設定
-左の一覧で機種を選び、右上の「機種の設定」を開きます。新しい機種は「＋ 機種を追加」で増やせます。「候補から選ぶ」で機種を選ぶと、拡張子・アイコン・色・内蔵コアが自動で入ります。
+左の一覧で機種を選び、右上の「機種の設定」を開きます。新しい機種は「＋ 機種を追加」で増やせます。「候補から選ぶ」で機種を選ぶと、拡張子・アイコン・内蔵コアが自動で入ります。
 
 | 項目 | 内容 |
 | ハード名 | 一覧に表示する名前 |
-| アイコン・色 | 機種一覧のアイコン。自作の画像（PNG/ICO/JPG）も使えます |
+| アイコン | 機種一覧のアイコン（色はテーマに合わせて変わります）。自作の画像（PNG/ICO/JPG）も使えます |
 | DATファイル | リネームに使うタイトル一覧（OfflineList / No-Intro形式）。遊ぶだけなら空でもかまいません |
 | ROMフォルダ | ROMを置いたフォルダ。複数あるときは `;` で区切ります |
 | 対象拡張子 | 読み込むファイルの拡張子（例：`.nes;.zip`） |
@@ -290,11 +290,11 @@ JPEmu Renamer manages ROMs you dumped yourself and lets you play them right away
 > Use ROMs dumped from software you own.
 
 # System settings
-Choose a system on the left and open "System settings" at the top right. Add systems with "+ Add system". Choosing a preset fills in extensions, icon, color and built-in core.
+Choose a system on the left and open "System settings" at the top right. Add systems with "+ Add system". Choosing a preset fills in extensions, icon and built-in core.
 
 | Item | Description |
 | System name | Name shown in the list |
-| Icon / color | Icon in the system list. Custom images (PNG/ICO/JPG) are supported |
+| Icon | Icon in the system list (its color follows the theme). Custom images (PNG/ICO/JPG) are supported |
 | DAT file | Title list used for renaming (OfflineList / No-Intro format). Optional if you only play |
 | ROM folders | Folders containing ROMs. Separate several with `;` |
 | Extensions | Extensions to read (e.g. `.nes;.zip`) |

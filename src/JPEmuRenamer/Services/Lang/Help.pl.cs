@@ -18,11 +18,11 @@ JPEmu Renamer porządkuje ROM-y, które samodzielnie zgrałeś, i pozwala od raz
 > Używaj ROM-ów zgranych z oprogramowania, które posiadasz.
 
 # Ustawienia systemu
-Wybierz system po lewej i otwórz „Ustawienia systemu” w prawym górnym rogu. Kolejne systemy dodasz przyciskiem „+ Dodaj system”. Wybranie szablonu uzupełnia rozszerzenia, ikonę, kolor i wbudowany rdzeń.
+Wybierz system po lewej i otwórz „Ustawienia systemu” w prawym górnym rogu. Kolejne systemy dodasz przyciskiem „+ Dodaj system”. Wybranie szablonu uzupełnia rozszerzenia, ikonę i wbudowany rdzeń.
 
 | Pozycja | Opis |
 | Nazwa systemu | Nazwa na liście |
-| Ikona / kolor | Ikona na liście systemów. Można użyć własnych obrazów (PNG/ICO/JPG) |
+| Ikona | Ikona na liście systemów (kolor zgodny z motywem). Można użyć własnych obrazów (PNG/ICO/JPG) |
 | Plik DAT | Lista gier do zmiany nazw (format OfflineList / No-Intro). Niepotrzebna, jeśli tylko grasz |
 | Foldery ROM | Foldery z ROM-ami. Kilka oddziel `;` |
 | Rozszerzenia | Odczytywane rozszerzenia (np. `.nes;.zip`) |

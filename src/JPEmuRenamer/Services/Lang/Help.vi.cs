@@ -18,11 +18,11 @@ JPEmu Renamer sắp xếp các ROM do chính bạn trích xuất và cho phép b
 > Hãy dùng ROM trích xuất từ phần mềm bạn sở hữu.
 
 # Cài đặt hệ máy
-Chọn hệ máy bên trái rồi mở "Cài đặt hệ máy" ở góc trên bên phải. Thêm hệ máy bằng "+ Thêm hệ máy". Chọn mẫu sẽ tự điền phần mở rộng, biểu tượng, màu và lõi tích hợp.
+Chọn hệ máy bên trái rồi mở "Cài đặt hệ máy" ở góc trên bên phải. Thêm hệ máy bằng "+ Thêm hệ máy". Chọn mẫu sẽ tự điền phần mở rộng, biểu tượng và lõi tích hợp.
 
 | Mục | Mô tả |
 | Tên hệ máy | Tên hiển thị trong danh sách |
-| Biểu tượng / màu | Biểu tượng trong danh sách hệ máy. Có thể dùng ảnh riêng (PNG/ICO/JPG) |
+| Biểu tượng | Biểu tượng trong danh sách hệ máy (màu theo giao diện). Có thể dùng ảnh riêng (PNG/ICO/JPG) |
 | Tệp DAT | Danh sách game dùng để đổi tên (định dạng OfflineList / No-Intro). Không cần nếu chỉ chơi |
 | Thư mục ROM | Thư mục chứa ROM. Nếu nhiều thì cách nhau bằng `;` |
 | Phần mở rộng | Phần mở rộng sẽ đọc (ví dụ `.nes;.zip`) |

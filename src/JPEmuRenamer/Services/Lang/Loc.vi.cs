@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Tên hệ máy",
         ["Preset"] = "Chọn mẫu",
         ["Icon"] = "Biểu tượng",
-        ["IconColor"] = "Màu biểu tượng",
         ["CustomIcon"] = "Biểu tượng riêng (tùy chọn)",
         ["DatFile"] = "Tệp DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Thư mục ROM (cách nhau bằng ;)",

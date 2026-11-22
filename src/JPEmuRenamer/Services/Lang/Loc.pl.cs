@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Nazwa systemu",
         ["Preset"] = "Wybierz szablon",
         ["Icon"] = "Ikona",
-        ["IconColor"] = "Kolor ikony",
         ["CustomIcon"] = "Własna ikona (opcjonalnie)",
         ["DatFile"] = "Plik DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Foldery ROM (oddziel ;)",

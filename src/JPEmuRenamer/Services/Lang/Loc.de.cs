@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Systemname",
         ["Preset"] = "Vorlage wählen",
         ["Icon"] = "Symbol",
-        ["IconColor"] = "Symbolfarbe",
         ["CustomIcon"] = "Eigenes Symbol (optional)",
         ["DatFile"] = "DAT-Datei (OfflineList / No-Intro)",
         ["RomFolder"] = "ROM-Ordner (mit ; trennen)",

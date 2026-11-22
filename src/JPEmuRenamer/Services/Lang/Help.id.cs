@@ -18,11 +18,11 @@ JPEmu Renamer merapikan ROM hasil dump Anda sendiri dan memungkinkan Anda langsu
 > Gunakan ROM yang Anda dump dari software milik Anda sendiri.
 
 # Pengaturan sistem
-Pilih sistem di kiri lalu buka "Pengaturan sistem" di kanan atas. Tambahkan sistem dengan "+ Tambah sistem". Memilih templat akan mengisi ekstensi, ikon, warna, dan core bawaan.
+Pilih sistem di kiri lalu buka "Pengaturan sistem" di kanan atas. Tambahkan sistem dengan "+ Tambah sistem". Memilih templat akan mengisi ekstensi, ikon, dan core bawaan.
 
 | Item | Keterangan |
 | Nama sistem | Nama yang tampil di daftar |
-| Ikon / warna | Ikon di daftar sistem. Gambar sendiri (PNG/ICO/JPG) juga bisa |
+| Ikon | Ikon di daftar sistem (warnanya mengikuti tema). Gambar sendiri (PNG/ICO/JPG) juga bisa |
 | File DAT | Daftar game untuk penggantian nama (format OfflineList / No-Intro). Tidak perlu jika hanya bermain |
 | Folder ROM | Folder berisi ROM. Pisahkan dengan `;` jika lebih dari satu |
 | Ekstensi | Ekstensi yang dibaca (mis. `.nes;.zip`) |

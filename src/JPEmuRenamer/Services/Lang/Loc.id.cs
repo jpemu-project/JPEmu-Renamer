@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Nama sistem",
         ["Preset"] = "Pilih templat",
         ["Icon"] = "Ikon",
-        ["IconColor"] = "Warna ikon",
         ["CustomIcon"] = "Ikon sendiri (opsional)",
         ["DatFile"] = "File DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Folder ROM (pisahkan dengan ;)",

@@ -18,11 +18,11 @@ JPEmu Renamer, kendi aldığınız ROM'ları düzenler ve onları hemen oynaman�
 > Sahip olduğunuz yazılımlardan aldığınız ROM'ları kullanın.
 
 # Sistem ayarları
-Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Sistem ekle" ile yeni sistem ekleyebilirsiniz. Bir şablon seçmek uzantıları, simgeyi, rengi ve yerleşik çekirdeği doldurur.
+Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Sistem ekle" ile yeni sistem ekleyebilirsiniz. Bir şablon seçmek uzantıları, simgeyi ve yerleşik çekirdeği doldurur.
 
 | Öğe | Açıklama |
 | Sistem adı | Listede görünen ad |
-| Simge / renk | Sistem listesindeki simge. Kendi resimleriniz (PNG/ICO/JPG) de kullanılabilir |
+| Simge | Sistem listesindeki simge (rengi temaya uyar). Kendi resimleriniz (PNG/ICO/JPG) de kullanılabilir |
 | DAT dosyası | Yeniden adlandırma için oyun listesi (OfflineList / No-Intro biçimi). Yalnızca oynayacaksanız gerekmez |
 | ROM klasörleri | ROM'ların bulunduğu klasörler. Birden çoksa `;` ile ayırın |
 | Uzantılar | Okunacak uzantılar (ör. `.nes;.zip`) |

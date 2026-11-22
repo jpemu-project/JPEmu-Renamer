@@ -278,14 +278,14 @@
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
                                     <Grid Width="44" Height="44">
-                                        <!-- 機種の色の水玉に入った実機の絵 -->
+                                        <!-- テーマの色の水玉に入った実機の絵 -->
                                         <Grid Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
                                             <Ellipse Margin="-4.5" Stroke="{DynamicResource AccentBrush}" StrokeThickness="5" Opacity="0.3" IsHitTestVisible="False"
                                                      Style="{StaticResource SystemIconRing}" />
                                             <Ellipse Margin="-3.5" Stroke="{DynamicResource AccentBrush}" StrokeThickness="2.4" IsHitTestVisible="False"
                                                      Style="{StaticResource SystemIconRing}" />
                                             <!-- 影は別に描く（絵に直接付けるとぼやける） -->
-                                            <Ellipse Margin="1.5" Fill="{Binding IconBrush}">
+                                            <Ellipse Margin="1.5" Fill="{DynamicResource AccentBrush}">
                                                 <Ellipse.Effect>
                                                     <DropShadowEffect Color="#10233F" Direction="270" BlurRadius="7" ShadowDepth="2.4" Opacity="0.45" />
                                                 </Ellipse.Effect>

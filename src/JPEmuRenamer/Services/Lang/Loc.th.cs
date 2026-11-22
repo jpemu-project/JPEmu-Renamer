@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "ชื่อเครื่อง",
         ["Preset"] = "เลือกแม่แบบ",
         ["Icon"] = "ไอคอน",
-        ["IconColor"] = "สีไอคอน",
         ["CustomIcon"] = "ไอคอนของคุณเอง (ไม่บังคับ)",
         ["DatFile"] = "ไฟล์ DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "โฟลเดอร์ ROM (คั่นด้วย ;)",

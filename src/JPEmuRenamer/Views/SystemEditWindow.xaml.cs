@@ -134,7 +134,6 @@ public partial class SystemEditWindow : Window
         NameBox.Text = c.Name;
         fallbackKind = c.IconKind;
         Select(IconBox, c.AutoIcon ? AutoIconTag : c.IconKind);
-        ColorBox.Text = c.Color;
         CustomIconBox.Text = c.CustomIconPath;
         DatBox.Text = c.DatPath;
         RomBox.Text = string.Join(";", c.RomFolders);
@@ -154,22 +153,21 @@ public partial class SystemEditWindow : Window
         ExtBox.Text = p.Extensions;
         fallbackKind = p.Icon;
         Select(IconBox, AutoIconTag);
-        ColorBox.Text = p.Color;
+        config.Color = p.Color;
         DisplayOnlyCheck.IsChecked = p.DisplayRenameOnly;
         RefreshCores("");
     }
 
     private void OnIconChanged(object sender, SelectionChangedEventArgs e) => UpdateIconPreview();
-    private void OnColorChanged(object sender, TextChangedEventArgs e) => UpdateIconPreview();
 
     private void OnNameChanged(object sender, TextChangedEventArgs e) => UpdateIconPreview();
 
     private void UpdateIconPreview()
     {
-        if (IconPreview == null || IconBox == null || ColorBox == null || NameBox == null) return;
+        if (IconPreview == null || IconBox == null || NameBox == null) return;
         var choice = Selected(IconBox, AutoIconTag);
         bool auto = choice == AutoIconTag;
-        IconPreview.Source = OrbIcon.Get(NameBox.Text.Trim(), auto ? fallbackKind : choice, auto, ColorBox.Text);
+        IconPreview.Source = OrbIcon.Get(NameBox.Text.Trim(), auto ? fallbackKind : choice, auto);
     }
 
     private void OnBrowseIcon(object sender, RoutedEventArgs e)
@@ -235,7 +233,6 @@ public partial class SystemEditWindow : Window
         var icon = Selected(IconBox, AutoIconTag);
         config.AutoIcon = icon == AutoIconTag;
         config.IconKind = config.AutoIcon ? fallbackKind : icon;
-        config.Color = ColorBox.Text.Trim();
         config.CustomIconPath = CopyCustomIcon(CustomIconBox.Text.Trim());
         config.DatPath = Storage.FromInput(DatBox.Text.Trim().Trim('"'));
         config.RomFolders = RomBox.Text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)

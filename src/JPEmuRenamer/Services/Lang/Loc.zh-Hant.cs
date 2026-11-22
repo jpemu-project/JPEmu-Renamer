@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "主機名稱",
         ["Preset"] = "從範本選擇",
         ["Icon"] = "圖示",
-        ["IconColor"] = "圖示顏色",
         ["CustomIcon"] = "自訂圖示（選填）",
         ["DatFile"] = "DAT 檔（OfflineList・No-Intro 格式）",
         ["RomFolder"] = "ROM 資料夾（以 ; 分隔）",

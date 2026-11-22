@@ -18,11 +18,11 @@ JPEmu Renamer gère les ROM que vous avez extraites vous-même et vous permet d'
 > Utilisez des ROM extraites de logiciels que vous possédez.
 
 # Paramètres du système
-Choisissez un système à gauche et ouvrez « Paramètres du système » en haut à droite. Ajoutez des systèmes avec « + Ajouter un système ». Choisir un modèle remplit les extensions, l'icône, la couleur et le cœur intégré.
+Choisissez un système à gauche et ouvrez « Paramètres du système » en haut à droite. Ajoutez des systèmes avec « + Ajouter un système ». Choisir un modèle remplit les extensions, l'icône et le cœur intégré.
 
 | Élément | Description |
 | Nom du système | Nom affiché dans la liste |
-| Icône / couleur | Icône dans la liste des systèmes. Les images personnalisées (PNG/ICO/JPG) sont acceptées |
+| Icône | Icône dans la liste des systèmes (sa couleur suit le thème). Les images personnalisées (PNG/ICO/JPG) sont acceptées |
 | Fichier DAT | Liste de jeux utilisée pour renommer (format OfflineList / No-Intro). Facultatif si vous voulez seulement jouer |
 | Dossiers de ROM | Dossiers contenant les ROM. Séparez-les par `;` |
 | Extensions | Extensions à lire (ex. : `.nes;.zip`) |

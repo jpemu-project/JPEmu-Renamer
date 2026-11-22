@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Название системы",
         ["Preset"] = "Выбрать шаблон",
         ["Icon"] = "Значок",
-        ["IconColor"] = "Цвет значка",
         ["CustomIcon"] = "Свой значок (необязательно)",
         ["DatFile"] = "Файл DAT (OfflineList / No-Intro)",
         ["RomFolder"] = "Папки с ROM (через ;)",

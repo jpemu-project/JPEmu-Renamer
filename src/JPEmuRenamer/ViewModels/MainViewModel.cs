@@ -50,6 +50,10 @@ public partial class MainViewModel : ObservableObject
         Systems.CollectionChanged += (_, _) => OnPropertyChanged(nameof(HasNoSystems));
         itemsView = CollectionViewSource.GetDefaultView(items);
 
+        Ui.ThemeManager.Changed += () =>
+        {
+            foreach (var s in Systems) s.RefreshIcon();
+        };
         Loc.Instance.PropertyChanged += (_, e) =>
         {
             if (e.PropertyName != nameof(Loc.Language)) return;

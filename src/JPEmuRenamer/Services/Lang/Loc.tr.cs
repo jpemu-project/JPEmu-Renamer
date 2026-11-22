@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "Sistem adı",
         ["Preset"] = "Şablon seç",
         ["Icon"] = "Simge",
-        ["IconColor"] = "Simge rengi",
         ["CustomIcon"] = "Özel simge (isteğe bağlı)",
         ["DatFile"] = "DAT dosyası (OfflineList / No-Intro)",
         ["RomFolder"] = "ROM klasörleri (; ile ayırın)",

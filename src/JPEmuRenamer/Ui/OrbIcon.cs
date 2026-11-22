@@ -7,7 +7,7 @@ using JPEmuRenamer.Services;
 namespace JPEmuRenamer.Ui;
 
 /// <summary>
-/// 機種のアイコン：機種の色の水玉の中に、実機の絵（MachineIcons）か線画（IconFactory）を入れる。
+/// 機種のアイコン：テーマの色の水玉の中に、実機の絵（MachineIcons）か線画（IconFactory）を入れる。
 /// 48×48 の絵で、どの大きさでもぼやけない。
 /// </summary>
 public static class OrbIcon
@@ -17,21 +17,20 @@ public static class OrbIcon
     private const double ArtRadius = 20.8;
     private static readonly Point Center = new(24, 24);
 
-    private static readonly Dictionary<(string art, Color color), ImageSource> Cache = new();
+    private static readonly Dictionary<(string art, Color from, Color to), ImageSource> Cache = new();
 
-    public static ImageSource For(SystemConfig c) => Get(c.Name, c.IconKind, c.AutoIcon, c.Color);
+    public static ImageSource For(SystemConfig c) => Get(c.Name, c.IconKind, c.AutoIcon);
 
     /// <param name="auto">機種名に合う実機の絵があれば、それを使う</param>
-    public static ImageSource Get(string name, string? kind, bool auto, string? color)
+    public static ImageSource Get(string name, string? kind, bool auto)
     {
         var machine = auto ? SystemPresets.JapaneseNameOf(name) : null;
         var parts = MachineIcons.Get(machine);
-        var ball = BrushUtil.FromHex(color).Color;
-        ball.A = 255;
-        var key = (parts != null ? "m:" + machine : "k:" + kind, ball);
+        var (from, to) = ThemeManager.AccentColors;
+        var key = (parts != null ? "m:" + machine : "k:" + kind, from, to);
         if (Cache.TryGetValue(key, out var cached)) return cached;
 
-        var image = new DrawingImage(Draw(ball, parts, kind));
+        var image = new DrawingImage(Draw(from, to, parts, kind));
         image.Freeze();
         Cache[key] = image;
         return image;
@@ -62,20 +61,22 @@ public static class OrbIcon
         LineJoin = PenLineJoin.Round, StartLineCap = PenLineCap.Round, EndLineCap = PenLineCap.Round
     };
 
-    private static Drawing Draw(Color color, IconPart[]? parts, string? kind)
+    private static Drawing Draw(Color from, Color to, IconPart[]? parts, string? kind)
     {
+        var color = Mix(from, to, .5);
         var all = new DrawingGroup();
         using (var dc = all.Open())
         {
             dc.DrawRectangle(Brushes.Transparent, null, new Rect(0, 0, 48, 48)); // 絵の大きさを 48×48 にそろえる
 
-            // 水玉：上が濃く、下に光が集まる
-            var fill = new RadialGradientBrush { Center = new Point(.5, .8), GradientOrigin = new Point(.5, .92), RadiusX = .8, RadiusY = .88 };
-            fill.GradientStops.Add(new GradientStop(Mix(color, Colors.White, .8), 0));
-            fill.GradientStops.Add(new GradientStop(Mix(color, Colors.White, .18), .38));
-            fill.GradientStops.Add(new GradientStop(color, .62));
-            fill.GradientStops.Add(new GradientStop(Deep(color), 1));
-            dc.DrawEllipse(fill, Line(Alpha(Deep(Deep(color)), .75), .8), Center, BallRadius, BallRadius);
+            // 水玉：選んだボタンと同じグラデーションに、ふちの濃さと下に集まる光を重ねる
+            dc.DrawEllipse(new LinearGradientBrush(from, to, new Point(0, 0), new Point(1, 1)), null, Center, BallRadius, BallRadius);
+            var shade = new RadialGradientBrush { Center = new Point(.5, .8), GradientOrigin = new Point(.5, .92), RadiusX = .8, RadiusY = .88 };
+            shade.GradientStops.Add(new GradientStop(White(.78), 0));
+            shade.GradientStops.Add(new GradientStop(White(.14), .38));
+            shade.GradientStops.Add(new GradientStop(Alpha(color, 0), .62));
+            shade.GradientStops.Add(new GradientStop(Alpha(Deep(color), .55), 1));
+            dc.DrawEllipse(shade, Line(Alpha(Deep(color), .8), .8), Center, BallRadius, BallRadius);
 
             // 奥の照り返し
             dc.DrawEllipse(Vertical((0, White(.75)), (.5, White(.22)), (1, White(0))), null, new Point(24, 11.5), 16.5, 10.2);

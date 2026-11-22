@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "기종 이름",
         ["Preset"] = "후보에서 선택",
         ["Icon"] = "아이콘",
-        ["IconColor"] = "아이콘 색",
         ["CustomIcon"] = "사용자 아이콘(선택)",
         ["DatFile"] = "DAT 파일(OfflineList / No-Intro)",
         ["RomFolder"] = "ROM 폴더(여러 개는 ; 로 구분)",

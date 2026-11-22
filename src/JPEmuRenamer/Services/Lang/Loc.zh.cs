@@ -118,7 +118,6 @@ public sealed partial class Loc
         ["Name"] = "机种名称",
         ["Preset"] = "从候选中选择",
         ["Icon"] = "图标",
-        ["IconColor"] = "图标颜色",
         ["CustomIcon"] = "自定义图标（可选）",
         ["DatFile"] = "DAT 文件（OfflineList・No-Intro 格式）",
         ["RomFolder"] = "ROM 文件夹（多个用 ; 分隔）",

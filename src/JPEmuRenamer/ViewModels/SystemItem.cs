@@ -19,7 +19,6 @@ public partial class SystemItem : ObservableObject
 
     public string Name => Config.Name;
     public ImageSource Icon => OrbIcon.For(Config);
-    public Brush IconBrush => BrushUtil.FromHex(Config.Color);
     public ImageSource? CustomIcon => BrushUtil.LoadImage(Config.CustomIconPath);
     public bool HasCustomIcon => CustomIcon != null;
 
@@ -45,10 +44,12 @@ public partial class SystemItem : ObservableObject
         Config = config;
         OnPropertyChanged(nameof(Name));
         OnPropertyChanged(nameof(Icon));
-        OnPropertyChanged(nameof(IconBrush));
         OnPropertyChanged(nameof(CustomIcon));
         OnPropertyChanged(nameof(HasCustomIcon));
     }
+
+    /// <summary>テーマが変わったので、水玉の色を替える</summary>
+    public void RefreshIcon() => OnPropertyChanged(nameof(Icon));
 
     public void RefreshTexts() => OnPropertyChanged(nameof(CountText));
 }
