@@ -73,6 +73,8 @@ public class SystemConfig
     public string Name { get; set; } = "";
     /// <summary>cart / diskcard / disc / handV / handH / dual / arcade / pc / pad</summary>
     public string IconKind { get; set; } = "cart";
+    /// <summary>機種名に合う実機の絵があれば、IconKind の線画の代わりに使う（この項目が無い古い設定も自動）</summary>
+    public bool AutoIcon { get; set; } = true;
     /// <summary>アイコンの色（#RRGGBB）</summary>
     public string Color { get; set; } = "#F06B70";
     /// <summary>自作アイコン画像のパス（空なら内蔵アイコン）</summary>

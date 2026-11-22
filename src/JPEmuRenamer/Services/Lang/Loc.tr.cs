@@ -181,6 +181,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "Atari salonu",
         ["Icon_pc"] = "Bilgisayar",
         ["Icon_pad"] = "Diğer",
+        ["IconAuto"] = "Otomatik (sistem adına göre)",
         ["Axis_0"] = "Sol çubuk X",
         ["Axis_1"] = "Sol çubuk Y",
         ["Axis_2"] = "Sağ çubuk X",

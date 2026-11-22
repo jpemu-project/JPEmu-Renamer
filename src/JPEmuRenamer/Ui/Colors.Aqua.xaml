@@ -72,10 +72,8 @@
     <SolidColorBrush x:Key="ErrFgBrush" Color="#B91C1C" />
 
     <!-- 機種アイコン：地の色で小さく浮き上がる -->
-    <sys:Double x:Key="SystemIconFilled">0</sys:Double>
     <CornerRadius x:Key="SystemIconRadius">14</CornerRadius>
     <SolidColorBrush x:Key="SystemIconBgBrush" Color="#DCEDF7" />
-    <SolidColorBrush x:Key="SystemIconGlossBrush" Color="Transparent" />
 
     <!-- テレビ風プレビュー：地の色で浮き上がった枠に、へこんだ画面を埋め込む -->
     <SolidColorBrush x:Key="TvBezelBrush" Color="#DCEDF7" />

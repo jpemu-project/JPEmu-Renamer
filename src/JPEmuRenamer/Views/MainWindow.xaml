@@ -86,11 +86,12 @@
                 </DataTrigger>
             </Style.Triggers>
         </Style>
-        <Style x:Key="SystemIconWhite" TargetType="Path">
-            <Setter Property="Opacity" Value="{DynamicResource SystemIconFilled}" />
+        <!-- 選んでいる機種：水玉のまわりに光る輪 -->
+        <Style x:Key="SystemIconRing" TargetType="Ellipse">
+            <Setter Property="Visibility" Value="Collapsed" />
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource AncestorType=ListBoxItem}}" Value="True">
-                    <Setter Property="Opacity" Value="1" />
+                    <Setter Property="Visibility" Value="Visible" />
                 </DataTrigger>
             </Style.Triggers>
         </Style>
@@ -276,22 +277,27 @@
                                         <ColumnDefinition Width="Auto" />
                                         <ColumnDefinition Width="*" />
                                     </Grid.ColumnDefinitions>
-                                    <Border Width="44" Height="44" CornerRadius="{DynamicResource SystemIconRadius}" Style="{StaticResource SystemIconBox}" BorderThickness="1">
-                                        <Grid>
-                                            <!-- アクアモード：機種の色の水玉に白いアイコン（ほかのモードでは透明） -->
-                                            <Ellipse Fill="{Binding IconBrush}" Opacity="{DynamicResource SystemIconFilled}" IsHitTestVisible="False" />
-                                            <Viewbox Width="32" Height="32" Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
-                                                <Canvas Width="48" Height="48">
-                                                    <Path Data="{Binding Icon}" Stroke="{Binding IconBrush}" StrokeThickness="2.6"
-                                                          StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                                                    <Path Data="{Binding Icon}" Stroke="White" StrokeThickness="2.6" Style="{StaticResource SystemIconWhite}"
-                                                          StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                                                </Canvas>
-                                            </Viewbox>
-                                            <Ellipse Width="32" Height="18" VerticalAlignment="Top" Margin="0,2,0,0" Fill="{DynamicResource SystemIconGlossBrush}" IsHitTestVisible="False" />
-                                            <Image Source="{Binding CustomIcon}" Width="34" Height="34" Visibility="{Binding HasCustomIcon, Converter={StaticResource BoolToVis}}" />
+                                    <Grid Width="44" Height="44">
+                                        <!-- 機種の色の水玉に入った実機の絵 -->
+                                        <Grid Visibility="{Binding HasCustomIcon, Converter={StaticResource InvBoolToVis}}">
+                                            <Ellipse Margin="-4.5" Stroke="{DynamicResource AccentBrush}" StrokeThickness="5" Opacity="0.3" IsHitTestVisible="False"
+                                                     Style="{StaticResource SystemIconRing}" />
+                                            <Ellipse Margin="-3.5" Stroke="{DynamicResource AccentBrush}" StrokeThickness="2.4" IsHitTestVisible="False"
+                                                     Style="{StaticResource SystemIconRing}" />
+                                            <!-- 影は別に描く（絵に直接付けるとぼやける） -->
+                                            <Ellipse Margin="1.5" Fill="{Binding IconBrush}">
+                                                <Ellipse.Effect>
+                                                    <DropShadowEffect Color="#10233F" Direction="270" BlurRadius="7" ShadowDepth="2.4" Opacity="0.45" />
+                                                </Ellipse.Effect>
+                                            </Ellipse>
+                                            <Image Source="{Binding Icon}" />
                                         </Grid>
-                                    </Border>
+                                        <!-- 自作アイコンは、今までどおり角丸の台に載せる -->
+                                        <Border CornerRadius="{DynamicResource SystemIconRadius}" Style="{StaticResource SystemIconBox}" BorderThickness="1"
+                                                Visibility="{Binding HasCustomIcon, Converter={StaticResource BoolToVis}}">
+                                            <Image Source="{Binding CustomIcon}" Width="34" Height="34" />
+                                        </Border>
+                                    </Grid>
                                     <StackPanel Grid.Column="1" Margin="12,0,0,0" VerticalAlignment="Center">
                                         <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" />
                                         <TextBlock Text="{Binding CountText}" Style="{StaticResource Muted}" FontSize="12" TextWrapping="Wrap" />

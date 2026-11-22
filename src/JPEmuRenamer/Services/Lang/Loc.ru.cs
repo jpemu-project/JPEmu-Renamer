@@ -181,6 +181,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "Аркада",
         ["Icon_pc"] = "Компьютер",
         ["Icon_pad"] = "Другое",
+        ["IconAuto"] = "Автоматически (по названию системы)",
         ["Axis_0"] = "Левый стик X",
         ["Axis_1"] = "Левый стик Y",
         ["Axis_2"] = "Правый стик X",

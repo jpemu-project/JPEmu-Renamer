@@ -35,7 +35,7 @@
                 <ComboBox x:Name="PresetBox" SelectionChanged="OnPresetChanged" />
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [Name], Source={x:Static s:Loc.Instance}}" />
-                <TextBox x:Name="NameBox" LostFocus="OnNameOrExtChanged" />
+                <TextBox x:Name="NameBox" LostFocus="OnNameOrExtChanged" TextChanged="OnNameChanged" />
 
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -46,13 +46,7 @@
                     <StackPanel>
                         <TextBlock Style="{StaticResource Label}" Text="{Binding [Icon], Source={x:Static s:Loc.Instance}}" />
                         <DockPanel>
-                            <Border DockPanel.Dock="Left" Width="40" Height="40" CornerRadius="10" Background="{DynamicResource Panel2Brush}" Margin="0,0,10,0">
-                                <Viewbox Width="28" Height="28">
-                                    <Canvas Width="48" Height="48">
-                                        <Path x:Name="IconPreview" StrokeThickness="2.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" StrokeLineJoin="Round" />
-                                    </Canvas>
-                                </Viewbox>
-                            </Border>
+                            <Image x:Name="IconPreview" DockPanel.Dock="Left" Width="40" Height="40" Margin="0,0,10,0" />
                             <ComboBox x:Name="IconBox" SelectionChanged="OnIconChanged" VerticalAlignment="Center" />
                         </DockPanel>
                     </StackPanel>

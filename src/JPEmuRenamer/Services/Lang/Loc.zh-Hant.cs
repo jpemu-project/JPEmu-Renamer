@@ -182,6 +182,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "街機",
         ["Icon_pc"] = "電腦",
         ["Icon_pad"] = "其他",
+        ["IconAuto"] = "自動（依機種名稱）",
         ["Axis_0"] = "左搖桿 左右",
         ["Axis_1"] = "左搖桿 上下",
         ["Axis_2"] = "右搖桿 左右",

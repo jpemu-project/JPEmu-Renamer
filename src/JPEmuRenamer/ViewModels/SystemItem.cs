@@ -18,7 +18,7 @@ public partial class SystemItem : ObservableObject
     public SystemConfig Config { get; private set; }
 
     public string Name => Config.Name;
-    public Geometry Icon => IconFactory.Get(Config.IconKind);
+    public ImageSource Icon => OrbIcon.For(Config);
     public Brush IconBrush => BrushUtil.FromHex(Config.Color);
     public ImageSource? CustomIcon => BrushUtil.LoadImage(Config.CustomIconPath);
     public bool HasCustomIcon => CustomIcon != null;

@@ -15,6 +15,9 @@ public partial class SystemEditWindow : Window
     private readonly SystemConfig config;
     private readonly bool isNew;
     private bool loading = true;
+    private const string AutoIconTag = "auto";
+    /// <summary>「自動」のとき、実機の絵が無い機種に出す線画の種類</summary>
+    private string fallbackKind = "cart";
 
     public SystemConfig? Result { get; private set; }
     public bool Deleted { get; private set; }
@@ -29,6 +32,7 @@ public partial class SystemEditWindow : Window
 
         PresetBox.ItemsSource = SystemPresets.All;
         // アイコンの名前は Loc の Icon_cart などから
+        AddItem(IconBox, AutoIconTag, Loc.T("IconAuto"));
         foreach (var kind in SystemPresets.IconKinds)
             IconBox.Items.Add(new ComboBoxItem { Content = Loc.T("Icon_" + kind), Tag = kind });
         AddItem(HeaderBox, "Auto", Loc.T("HeaderAuto"));
@@ -128,7 +132,8 @@ public partial class SystemEditWindow : Window
     private void Fill(SystemConfig c)
     {
         NameBox.Text = c.Name;
-        Select(IconBox, c.IconKind);
+        fallbackKind = c.IconKind;
+        Select(IconBox, c.AutoIcon ? AutoIconTag : c.IconKind);
         ColorBox.Text = c.Color;
         CustomIconBox.Text = c.CustomIconPath;
         DatBox.Text = c.DatPath;
@@ -147,7 +152,8 @@ public partial class SystemEditWindow : Window
         if (loading || PresetBox.SelectedItem is not SystemPreset p) return;
         NameBox.Text = p.DisplayName;
         ExtBox.Text = p.Extensions;
-        Select(IconBox, p.Icon);
+        fallbackKind = p.Icon;
+        Select(IconBox, AutoIconTag);
         ColorBox.Text = p.Color;
         DisplayOnlyCheck.IsChecked = p.DisplayRenameOnly;
         RefreshCores("");
@@ -156,11 +162,14 @@ public partial class SystemEditWindow : Window
     private void OnIconChanged(object sender, SelectionChangedEventArgs e) => UpdateIconPreview();
     private void OnColorChanged(object sender, TextChangedEventArgs e) => UpdateIconPreview();
 
+    private void OnNameChanged(object sender, TextChangedEventArgs e) => UpdateIconPreview();
+
     private void UpdateIconPreview()
     {
-        if (IconPreview == null || IconBox == null || ColorBox == null) return;
-        IconPreview.Data = IconFactory.Get(Selected(IconBox, "pad"));
-        IconPreview.Stroke = BrushUtil.FromHex(ColorBox.Text);
+        if (IconPreview == null || IconBox == null || ColorBox == null || NameBox == null) return;
+        var choice = Selected(IconBox, AutoIconTag);
+        bool auto = choice == AutoIconTag;
+        IconPreview.Source = OrbIcon.Get(NameBox.Text.Trim(), auto ? fallbackKind : choice, auto, ColorBox.Text);
     }
 
     private void OnBrowseIcon(object sender, RoutedEventArgs e)
@@ -223,7 +232,9 @@ public partial class SystemEditWindow : Window
         }
 
         config.Name = name;
-        config.IconKind = Selected(IconBox, "pad");
+        var icon = Selected(IconBox, AutoIconTag);
+        config.AutoIcon = icon == AutoIconTag;
+        config.IconKind = config.AutoIcon ? fallbackKind : icon;
         config.Color = ColorBox.Text.Trim();
         config.CustomIconPath = CopyCustomIcon(CustomIconBox.Text.Trim());
         config.DatPath = Storage.FromInput(DatBox.Text.Trim().Trim('"'));

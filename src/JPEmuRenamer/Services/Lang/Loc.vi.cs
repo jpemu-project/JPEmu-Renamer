@@ -180,6 +180,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "Arcade",
         ["Icon_pc"] = "Máy tính",
         ["Icon_pad"] = "Khác",
+        ["IconAuto"] = "Tự động (theo tên hệ máy)",
         ["Axis_0"] = "Cần trái X",
         ["Axis_1"] = "Cần trái Y",
         ["Axis_2"] = "Cần phải X",

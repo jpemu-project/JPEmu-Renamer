@@ -181,6 +181,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "อาร์เคด",
         ["Icon_pc"] = "คอมพิวเตอร์",
         ["Icon_pad"] = "อื่น ๆ",
+        ["IconAuto"] = "อัตโนมัติ (ตามชื่อระบบ)",
         ["Axis_0"] = "ก้านซ้าย X",
         ["Axis_1"] = "ก้านซ้าย Y",
         ["Axis_2"] = "ก้านขวา X",

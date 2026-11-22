@@ -182,6 +182,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "아케이드",
         ["Icon_pc"] = "컴퓨터",
         ["Icon_pad"] = "기타",
+        ["IconAuto"] = "자동(기종 이름에 맞춤)",
         ["Axis_0"] = "왼쪽 스틱 가로",
         ["Axis_1"] = "왼쪽 스틱 세로",
         ["Axis_2"] = "오른쪽 스틱 가로",

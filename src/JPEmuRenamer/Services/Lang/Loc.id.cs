@@ -180,6 +180,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "Arkade",
         ["Icon_pc"] = "Komputer",
         ["Icon_pad"] = "Lainnya",
+        ["IconAuto"] = "Otomatis (sesuai nama sistem)",
         ["Axis_0"] = "Stik kiri X",
         ["Axis_1"] = "Stik kiri Y",
         ["Axis_2"] = "Stik kanan X",

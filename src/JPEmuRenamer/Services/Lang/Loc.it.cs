@@ -180,6 +180,7 @@ public sealed partial class Loc
         ["Icon_arcade"] = "Arcade",
         ["Icon_pc"] = "Computer",
         ["Icon_pad"] = "Altro",
+        ["IconAuto"] = "Automatica (in base al sistema)",
         ["Axis_0"] = "Levetta sinistra X",
         ["Axis_1"] = "Levetta sinistra Y",
         ["Axis_2"] = "Levetta destra X",
