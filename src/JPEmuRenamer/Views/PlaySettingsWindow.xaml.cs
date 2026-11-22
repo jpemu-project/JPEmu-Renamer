@@ -362,7 +362,7 @@ public partial class PlaySettingsWindow : Window
         box.LostFocus += (_, _) =>
         {
             if (updating) return;
-            var v = box.Text.Trim().Trim('"');
+            var v = Storage.FromInput(box.Text.Trim().Trim('"'));
             var cur = Get(Effective, prop) as string ?? "";
             if (v == cur) return;
             Set(prop, v);
@@ -384,7 +384,15 @@ public partial class PlaySettingsWindow : Window
             box.Text = Get(Effective, prop) as string ?? "";
             updating = false;
         }));
+        Mark(p, box);
         Note(p, Loc.F("EmptyMeansDefault", defaultPath));
+    }
+
+    private static void Mark(Panel p, TextBox box)
+    {
+        var mark = new Ui.PortableMark();
+        mark.SetBinding(Ui.PortableMark.PathProperty, new System.Windows.Data.Binding(nameof(TextBox.Text)) { Source = box });
+        p.Children.Add(mark);
     }
 
     private void BiosFolder(Panel p)
@@ -397,7 +405,7 @@ public partial class PlaySettingsWindow : Window
         panel.Children.Add(box);
         box.LostFocus += (_, _) =>
         {
-            context.App.BiosDir = box.Text.Trim().Trim('"');
+            box.Text = context.App.BiosDir = Storage.FromInput(box.Text.Trim().Trim('"'));
             Changed();
         };
         browse.Click += (_, _) =>
@@ -408,6 +416,7 @@ public partial class PlaySettingsWindow : Window
             Changed();
         };
         Row(p, Loc.T("BiosDir"), () => !string.IsNullOrEmpty(context.App.BiosDir), () => { context.App.BiosDir = ""; box.Text = ""; }, panel);
+        Mark(p, box);
         Note(p, Loc.F("EmptyMeansDefault", Storage.DefaultBiosDir));
     }
 

@@ -140,6 +140,14 @@ public class RomFile
     /// <summary>ZIP内のROMのエントリ名（ZIPでなければ null）</summary>
     public string? InnerName { get; set; }
     public long RomSize { get; set; }
+
+    /// <summary>場所だけを替えた複製</summary>
+    public RomFile WithPath(string path)
+    {
+        var copy = (RomFile)MemberwiseClone();
+        copy.Path = path;
+        return copy;
+    }
 }
 
 /// <summary>リネーム1回分の履歴</summary>

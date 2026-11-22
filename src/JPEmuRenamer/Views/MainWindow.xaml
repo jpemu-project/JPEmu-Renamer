@@ -719,6 +719,7 @@
                                             Content="{Binding [Browse], Source={x:Static s:Loc.Instance}}" />
                                     <TextBox Text="{Binding UnknownFolder, UpdateSourceTrigger=LostFocus}" />
                                 </DockPanel>
+                                <ui:PortableMark Path="{Binding UnknownFolder, Mode=OneWay}" />
                                 <TextBlock Text="{Binding [UnknownHint], Source={x:Static s:Loc.Instance}}" Foreground="{DynamicResource MutedBrush}"
                                            FontSize="12" TextWrapping="Wrap" Margin="0,8,0,0" />
                             </StackPanel>

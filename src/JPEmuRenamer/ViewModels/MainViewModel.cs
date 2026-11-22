@@ -699,7 +699,7 @@ public partial class MainViewModel : ObservableObject
         get => SelectedSystem?.Config.UnknownFolder ?? "";
         set
         {
-            value = (value ?? "").Trim().Trim('"');
+            value = Storage.FromInput((value ?? "").Trim().Trim('"'));
             if (SelectedSystem == null || SelectedSystem.Config.UnknownFolder == value) return;
             SelectedSystem.Config.UnknownFolder = value;
             Save();
@@ -712,22 +712,26 @@ public partial class MainViewModel : ObservableObject
     {
         if (IsBusy) return;
         var history = Storage.LoadHistory();
-        var last = history.LastOrDefault();
-        if (last == null)
+        if (history.Count == 0)
         {
             Info?.Invoke(Loc.T("NothingToUndo"));
             return;
         }
+        // いちばん新しい回から、いま戻せるものを選ぶ（外したドライブの記録が残っていても、ほかの回は戻せるように）
+        IsBusy = true;
+        var last = await Task.Run(() => history.LastOrDefault(Renamer.CanUndoAny)) ?? history[^1];
+        IsBusy = false;
         if (Confirm?.Invoke(Loc.F("ConfirmUndo", last.At.ToString("yyyy/MM/dd HH:mm"), last.Records.Count)) != true) return;
 
         IsBusy = true;
         var errors = new List<string>();
         int count = await Task.Run(() => Renamer.Undo(last, errors));
-        history.RemoveAt(history.Count - 1);
+        if (last.Records.Count == 0) history.Remove(last);
         Storage.SaveHistory(history);
         IsBusy = false;
 
         var msg = Loc.F("UndoDone", count);
+        if (last.Records.Count > 0) msg += "\n" + Loc.F("UndoKept", last.Records.Count);
         if (errors.Count > 0) msg += "\n\n" + string.Join("\n", errors.Take(10));
         Info?.Invoke(msg);
         await ReloadAsync();

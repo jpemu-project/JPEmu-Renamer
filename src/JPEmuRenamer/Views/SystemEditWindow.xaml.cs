@@ -226,15 +226,15 @@ public partial class SystemEditWindow : Window
         config.IconKind = Selected(IconBox, "pad");
         config.Color = ColorBox.Text.Trim();
         config.CustomIconPath = CopyCustomIcon(CustomIconBox.Text.Trim());
-        config.DatPath = DatBox.Text.Trim().Trim('"');
+        config.DatPath = Storage.FromInput(DatBox.Text.Trim().Trim('"'));
         config.RomFolders = RomBox.Text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries)
-            .Select(f => f.Trim('"')).ToList();
-        config.OwnShotFolder = OwnShotBox.Text.Trim().Trim('"');
+            .Select(f => Storage.FromInput(f.Trim('"'))).ToList();
+        config.OwnShotFolder = Storage.FromInput(OwnShotBox.Text.Trim().Trim('"'));
         config.Extensions = SystemPresets.ParseExtensions(ExtBox.Text);
         config.HeaderMode = Selected(HeaderBox, "Auto");
         config.DisplayRenameOnly = DisplayOnlyCheck.IsChecked == true;
         config.LaunchMode = Selected(LaunchModeBox, "Core");
-        config.EmulatorPath = ExeBox.Text.Trim().Trim('"');
+        config.EmulatorPath = Storage.FromInput(ExeBox.Text.Trim().Trim('"'));
         config.EmulatorArgs = string.IsNullOrWhiteSpace(ArgsBox.Text) ? "\"{rom}\"" : ArgsBox.Text.Trim();
         // 候補の先頭（既定）を選んでいるときは空にして、候補の変更に追従させる
         var probe = new SystemConfig { Name = config.Name, Extensions = config.Extensions };

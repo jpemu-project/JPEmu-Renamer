@@ -99,29 +99,59 @@ public static class Renamer
         }
     }
 
+    /// <summary>この回のうち、いま戻せるファイルが1つでもあるか</summary>
+    public static bool CanUndoAny(RenameRun run) => run.Records.Any(r =>
+    {
+        var (from, to) = Storage.ResolveRecord(r);
+        return CanUndo(from, to);
+    });
+
+    private static bool CanUndo(string from, string to) =>
+        File.Exists(to) && (!File.Exists(from) || string.Equals(from, to, StringComparison.OrdinalIgnoreCase));
+
+    /// <summary>元に戻す。戻せたものだけを記録から除き、戻せなかったものは残す</summary>
     public static int Undo(RenameRun run, List<string> errors)
     {
-        int count = 0;
+        var done = new HashSet<RenameRecord>();
         foreach (var r in Enumerable.Reverse(run.Records))
         {
             try
             {
-                if (!File.Exists(r.To) || (File.Exists(r.From) && !string.Equals(r.From, r.To, StringComparison.OrdinalIgnoreCase)))
+                var (from, to) = Storage.ResolveRecord(r);
+                if (!CanUndo(from, to))
                 {
-                    errors.Add(System.IO.Path.GetFileName(r.To));
+                    errors.Add(System.IO.Path.GetFileName(to));
                     continue;
                 }
-                File.Move(r.To, r.From);
-                if (r.InnerFrom != null && r.InnerTo != null)
-                    RenameZipEntry(r.From, r.InnerTo, r.InnerFrom);
-                count++;
+                File.Move(to, from);
+                if (r.InnerFrom != null && r.InnerTo != null && !RestoreZipEntry(from, r.InnerTo, r.InnerFrom))
+                {
+                    // ファイル名は戻ったので、ZIPの中の名前の分だけを記録に残す
+                    r.To = r.From;
+                    errors.Add(System.IO.Path.GetFileName(from) + " > " + r.InnerTo);
+                    continue;
+                }
+                done.Add(r);
             }
             catch (Exception ex)
             {
                 errors.Add(System.IO.Path.GetFileName(r.To) + "：" + ex.Message);
             }
         }
-        return count;
+        run.Records.RemoveAll(done.Contains);
+        return done.Count;
+    }
+
+    private static bool RestoreZipEntry(string zipPath, string oldName, string newName)
+    {
+        if (RenameZipEntry(zipPath, oldName, newName)) return true;
+        try
+        {
+            // 直す相手がもう無ければ、残しても戻しようがない
+            using var zip = ZipFile.OpenRead(zipPath);
+            return zip.GetEntry(oldName) == null;
+        }
+        catch { return false; }
     }
 
     /// <summary>ZIP内のエントリ名を変える（新しいエントリにコピーして古いものを消す）</summary>

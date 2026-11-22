@@ -35,8 +35,9 @@ public static class RomScanner
             try
             {
                 var fi = new FileInfo(path);
-                if (cache.TryGetValue(path, out var cached) && cached.Size == fi.Length && cached.LastWriteTicks == fi.LastWriteTimeUtc.Ticks)
+                if (cache.TryGetValue(path, out var cached) && cached.Size == fi.Length && SameTime(cached.LastWriteTicks, fi.LastWriteTimeUtc.Ticks))
                 {
+                    cached.LastWriteTicks = fi.LastWriteTimeUtc.Ticks;
                     result.Add(cached);
                 }
                 else
@@ -52,6 +53,17 @@ public static class RomScanner
             if (i % 8 == 0 || i == files.Count - 1) progress?.Report((i + 1, files.Count));
         }
         return result;
+    }
+
+    /// <summary>
+    /// 同じ更新日時か。USBメモリにコピーすると日時が丸められる（FAT32 は2秒、exFAT は10ミリ秒の単位）ので、その分は同じとみなす
+    /// </summary>
+    private static bool SameTime(long cached, long actual)
+    {
+        var diff = Math.Abs(cached - actual);
+        return diff == 0
+            || (actual % (2 * TimeSpan.TicksPerSecond) == 0 && diff < 2 * TimeSpan.TicksPerSecond)
+            || (actual % (10 * TimeSpan.TicksPerMillisecond) == 0 && diff < 10 * TimeSpan.TicksPerMillisecond);
     }
 
     private static RomFile? Compute(FileInfo fi, HashSet<string> exts)
