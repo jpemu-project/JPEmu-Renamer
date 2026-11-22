@@ -11,7 +11,7 @@ public sealed record IconPart(Geometry Shape, Color Color, bool Body = false, bo
 /// 機種ごとの実機の絵（48×48 の座標。すべて描き起こしで、メーカーのロゴは入れない）。
 /// キーは候補（SystemPresets）の日本語名。無い機種は IconFactory の線画で表示する。
 /// </summary>
-public static class MachineIcons
+public static partial class MachineIcons
 {
     private static readonly Lazy<Dictionary<string, IconPart[]>> All = new(Build);
 
@@ -42,7 +42,26 @@ public static class MachineIcons
         Freeze(Geometry.Combine(Rect(x - len / 2, y - t / 2, len, t, .4), Rect(x - t / 2, y - len / 2, t, len, .4), GeometryCombineMode.Union, null)),
         Hex(c));
 
-    private static Dictionary<string, IconPart[]> Build() => new()
+    /// <summary>等間隔に並んだ四角（キー・スリット）を1つの部品にする</summary>
+    private static IconPart G(double x, double y, int cols, int rows, double w, double h, double gap, string c)
+    {
+        var g = new StreamGeometry();
+        using (var d = g.Open())
+            for (int r = 0; r < rows; r++)
+                for (int k = 0; k < cols; k++)
+                {
+                    double left = x + k * (w + gap), top = y + r * (h + gap);
+                    d.BeginFigure(new Point(left, top), true, true);
+                    d.PolyLineTo(new[] { new Point(left + w, top), new Point(left + w, top + h), new Point(left, top + h) }, true, false);
+                }
+        return new IconPart(Freeze(g), Hex(c));
+    }
+
+    private static Dictionary<string, IconPart[]> Build() =>
+        Classics().Concat(Consoles()).Concat(Handhelds()).Concat(Computers()).ToDictionary(p => p.Key, p => p.Value);
+
+    /// <summary>主要な21機種</summary>
+    private static Dictionary<string, IconPart[]> Classics() => new()
     {
         ["ファミコン"] = new[]
         {
