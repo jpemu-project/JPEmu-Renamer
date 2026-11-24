@@ -23,9 +23,13 @@ public partial class SystemEditWindow : Window
     public bool Deleted { get; private set; }
 
 
-    public SystemEditWindow(SystemConfig? existing)
+    /// <summary>BIOSフォルダ（説明と「開く」ボタンに使う）</summary>
+    private readonly string biosDir;
+
+    public SystemEditWindow(SystemConfig? existing, string? biosDir = null)
     {
         InitializeComponent();
+        this.biosDir = string.IsNullOrWhiteSpace(biosDir) ? Storage.DefaultBiosDir : biosDir;
         isNew = existing == null;
         config = existing?.Clone() ?? new SystemConfig { Name = "", Extensions = new List<string> { ".zip" } };
         DeleteButton.Visibility = isNew ? Visibility.Collapsed : Visibility.Visible;
@@ -43,6 +47,7 @@ public partial class SystemEditWindow : Window
 
         Fill(config);
         loading = false;
+        LaunchModeBox.SelectionChanged += (_, _) => { if (!loading) UpdateCoreStatus(); };
         UpdateIconPreview();
         RefreshCores(config.CoreName);
     }
@@ -66,8 +71,7 @@ public partial class SystemEditWindow : Window
     {
         // BIOSの説明は、選んでいるコアによって変わることがある
         var probe = new SystemConfig { Name = NameBox.Text.Trim(), Extensions = SystemPresets.ParseExtensions(ExtBox.Text) };
-        var bios = CoreCatalog.BiosHintFor(probe, (CoreBox.SelectedItem as CoreInfo)?.Name);
-        BiosHint.Text = string.IsNullOrEmpty(bios) ? "" : Loc.F("BiosNeeded", bios);
+        UpdateBiosPanel(probe, (CoreBox.SelectedItem as CoreInfo)?.Name);
         if (CoreBox.SelectedItem is not CoreInfo core)
         {
             CoreStatus.Text = "";
@@ -80,6 +84,54 @@ public partial class SystemEditWindow : Window
         CoreDownloadButton.Content = installed ? Loc.T("CoreUpdate") : Loc.T("CoreDownload");
         CoreStatus.Text = (installed ? Loc.T("CoreInstalled") : Loc.T("CoreNotInstalled"))
                           + (core.HardwareRendered ? "\n" + Loc.T("CoreHwNote") : "");
+    }
+
+    /// <summary>
+    /// この機種に要るBIOSの説明。ファイルごとに「ある・ない」を出し、BIOSフォルダの直下にその名前で入れればよいことを書く
+    /// </summary>
+    private void UpdateBiosPanel(SystemConfig probe, string? coreName)
+    {
+        BiosList.Children.Clear();
+        var files = Selected(LaunchModeBox, "Core") == "External" ? new List<BiosFile>() : BiosCatalog.For(probe, coreName);
+        if (files.Count == 0)
+        {
+            BiosPanel.Visibility = Visibility.Collapsed;
+            return;
+        }
+        BiosPanel.Visibility = Visibility.Visible;
+        var core = string.IsNullOrEmpty(coreName) ? CoreCatalog.CoreNameFor(probe) : coreName;
+        var extra = CoreCatalog.SystemKeyOf(probe) is "ネオジオ" or "アーケード"
+            ? RomBox.Text.Split(';', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).Select(Storage.ResolvePath).ToList()
+            : null;
+        BiosTitle.Text = Loc.T(files.Any(f => f.Required) ? "BiosPanelTitle" : "BiosPanelTitleOptional");
+        BiosHint.Text = Loc.F("BiosPanelHowTo", biosDir);
+        foreach (var f in files)
+        {
+            bool found = BiosCatalog.Found(f, biosDir, core, extra);
+            var name = f.Folder ? f.Path.Replace('/', '\\') + "\\" : f.FileName;
+            var line = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = 12.5, Margin = new Thickness(0, 2, 0, 0) };
+            line.Inlines.Add(new System.Windows.Documents.Run((found ? "✓ " : f.Required ? "✗ " : "– ") + name)
+            {
+                FontWeight = FontWeights.SemiBold,
+                Foreground = (System.Windows.Media.Brush)FindResource(found ? "OkFgBrush" : f.Required ? "ErrFgBrush" : "MutedBrush"),
+            });
+            var notes = new List<string>();
+            if (!f.Required) notes.Add(Loc.T("BiosOptionalMark"));
+            var others = f.Alternatives.Select(System.IO.Path.GetFileName).Where(n => !string.Equals(n, f.FileName, StringComparison.OrdinalIgnoreCase))
+                .Distinct(StringComparer.OrdinalIgnoreCase).ToList();
+            if (others.Count > 0) notes.Add(Loc.F("BiosAlternatives", string.Join(", ", others)));
+            if (f.Note.Length > 0) notes.Add(Loc.T(f.Note));
+            if (notes.Count > 0)
+                line.Inlines.Add(new System.Windows.Documents.Run("  " + string.Join(" ", notes)) { Foreground = (System.Windows.Media.Brush)FindResource("MutedBrush") });
+            BiosList.Children.Add(line);
+        }
+    }
+
+    private void OnOpenBiosFolder(object sender, RoutedEventArgs e)
+    {
+        BiosCatalog.EnsureDir(biosDir);
+        try { System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo("explorer.exe", "\"" + biosDir + "\"") { UseShellExecute = true }); }
+        catch { }
     }
 
     private void OnCoreChanged(object sender, SelectionChangedEventArgs e)

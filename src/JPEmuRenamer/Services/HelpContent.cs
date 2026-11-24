@@ -51,7 +51,7 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 | 外部exe・引数 | 外部のエミュレーターで遊ぶときに指定します |
 
 ## BIOSが必要な機種
-ディスクシステム、メガCD、PCエンジン CD-ROM²、セガサターン、ネオジオなどは、BIOSファイルが必要です。必要なファイル名は「機種の設定」の内蔵コアの下に表示されます。BIOSは「プレイ設定」→「詳細」→「BIOSフォルダ」に置いてください（既定は設定フォルダの `system`）。
+ディスクシステム、メガCD、PCエンジン CD-ROM²、セガサターン、ネオジオなどは、BIOSファイルが必要です。必要なファイル名と、あるかどうかは「機種の設定」の内蔵コアの下に表示されます。BIOSは、その名前のまま「プレイ設定」→「詳細」→「BIOSフォルダ」に直接入れてください（既定は設定フォルダの `system`。アプリを起動すると自動で作られ、「機種の設定」の「BIOSフォルダを開く」で開けます）。コアがサブフォルダ（`Mupen64plus` など）に探すファイルも、起動するときにアプリが写すので、すべて1つのフォルダで管理できます。
 
 # ゲームを起動する
 ## 起動のしかた
@@ -108,7 +108,7 @@ MSX・PC-8801・PC-9801・X68000・X1 などのパソコン系の機種では、
 - ステートセーブなど、ほかのホットキーはメニューから使ってください。ゲームパッドは、そのままジョイスティックとして使えます。
 - Amiga・X68000・PC-9801・FM TOWNS・Atari ST・マッキントッシュ・MS-DOS では、ゲーム画面をクリックするとマウスをゲームで使えます。F12 でメニューを開くか、ほかのウィンドウに切り替えると戻ります。
 - ディスクが2枚以上のゲームは、ディスクのファイル名を1行に1つずつ書いた `.m3u` ファイルを作って起動すると、メニューの「ディスクを入れ替える」で入れ替えられます。
-- BIOS（ROM）は、機種の設定に表示される案内のとおりに、BIOSフォルダ（またはその中のコアごとのフォルダ）に置いてください。
+- BIOS（ROM）は、機種の設定に表示される名前のまま、BIOSフォルダに直接置いてください。サブフォルダに分ける必要はありません。
 # プレイ中のメニュー
 `F1`（またはパッドのガイドボタン）でメニューを開くと、ゲームが一時停止します。`↑` `↓` で選び、`Enter`（パッドのA）で決定、`Esc`（パッドのB）で閉じます。
 
@@ -307,7 +307,7 @@ Choose a system on the left and open "System settings" at the top right. Add sys
 | Emulator exe / arguments | Used when playing with an external emulator |
 
 ## Systems that need a BIOS
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo and others need BIOS files. The file names are shown under the built-in core in "System settings". Put them in "Play settings" → "Advanced" → "BIOS folder" (default: `system` in the settings folder).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo and others need BIOS files. The file names, and whether each one is found, are shown under the built-in core in "System settings". Put them, keeping those names, directly in "Play settings" → "Advanced" → "BIOS folder" (default: `system` in the settings folder; it is created when the app starts and opens from "Open BIOS folder" in "System settings"). Files a core looks for in a subfolder (such as `Mupen64plus`) are copied there by the app at launch, so one folder holds everything.
 
 # Launching games
 ## How to launch
@@ -364,7 +364,7 @@ On computer systems such as MSX, PC-8801, PC-9801, X68000 and X1, the keyboard g
 - Use the menu for the other hotkeys, such as save states. A gamepad still works as the joystick.
 - On Amiga, X68000, PC-9801, FM TOWNS, Atari ST, Macintosh and MS-DOS, click the game screen to use the mouse in the game. Open the menu with F12 or switch to another window to release it.
 - For games with two or more disks, make an `.m3u` file listing the disk file names one per line and launch it; then "Swap disk" in the menu changes disks.
-- Put BIOS (ROM) files in the BIOS folder, or the core's folder inside it, as shown in the system settings.
+- Put BIOS (ROM) files directly in the BIOS folder with the names shown in the system settings. No subfolders are needed.
 # In-game menu
 `F1` (or the pad's Guide button) opens the menu and pauses the game. Use `↑` `↓` to select, `Enter` (pad A) to confirm and `Esc` (pad B) to close.
 

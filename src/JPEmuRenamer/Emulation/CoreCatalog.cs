@@ -343,6 +343,9 @@ public static class CoreCatalog
 
     public static CoreInfo? Get(string name) => Cores.GetValueOrDefault(name) ?? InfoOnlyCores.Value.GetValueOrDefault(name);
 
+    /// <summary>この機種の候補の日本語名（分からなければ null）</summary>
+    public static string? SystemKeyOf(SystemConfig sys) => SystemKey(sys);
+
     private static string? SystemKey(SystemConfig sys)
     {
         if (BySystem.ContainsKey(sys.Name)) return sys.Name;
@@ -399,81 +402,10 @@ public static class CoreCatalog
     }
 
     /// <summary>
-    /// 無いと起動できないBIOS（機種 → 必要なファイルの組。組の中はどれか1つあればよく、組はすべて必要）。
-    /// GBA・DS・プレイステーションのBIOSは、コアが代わりの仕組みを持っていて無くても動くので含めない
-    /// </summary>
-    private static readonly Dictionary<string, string[][]> RequiredBios = new()
-    {
-        ["ディスクシステム"] = new[] { new[] { "disksys.rom" } },
-        ["ニンテンドーDSiウェア"] = new[]
-        {
-            new[] { "bios7.bin" }, new[] { "bios9.bin" }, new[] { "dsi_bios7.bin" }, new[] { "dsi_bios9.bin" }
-        },
-        ["メガCD"] = new[] { new[] { "bios_CD_J.bin" } },
-        ["セガサターン"] = new[] { new[] { "sega_101.bin", "mpr-17933.bin" } },
-        ["PCエンジン CD-ROM²"] = new[] { new[] { "syscard3.pce" } },
-        ["ネオジオ"] = new[] { new[] { "neogeo.zip" } },
-        ["サテラビュー"] = new[] { new[] { "BS-X.bin" } },
-        ["PC-FX"] = new[] { new[] { "pcfx.rom" } },
-        ["スーパーカセットビジョン"] = new[] { new[] { "upd7801g.s01" } },
-        ["3DO"] = new[] { new[] { "panafz10.bin", "panafz10-norsa.bin", "panafz1.bin", "panafz1j.bin", "panafz1j-norsa.bin", "goldstar.bin", "sanyotry.bin", "3do_arcade_saot.bin" } },
-        ["アタリ5200"] = new[] { new[] { "5200.rom" } },
-        ["アタリ リンクス"] = new[] { new[] { "lynxboot.img" } },
-        ["コレコビジョン"] = new[] { new[] { "colecovision.rom" } },
-        ["インテレビジョン"] = new[] { new[] { "exec.bin" }, new[] { "grom.bin" } },
-        ["オデッセイ²"] = new[] { new[] { "o2rom.bin" } },
-        ["チャンネルF"] = new[] { new[] { "sl31254.bin" }, new[] { "sl31253.bin", "sl90025.bin" } },
-        // ここから下は、コア情報ファイルで「必須」とされているもの（BIOSフォルダの中のコア用フォルダからも探す）
-        ["FM TOWNS"] = new[]
-        {
-            new[] { "FMT_SYS.ROM", "fmtowns.zip", "fmtowns/fmt_sys.rom", "fmtownsux.zip", "fmtownshr.zip", "fmtownsftv.zip", "fmtownsmx.zip", "fmtmarty.zip" }
-        },
-        ["CD-i"] = new[] { new[] { "bios/cdimono1.zip" } },
-        ["X68000"] = new[] { new[] { "keropi/iplrom.dat" }, new[] { "keropi/cgrom.dat" } },
-        ["マッキントッシュ"] = new[] { new[] { "MacII.ROM" } },
-        ["Amiga CD32"] = new[] { new[] { "kick40060.CD32" }, new[] { "kick40060.CD32.ext" } },
-        ["スーファミターボ"] = new[] { new[] { "STBIOS.bin" } },
-        ["クリエイティビジョン"] = new[] { new[] { "bioscv.rom" } },
-        ["ハイパースキャン"] = new[] { new[] { "spg290.bin" }, new[] { "hyperscan.bin" } },
-        ["Commander X16"] = new[] { new[] { "x16/rom.bin" } },
-        ["NAOMI"] = new[] { new[] { "dc/naomi.zip" } },
-        ["NAOMI 2"] = new[] { new[] { "dc/naomi2.zip" } },
-        ["アトミスウェイブ"] = new[] { new[] { "dc/awbios.zip" } },
-        ["ビデオパック+"] = new[] { new[] { "g7400.bin" } },
-        ["TI-83"] = new[] { new[] { "ti83se.rom", "ti83plus.rom", "ti83.rom" } },
-    };
-
-    /// <summary>
     /// この機種で必要なBIOSが見つからなければ、足りないファイル名を返す（そろっている・不要なら null）。
-    /// BIOSフォルダとその中のコア用フォルダ、ネオジオはROMフォルダも探す。
+    /// 中身は BiosCatalog にある。BIOSフォルダの直下にファイル名だけで置いてあっても見つかる
     /// </summary>
-    public static string? MissingBios(SystemConfig sys, string biosDir)
-    {
-        var key = SystemKey(sys);
-        var core = CoreNameFor(sys);
-        // LRPS2 は pcsx2\bios の中にBIOSが1つでもあればよい（ファイル名は自由）
-        if (core == "pcsx2")
-            return HasAnyFile(Path.Combine(biosDir, "pcsx2", "bios")) ? null : "pcsx2\\bios\\（PS2 BIOS）";
-        if (key == null || !RequiredBios.TryGetValue(key, out var groups)) return null;
-        // Yabause はBIOSが無くても動く（Beetle Saturn は必要）
-        if (key == "セガサターン" && core == "yabause") return null;
-        var dirs = new List<string> { biosDir, Path.Combine(biosDir, core), Path.Combine(biosDir, "melonDS DS") };
-        if (key == "ネオジオ") dirs.AddRange(sys.RomFolders);
-        var missing = groups
-            .Where(names => !dirs.Any(dir => names.Any(n => Exists(Path.Combine(dir, n)))))
-            .Select(names => names[0]).ToList();
-        return missing.Count > 0 ? string.Join(" / ", missing) : null;
-    }
-
-    private static bool HasAnyFile(string dir)
-    {
-        try { return Directory.Exists(dir) && Directory.EnumerateFiles(dir, "*", SearchOption.AllDirectories).Any(); } catch { return false; }
-    }
-
-    private static bool Exists(string path)
-    {
-        try { return File.Exists(path); } catch { return false; }
-    }
+    public static string? MissingBios(SystemConfig sys, string biosDir) => BiosCatalog.Missing(sys, biosDir);
 
     /// <summary>機種名の表示用（日本語以外では候補の英語名にする）</summary>
     public static string SystemDisplayName(string japaneseKey) =>
@@ -566,6 +498,9 @@ public static class CoreCatalog
         ["dolphin"] = ("dolphin-emu\\Sys", "Dolphin"),
         ["pcsx2"] = ("pcsx2\\resources", "LRPS2"),
     };
+
+    /// <summary>部品を配布サイトから取ってくるコアか</summary>
+    public static bool HasCoreAssets(string coreName) => CoreAssets.ContainsKey(coreName);
 
     /// <summary>このコアに必要な部品が、まだ BIOSフォルダに無いか（あれば取ってくる必要がある）</summary>
     public static bool NeedsCoreAssets(string coreName, string systemDir) =>

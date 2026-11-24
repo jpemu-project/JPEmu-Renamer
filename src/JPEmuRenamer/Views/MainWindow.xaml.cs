@@ -197,7 +197,7 @@ public partial class MainWindow : Window
 
     private (SystemConfig? config, bool deleted) EditSystem(SystemConfig? config)
     {
-        var dlg = new SystemEditWindow(config) { Owner = this };
+        var dlg = new SystemEditWindow(config, BiosCatalog.DirOf(vm.Settings)) { Owner = this };
         var ok = dlg.ShowDialog() == true;
         if (dlg.Deleted) return (null, true);
         return ok ? (dlg.Result, false) : (null, false);

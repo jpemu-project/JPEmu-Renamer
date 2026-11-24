@@ -101,7 +101,18 @@
                     <ComboBox x:Name="CoreBox" SelectionChanged="OnCoreChanged" />
                 </DockPanel>
                 <TextBlock x:Name="CoreStatus" Foreground="{DynamicResource MutedBrush}" FontSize="12.5" Margin="0,6,0,0" TextWrapping="Wrap" />
-                <TextBlock x:Name="BiosHint" Foreground="{DynamicResource MutedBrush}" FontSize="12.5" Margin="0,4,0,0" TextWrapping="Wrap" />
+                <Border x:Name="BiosPanel" Background="{DynamicResource PanelBrush}" BorderBrush="{DynamicResource LineBrush}" BorderThickness="1"
+                        CornerRadius="8" Padding="12,10" Margin="0,8,0,0" Visibility="Collapsed">
+                    <StackPanel>
+                        <DockPanel>
+                            <Button x:Name="OpenBiosButton" DockPanel.Dock="Right" Click="OnOpenBiosFolder" Margin="8,0,0,0"
+                                    Content="{Binding [OpenBiosFolder], Source={x:Static s:Loc.Instance}}" />
+                            <TextBlock x:Name="BiosTitle" FontWeight="SemiBold" VerticalAlignment="Center" TextWrapping="Wrap" />
+                        </DockPanel>
+                        <TextBlock x:Name="BiosHint" Foreground="{DynamicResource MutedBrush}" FontSize="12.5" Margin="0,6,0,0" TextWrapping="Wrap" />
+                        <StackPanel x:Name="BiosList" Margin="0,6,0,0" />
+                    </StackPanel>
+                </Border>
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [EmulatorPath], Source={x:Static s:Loc.Instance}}" />
                 <DockPanel>

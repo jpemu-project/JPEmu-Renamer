@@ -48,7 +48,7 @@ public sealed class PlayContext
 
     public PlaySettings Resolve() => PlaySettings.Resolve(App.Play, System?.Play, Game?.Play);
 
-    public string BiosDir => string.IsNullOrWhiteSpace(App.BiosDir) ? Storage.DefaultBiosDir : App.BiosDir;
+    public string BiosDir => BiosCatalog.DirOf(App);
 
     public void Save()
     {

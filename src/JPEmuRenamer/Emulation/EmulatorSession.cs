@@ -342,6 +342,8 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
         }
         Directory.CreateDirectory(SaveDir);
         Directory.CreateDirectory(req.BiosDir);
+        // BIOSは BIOSフォルダの直下に置くだけでよい。コアが決まったサブフォルダ（Mupen64plus\ など）に探すものは、ここで写しておく
+        BiosCatalog.Stage(req.System, req.CoreName, req.BiosDir);
 
         // PPSSPP などは、フォントなどの部品が BIOSフォルダに要る。無ければ初めての起動のときに配布サイトから取ってくる
         if (CoreCatalog.NeedsCoreAssets(req.CoreName, req.BiosDir)) Loading?.Invoke(Loc.F("CoreAssetsDownloading", req.CoreName));
