@@ -155,6 +155,9 @@ public partial class SystemEditWindow : Window
         Select(IconBox, AutoIconTag);
         config.Color = p.Color;
         DisplayOnlyCheck.IsChecked = p.DisplayRenameOnly;
+        // 内蔵コアで動かない機種は、外部のエミュレーターで起動する（exe は利用者が選ぶ）
+        Select(LaunchModeBox, p.ExternalArgs != null ? "External" : "Core");
+        if (p.ExternalArgs != null) ArgsBox.Text = p.ExternalArgs;
         RefreshCores("");
     }
 

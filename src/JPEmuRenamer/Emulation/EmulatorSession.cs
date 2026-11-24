@@ -1039,8 +1039,10 @@ public sealed unsafe class EmulatorSession : IRetroHost, IDisposable
 
     // ---------- コア固有の設定 ----------
 
+    /// <summary>プレイ設定で選んだ値。無ければ、機種ごとの初期値（ビデオパック+ なら G7400 など）</summary>
     public string? GetOptionValue(string key) =>
-        settings.CoreOptions != null && settings.CoreOptions.TryGetValue(key, out var v) ? v : null;
+        settings.CoreOptions != null && settings.CoreOptions.TryGetValue(key, out var v) ? v
+        : CoreCatalog.DefaultCoreOption(req.System, req.CoreName, key);
 
     public bool ConsumeOptionsChanged()
     {

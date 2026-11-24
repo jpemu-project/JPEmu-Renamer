@@ -24,6 +24,7 @@ Pilih sistem di kiri lalu buka "Pengaturan sistem" di kanan atas. Tambahkan sist
 | Nama sistem | Nama yang tampil di daftar |
 | Ikon | Ikon di daftar sistem (warnanya mengikuti tema). Gambar sendiri (PNG/ICO/JPG) juga bisa |
 | Arkade | Sistem dengan "Pertahankan nama file" dicocokkan dengan DAT memakai nama ZIP set ROM (mis. sf2.zip). Daftar game yang belum dimiliki hanya menampilkan set induk, tanpa klon (versi wilayah atau revisi) |
+| Emulator eksternal | PS3, PS Vita, Xbox, Xbox 360, dan Wii U tidak berjalan di core bawaan. Siapkan sendiri emulator seperti RPCS3, Vita3K, xemu, Xenia, atau Cemu lalu atur sebagai exe eksternal (templat mengisi argumennya) |
 | File DAT | Daftar game untuk penggantian nama (format OfflineList / No-Intro). Tidak perlu jika hanya bermain |
 | Folder ROM | Folder berisi ROM. Pisahkan dengan `;` jika lebih dari satu |
 | Ekstensi | Ekstensi yang dibaca (mis. `.nes;.zip`) |

@@ -24,6 +24,7 @@ Scegli un sistema a sinistra e apri "Impostazioni sistema" in alto a destra. Agg
 | Nome del sistema | Nome mostrato nell'elenco |
 | Icona | Icona nell'elenco dei sistemi (il colore segue il tema). Sono supportate immagini personalizzate (PNG/ICO/JPG) |
 | Arcade | I sistemi con «Mantieni i nomi file» vengono confrontati con il DAT tramite il nome dello ZIP del set (es. sf2.zip). Tra i giochi mancanti compaiono solo i set principali, non i cloni (versioni regionali o riviste) |
+| Emulatori esterni | PS3, PS Vita, Xbox, Xbox 360 e Wii U non funzionano con i core integrati. Procurati un emulatore come RPCS3, Vita3K, xemu, Xenia o Cemu e impostalo come exe esterno (il modello compila gli argomenti) |
 | File DAT | Elenco dei giochi usato per rinominare (formato OfflineList / No-Intro). Facoltativo se vuoi solo giocare |
 | Cartelle ROM | Cartelle che contengono le ROM. Separale con `;` |
 | Estensioni | Estensioni da leggere (es. `.nes;.zip`) |

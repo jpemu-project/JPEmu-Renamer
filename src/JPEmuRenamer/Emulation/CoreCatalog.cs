@@ -125,6 +125,15 @@ public static class CoreCatalog
         new("pcsx2", "LRPS2", true),
         new("play", "Play!", true),
         new("supermodel", "Supermodel", true),
+        new("numero", "Numero"),
+        new("vice_xcbm5x0", "VICE xcbm5x0"),
+        new("gametank", "GameTank"),
+        new("galaksija", "Galaksija"),
+        new("virtualxt", "VirtualXT"),
+        new("mojozork", "MojoZork"),
+        new("squirreljme", "SquirrelJME"),
+        new("dirksimple", "DirkSimple"),
+        new("dingooemu", "DingooEmu"),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
@@ -132,13 +141,13 @@ public static class CoreCatalog
     {
         "fmsx", "bluemsx", "quasi88", "np2kai", "px68k", "x1", "fuse", "vice_x64", "puae", "cap32", "atari800", "geartowns",
         "hatari", "vice_x128", "vice_xvic", "vice_xplus4", "vice_xpet", "vice_xcbm2", "81", "theodore", "minivmac", "bk", "dosbox_pure",
-        "applewin", "ep128emu_core", "m2000", "b2", "x16emu"
+        "applewin", "ep128emu_core", "m2000", "b2", "x16emu", "vice_xcbm5x0", "galaksija", "virtualxt", "mojozork"
     };
 
     public static bool UsesKeyboard(string coreName) => KeyboardCores.Contains(coreName);
 
     /// <summary>マウスで操作するゲームが多いコア。ゲーム画面をクリックすると、マウスをゲームに渡す</summary>
-    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai", "geartowns", "hatari", "minivmac", "dosbox_pure" };
+    private static readonly HashSet<string> MouseCores = new(StringComparer.OrdinalIgnoreCase) { "puae", "px68k", "np2kai", "geartowns", "hatari", "minivmac", "dosbox_pure", "virtualxt" };
 
     public static bool UsesMouse(string coreName) => MouseCores.Contains(coreName);
 
@@ -268,6 +277,30 @@ public static class CoreCatalog
         ["NAOMI 2"] = (new[] { "flycast" }, "dc\\naomi2.zip"),
         ["アトミスウェイブ"] = (new[] { "flycast" }, "dc\\awbios.zip"),
         ["Model 3"] = (new[] { "supermodel" }, ""),
+        // ---- 同じコアで、初期設定（SystemCoreOptions）を替えて動かす機種 ----
+        ["ビデオパック+"] = (new[] { "o2em" }, "g7400.bin"),
+        ["CDTV"] = (new[] { "puae" }, "kick34005.CDTV"),
+        ["Atari STE"] = (new[] { "hatari" }, "tos.img（STE 用の TOS 1.06 以降）"),
+        ["Atari TT"] = (new[] { "hatari" }, "tos.img（TT 用の TOS 3.0x）"),
+        ["スーパーゲームボーイ"] = (new[] { "mgba" }, "sgb_bios.bin?"),
+        // ---- コアを登録するだけで動く機種 ----
+        ["TI-83"] = (new[] { "numero" }, "ti83se.rom / ti83plus.rom / ti83.rom のどれか"),
+        ["VC 4000"] = (new[] { "amiarcadia" }, ""),
+        ["TV-Computer"] = (new[] { "ep128emu_core" }, "ep128emu\\roms\\tvc22_sys.rom / tvc22_ext.rom?"),
+        ["CBM-500"] = (new[] { "vice_xcbm5x0" }, ""),
+        ["GameTank"] = (new[] { "gametank" }, ""),
+        ["Galaksija"] = (new[] { "galaksija" }, "galaksija\\ROM1.BIN / ROM2.BIN / CHRGEN.BIN?"),
+        ["PC/XT"] = (new[] { "virtualxt" }, ""),
+        ["Z-Machine"] = (new[] { "mojozork" }, ""),
+        ["Java の携帯ゲーム"] = (new[] { "squirreljme" }, ""),
+        ["レーザーディスク"] = (new[] { "dirksimple" }, ""),
+        ["Dingoo A320"] = (new[] { "dingooemu" }, ""),
+        // ---- 内蔵コアでは動かない機種（外部のエミュレーターで起動する）。候補のコアは無い ----
+        ["プレイステーション3"] = (Array.Empty<string>(), ""),
+        ["PS Vita"] = (Array.Empty<string>(), ""),
+        ["Xbox"] = (Array.Empty<string>(), ""),
+        ["Xbox 360"] = (Array.Empty<string>(), ""),
+        ["Wii U"] = (Array.Empty<string>(), ""),
         ["プレイステーション2"] = (new[] { "pcsx2", "play" }, "pcsx2\\bios\\（PS2 のBIOS。ファイル名は自由。Play! では不要）"),
     };
 
@@ -406,6 +439,8 @@ public static class CoreCatalog
         ["NAOMI"] = new[] { new[] { "dc/naomi.zip" } },
         ["NAOMI 2"] = new[] { new[] { "dc/naomi2.zip" } },
         ["アトミスウェイブ"] = new[] { new[] { "dc/awbios.zip" } },
+        ["ビデオパック+"] = new[] { new[] { "g7400.bin" } },
+        ["TI-83"] = new[] { new[] { "ti83se.rom", "ti83plus.rom", "ti83.rom" } },
     };
 
     /// <summary>
@@ -449,7 +484,33 @@ public static class CoreCatalog
     {
         if (!string.IsNullOrWhiteSpace(sys.CoreName)) return sys.CoreName;
         var key = SystemKey(sys);
-        return key != null ? BySystem[key].cores[0] : "";
+        return key != null && BySystem[key].cores.Length > 0 ? BySystem[key].cores[0] : "";
+    }
+
+    /// <summary>
+    /// 機種ごとのコアの初期設定。同じコアで別の機種を動かすためのもので、利用者がプレイ設定で選んだ値があればそちらが優先。
+    /// キーは候補の日本語名。値は（そのコアのときだけ使う, 設定名 → 値）。設定名と値は各コアの libretro_core_options に合わせる
+    /// </summary>
+    private static readonly Dictionary<string, (string core, Dictionary<string, string> options)> SystemCoreOptions = new()
+    {
+        ["ビデオパック+"] = ("o2em", new() { ["o2em_bios"] = "g7400.bin" }),
+        ["オデッセイ²"] = ("o2em", new() { ["o2em_bios"] = "o2rom.bin" }),
+        ["CDTV"] = ("puae", new() { ["puae_model"] = "CDTV" }),
+        ["Amiga CD32"] = ("puae", new() { ["puae_model"] = "CD32" }),
+        ["Atari ST"] = ("hatari", new() { ["hatari_machinetype"] = "st" }),
+        ["Atari STE"] = ("hatari", new() { ["hatari_machinetype"] = "ste" }),
+        ["Atari TT"] = ("hatari", new() { ["hatari_machinetype"] = "tt" }),
+        ["Atari Falcon"] = ("hatari", new() { ["hatari_machinetype"] = "falcon" }),
+        ["スーパーゲームボーイ"] = ("mgba", new() { ["mgba_gb_model"] = "Super Game Boy", ["mgba_sgb_borders"] = "ON" }),
+    };
+
+    /// <summary>この機種とコアの組み合わせでの、設定の初期値（決まっていなければ null）</summary>
+    public static string? DefaultCoreOption(SystemConfig sys, string coreName, string key)
+    {
+        var name = SystemKey(sys);
+        return name != null && SystemCoreOptions.TryGetValue(name, out var o)
+               && string.Equals(o.core, coreName, StringComparison.OrdinalIgnoreCase)
+               && o.options.TryGetValue(key, out var v) ? v : null;
     }
 
     /// <summary>このコアを候補に持つ機種の名前（表示用）</summary>

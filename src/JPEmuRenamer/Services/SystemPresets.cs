@@ -3,8 +3,12 @@ using JPEmuRenamer.Models;
 
 namespace JPEmuRenamer.Services;
 
-/// <summary>機種追加時の候補（拡張子・アイコン・色を自動で入れる）。日本語以外の表示では英語名を使う</summary>
-public record SystemPreset(string Name, string NameEn, string Extensions, string Icon, string Color, bool DisplayRenameOnly = false)
+/// <summary>
+/// 機種追加時の候補（拡張子・アイコン・色を自動で入れる）。日本語以外の表示では英語名を使う。
+/// ExternalArgs がある機種は、内蔵コアでは動かないので、外部のエミュレーターで起動する（そのときの引数）
+/// </summary>
+public record SystemPreset(string Name, string NameEn, string Extensions, string Icon, string Color, bool DisplayRenameOnly = false,
+    string? ExternalArgs = null)
 {
     public string DisplayName => Loc.Instance.Language == "ja" ? Name : NameEn;
     public override string ToString() => DisplayName;
@@ -129,6 +133,30 @@ public static class SystemPresets
         new("NAOMI 2", "Sega NAOMI 2", ".zip;.7z", "arcade", "#8B9CFF", true),
         new("アトミスウェイブ", "Atomiswave", ".zip;.7z", "arcade", "#4FC3D9", true),
         new("Model 3", "Sega Model 3", ".zip", "arcade", "#7CC96A", true),
+        // コアの初期設定を切り替えて動かす機種
+        new("ビデオパック+", "Videopac+", ".bin;.zip", "cart", "#8B9CFF"),
+        new("CDTV", "Commodore CDTV", ".cue;.chd;.iso;.m3u", "disc", "#B8C2D1"),
+        new("Atari STE", "Atari STE", ".st;.msa;.stx;.ipf;.m3u;.zip", "pc", "#5B9BFF"),
+        new("Atari TT", "Atari TT", ".st;.msa;.stx;.ipf;.hd;.m3u;.zip", "pc", "#A78BFA"),
+        new("スーパーゲームボーイ", "Super Game Boy", ".gb;.zip", "cart", "#A78BFA"),
+        // コアを登録するだけで動く機種
+        new("TI-83", "TI-83", ".8xp;.8xk;.8xg", "handV", "#B8C2D1"),
+        new("VC 4000", "Interton VC 4000", ".bin;.zip", "cart", "#F06B70"),
+        new("TV-Computer", "Videoton TV-Computer", ".cas;.tvcwav;.dsk;.zip", "pc", "#F5A524"),
+        new("CBM-500", "Commodore CBM-500 / P500", ".prg;.d80;.d82;.crt;.zip", "pc", "#E8D35C"),
+        new("GameTank", "GameTank", ".gtr", "cart", "#4FC3D9"),
+        new("Galaksija", "Galaksija", ".gal", "pc", "#F5A524"),
+        new("PC/XT", "IBM PC/XT", ".img;.zip", "pc", "#B8C2D1"),
+        new("Z-Machine", "Z-Machine / Infocom", ".z1;.z3;.z5;.z8;.dat", "pc", "#E8D35C"),
+        new("Java の携帯ゲーム", "Java ME / J2ME", ".jar;.jad;.jam;.zip", "handV", "#F06B70"),
+        new("レーザーディスク", "Laserdisc / DirkSimple", ".dirksimple;.ogv", "disc", "#A78BFA"),
+        new("Dingoo A320", "Dingoo A320", ".app;.sim", "handH", "#7CC96A"),
+        // 内蔵コアでは動かない機種（外部のエミュレーターを用意して「外部exe」で起動する）
+        new("プレイステーション3", "PlayStation 3", ".iso;.pkg", "disc", "#5B9BFF", ExternalArgs: "--no-gui \"{rom}\""),
+        new("PS Vita", "PlayStation Vita", ".vpk;.zip", "handH", "#5B9BFF", ExternalArgs: "\"{rom}\""),
+        new("Xbox", "Microsoft Xbox", ".iso;.xiso", "disc", "#7CC96A", ExternalArgs: "-dvd_path \"{rom}\""),
+        new("Xbox 360", "Microsoft Xbox 360", ".iso;.xex;.zar", "disc", "#7CC96A", ExternalArgs: "\"{rom}\""),
+        new("Wii U", "Wii U", ".wud;.wux;.wua;.rpx;.iso", "disc", "#4FC3D9", ExternalArgs: "-g \"{rom}\""),
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 

@@ -24,6 +24,7 @@ Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Siste
 | Sistem adı | Listede görünen ad |
 | Simge | Sistem listesindeki simge (rengi temaya uyar). Kendi resimleriniz (PNG/ICO/JPG) de kullanılabilir |
 | Atari salonu | "Dosya adlarını koru" ayarlı sistemler DAT ile ROM setinin ZIP adına göre (ör. sf2.zip) eşleştirilir. Eksik oyunlarda klonlar (bölge veya revizyon sürümleri) değil, yalnızca ana setler gösterilir |
+| Harici emülatörler | PS3, PS Vita, Xbox, Xbox 360 ve Wii U yerleşik çekirdeklerle çalışmaz. RPCS3, Vita3K, xemu, Xenia veya Cemu gibi bir emülatörü kendiniz edinip harici exe olarak ayarlayın (şablon argümanları doldurur) |
 | DAT dosyası | Yeniden adlandırma için oyun listesi (OfflineList / No-Intro biçimi). Yalnızca oynayacaksanız gerekmez |
 | ROM klasörleri | ROM'ların bulunduğu klasörler. Birden çoksa `;` ile ayırın |
 | Uzantılar | Okunacak uzantılar (ör. `.nes;.zip`) |

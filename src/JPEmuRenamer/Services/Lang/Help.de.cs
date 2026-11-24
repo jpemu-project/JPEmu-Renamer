@@ -24,6 +24,7 @@ Wähle links ein System und öffne oben rechts die „Systemeinstellungen“. Mi
 | Systemname | Name in der Liste |
 | Symbol | Symbol in der Systemliste (die Farbe folgt dem Design). Eigene Bilder (PNG/ICO/JPG) sind möglich |
 | Arcade | Systeme mit „Dateinamen behalten, nur DAT-Namen anzeigen“ werden über den ZIP-Namen des ROM-Sets (z. B. sf2.zip) mit dem DAT abgeglichen. Fehlende Spiele zeigen nur Hauptsets, keine Klone (Regional- oder Revisionsfassungen) |
+| Externe Emulatoren | PS3, PS Vita, Xbox, Xbox 360 und Wii U laufen nicht mit integrierten Cores. Besorge dir selbst einen Emulator wie RPCS3, Vita3K, xemu, Xenia oder Cemu und lege ihn als externe exe fest (eine Vorlage trägt die Argumente ein) |
 | DAT-Datei | Spieleliste zum Umbenennen (OfflineList / No-Intro-Format). Zum reinen Spielen nicht nötig |
 | ROM-Ordner | Ordner mit den ROMs. Mehrere mit `;` trennen |
 | Dateiendungen | Zu lesende Endungen (z. B. `.nes;.zip`) |

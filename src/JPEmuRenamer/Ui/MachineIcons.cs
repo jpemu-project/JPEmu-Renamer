@@ -58,7 +58,7 @@ public static partial class MachineIcons
     }
 
     private static Dictionary<string, IconPart[]> Build() =>
-        Classics().Concat(Consoles()).Concat(Handhelds()).Concat(Computers()).Concat(Arcade()).ToDictionary(p => p.Key, p => p.Value);
+        Classics().Concat(Consoles()).Concat(Handhelds()).Concat(Computers()).Concat(Arcade()).Concat(More()).ToDictionary(p => p.Key, p => p.Value);
 
     /// <summary>主要な21機種</summary>
     private static Dictionary<string, IconPart[]> Classics() => new()
