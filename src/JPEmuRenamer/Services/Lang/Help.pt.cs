@@ -23,6 +23,7 @@ Escolha um sistema à esquerda e abra "Configurações do sistema" no canto supe
 | Item | Descrição |
 | Nome do sistema | Nome exibido na lista |
 | Ícone | Ícone na lista de sistemas (a cor segue o tema). Imagens próprias (PNG/ICO/JPG) são aceitas |
+| Arcade | Sistemas com "Manter os nomes dos arquivos" são comparados ao DAT pelo nome do ZIP do set (ex.: sf2.zip). Os jogos que faltam mostram só os sets principais, sem clones (versões regionais ou revisadas) |
 | Arquivo DAT | Lista de jogos usada para renomear (formato OfflineList / No-Intro). Opcional se você só vai jogar |
 | Pastas de ROMs | Pastas que contêm as ROMs. Separe com `;` |
 | Extensões | Extensões lidas (ex.: `.nes;.zip`) |

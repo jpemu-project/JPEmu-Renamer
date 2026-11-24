@@ -8,6 +8,9 @@ public static class Matcher
 {
     public static List<GameItem> Match(List<DatEntry> dat, List<RomFile> roms, SystemConfig sys)
     {
+        // アーケード（ファイル名を変えない機種）は、ZIPの名前とDATのセット名で照合する
+        if (sys.DisplayRenameOnly && dat.Any(d => d.SetName.Length > 0)) return ArcadeMatcher.Match(dat, roms, sys);
+
         var byCrc = new Dictionary<uint, DatEntry>();
         foreach (var d in dat.Where(d => d.Crc.HasValue))
             byCrc.TryAdd(d.Crc!.Value, d);

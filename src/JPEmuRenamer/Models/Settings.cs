@@ -127,6 +127,17 @@ public class DatEntry
     public string Comment { get; set; } = "";
     /// <summary>OfflineList の発売地域の番号（7 = 日本 など）。無ければ null</summary>
     public int? Location { get; set; }
+
+    // ---------- アーケードのDAT（Logiqx / clrmamepro）だけにある情報 ----------
+    /// <summary>ROMセットの名前（例：sf2）。ZIPのファイル名と同じになる</summary>
+    public string SetName { get; set; } = "";
+    /// <summary>説明（例：Street Fighter II: The World Warrior (World 910522)）</summary>
+    public string Description { get; set; } = "";
+    /// <summary>親セットの名前（クローン＝地域違い・版違いのとき）</summary>
+    public string CloneOf { get; set; } = "";
+    public bool IsBios { get; set; }
+    /// <summary>動かすドライバー（例：capcom/d_cps1.cpp）。基板ごとの機種に分けるときに使う</summary>
+    public string SourceFile { get; set; } = "";
 }
 
 /// <summary>走査したROMファイル（キャッシュにも使う）</summary>

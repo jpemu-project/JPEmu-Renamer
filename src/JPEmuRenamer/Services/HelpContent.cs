@@ -41,6 +41,7 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 | 項目 | 内容 |
 | ハード名 | 一覧に表示する名前 |
 | アイコン | 機種一覧のアイコン（色はテーマに合わせて変わります）。自作の画像（PNG/ICO/JPG）も使えます |
+| アーケード | 「ファイル名は変えず、表示名だけDATの名前にする」機種は、ROMセットのZIPの名前（例：sf2.zip）でDATと照合します。未所有には、クローン（地域違い・版違い）を除いた親のゲームだけを出します |
 | DATファイル | リネームに使うタイトル一覧（OfflineList / No-Intro形式）。遊ぶだけなら空でもかまいません |
 | ROMフォルダ | ROMを置いたフォルダ。複数あるときは `;` で区切ります |
 | 対象拡張子 | 読み込むファイルの拡張子（例：`.nes;.zip`） |
@@ -295,6 +296,7 @@ Choose a system on the left and open "System settings" at the top right. Add sys
 | Item | Description |
 | System name | Name shown in the list |
 | Icon | Icon in the system list (its color follows the theme). Custom images (PNG/ICO/JPG) are supported |
+| Arcade | Systems set to "Keep file names; show DAT names only" match DAT entries by ROM set ZIP name (e.g. sf2.zip). Missing games list only parent sets, not clones (regional or revised versions) |
 | DAT file | Title list used for renaming (OfflineList / No-Intro format). Optional if you only play |
 | ROM folders | Folders containing ROMs. Separate several with `;` |
 | Extensions | Extensions to read (e.g. `.nes;.zip`) |

@@ -124,6 +124,7 @@ public static class CoreCatalog
         new("dolphin", "Dolphin", true),
         new("pcsx2", "LRPS2", true),
         new("play", "Play!", true),
+        new("supermodel", "Supermodel", true),
     }.ToDictionary(c => c.Name);
 
     /// <summary>キーボードをそのままゲームに送るコア（パソコン系）。このときキーボードのホットキーは F11（全画面）と F12（メニュー）だけ</summary>
@@ -258,6 +259,15 @@ public static class CoreCatalog
         // LRPS2 は PS2 のBIOS（名前は自由）を pcsx2\bios に置く。Play! はBIOSが無くても動く（試作段階）
         ["ゲームキューブ"] = (new[] { "dolphin" }, "dolphin-emu\\Sys\\GC\\JAP\\IPL.bin?"),
         ["Wii"] = (new[] { "dolphin" }, ""),
+        // ---- アーケード。NAOMI・アトミスウェイブの BIOS は Flycast が BIOSフォルダの dc に探す ----
+        ["アーケード"] = (new[] { "fbneo" }, "neogeo.zip・pgm.zip など（それを使うゲームだけ。ROMと同じフォルダでも可）?"),
+        ["CPS1"] = (new[] { "fbneo" }, ""),
+        ["CPS2"] = (new[] { "fbneo" }, ""),
+        ["CPS3"] = (new[] { "fbneo" }, ""),
+        ["NAOMI"] = (new[] { "flycast" }, "dc\\naomi.zip"),
+        ["NAOMI 2"] = (new[] { "flycast" }, "dc\\naomi2.zip"),
+        ["アトミスウェイブ"] = (new[] { "flycast" }, "dc\\awbios.zip"),
+        ["Model 3"] = (new[] { "supermodel" }, ""),
         ["プレイステーション2"] = (new[] { "pcsx2", "play" }, "pcsx2\\bios\\（PS2 のBIOS。ファイル名は自由。Play! では不要）"),
     };
 
@@ -393,6 +403,9 @@ public static class CoreCatalog
         ["クリエイティビジョン"] = new[] { new[] { "bioscv.rom" } },
         ["ハイパースキャン"] = new[] { new[] { "spg290.bin" }, new[] { "hyperscan.bin" } },
         ["Commander X16"] = new[] { new[] { "x16/rom.bin" } },
+        ["NAOMI"] = new[] { new[] { "dc/naomi.zip" } },
+        ["NAOMI 2"] = new[] { new[] { "dc/naomi2.zip" } },
+        ["アトミスウェイブ"] = new[] { new[] { "dc/awbios.zip" } },
     };
 
     /// <summary>

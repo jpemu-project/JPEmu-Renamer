@@ -120,6 +120,15 @@ public static class SystemPresets
         new("アタリ ジャガーCD", "Atari Jaguar CD", ".cue;.cdi;.chd", "disc", "#F06B70"),
         new("Commander X16", "Commander X16", ".prg;.img;.bas;.crt;.zip", "pc", "#8B9CFF"),
         new("たまごっち", "Tamagotchi", ".b;.bin;.rom;.zip", "handV", "#F5A524"),
+        // アーケード（ROMセットのZIPの名前でDATと照合し、ファイル名は変えない）
+        new("アーケード", "Arcade", ".zip;.7z", "arcade", "#F5A524", true),
+        new("CPS1", "CPS-1 / CP System", ".zip;.7z", "arcade", "#F06B70", true),
+        new("CPS2", "CPS-2 / CP System II", ".zip;.7z", "arcade", "#5B9BFF", true),
+        new("CPS3", "CPS-3 / CP System III", ".zip;.7z", "arcade", "#A78BFA", true),
+        new("NAOMI", "Sega NAOMI", ".zip;.7z", "arcade", "#B8C2D1", true),
+        new("NAOMI 2", "Sega NAOMI 2", ".zip;.7z", "arcade", "#8B9CFF", true),
+        new("アトミスウェイブ", "Atomiswave", ".zip;.7z", "arcade", "#4FC3D9", true),
+        new("Model 3", "Sega Model 3", ".zip", "arcade", "#7CC96A", true),
         new("その他", "Other", ".zip", "pad", "#E8D35C"),
     };
 

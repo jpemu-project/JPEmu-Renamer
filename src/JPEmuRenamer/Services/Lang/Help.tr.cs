@@ -23,6 +23,7 @@ Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Siste
 | Öğe | Açıklama |
 | Sistem adı | Listede görünen ad |
 | Simge | Sistem listesindeki simge (rengi temaya uyar). Kendi resimleriniz (PNG/ICO/JPG) de kullanılabilir |
+| Atari salonu | "Dosya adlarını koru" ayarlı sistemler DAT ile ROM setinin ZIP adına göre (ör. sf2.zip) eşleştirilir. Eksik oyunlarda klonlar (bölge veya revizyon sürümleri) değil, yalnızca ana setler gösterilir |
 | DAT dosyası | Yeniden adlandırma için oyun listesi (OfflineList / No-Intro biçimi). Yalnızca oynayacaksanız gerekmez |
 | ROM klasörleri | ROM'ların bulunduğu klasörler. Birden çoksa `;` ile ayırın |
 | Uzantılar | Okunacak uzantılar (ör. `.nes;.zip`) |

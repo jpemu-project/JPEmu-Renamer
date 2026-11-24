@@ -42,7 +42,7 @@ public static class RomScanner
                 }
                 else
                 {
-                    var rom = Compute(fi, exts);
+                    var rom = sys.DisplayRenameOnly ? ComputeArcade(fi, exts) : Compute(fi, exts);
                     if (rom != null) result.Add(rom);
                 }
             }
@@ -64,6 +64,33 @@ public static class RomScanner
         return diff == 0
             || (actual % (2 * TimeSpan.TicksPerSecond) == 0 && diff < 2 * TimeSpan.TicksPerSecond)
             || (actual % (10 * TimeSpan.TicksPerMillisecond) == 0 && diff < 10 * TimeSpan.TicksPerMillisecond);
+    }
+
+    /// <summary>
+    /// アーケードのROMセット。照合はファイル名で行うので展開しない（数百MBのセットもあるため）。
+    /// ZIP は記録されているCRC（いままでと同じ選び方の1ファイル）を、7z などはファイル名から作った値を、ゲームごとの設定の目印に使う
+    /// </summary>
+    private static RomFile? ComputeArcade(FileInfo fi, HashSet<string> exts)
+    {
+        var rom = new RomFile { Path = fi.FullName, Size = fi.Length, LastWriteTicks = fi.LastWriteTimeUtc.Ticks, RomSize = fi.Length };
+        if (fi.Extension.Equals(".zip", StringComparison.OrdinalIgnoreCase))
+        {
+            using var zip = ZipFile.OpenRead(fi.FullName);
+            var entries = zip.Entries.Where(e => !string.IsNullOrEmpty(e.Name)).ToList();
+            if (entries.Count == 0) return null;
+            var entry = entries.Where(e => exts.Contains(System.IO.Path.GetExtension(e.Name))
+                                            && !System.IO.Path.GetExtension(e.Name).Equals(".zip", StringComparison.OrdinalIgnoreCase))
+                               .OrderByDescending(e => e.Length).FirstOrDefault()
+                        ?? entries.OrderByDescending(e => e.Length).First();
+            rom.Crc = entry.Crc32;
+            rom.InnerName = entry.FullName;
+            rom.RomSize = entries.Sum(e => e.Length);
+        }
+        else
+        {
+            rom.Crc = System.IO.Hashing.Crc32.HashToUInt32(System.Text.Encoding.UTF8.GetBytes(fi.Name.ToLowerInvariant()));
+        }
+        return rom;
     }
 
     private static RomFile? Compute(FileInfo fi, HashSet<string> exts)

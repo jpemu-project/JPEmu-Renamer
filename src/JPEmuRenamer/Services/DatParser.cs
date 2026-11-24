@@ -121,26 +121,40 @@ public static class DatParser
         if (title.Length == 0) return;
         var publisher = Child(game, "manufacturer")?.Value.Trim() ?? Child(game, "publisher")?.Value.Trim() ?? "";
         var year = Child(game, "year")?.Value.Trim() ?? "";
+        var arcade = new ArcadeInfo(
+            (Attr(game, "name") ?? "").Trim(),
+            Child(game, "description")?.Value.Trim() ?? "",
+            (Attr(game, "cloneof") ?? "").Trim(),
+            string.Equals(Attr(game, "isbios"), "yes", StringComparison.OrdinalIgnoreCase),
+            (Attr(game, "sourcefile") ?? "").Trim());
         var roms = game.Elements().Where(e => Is(e, "rom")).ToList();
         bool any = false;
         foreach (var rom in roms)
         {
             if (!TryCrc(Attr(rom, "crc"), out var crc)) continue;
-            list.Add(NewLogiqxEntry(title, publisher, year, Attr(rom, "name"), crc));
+            list.Add(NewLogiqxEntry(title, publisher, year, Attr(rom, "name"), crc, arcade));
             any = true;
         }
         if (!any)
-            list.Add(NewLogiqxEntry(title, publisher, year, null, null));
+            list.Add(NewLogiqxEntry(title, publisher, year, null, null, arcade));
     }
 
-    private static DatEntry NewLogiqxEntry(string title, string publisher, string year, string? romName, uint? crc) => new()
+    /// <summary>アーケードのDATのセットの情報</summary>
+    private sealed record ArcadeInfo(string SetName, string Description, string CloneOf, bool IsBios, string SourceFile);
+
+    private static DatEntry NewLogiqxEntry(string title, string publisher, string year, string? romName, uint? crc, ArcadeInfo? arcade = null) => new()
     {
         Title = title,
         Publisher = publisher,
         ReleaseDate = year,
         Crc = crc,
         Extension = romName != null ? System.IO.Path.GetExtension(romName).ToLowerInvariant() : "",
-        Location = LocationFromName(title)
+        Location = LocationFromName(title),
+        SetName = arcade?.SetName ?? "",
+        Description = arcade?.Description ?? "",
+        CloneOf = arcade?.CloneOf ?? "",
+        IsBios = arcade?.IsBios ?? false,
+        SourceFile = arcade?.SourceFile ?? ""
     };
 
     // ---------- clrmamepro のテキスト形式 ----------
@@ -162,7 +176,7 @@ public static class DatParser
                 && i + 1 < tokens.Count && tokens[i + 1] == "(")
             {
                 i += 2;
-                string title = "", desc = "", publisher = "", year = "";
+                string title = "", desc = "", publisher = "", year = "", cloneOf = "", sourceFile = "", isBios = "";
                 var roms = new List<(string? name, uint? crc)>();
                 while (i < tokens.Count && tokens[i] != ")")
                 {
@@ -193,20 +207,25 @@ public static class DatParser
                         else if (key.Equals("description", StringComparison.OrdinalIgnoreCase)) desc = v;
                         else if (key.Equals("manufacturer", StringComparison.OrdinalIgnoreCase) || key.Equals("publisher", StringComparison.OrdinalIgnoreCase)) publisher = v;
                         else if (key.Equals("year", StringComparison.OrdinalIgnoreCase)) year = v;
+                        else if (key.Equals("cloneof", StringComparison.OrdinalIgnoreCase)) cloneOf = v;
+                        else if (key.Equals("sourcefile", StringComparison.OrdinalIgnoreCase)) sourceFile = v;
+                        else if (key.Equals("isbios", StringComparison.OrdinalIgnoreCase)) isBios = v;
                         i += 2;
                     }
                 }
                 i++; // ")"
+                var setName = title;
                 if (title.Length == 0) title = desc;
                 if (title.Length == 0) continue;
+                var arcade = new ArcadeInfo(setName, desc, cloneOf, isBios.Equals("yes", StringComparison.OrdinalIgnoreCase), sourceFile);
                 bool any = false;
                 foreach (var (romName, crc) in roms)
                 {
                     if (crc == null) continue;
-                    list.Add(NewLogiqxEntry(title, publisher, year, romName, crc));
+                    list.Add(NewLogiqxEntry(title, publisher, year, romName, crc, arcade));
                     any = true;
                 }
-                if (!any) list.Add(NewLogiqxEntry(title, publisher, year, null, null));
+                if (!any) list.Add(NewLogiqxEntry(title, publisher, year, null, null, arcade));
             }
             else if (i + 1 < tokens.Count && tokens[i + 1] == "(")
             {

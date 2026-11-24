@@ -23,6 +23,7 @@ Chọn hệ máy bên trái rồi mở "Cài đặt hệ máy" ở góc trên b�
 | Mục | Mô tả |
 | Tên hệ máy | Tên hiển thị trong danh sách |
 | Biểu tượng | Biểu tượng trong danh sách hệ máy (màu theo giao diện). Có thể dùng ảnh riêng (PNG/ICO/JPG) |
+| Arcade | Hệ máy bật "Giữ tên tệp" được đối chiếu với DAT theo tên ZIP của bộ ROM (ví dụ sf2.zip). Danh sách còn thiếu chỉ hiện bộ gốc, không có bản sao (phiên bản theo vùng hoặc bản sửa) |
 | Tệp DAT | Danh sách game dùng để đổi tên (định dạng OfflineList / No-Intro). Không cần nếu chỉ chơi |
 | Thư mục ROM | Thư mục chứa ROM. Nếu nhiều thì cách nhau bằng `;` |
 | Phần mở rộng | Phần mở rộng sẽ đọc (ví dụ `.nes;.zip`) |

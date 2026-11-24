@@ -23,6 +23,7 @@ Wybierz system po lewej i otwórz „Ustawienia systemu” w prawym górnym rogu
 | Pozycja | Opis |
 | Nazwa systemu | Nazwa na liście |
 | Ikona | Ikona na liście systemów (kolor zgodny z motywem). Można użyć własnych obrazów (PNG/ICO/JPG) |
+| Automaty | Systemy z opcją „Zachowaj nazwy plików” są porównywane z DAT po nazwie pliku ZIP zestawu (np. sf2.zip). Brakujące gry pokazują tylko zestawy główne, bez klonów (wersji regionalnych lub poprawionych) |
 | Plik DAT | Lista gier do zmiany nazw (format OfflineList / No-Intro). Niepotrzebna, jeśli tylko grasz |
 | Foldery ROM | Foldery z ROM-ami. Kilka oddziel `;` |
 | Rozszerzenia | Odczytywane rozszerzenia (np. `.nes;.zip`) |
