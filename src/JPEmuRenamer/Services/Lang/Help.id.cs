@@ -33,7 +33,7 @@ Pilih sistem di kiri lalu buka "Pengaturan sistem" di kanan atas. Tambahkan sist
 | Emulator / argumen | Dipakai saat bermain dengan emulator eksternal |
 
 ## Sistem yang butuh BIOS
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo, dan lainnya membutuhkan file BIOS. Nama file ditampilkan di bawah core bawaan pada "Pengaturan sistem". Taruh file itu di "Pengaturan permainan" → "Lanjutan" → "Folder BIOS" (bawaan: `system` di folder pengaturan).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo, dan lainnya membutuhkan file BIOS. Nama file ditampilkan di bawah core bawaan pada "Pengaturan sistem". Taruh file itu di "Pengaturan permainan" → "Lanjutan" → "Folder BIOS" (bawaan: `bios` di samping aplikasi).
 
 # Menjalankan game
 ## Cara menjalankan

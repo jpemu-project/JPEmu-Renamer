@@ -51,7 +51,7 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 | 外部exe・引数 | 外部のエミュレーターで遊ぶときに指定します |
 
 ## BIOSが必要な機種
-ディスクシステム、メガCD、PCエンジン CD-ROM²、セガサターン、ネオジオなどは、BIOSファイルが必要です。必要なファイル名と、あるかどうかは「機種の設定」の内蔵コアの下に表示されます。BIOSは、その名前のまま「プレイ設定」→「詳細」→「BIOSフォルダ」に直接入れてください（既定は設定フォルダの `system`。アプリを起動すると自動で作られ、「機種の設定」の「BIOSフォルダを開く」で開けます）。コアがサブフォルダ（`Mupen64plus` など）に探すファイルも、起動するときにアプリが写すので、すべて1つのフォルダで管理できます。
+ディスクシステム、メガCD、PCエンジン CD-ROM²、セガサターン、ネオジオなどは、BIOSファイルが必要です。必要なファイル名と、あるかどうかは「機種の設定」の内蔵コアの下に表示されます。BIOSは、その名前のまま「プレイ設定」→「詳細」→「BIOSフォルダ」に直接入れてください（既定はアプリと同じフォルダの `bios`。アプリを起動すると自動で作られ、「機種の設定」の「BIOSフォルダを開く」で開けます）。コアがサブフォルダ（`Mupen64plus` など）に探すファイルも、起動するときにアプリが写すので、すべて1つのフォルダで管理できます。
 
 # ゲームを起動する
 ## 起動のしかた
@@ -307,7 +307,7 @@ Choose a system on the left and open "System settings" at the top right. Add sys
 | Emulator exe / arguments | Used when playing with an external emulator |
 
 ## Systems that need a BIOS
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo and others need BIOS files. The file names, and whether each one is found, are shown under the built-in core in "System settings". Put them, keeping those names, directly in "Play settings" → "Advanced" → "BIOS folder" (default: `system` in the settings folder; it is created when the app starts and opens from "Open BIOS folder" in "System settings"). Files a core looks for in a subfolder (such as `Mupen64plus`) are copied there by the app at launch, so one folder holds everything.
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo and others need BIOS files. The file names, and whether each one is found, are shown under the built-in core in "System settings". Put them, keeping those names, directly in "Play settings" → "Advanced" → "BIOS folder" (default: `bios` next to the app; it is created when the app starts and opens from "Open BIOS folder" in "System settings"). Files a core looks for in a subfolder (such as `Mupen64plus`) are copied there by the app at launch, so one folder holds everything.
 
 # Launching games
 ## How to launch

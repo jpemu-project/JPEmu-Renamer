@@ -33,7 +33,7 @@ Choisissez un système à gauche et ouvrez « Paramètres du système » en haut
 | Émulateur / arguments | Utilisés pour jouer avec un émulateur externe |
 
 ## Systèmes nécessitant un BIOS
-Le Famicom Disk System, le Mega-CD, la PC Engine CD-ROM², la Saturn, la Neo Geo et d'autres nécessitent des fichiers BIOS. Leurs noms sont indiqués sous le cœur intégré dans « Paramètres du système ». Placez-les dans « Paramètres de jeu » → « Avancé » → « Dossier BIOS » (par défaut : `system` dans le dossier des paramètres).
+Le Famicom Disk System, le Mega-CD, la PC Engine CD-ROM², la Saturn, la Neo Geo et d'autres nécessitent des fichiers BIOS. Leurs noms sont indiqués sous le cœur intégré dans « Paramètres du système ». Placez-les dans « Paramètres de jeu » → « Avancé » → « Dossier BIOS » (par défaut : `bios` à côté de l'application).
 
 # Lancer un jeu
 ## Comment lancer

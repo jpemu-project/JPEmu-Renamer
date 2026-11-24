@@ -33,7 +33,7 @@ Wähle links ein System und öffne oben rechts die „Systemeinstellungen“. Mi
 | Emulator / Argumente | Für das Spielen mit einem externen Emulator |
 
 ## Systeme, die ein BIOS brauchen
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo und andere brauchen BIOS-Dateien. Die Dateinamen stehen unter dem integrierten Core in den „Systemeinstellungen“. Lege sie in „Spieleinstellungen“ → „Erweitert“ → „BIOS-Ordner“ ab (Standard: `system` im Einstellungsordner).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo und andere brauchen BIOS-Dateien. Die Dateinamen stehen unter dem integrierten Core in den „Systemeinstellungen“. Lege sie in „Spieleinstellungen“ → „Erweitert“ → „BIOS-Ordner“ ab (Standard: `bios` neben der App).
 
 # Spiele starten
 ## So startest du

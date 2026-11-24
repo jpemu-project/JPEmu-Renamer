@@ -38,6 +38,7 @@ public partial class MainViewModel : ObservableObject
         GameItem.ShowFlags = settings.ShowFlags;
         statusText = Loc.T("Ready");
         // BIOSを入れる場所が分かるように、BIOSフォルダを先に作っておく
+        if (string.IsNullOrWhiteSpace(settings.BiosDir)) Storage.MoveOldBiosDir();
         BiosCatalog.EnsureDir(BiosCatalog.DirOf(settings));
 
         // 移動先を決めていない機種には、ほかの機種と同じ移動先を一度だけ当てはめる

@@ -33,7 +33,7 @@ Scegli un sistema a sinistra e apri "Impostazioni sistema" in alto a destra. Agg
 | Emulatore / argomenti | Usati per giocare con un emulatore esterno |
 
 ## Sistemi che richiedono un BIOS
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo e altri richiedono file BIOS. I nomi dei file sono indicati sotto il core integrato in "Impostazioni sistema". Mettili in "Impostazioni di gioco" → "Avanzate" → "Cartella BIOS" (predefinita: `system` nella cartella delle impostazioni).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo e altri richiedono file BIOS. I nomi dei file sono indicati sotto il core integrato in "Impostazioni sistema". Mettili in "Impostazioni di gioco" → "Avanzate" → "Cartella BIOS" (predefinita: `bios` accanto all'app).
 
 # Avviare un gioco
 ## Come avviare

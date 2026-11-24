@@ -33,7 +33,7 @@ JPEmu Renamer 會整理你自己傾印的 ROM，並讓你立刻遊玩——使�
 | 模擬器／參數 | 以外部模擬器遊玩時使用 |
 
 ## 需要 BIOS 的主機
-磁碟機（Famicom Disk System）、Mega-CD、PC Engine CD-ROM²、Saturn、Neo Geo 等需要 BIOS 檔案。檔名會顯示在「主機設定」的內建核心下方。請放入「遊玩設定」→「進階」→「BIOS 資料夾」（預設為設定資料夾中的 `system`）。
+磁碟機（Famicom Disk System）、Mega-CD、PC Engine CD-ROM²、Saturn、Neo Geo 等需要 BIOS 檔案。檔名會顯示在「主機設定」的內建核心下方。請放入「遊玩設定」→「進階」→「BIOS 資料夾」（預設為應用程式旁的 `bios`）。
 
 # 啟動遊戲
 ## 啟動方式

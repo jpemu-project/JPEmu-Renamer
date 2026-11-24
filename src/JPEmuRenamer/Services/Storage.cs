@@ -209,7 +209,58 @@ public static class Storage
     private static string CacheDir => System.IO.Path.Combine(DataDir, "cache");
     public static string IconDir => System.IO.Path.Combine(DataDir, "icons");
     public static string CoresDir => System.IO.Path.Combine(DataDir, "cores");
-    public static string DefaultBiosDir => System.IO.Path.Combine(DataDir, "system");
+    /// <summary>
+    /// BIOSフォルダの既定。exe の隣の bios（見つけやすいように data の外に置く）。
+    /// exe のフォルダに書き込めず %APPDATA% を使っているときは、その中の system
+    /// </summary>
+    public static string DefaultBiosDir => IsPortableData
+        ? System.IO.Path.Combine(AppDir, "bios")
+        : System.IO.Path.Combine(DataDir, "system");
+
+    private static bool IsPortableData => string.Equals(DataDir, System.IO.Path.Combine(AppDir, "data"), StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>1.6 までの既定の場所（data\system）</summary>
+    private static string OldBiosDir => System.IO.Path.Combine(DataDir, "system");
+
+    /// <summary>
+    /// 1.6 までの既定の場所（data\system）にあるBIOSを、新しい既定の場所（exe の隣の bios）へ移す。
+    /// BIOSフォルダを自分で決めていないときだけ行う。移し先に同じ名前があるものは触らず、元に残す
+    /// </summary>
+    public static void MoveOldBiosDir()
+    {
+        if (!IsPortableData) return;
+        try
+        {
+            if (!Directory.Exists(OldBiosDir)) return;
+            Directory.CreateDirectory(DefaultBiosDir);
+            MoveInto(OldBiosDir, DefaultBiosDir);
+            if (!Directory.EnumerateFileSystemEntries(OldBiosDir).Any()) Directory.Delete(OldBiosDir);
+        }
+        catch { }
+    }
+
+    private static void MoveInto(string from, string to)
+    {
+        foreach (var f in Directory.GetFiles(from))
+        {
+            var dest = System.IO.Path.Combine(to, System.IO.Path.GetFileName(f));
+            try { if (!File.Exists(dest)) File.Move(f, dest); } catch { }
+        }
+        foreach (var d in Directory.GetDirectories(from))
+        {
+            var dest = System.IO.Path.Combine(to, System.IO.Path.GetFileName(d));
+            try
+            {
+                if (!Directory.Exists(dest) && !File.Exists(dest)) Directory.Move(d, dest);
+                else if (Directory.Exists(dest))
+                {
+                    MoveInto(d, dest);
+                    if (!Directory.EnumerateFileSystemEntries(d).Any()) Directory.Delete(d);
+                }
+            }
+            catch { }
+        }
+    }
     public static string DefaultSaveDir => System.IO.Path.Combine(DataDir, "saves");
     public static string DefaultStateDir => System.IO.Path.Combine(DataDir, "states");
     public static string DefaultScreenshotDir => System.IO.Path.Combine(DataDir, "screenshots");

@@ -33,7 +33,7 @@ JPEmu Renamer 是一款启动器，可以管理你自己提取的 ROM 并直接�
 | 外部模拟器・参数 | 用外部模拟器游玩时指定 |
 
 ## 需要 BIOS 的机种
-磁碟机、Mega-CD、PC Engine CD-ROM²、世嘉土星、Neo Geo 等需要 BIOS 文件。所需的文件名显示在“机种设置”的内置核心下方。请把 BIOS 放到“游玩设置”→“详细”→“BIOS 文件夹”（默认是设置文件夹中的 `system`）。
+磁碟机、Mega-CD、PC Engine CD-ROM²、世嘉土星、Neo Geo 等需要 BIOS 文件。所需的文件名显示在“机种设置”的内置核心下方。请把 BIOS 放到“游玩设置”→“详细”→“BIOS 文件夹”（默认是应用旁边的 `bios`）。
 
 # 启动游戏
 ## 启动方法

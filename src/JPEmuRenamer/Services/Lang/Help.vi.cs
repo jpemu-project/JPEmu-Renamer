@@ -33,7 +33,7 @@ Chọn hệ máy bên trái rồi mở "Cài đặt hệ máy" ở góc trên b�
 | Trình giả lập / tham số | Dùng khi chơi bằng trình giả lập bên ngoài |
 
 ## Hệ máy cần BIOS
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo và một số hệ khác cần tệp BIOS. Tên tệp hiển thị bên dưới lõi tích hợp trong "Cài đặt hệ máy". Hãy đặt chúng vào "Cài đặt chơi" → "Nâng cao" → "Thư mục BIOS" (mặc định: `system` trong thư mục cài đặt).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo và một số hệ khác cần tệp BIOS. Tên tệp hiển thị bên dưới lõi tích hợp trong "Cài đặt hệ máy". Hãy đặt chúng vào "Cài đặt chơi" → "Nâng cao" → "Thư mục BIOS" (mặc định: `bios` cạnh ứng dụng).
 
 # Chạy game
 ## Cách chạy

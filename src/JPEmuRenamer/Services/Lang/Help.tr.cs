@@ -33,7 +33,7 @@ Soldan bir sistem seçin ve sağ üstteki "Sistem ayarları"nı açın. "+ Siste
 | Emülatör / argümanlar | Harici bir emülatörle oynarken kullanılır |
 
 ## BIOS gerektiren sistemler
-Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo ve diğerleri BIOS dosyaları gerektirir. Dosya adları "Sistem ayarları"nda yerleşik çekirdeğin altında gösterilir. Bunları "Oyun ayarları" → "Gelişmiş" → "BIOS klasörü"ne koyun (varsayılan: ayarlar klasöründeki `system`).
+Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo ve diğerleri BIOS dosyaları gerektirir. Dosya adları "Sistem ayarları"nda yerleşik çekirdeğin altında gösterilir. Bunları "Oyun ayarları" → "Gelişmiş" → "BIOS klasörü"ne koyun (varsayılan: uygulamanın yanındaki `bios`).
 
 # Oyun başlatma
 ## Nasıl başlatılır
