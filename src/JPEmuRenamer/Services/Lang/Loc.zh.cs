@@ -287,6 +287,8 @@ public sealed partial class Loc
         ["BiosNoteArcadeBoard"] = "仅在游玩该基板的游戏时需要",
         ["BiosNotePs2"] = "请放入此文件夹内，文件名不限",
         ["BiosNoteIpl"] = "文件名、扩展名（.n64 / .z64 / .v64 / .bin）或字节顺序不同也可以，应用会根据内容识别并修正",
+        ["BiosByContent"] = "（{0} 的内容相同，启动时会以此名称复制）",
+        ["BiosLooksWrong"] = "（内容与所有已知版本都不同。其他版本也可能可用，若无法运行请重新提取）",
         ["CoreDownload"] = "下载",
         ["CoreUpdate"] = "更新",
         ["CoreInstalled"] = "已下载",

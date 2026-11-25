@@ -285,6 +285,8 @@ public sealed partial class Loc
         ["BiosNoteArcadeBoard"] = "hanya perlu untuk game di papan tersebut",
         ["BiosNotePs2"] = "taruh di dalam folder ini; nama file bebas",
         ["BiosNoteIpl"] = "nama, ekstensi (.n64 / .z64 / .v64 / .bin), dan urutan byte apa pun bisa; aplikasi mengenali dan memperbaikinya",
+        ["BiosByContent"] = "({0} isinya sama; aplikasi menyalinnya dengan nama ini saat dijalankan)",
+        ["BiosLooksWrong"] = "(isinya berbeda dari semua versi yang dikenal; mungkin tetap jalan, jika tidak, dump ulang)",
         ["CoreDownload"] = "Unduh",
         ["CoreUpdate"] = "Perbarui",
         ["CoreInstalled"] = "Terpasang",

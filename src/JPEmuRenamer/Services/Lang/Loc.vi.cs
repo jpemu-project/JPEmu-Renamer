@@ -285,6 +285,8 @@ public sealed partial class Loc
         ["BiosNoteArcadeBoard"] = "chỉ cần cho game của bo mạch đó",
         ["BiosNotePs2"] = "đặt vào trong thư mục này; tên tệp tùy ý",
         ["BiosNoteIpl"] = "tên, phần mở rộng (.n64 / .z64 / .v64 / .bin) hay thứ tự byte khác nhau đều được; ứng dụng tự nhận ra và sửa",
+        ["BiosByContent"] = "({0} có cùng nội dung; ứng dụng sẽ sao chép với tên này khi khởi động)",
+        ["BiosLooksWrong"] = "(nội dung khác mọi phiên bản đã biết; có thể vẫn chạy được, nếu không hãy trích xuất lại)",
         ["CoreDownload"] = "Tải xuống",
         ["CoreUpdate"] = "Cập nhật",
         ["CoreInstalled"] = "Đã cài",

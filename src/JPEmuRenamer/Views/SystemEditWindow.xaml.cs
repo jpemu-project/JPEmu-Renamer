@@ -107,15 +107,20 @@ public partial class SystemEditWindow : Window
         BiosHint.Text = Loc.F("BiosPanelHowTo", biosDir);
         foreach (var f in files)
         {
-            bool found = BiosCatalog.Found(f, biosDir, core, extra);
+            var loc = BiosCatalog.Locate(f, biosDir, core, extra);
+            bool found = loc != null;
+            // 名前は合っているが、中身が知られている版のどれとも違う
+            bool wrong = loc is { ByContent: false } && !f.Folder && BiosHashes.LooksWrong(loc.Path, loc.Name);
             var name = f.Folder ? f.Path.Replace('/', '\\') + "\\" : f.FileName;
             var line = new TextBlock { TextWrapping = TextWrapping.Wrap, FontSize = 12.5, Margin = new Thickness(0, 2, 0, 0) };
-            line.Inlines.Add(new System.Windows.Documents.Run((found ? "✓ " : f.Required ? "✗ " : "– ") + name)
+            line.Inlines.Add(new System.Windows.Documents.Run((wrong ? "⚠ " : found ? "✓ " : f.Required ? "✗ " : "– ") + name)
             {
                 FontWeight = FontWeights.SemiBold,
-                Foreground = (System.Windows.Media.Brush)FindResource(found ? "OkFgBrush" : f.Required ? "ErrFgBrush" : "MutedBrush"),
+                Foreground = (System.Windows.Media.Brush)FindResource(wrong ? "WarnFgBrush" : found ? "OkFgBrush" : f.Required ? "ErrFgBrush" : "MutedBrush"),
             });
             var notes = new List<string>();
+            if (loc is { ByContent: true }) notes.Add(Loc.F("BiosByContent", System.IO.Path.GetFileName(loc.Path)));
+            if (wrong) notes.Add(Loc.T("BiosLooksWrong"));
             if (!f.Required) notes.Add(Loc.T("BiosOptionalMark"));
             var others = f.Alternatives.Select(System.IO.Path.GetFileName).Where(n => !string.Equals(n, f.FileName, StringComparison.OrdinalIgnoreCase))
                 .Distinct(StringComparer.OrdinalIgnoreCase).ToList();

@@ -61,3 +61,4 @@ GPL-3.0-or-later（[LICENSE](LICENSE)）。
 利用しているライブラリ：CommunityToolkit.Mvvm（MIT）、System.IO.Hashing（MIT）、NAudio（MIT）、Silk.NET（MIT）、SDL2（zlib）。
 内蔵コア（libretroコア）はアプリに含まれず、利用者がダウンロードしたものを使います。各コアのライセンスはそれぞれのコアに従います。
 アプリアイコンとロゴの画像は、Dancing Script（SIL Open Font License 1.1）で描いた文字を画像化したものです（`tools/make_icon.py`）。
+BIOSの指紋の表（`src/JPEmuRenamer/Emulation/BiosHashes.txt`）は、libretro の [libretro-database](https://github.com/libretro/libretro-database) の `dat/System.dat` から作ったもので、[CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/) に従います（`tools/gen-bioshashes.ps1`）。

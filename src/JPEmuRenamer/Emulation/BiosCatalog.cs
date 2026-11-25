@@ -8,6 +8,9 @@ namespace JPEmuRenamer.Emulation;
 /// BIOSの1項目。Path は BIOSフォルダからの場所で、コアが決まったフォルダに探すものは「Mupen64plus/IPL.n64」のように書く。
 /// Alternatives のどれかがあればよい。Note は Loc のキー。Folder は中身ごと置くフォルダ（blueMSX の Machines など）
 /// </summary>
+/// <summary>見つかったBIOS。Name はどの名前のBIOSとして見つかったか、ByContent は名前ではなく中身（指紋）で見つけたか</summary>
+public sealed record BiosLocation(string Path, string Name, bool ByContent);
+
 public sealed record BiosFile(string Path, bool Required, string[] Alternatives, string Note = "", bool Folder = false, bool AnyFileInside = false)
 {
     public string FileName => System.IO.Path.GetFileName(Path);
@@ -142,26 +145,41 @@ public static class BiosCatalog
     }
 
     /// <summary>そのBIOSがあるか。決まった場所のほか、BIOSフォルダの直下（ファイル名だけ）と、昔の置き場所（コア名のフォルダ）も探す</summary>
-    public static bool Found(BiosFile f, string biosDir, string core, IEnumerable<string>? extraDirs = null)
+    public static bool Found(BiosFile f, string biosDir, string core, IEnumerable<string>? extraDirs = null) =>
+        Locate(f, biosDir, core, extraDirs) != null;
+
+    /// <summary>
+    /// そのBIOSの場所。名前で見つからなければ、BIOSフォルダの直下にある違う名前のファイルを中身（指紋）で見分ける。
+    /// Name は見つかったものがどの名前のBIOSか、ByContent は名前ではなく中身で見つけたか
+    /// </summary>
+    public static BiosLocation? Locate(BiosFile f, string biosDir, string core, IEnumerable<string>? extraDirs = null)
     {
-        if (f.Path == Ipl64dd) return FindIpl(biosDir, core) != null;
+        if (f.Path == Ipl64dd)
+            return FindIpl(biosDir, core) is var (ipl, _)
+                ? new BiosLocation(ipl, f.FileName, !string.Equals(System.IO.Path.GetFileName(ipl), f.FileName, StringComparison.OrdinalIgnoreCase))
+                : null;
+        var dirs = new List<string> { biosDir };
+        if (!string.IsNullOrEmpty(core)) dirs.Add(System.IO.Path.Combine(biosDir, core));
+        dirs.Add(System.IO.Path.Combine(biosDir, "melonDS DS"));
+        if (extraDirs != null) dirs.AddRange(extraDirs);
         foreach (var rel in f.AllPaths)
         {
             var local = rel.Replace('/', System.IO.Path.DirectorySeparatorChar);
             if (f.Folder)
             {
                 var dir = System.IO.Path.Combine(biosDir, local);
-                if (f.AnyFileInside ? HasAnyFile(dir) : DirExists(dir)) return true;
+                if (f.AnyFileInside ? HasAnyFile(dir) : DirExists(dir)) return new BiosLocation(dir, rel, false);
                 continue;
             }
             var name = System.IO.Path.GetFileName(local);
-            var dirs = new List<string> { biosDir };
-            if (!string.IsNullOrEmpty(core)) dirs.Add(System.IO.Path.Combine(biosDir, core));
-            dirs.Add(System.IO.Path.Combine(biosDir, "melonDS DS"));
-            if (extraDirs != null) dirs.AddRange(extraDirs);
-            if (dirs.Any(d => FileExists(System.IO.Path.Combine(d, local)) || FileExists(System.IO.Path.Combine(d, name)))) return true;
+            foreach (var d in dirs)
+            {
+                foreach (var candidate in new[] { System.IO.Path.Combine(d, local), System.IO.Path.Combine(d, name) })
+                    if (FileExists(candidate)) return new BiosLocation(candidate, name, false);
+            }
         }
-        return false;
+        if (f.Folder) return null;
+        return BiosHashes.FindByContent(f.AllPaths, dirs.Take(2)) is var (path, matched) ? new BiosLocation(path, matched, true) : null;
     }
 
     /// <summary>無いと起動できないBIOSのうち、見つからないもの（ファイル名を「 / 」でつなぐ。そろっていれば null）</summary>
@@ -186,6 +204,23 @@ public static class BiosCatalog
         if (For(sys, core).Any(f => f.Path == Ipl64dd) && StageIpl(biosDir, core)) copied++;
         foreach (var f in For(sys, core).Where(f => !f.Folder && f.Path != Ipl64dd))
         {
+            // 違う名前で置いてあるものは、中身で見分けて、正しい名前で写す（元のファイルは残す）
+            if (Locate(f, biosDir, core) is { ByContent: true } byContent)
+            {
+                try
+                {
+                    var rel = f.AllPaths.First(p => string.Equals(System.IO.Path.GetFileName(p), byContent.Name, StringComparison.OrdinalIgnoreCase));
+                    var target = System.IO.Path.Combine(biosDir, rel.Replace('/', System.IO.Path.DirectorySeparatorChar));
+                    if (!File.Exists(target))
+                    {
+                        Directory.CreateDirectory(System.IO.Path.GetDirectoryName(target)!);
+                        File.Copy(byContent.Path, target, false);
+                        copied++;
+                    }
+                }
+                catch { }
+                continue;
+            }
             foreach (var rel in f.AllPaths.Where(p => p.Contains('/')))
             {
                 try

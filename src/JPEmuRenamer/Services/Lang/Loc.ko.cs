@@ -287,6 +287,8 @@ public sealed partial class Loc
         ["BiosNoteArcadeBoard"] = "그 기판의 게임을 할 때만 필요합니다",
         ["BiosNotePs2"] = "이 폴더 안에 넣어 주세요. 파일 이름은 자유입니다",
         ["BiosNoteIpl"] = "이름이나 확장자(.n64 / .z64 / .v64 / .bin), 바이트 순서가 달라도 앱이 내용을 보고 알아서 고칩니다",
+        ["BiosByContent"] = "({0}의 내용이 같으므로, 실행할 때 이 이름으로 복사합니다)",
+        ["BiosLooksWrong"] = "(내용이 알려진 어느 버전과도 다릅니다. 다른 버전이라도 동작할 수 있지만, 실행되지 않으면 다시 추출해 주세요)",
         ["CoreDownload"] = "다운로드",
         ["CoreUpdate"] = "업데이트",
         ["CoreInstalled"] = "다운로드됨",
