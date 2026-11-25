@@ -7,9 +7,10 @@ A free, portable Windows emulator launcher that manages, renames (by CRC32 again
 - ダウンロード / Download：[最新版 / Latest release](../../releases/latest)（`JPEmuRenamer-win-x64.zip`、インストール不要）
 - 日本語DAT / Japanese DATs：[公式サイトで配布](https://jpemu-project.github.io/#download)
 
-## 最新版（1.6）でできること
+## 最新版（1.7）でできること
 
 - **134機種**に対応（アーケードのCPS1〜3・NAOMI・アトミスウェイブ・Model 3を含む。PS3・PS Vita・Xbox・Xbox 360・Wii U は外部エミュレーターで起動。ファミコンからプレイステーション2・ゲームキューブ・Wii・ドリームキャスト・PSP、アタリ・3DO・PC-FX、MSX・PC-8801・PC-9801・X68000・FM TOWNS などのパソコンまで）。表示は**16言語**、テーマは6種類
+- **BIOS**：exe と同じフォルダの `bios` に入れるだけ。名前が違っても中身で見分けて使い、機種の設定で必要なファイルとあるかどうかを確認できる
 - **ROM管理**：機種ごとにROMフォルダとDAT（OfflineList形式、または No-Intro などの clrmamepro 形式。ZIPのままでも可）を登録し、CRC32を計算して照合（ZIP内のROM、iNES/FDSヘッダー込み・除外の両方に対応）
 - **未所有の表示**：DATにあって手元に無いタイトルも一覧に表示（すべて／所有のみ／未所有のみ）。左の機種一覧に所有／未所有の本数を表示
 - **並び替え**：あいうえお順・発売日順・メーカー順・ジャンル順・価格順・状態順。発売地域の国旗も表示
