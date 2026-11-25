@@ -284,6 +284,7 @@ public sealed partial class Loc
         ["BiosNoteTos"] = "đổi tên bản TOS phù hợp với máy này thành tos.img",
         ["BiosNoteArcadeBoard"] = "chỉ cần cho game của bo mạch đó",
         ["BiosNotePs2"] = "đặt vào trong thư mục này; tên tệp tùy ý",
+        ["BiosNoteIpl"] = "tên, phần mở rộng (.n64 / .z64 / .v64 / .bin) hay thứ tự byte khác nhau đều được; ứng dụng tự nhận ra và sửa",
         ["CoreDownload"] = "Tải xuống",
         ["CoreUpdate"] = "Cập nhật",
         ["CoreInstalled"] = "Đã cài",

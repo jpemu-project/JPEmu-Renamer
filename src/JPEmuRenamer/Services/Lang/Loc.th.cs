@@ -285,6 +285,7 @@ public sealed partial class Loc
         ["BiosNoteTos"] = "เปลี่ยนชื่อ TOS ที่เหมาะกับเครื่องนี้เป็น tos.img",
         ["BiosNoteArcadeBoard"] = "ต้องใช้เฉพาะเกมของบอร์ดนั้น",
         ["BiosNotePs2"] = "วางไว้ในโฟลเดอร์นี้ ตั้งชื่อไฟล์อะไรก็ได้",
+        ["BiosNoteIpl"] = "ชื่อ นามสกุล (.n64 / .z64 / .v64 / .bin) หรือลำดับไบต์ต่างกันก็ได้ แอปจะดูเนื้อหาแล้วแก้ให้เอง",
         ["CoreDownload"] = "ดาวน์โหลด",
         ["CoreUpdate"] = "อัปเดต",
         ["CoreInstalled"] = "ติดตั้งแล้ว",

@@ -86,7 +86,7 @@ public static class BiosCatalog
         },
         ["Atari 800"] = new[] { Opt("ATARIXL.ROM"), Opt("ATARIBAS.ROM") },
         ["FM TOWNS"] = new[] { F("geartowns/FMT_SYS.ROM", Towns("FMT_SYS.ROM")), F("geartowns/FMT_DOS.ROM", Towns("FMT_DOS.ROM")), F("geartowns/FMT_FNT.ROM", Towns("FMT_FNT.ROM")), F("geartowns/FMT_DIC.ROM", Towns("FMT_DIC.ROM")) },
-        ["64DD"] = new[] { F("Mupen64plus/IPL.n64") },
+        ["64DD"] = new[] { N(F(Ipl64dd), "BiosNoteIpl") },
         ["CD-i"] = new[] { F("same_cdi/bios/cdimono1.zip") },
         ["ドリームキャスト"] = new[] { Opt("dc/dc_boot.bin"), Opt("dc/dc_flash.bin") },
         ["NAOMI"] = new[] { F("dc/naomi.zip") },
@@ -144,6 +144,7 @@ public static class BiosCatalog
     /// <summary>そのBIOSがあるか。決まった場所のほか、BIOSフォルダの直下（ファイル名だけ）と、昔の置き場所（コア名のフォルダ）も探す</summary>
     public static bool Found(BiosFile f, string biosDir, string core, IEnumerable<string>? extraDirs = null)
     {
+        if (f.Path == Ipl64dd) return FindIpl(biosDir, core) != null;
         foreach (var rel in f.AllPaths)
         {
             var local = rel.Replace('/', System.IO.Path.DirectorySeparatorChar);
@@ -182,7 +183,8 @@ public static class BiosCatalog
     public static int Stage(SystemConfig sys, string core, string biosDir)
     {
         int copied = 0;
-        foreach (var f in For(sys, core).Where(f => !f.Folder))
+        if (For(sys, core).Any(f => f.Path == Ipl64dd) && StageIpl(biosDir, core)) copied++;
+        foreach (var f in For(sys, core).Where(f => !f.Folder && f.Path != Ipl64dd))
         {
             foreach (var rel in f.AllPaths.Where(p => p.Contains('/')))
             {
@@ -199,6 +201,93 @@ public static class BiosCatalog
             }
         }
         return copied;
+    }
+
+    // ---------- 64DD の IPL（BIOS） ----------
+    // Mupen64Plus は Mupen64plus\IPL.n64 を、ビッグエンディアン（.z64 と同じ並び）で読む。
+    // 吸い出し器やツールによって、名前（64DD_IPL.bin など）やバイトの並び（.v64・.n64 の並び）が違うので、
+    // 4MB のファイルの中身を見て IPL か確かめ、並びを直して決まった場所に置く
+
+    private const string Ipl64dd = "Mupen64plus/IPL.n64";
+    private const int IplSize = 4 * 1024 * 1024;
+
+    /// <summary>IPL のバイトの並び（0: IPL ではない, 1: ビッグエンディアン, 2: 2バイトずつ入れ替え（.v64）, 3: 4バイトずつ逆（リトルエンディアン））</summary>
+    public static int IplOrder(byte[] head)
+    {
+        if (head.Length < 0x28) return 0;
+        string Text(int from) => System.Text.Encoding.ASCII.GetString(head, from, 8);
+        var t = Text(0x20);
+        if (t == "64DD IPL" || (head[0] == 0x80 && head[1] == 0x27 && head[2] == 0x07 && head[3] == 0x40)) return 1;
+        if (t == "46DDI LP" || (head[0] == 0x27 && head[1] == 0x80 && head[2] == 0x40 && head[3] == 0x07)) return 2;
+        if (t == "DD46LPI " || (head[0] == 0x40 && head[1] == 0x07 && head[2] == 0x27 && head[3] == 0x80)) return 3;
+        return 0;
+    }
+
+    private static int IplOrderOf(string path)
+    {
+        try
+        {
+            var info = new FileInfo(path);
+            if (!info.Exists || info.Length != IplSize) return 0;
+            var head = new byte[0x28];
+            using var fs = File.OpenRead(path);
+            return fs.Read(head, 0, head.Length) == head.Length ? IplOrder(head) : 0;
+        }
+        catch { return 0; }
+    }
+
+    /// <summary>IPL を探す（決まった場所の IPL.n64 を先に。無ければ BIOSフォルダの直下などの 4MB のファイルを中身で見分ける）</summary>
+    private static (string path, int order)? FindIpl(string biosDir, string core)
+    {
+        var fixedPath = System.IO.Path.Combine(biosDir, "Mupen64plus", "IPL.n64");
+        if (IplOrderOf(fixedPath) is int o and > 0) return (fixedPath, o);
+        var dirs = new List<string> { biosDir, System.IO.Path.Combine(biosDir, "Mupen64plus") };
+        if (!string.IsNullOrEmpty(core)) dirs.Add(System.IO.Path.Combine(biosDir, core));
+        foreach (var dir in dirs)
+        {
+            IEnumerable<string> files;
+            try { files = Directory.Exists(dir) ? Directory.EnumerateFiles(dir).ToList() : Enumerable.Empty<string>(); } catch { continue; }
+            foreach (var file in files.OrderBy(x => System.IO.Path.GetFileName(x).Contains("ipl", StringComparison.OrdinalIgnoreCase) ? 0 : 1))
+                if (IplOrderOf(file) is int order and > 0) return (file, order);
+        }
+        return null;
+    }
+
+    /// <summary>バイトの並びをビッグエンディアンに直す</summary>
+    public static byte[] ToBigEndian(byte[] data, int order)
+    {
+        var r = (byte[])data.Clone();
+        if (order == 2)
+            for (int i = 0; i + 1 < r.Length; i += 2) (r[i], r[i + 1]) = (r[i + 1], r[i]);
+        else if (order == 3)
+            for (int i = 0; i + 3 < r.Length; i += 4) { (r[i], r[i + 3]) = (r[i + 3], r[i]); (r[i + 1], r[i + 2]) = (r[i + 2], r[i + 1]); }
+        return r;
+    }
+
+    /// <summary>
+    /// IPL を Mupen64plus\IPL.n64 にビッグエンディアンで置く。もう正しく置いてあれば何もしない。
+    /// 決まった場所に並びの違う IPL.n64 があったときは、IPL.n64.bak に残してから置き直す
+    /// </summary>
+    private static bool StageIpl(string biosDir, string core)
+    {
+        try
+        {
+            var found = FindIpl(biosDir, core);
+            if (found is not var (src, order)) return false;
+            var target = System.IO.Path.Combine(biosDir, "Mupen64plus", "IPL.n64");
+            if (order == 1 && string.Equals(System.IO.Path.GetFullPath(src), System.IO.Path.GetFullPath(target), StringComparison.OrdinalIgnoreCase)) return false;
+            var data = ToBigEndian(File.ReadAllBytes(src), order);
+            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(target)!);
+            if (File.Exists(target))
+            {
+                var bak = target + ".bak";
+                for (int n = 2; File.Exists(bak); n++) bak = target + ".bak" + n;
+                File.Move(target, bak);
+            }
+            File.WriteAllBytes(target, data);
+            return true;
+        }
+        catch { return false; }
     }
 
     private static bool FileExists(string p) { try { return File.Exists(p); } catch { return false; } }

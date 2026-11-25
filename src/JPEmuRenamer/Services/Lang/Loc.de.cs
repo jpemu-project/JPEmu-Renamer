@@ -284,6 +284,7 @@ public sealed partial class Loc
         ["BiosNoteTos"] = "die passende TOS-Version als tos.img benennen",
         ["BiosNoteArcadeBoard"] = "nur für Spiele dieser Platine nötig",
         ["BiosNotePs2"] = "in diesen Ordner legen; Dateiname beliebig",
+        ["BiosNoteIpl"] = "beliebiger Name, Endung (.n64 / .z64 / .v64 / .bin) und Bytereihenfolge; die App erkennt und korrigiert sie",
         ["CoreDownload"] = "Herunterladen",
         ["CoreUpdate"] = "Aktualisieren",
         ["CoreInstalled"] = "Installiert",
