@@ -139,5 +139,8 @@ public partial class AppSettingsWindow : Window
     private void OnBulkCores(object sender, RoutedEventArgs e) =>
         new CoreDownloadWindow(vm.Settings.Systems) { Owner = this }.ShowDialog();
 
+    private void OnBulkThumbnails(object sender, RoutedEventArgs e) =>
+        new ThumbnailBatchWindow(vm.Settings.Systems) { Owner = this }.ShowDialog();
+
     private void OnClose(object sender, RoutedEventArgs e) => Close();
 }
