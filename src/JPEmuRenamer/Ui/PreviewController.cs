@@ -125,7 +125,64 @@ public sealed class PreviewController
     }
 
     private bool CanRun() =>
-        Options.Enabled && active && suspendCount == 0 && playTab && system != null && item?.Rom != null && !ShowingOwnShot;
+        ShowsPreview && Options.Enabled && active && suspendCount == 0 && playTab && system != null && item?.Rom != null && !ShowingOwnShot;
+
+    /// <summary>TV に自動プレビューを出すか（ほかはパッケージなどの画像）</summary>
+    private bool ShowsPreview => Options.Display is not (Thumbnails.Boxart or Thumbnails.Title or Thumbnails.Snap);
+
+    /// <summary>TV に出すものを切り替える（設定に保存する）</summary>
+    public void SetDisplay(string display)
+    {
+        if (Options.Display == display) return;
+        Options.Display = display;
+        saveSettings();
+        delay.Stop();
+        StopSession();
+        ShowIdle();
+        if (CanRun()) delay.Start();
+    }
+
+    private CancellationTokenSource? thumbCts;
+
+    /// <summary>パッケージ・タイトル画面・ゲーム画面の画像を出す（無ければ取ってくる）</summary>
+    private void ShowThumbnail()
+    {
+        thumbCts?.Cancel();
+        thumbCts = null;
+        image.ToolTip = null;
+        image.Cursor = null;
+        if (system == null || item == null)
+        {
+            image.Source = null;
+            text.Text = "";
+            return;
+        }
+        var kind = Options.Display;
+        var sys = system;
+        var target = item;
+        // パッケージは写真なのでなめらかに、画面はドットのまま拡大する
+        RenderOptions.SetBitmapScalingMode(image, kind == Thumbnails.Boxart ? BitmapScalingMode.HighQuality : BitmapScalingMode.NearestNeighbor);
+        if (Thumbnails.Cached(sys, target, kind) is string path)
+        {
+            image.Source = Snapshots.Load(path);
+            text.Text = image.Source != null ? "" : Loc.T("ThumbNotFound");
+            return;
+        }
+        image.Source = null;
+        text.Text = Loc.T("ThumbLoading");
+        var cts = thumbCts = new CancellationTokenSource();
+        _ = Fetch();
+
+        async Task Fetch()
+        {
+            string? found = null;
+            try { found = await Thumbnails.GetAsync(sys, target, kind, cts.Token); }
+            catch { }
+            if (cts.IsCancellationRequested || system != sys || item != target || Options.Display != kind) return;
+            image.Source = found != null ? Snapshots.Load(found) : null;
+            text.Text = image.Source != null ? "" : Loc.T("ThumbNotFound");
+        }
+    }
 
     private bool ShowingOwnShot => ownShot != null && !showLive;
 
@@ -155,6 +212,13 @@ public sealed class PreviewController
     private void ShowIdle()
     {
         saveButton.Visibility = Visibility.Collapsed;
+        if (!ShowsPreview)
+        {
+            ShowThumbnail();
+            return;
+        }
+        thumbCts?.Cancel();
+        RenderOptions.SetBitmapScalingMode(image, BitmapScalingMode.NearestNeighbor);
         if (ShowingOwnShot)
         {
             image.Source = ownShot;

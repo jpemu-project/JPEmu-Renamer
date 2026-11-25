@@ -64,6 +64,8 @@ public class PreviewSettings
     public string OwnShotFolder { get; set; } = "";
     /// <summary>ROMと同じ名前の画像があれば、自動プレビューより優先して表示する</summary>
     public bool PreferOwnShot { get; set; } = true;
+    /// <summary>TV に出すもの："Preview"（自動プレビュー）/ "Boxart"（パッケージ）/ "Title"（タイトル画面）/ "Snap"（ゲーム画面）</summary>
+    public string Display { get; set; } = "Preview";
 }
 
 /// <summary>機種ごとの設定</summary>

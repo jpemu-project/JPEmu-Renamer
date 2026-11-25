@@ -53,6 +53,7 @@ public partial class MainWindow : Window
             if (e.PropertyName is nameof(MainViewModel.SelectedItem) or nameof(MainViewModel.SelectedSystem) or nameof(MainViewModel.IsManageMode))
                 preview.Select(vm.SelectedSystem?.Config, vm.SelectedItem, !vm.IsManageMode);
             if (e.PropertyName == nameof(MainViewModel.IsManageMode)) UpdateDetailWidth();
+            if (e.PropertyName == nameof(MainViewModel.PreviewDisplay)) preview.SetDisplay(vm.PreviewDisplay);
         };
         UpdateDetailWidth();
         Activated += (_, _) => preview.SetActive(true);

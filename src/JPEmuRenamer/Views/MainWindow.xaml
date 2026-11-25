@@ -605,6 +605,23 @@
                                 </Border>
                             </Grid>
                         </ContentControl>
+                        <!-- TV に出すものの切り替え：プレビュー・パッケージ・タイトル画面・ゲーム画面（選んだものは覚えておく） -->
+                        <Border DockPanel.Dock="Top" Style="{StaticResource SegGroup}" Margin="0,12,0,0">
+                            <UniformGrid Rows="1">
+                                <RadioButton GroupName="TvDisplay" Style="{StaticResource SegButton}" Padding="4,5"
+                                             IsChecked="{Binding PreviewDisplay, Converter={StaticResource Equals}, ConverterParameter=Preview}"
+                                             Content="{Binding [TvPreview], Source={x:Static s:Loc.Instance}}" />
+                                <RadioButton GroupName="TvDisplay" Style="{StaticResource SegButton}" Padding="4,5"
+                                             IsChecked="{Binding PreviewDisplay, Converter={StaticResource Equals}, ConverterParameter=Boxart}"
+                                             Content="{Binding [TvBoxart], Source={x:Static s:Loc.Instance}}" />
+                                <RadioButton GroupName="TvDisplay" Style="{StaticResource SegButton}" Padding="4,5"
+                                             IsChecked="{Binding PreviewDisplay, Converter={StaticResource Equals}, ConverterParameter=Title}"
+                                             Content="{Binding [TvTitle], Source={x:Static s:Loc.Instance}}" />
+                                <RadioButton GroupName="TvDisplay" Style="{StaticResource SegButton}" Padding="4,5"
+                                             IsChecked="{Binding PreviewDisplay, Converter={StaticResource Equals}, ConverterParameter=Snap}"
+                                             Content="{Binding [TvSnap], Source={x:Static s:Loc.Instance}}" />
+                            </UniformGrid>
+                        </Border>
                         <StackPanel DockPanel.Dock="Bottom">
                             <Button Style="{StaticResource AccentButton}" Command="{Binding LaunchCommand}" Content="{Binding LaunchButtonText}"
                                     MinHeight="50" FontSize="16" IsEnabled="{Binding HasSelection}" />

@@ -172,6 +172,10 @@ MSX・PC-8801・PC-9801・X68000・X1 などのパソコン系の機種では、
 
 これらはアプリの「設定」→「自動プレビュー」で変えられます。オフにすることもできます。
 
+## パッケージ・タイトル・ゲーム画面
+TVの下のボタンで、TVに出すものを「プレビュー」「パッケージ」「タイトル」「ゲーム画面」から選べます。選んだものは、機種を替えてもアプリを終了しても覚えています。
+パッケージなどの画像は、RetroArch と同じ libretro の画像集（libretro-thumbnails）から、ROMのCRCで探して取ってきます（初めて表示するときにインターネットにつなぎます。その機種で初めてのときは少し時間がかかります）。取ってきた画像は設定フォルダの `thumbnails` に保存し、次からはそれを表示します。画像集に無いゲームは「画像が見つかりませんでした」と出ます。
+
 ## スナップショット
 - プレビュー中に右下の「この画面を保存」を押すと、その瞬間をスナップショットとして保存します
 - タイトルの右クリック →「この機種のスクショを一括作成…」で、機種内の全ROMを裏で順に起動し、指定の時点（既定は30秒）の画面をまとめて保存します。スクショがあるタイトルは飛ばせます
@@ -427,6 +431,10 @@ On the "Play" tab, select a title and pause for a moment: footage of the game pl
 | Sound / input | None (save data is not touched) |
 
 Change these, or turn the preview off, in "Settings" → "Auto preview".
+
+## Box art, title and in-game images
+The buttons under the TV choose what it shows: "Preview", "Box art", "Title" or "In-game". Your choice is kept when you switch systems or restart the app.
+The images come from the libretro thumbnail collection (libretro-thumbnails, the same one RetroArch uses), looked up by the ROM's CRC. The app goes online the first time an image is shown (the first time for a system takes a little longer) and saves the images in `thumbnails` in the settings folder. Games not in the collection show "No image found".
 
 ## Snapshots
 - During a preview, "Save this screen" at the bottom right saves that moment as a snapshot

@@ -32,6 +32,7 @@ public partial class MainViewModel : ObservableObject
         uiScale = Math.Clamp(settings.UiScale, 0.75, 2.0);
         fontSize = Math.Clamp(settings.FontSize, 11, 28);
         filter = settings.ListFilter is "Owned" or "Missing" ? settings.ListFilter : "All";
+        previewDisplay = settings.Preview.Display is "Boxart" or "Title" or "Snap" ? settings.Preview.Display : "Preview";
         // 並び替えを選んでいなければ、あいうえお順にする
         sort = SortOptions.Any(o => o.key == settings.ListSort) ? settings.ListSort : "Kana";
         GameItem.HideExtensions = settings.HideExtensions;
@@ -94,6 +95,10 @@ public partial class MainViewModel : ObservableObject
 
     [ObservableProperty]
     private string filter;
+
+    /// <summary>TV に出すもの（Preview / Boxart / Title / Snap）。設定への保存はプレビューの側で行う</summary>
+    [ObservableProperty]
+    private string previewDisplay = "Preview";
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(IsPlayMode))]
