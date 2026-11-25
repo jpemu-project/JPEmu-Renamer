@@ -218,7 +218,8 @@ public static class CoreCatalog
         ["SC-3000"] = (new[] { "genesis_plus_gx", "bluemsx" }, ""),
         ["Atari 800"] = (new[] { "atari800" }, "ATARIXL.ROM / ATARIBAS.ROM?"),
         ["FM TOWNS"] = (new[] { "geartowns" }, "geartowns\\FMT_SYS.ROM / FMT_DOS.ROM / FMT_FNT.ROM / FMT_DIC.ROM"),
-        ["64DD"] = (new[] { "mupen64plus_next" }, "Mupen64plus\\IPL.n64"),
+        // Mupen64Plus-Next は 64DD のディスクを単体では読めない（カセットと組にする仕組みしか無い）ので、ParaLLEl N64 を使う
+        ["64DD"] = (new[] { "parallel_n64" }, "64DD_IPL.bin?"),
         ["CD-i"] = (new[] { "same_cdi" }, "same_cdi\\bios\\cdimono1.zip"),
         // 3D の機種（OpenGL で描画する）。Flycast は BIOS が無くても動く。PPSSPP の部品（フォントなど）は初めて使うときに自動で取ってくる
         ["ドリームキャスト"] = (new[] { "flycast" }, "dc\\dc_boot.bin / dc_flash.bin?"),

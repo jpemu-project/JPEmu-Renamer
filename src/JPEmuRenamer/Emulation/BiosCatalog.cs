@@ -89,7 +89,8 @@ public static class BiosCatalog
         },
         ["Atari 800"] = new[] { Opt("ATARIXL.ROM"), Opt("ATARIBAS.ROM") },
         ["FM TOWNS"] = new[] { F("geartowns/FMT_SYS.ROM", Towns("FMT_SYS.ROM")), F("geartowns/FMT_DOS.ROM", Towns("FMT_DOS.ROM")), F("geartowns/FMT_FNT.ROM", Towns("FMT_FNT.ROM")), F("geartowns/FMT_DIC.ROM", Towns("FMT_DIC.ROM")) },
-        ["64DD"] = new[] { N(F(Ipl64dd), "BiosNoteIpl") },
+        // ParaLLEl N64 は IPL が無くても動く（あれば使う）。Mupen64Plus-Next を自分で選んだときは Mupen64plus\IPL.n64 が要る
+        ["64DD"] = new[] { On("parallel_n64", Opt("64DD_IPL.bin")), On("mupen64plus_next", N(F(Ipl64dd), "BiosNoteIpl")) },
         ["CD-i"] = new[] { F("same_cdi/bios/cdimono1.zip") },
         ["ドリームキャスト"] = new[] { Opt("dc/dc_boot.bin"), Opt("dc/dc_flash.bin") },
         ["NAOMI"] = new[] { F("dc/naomi.zip") },
