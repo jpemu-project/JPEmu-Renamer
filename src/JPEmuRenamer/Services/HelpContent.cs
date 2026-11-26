@@ -50,6 +50,13 @@ JPEmu Renamer は、自分で吸い出したROMを管理し、そのまま遊べ
 | 内蔵コア | この機種で使うコア。「ダウンロード」「更新」で取得します |
 | 外部exe・引数 | 外部のエミュレーターで遊ぶときに指定します |
 
+## インターネットにつなぐ（DS・ドリームキャスト・PSP）
+「機種の設定」の「インターネットにつなぐ（オンライン対応）」をオンにすると、有志が運営するサーバーを使って、昔のネット機能で遊べることがあります。
+- ニンテンドーDS：ニンテンドーWi-Fiコネクションの代わりのサーバーにつなぎます。コアは melonDS DS を使います。
+- ドリームキャスト：DCNet（ドリームキャスト用のネット接続）を使います。
+- PSP：アドホック通信を、ネット上の通信サーバー（socom.cc）を通して行います。一緒に遊ぶ相手も同じ設定が必要です。
+遊べるかはゲームとサーバーによります。相手やサーバーに IP アドレスが伝わります。Windows のファイアウォールの確認が出たら「許可」を選んでください。
+
 ## BIOSが必要な機種
 ディスクシステム、メガCD、PCエンジン CD-ROM²、セガサターン、ネオジオなどは、BIOSファイルが必要です。必要なファイル名と、あるかどうかは「機種の設定」の内蔵コアの下に表示されます。BIOSは、その名前のまま「プレイ設定」→「詳細」→「BIOSフォルダ」に直接入れてください（既定はアプリと同じフォルダの `bios`。アプリを起動すると自動で作られ、「機種の設定」の「BIOSフォルダを開く」で開けます）。コアがサブフォルダ（`Mupen64plus` など）に探すファイルも、起動するときにアプリが写すので、すべて1つのフォルダで管理できます。
 
@@ -309,6 +316,13 @@ Choose a system on the left and open "System settings" at the top right. Add sys
 | Default launch method | Built-in core or emulator exe |
 | Built-in core | Core used for this system. Get it with "Download" / "Update" |
 | Emulator exe / arguments | Used when playing with an external emulator |
+
+## Connecting to the internet (DS, Dreamcast, PSP)
+Turn on "Connect to the internet (online play)" in "System settings" to use old online features through community-run servers.
+- Nintendo DS: connects to a server that replaces Nintendo Wi-Fi Connection. Uses the melonDS DS core.
+- Dreamcast: uses DCNet, an internet service for Dreamcast.
+- PSP: runs ad hoc play through an online server (socom.cc). The other players need the same setting.
+Whether it works depends on the game and the server. Your IP address is shared with other players and the server. If Windows Firewall asks, choose "Allow".
 
 ## Systems that need a BIOS
 Famicom Disk System, Mega-CD, PC Engine CD-ROM², Saturn, Neo Geo and others need BIOS files. The file names, and whether each one is found, are shown under the built-in core in "System settings". Put them, keeping those names, directly in "Play settings" → "Advanced" → "BIOS folder" (default: `bios` next to the app; it is created when the app starts and opens from "Open BIOS folder" in "System settings"). Files a core looks for in a subfolder (such as `Mupen64plus`) are copied there by the app at launch, so one folder holds everything.

@@ -95,6 +95,8 @@ public class SystemConfig
     public string HeaderMode { get; set; } = "Auto";
     /// <summary>ファイル名を変えない「表示リネーム」（アーケード系向け）</summary>
     public bool DisplayRenameOnly { get; set; }
+    /// <summary>インターネットにつなぐ（DS・ドリームキャスト・PSP の、有志のサーバーを使うネット機能）</summary>
+    public bool Online { get; set; }
     /// <summary>Core / External</summary>
     public string LaunchMode { get; set; } = "Core";
     public string EmulatorPath { get; set; } = "";

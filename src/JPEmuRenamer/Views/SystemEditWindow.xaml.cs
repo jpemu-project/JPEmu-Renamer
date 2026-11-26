@@ -72,6 +72,7 @@ public partial class SystemEditWindow : Window
         // BIOSの説明は、選んでいるコアによって変わることがある
         var probe = new SystemConfig { Name = NameBox.Text.Trim(), Extensions = SystemPresets.ParseExtensions(ExtBox.Text) };
         UpdateBiosPanel(probe, (CoreBox.SelectedItem as CoreInfo)?.Name);
+        UpdateOnline(probe);
         if (CoreBox.SelectedItem is not CoreInfo core)
         {
             CoreStatus.Text = "";
@@ -130,6 +131,31 @@ public partial class SystemEditWindow : Window
                 line.Inlines.Add(new System.Windows.Documents.Run("  " + string.Join(" ", notes)) { Foreground = (System.Windows.Media.Brush)FindResource("MutedBrush") });
             BiosList.Children.Add(line);
         }
+    }
+
+    /// <summary>「インターネットにつなぐ」は、ネット機能のあるコアを持つ機種（DS・ドリームキャスト・PSP）だけに出す</summary>
+    private void UpdateOnline(SystemConfig probe)
+    {
+        var onlineCore = Selected(LaunchModeBox, "Core") == "External" ? null : CoreCatalog.OnlineCoreFor(probe);
+        OnlineCheck.Visibility = onlineCore != null ? Visibility.Visible : Visibility.Collapsed;
+        if (onlineCore == null)
+        {
+            OnlineNote.Visibility = Visibility.Collapsed;
+            return;
+        }
+        var how = onlineCore switch { "melondsds" => "OnlineHowDs", "flycast" => "OnlineHowDc", _ => "OnlineHowPsp" };
+        OnlineNote.Text = Loc.T(how) + "\n" + Loc.T("OnlineNote");
+        OnlineNote.Visibility = Visibility.Visible;
+    }
+
+    /// <summary>つなぐときは、ネット機能のあるコアに切り替える（DS は melonDS DS）</summary>
+    private void OnOnlineChanged(object sender, RoutedEventArgs e)
+    {
+        if (loading || OnlineCheck.IsChecked != true) return;
+        var probe = new SystemConfig { Name = NameBox.Text.Trim(), Extensions = SystemPresets.ParseExtensions(ExtBox.Text) };
+        if (CoreCatalog.OnlineCoreFor(probe) is string core && CoreBox.ItemsSource is IEnumerable<CoreInfo> list
+            && list.FirstOrDefault(c => c.Name == core) is CoreInfo info)
+            CoreBox.SelectedItem = info;
     }
 
     private void OnOpenBiosFolder(object sender, RoutedEventArgs e)
@@ -198,6 +224,7 @@ public partial class SystemEditWindow : Window
         ExtBox.Text = string.Join(";", c.Extensions);
         Select(HeaderBox, c.HeaderMode);
         DisplayOnlyCheck.IsChecked = c.DisplayRenameOnly;
+        OnlineCheck.IsChecked = c.Online;
         Select(LaunchModeBox, c.LaunchMode);
         ExeBox.Text = c.EmulatorPath;
         ArgsBox.Text = c.EmulatorArgs;
@@ -301,11 +328,12 @@ public partial class SystemEditWindow : Window
         config.Extensions = SystemPresets.ParseExtensions(ExtBox.Text);
         config.HeaderMode = Selected(HeaderBox, "Auto");
         config.DisplayRenameOnly = DisplayOnlyCheck.IsChecked == true;
+        config.Online = OnlineCheck.IsChecked == true && OnlineCheck.Visibility == Visibility.Visible;
         config.LaunchMode = Selected(LaunchModeBox, "Core");
         config.EmulatorPath = Storage.FromInput(ExeBox.Text.Trim().Trim('"'));
         config.EmulatorArgs = string.IsNullOrWhiteSpace(ArgsBox.Text) ? "\"{rom}\"" : ArgsBox.Text.Trim();
         // 候補の先頭（既定）を選んでいるときは空にして、候補の変更に追従させる
-        var probe = new SystemConfig { Name = config.Name, Extensions = config.Extensions };
+        var probe = new SystemConfig { Name = config.Name, Extensions = config.Extensions, Online = config.Online };
         var chosen = (CoreBox.SelectedItem as CoreInfo)?.Name ?? "";
         config.CoreName = chosen == CoreCatalog.CoreNameFor(probe) ? "" : chosen;
 

@@ -417,6 +417,8 @@ public static class CoreCatalog
     {
         if (!string.IsNullOrWhiteSpace(sys.CoreName)) return sys.CoreName;
         var key = SystemKey(sys);
+        // ネットにつなぐ機種は、ネット機能のあるコアを使う（DS の最初の候補 melonDS には無い）
+        if (sys.Online && key != null && OnlineOptions.TryGetValue(key, out var online)) return online.core;
         return key != null && BySystem[key].cores.Length > 0 ? BySystem[key].cores[0] : "";
     }
 
@@ -441,10 +443,30 @@ public static class CoreCatalog
     public static string? DefaultCoreOption(SystemConfig sys, string coreName, string key)
     {
         var name = SystemKey(sys);
+        if (name != null && OnlineOptions.TryGetValue(name, out var n) && string.Equals(n.core, coreName, StringComparison.OrdinalIgnoreCase)
+            && n.on.ContainsKey(key))
+            return sys.Online ? n.on[key] : n.off[key];
         return name != null && SystemCoreOptions.TryGetValue(name, out var o)
                && string.Equals(o.core, coreName, StringComparison.OrdinalIgnoreCase)
                && o.options.TryGetValue(key, out var v) ? v : null;
     }
+
+    /// <summary>
+    /// 「インターネットにつなぐ」で切り替えるコアの設定（機種 → (ネット機能のあるコア, オンのとき, オフのとき)）。
+    /// オフのときもはっきり切っておく（melonDS DS は、何もしないとネット機能が入ったままになる）。
+    /// 利用者がプレイ設定で選んだ値があれば、そちらが優先
+    /// </summary>
+    private static readonly Dictionary<string, (string core, Dictionary<string, string> on, Dictionary<string, string> off)> OnlineOptions = new()
+    {
+        ["ニンテンドーDS"] = ("melondsds", new() { ["melonds_network_mode"] = "indirect" }, new() { ["melonds_network_mode"] = "disabled" }),
+        ["ニンテンドーDSiウェア"] = ("melondsds", new() { ["melonds_network_mode"] = "indirect" }, new() { ["melonds_network_mode"] = "disabled" }),
+        ["ドリームキャスト"] = ("flycast", new() { ["reicast_dcnet"] = "enabled" }, new() { ["reicast_dcnet"] = "disabled" }),
+        ["PSP"] = ("ppsspp", new() { ["ppsspp_enable_wlan"] = "enabled" }, new() { ["ppsspp_enable_wlan"] = "disabled" }),
+    };
+
+    /// <summary>この機種がインターネットにつなげるか。つなげるなら、そのときに使うコア</summary>
+    public static string? OnlineCoreFor(SystemConfig sys) =>
+        SystemKey(sys) is string key && OnlineOptions.TryGetValue(key, out var o) ? o.core : null;
 
     /// <summary>このコアを候補に持つ機種の名前（表示用）</summary>
     public static List<string> SystemsUsing(string coreName) =>

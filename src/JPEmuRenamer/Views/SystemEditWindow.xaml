@@ -113,6 +113,10 @@
                         <StackPanel x:Name="BiosList" Margin="0,6,0,0" />
                     </StackPanel>
                 </Border>
+                <!-- インターネットにつなぐ（DS・ドリームキャスト・PSP） -->
+                <CheckBox x:Name="OnlineCheck" Margin="0,12,0,0" Visibility="Collapsed" Checked="OnOnlineChanged" Unchecked="OnOnlineChanged"
+                          Content="{Binding [OnlineCheck], Source={x:Static s:Loc.Instance}}" />
+                <TextBlock x:Name="OnlineNote" Foreground="{DynamicResource MutedBrush}" FontSize="12.5" Margin="24,4,0,0" TextWrapping="Wrap" Visibility="Collapsed" />
 
                 <TextBlock Style="{StaticResource Label}" Text="{Binding [EmulatorPath], Source={x:Static s:Loc.Instance}}" />
                 <DockPanel>
